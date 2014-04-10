@@ -84,8 +84,8 @@ class fm_apache_php {
 			'set html_errors On',
 			'set error_prepend_string <pre>',
 			'set error_apend_string </pre>',
-			'set post_max_size 34M',
-			'set upload_max_filesize 32M',
+			'set post_max_size 604M',
+			'set upload_max_filesize 600M',
 		],
 		require => Package['php5'],
 		notify => Exec['reload apache']
