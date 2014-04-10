@@ -3,10 +3,9 @@
   Ubuntu's apt is too out of date. Please use the latest versions from Oracle and Vagrant;
     * https://www.virtualbox.org/wiki/Linux_Downloads
     * http://www.vagrantup.com/downloads.html
-1. vagrant-vbguest plugin
-    vagrant plugin install vagrant-vbguest
+1. vagrant-vbguest plugin `vagrant plugin install vagrant-vbguest`
 1. Working NFS server
-    apt-get install nfs-kernel-server`
+    `apt-get install nfs-kernel-server`
 
 See also See also https://github.com/FunnyMonkey/fm-vagrant/blob/streamline/README.md
 if you run into any issues with `vagrant up` or setting up virtualbox or vagrant.
@@ -25,20 +24,18 @@ if you run into any issues with `vagrant up` or setting up virtualbox or vagrant
   * Password: `wordpress`
   * Database Host: `localhost`
   * Table Prefix: `wp_`
-Click "Submit"
 1. Click "Run the install"
 1. Welcome
-  * Site Title: Candela
-  * Username: ******
-  * Password: ******
-  * Email: ******
-Click "Install Wordpress"
+  * Site Title: `Candela`
+  * Username: `******`
+  * Password: `******`
+  * Email: `******`
 1. Click "Log in"
 1. Login with details just created.
 1. Tools -> Network Setup
 1. Choose 'sub-directories'
 1. Click "Install"
-1. Follow on screen instructions making appropriate edits to www/192.168.33.10/wp-config.php and www/192.168.33.10/.htaccess
+1. Follow on screen instructions making appropriate edits to `www/192.168.33.10/wp-config.php` and `www/192.168.33.10/.htaccess`
 1. Once above edits are made relogin: http://192.168.33.10/wp-login.php
 1. "My Sites" -> "Network Admin" -> "Plugins"
 1. "Network Activate" Pressbooks
