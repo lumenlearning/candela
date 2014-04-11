@@ -37,10 +37,13 @@ if you run into any issues with `vagrant up` or setting up virtualbox or vagrant
 1. Click "Install"
 1. Follow on screen instructions making appropriate edits to `www/192.168.33.10/wp-config.php` and `www/192.168.33.10/.htaccess`
 1. Add the following lines to wp-config.php just after the lines you added in the previous step.
-    define( 'PB_PRINCE_COMMAND', '/usr/bin/prince' );
-    define( 'PB_KINDLEGEN_COMMAND', '/home/vagrant/kindlegen/kindlegen' );
-    define( 'PB_EPUBCHECK_COMMAND', '/usr/bin/java -jar /home/vagrant/epubcheck-3.0.1/epubcheck-3.0.1.jar' );
-    define( 'PB_XMLLINT_COMMAND', '/usr/bin/xmllint' );
+
+````
+define( 'PB_PRINCE_COMMAND', '/usr/bin/prince' );
+define( 'PB_KINDLEGEN_COMMAND', '/home/vagrant/kindlegen/kindlegen' );
+define( 'PB_EPUBCHECK_COMMAND', '/usr/bin/java -jar /home/vagrant/epubcheck-3.0.1/epubcheck-3.0.1.jar' );
+define( 'PB_XMLLINT_COMMAND', '/usr/bin/xmllint' );
+````
 1. Once above edits are made relogin: http://192.168.33.10/wp-login.php
 1. "My Sites" -> "Network Admin" -> "Plugins"
 1. "Network Activate" Pressbooks
