@@ -57,4 +57,20 @@ class app {
     creates => '/usr/bin/prince',
   }
 
+  #pecl install oauth
+  package { libpcre3-dev:
+    ensure => installed,
+  }
+  exec { 'install oauth':
+    command     => "/usr/bin/pecl install oauth",
+    require => Package['php-pear', 'libpcre3-dev'],
+    creates => '/usr/lib/php5/20121212/oauth.so',
+  }
+  file { '/etc/php5/apache2/conf.d/oauth.ini':
+    ensure  => 'present',
+    content => 'extension=oauth.so',
+    mode    =>  644,
+    require => Exec['install oauth'],
+  }
+
 }
