@@ -27,7 +27,7 @@
  *       on create. We likely don't want to enable "transferring" of credentials
  * @todo refactor add_meta_box() callbacks to not display key/secret when
  *       adding.
- * @todo fix view templates & add enough user prompting & inline documentation
+ * @todo add enough user prompting & inline documentation for templates
  *       on how to use the LTI information. Make this pluggable so that it is
  *       easy for people to add site-specific & LMS-specific details via
  *       templating to facilitate easy overrides and straightforward pull
@@ -60,10 +60,12 @@ class LTI {
       define( 'LTI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
     }
 
+    add_action( 'admin_notices', array( __CLASS__, 'check_dependencies') );
     add_action( 'init', array( __CLASS__, 'register_post_type' ) );
     add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
     add_action( 'save_post', array( __CLASS__, 'save') );
-    add_action( 'admin_notices', array( __CLASS__, 'check_dependencies') );
+
+    add_filter( 'template_include', array( __CLASS__, 'template_include' ) );
 
 		if ( is_admin() ) {
 			add_action('admin_menu', array( __CLASS__, 'admin_menu' ) );
@@ -120,6 +122,23 @@ class LTI {
       ),
     );
     register_post_type( 'lti_consumer', $args );
+  }
+
+  /**
+   * Setup our custom template
+   */
+  public static function template_include( $template_path ) {
+    if ( get_post_type() == 'lti_consumer' ) {
+      if ( is_single() ) {
+        if ( $theme_file = locate_template( array('single-lti_consumer.php' ) ) ) {
+          $template_path = $theme_file;
+        }
+        else {
+          $template_path = plugin_dir_path( __FILE__ ) . '/single-lti_consumer.php';
+        }
+      }
+    }
+    return $template_path;
   }
 
   /**
