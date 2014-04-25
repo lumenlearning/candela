@@ -44,8 +44,14 @@ define( 'PB_KINDLEGEN_COMMAND', '/home/vagrant/kindlegen/kindlegen' );
 define( 'PB_EPUBCHECK_COMMAND', '/usr/bin/java -jar /home/vagrant/epubcheck-3.0.1/epubcheck-3.0.1.jar' );
 define( 'PB_XMLLINT_COMMAND', '/usr/bin/xmllint' );
 ````
+##Enable and Configure Pressbooks and Pressbooks Textbooks
+
 1. Once above edits are made relogin: http://192.168.33.10/wp-login.php
-1. "My Sites" -> "Network Admin" -> "Plugins"
+1. Navigate to "My Sites" -> "Network Admin" -> "Plugins"
 1. "Network Activate" Pressbooks
 1. "Network Activate" PressBooks Textbook
+1. Navigate to "My Catalog" -> "Network Admin" -> "Themes"
+1. Select "Installed Themes"
+1. "Network Enable" the "Open Textbooks" theme - NOTE - this theme has all the PBTB functionality. The other PB specific themes will also work, but will not deliver the PBTB featureset
+1. Return to "My Catalog" -> "Network Admin" -> "Plugins"
 1. "Network Activate" Hypothesis
