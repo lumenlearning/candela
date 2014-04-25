@@ -55,3 +55,9 @@ define( 'PB_XMLLINT_COMMAND', '/usr/bin/xmllint' );
 1. "Network Enable" the "Open Textbooks" theme - NOTE - this theme has all the PBTB functionality. The other PB specific themes will also work, but will not deliver the PBTB featureset
 1. Return to "My Catalog" -> "Network Admin" -> "Plugins"
 1. "Network Activate" Hypothesis
+1. Navigate to "My Catalog" -> "Network Admin" -> "Dashboard"
+1. Select "Settings" -> "Network Settings"
+1. In the "Allow new registrations" section, select: "Logged in users may register new sites." This allows members with adequate privileges to create their own books
+  * the other options on this page should be set/adjusted to suit administrative needs/preference
+1. Navigate to "My Catalog" -> "Add a New Book"
+1. Get writing!
