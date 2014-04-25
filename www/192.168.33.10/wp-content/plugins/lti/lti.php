@@ -14,9 +14,6 @@
 /**
  * @todo move this to its own repo
  * @todo update licensing details and other plugin meta.
- * @todo Add check to LTI::generateToken() to ensure tokens are unique. Probably
- *       need to split to two separate functions one for keys and one for
- *       secrets. Those should be unique across all lti_consumer posts.
  * @todo Request LTI credentials UI (skip standard post UI) nothing should be
  *       user editable. Adjust settings in call to register_post_type()
  *       currently it intentionally allows editing to aid in debugging.
@@ -164,7 +161,7 @@ class LTI {
     $secret = get_post_meta( $post->ID, LTI_META_SECRET_NAME, true);
 
     if ( empty($secret) ) {
-      $secret = LTI::generateToken();
+      $secret = LTI::generateToken('secret');
     }
 
     // Display the form, using the current value.
@@ -189,7 +186,7 @@ class LTI {
     $key = get_post_meta( $post->ID, LTI_META_KEY_NAME, true);
 
     if ( empty( $key ) ) {
-      $key = LTI::generateToken();
+      $key = LTI::generateToken('key');
     }
 
     // Display the form, using the current value.
@@ -241,8 +238,8 @@ class LTI {
 
     // Now attach our key/secret metadata
     if ( ! empty($post_id) ) {
-      update_post_meta($post_id, LTI_META_KEY_NAME, LTI::generateToken());
-      update_post_meta($post_id, LTI_META_SECRET_NAME, LTI::generateToken());
+      update_post_meta($post_id, LTI_META_KEY_NAME, LTI::generateToken('key'));
+      update_post_meta($post_id, LTI_META_SECRET_NAME, LTI::generateToken('secret'));
     }
   }
 
@@ -250,9 +247,36 @@ class LTI {
    * Create a new random token
    *
    * We pass through sha1() to return a 40 character token.
+   *
+   * @param string $type
+   *  The type of token to generate either: 'key', 'secret'
    */
-  public static function generateToken() {
+  public static function generateToken($type) {
     $token = OAuthProvider::generateToken(LTI_OAUTH_TOKEN_LENGTH);
+
+    $args = array(
+      'post_type' => 'lti_consumer',
+      'meta_value' => sha1($token),
+    );
+    switch ($type) {
+      case 'key':
+        $args['meta_key'] = LTI_META_KEY_NAME;
+        break;
+      case 'secret':
+        $args['meta_key'] = LTI_SECRET_KEY_NAME;
+        break;
+    }
+
+    $posts = get_posts($args);
+
+    // Loop until our token is unique for this meta value.
+    while ( !empty($posts) ) {
+      echo 'looping!';
+      $token = OAuthProvider::generateToken(LTI_OAUTH_TOKEN_LENGTH);
+      $args['meta_value'] = sha1($token);
+      $posts = get_posts($args);
+    }
+
     return sha1($token);
   }
 
