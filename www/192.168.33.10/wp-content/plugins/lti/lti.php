@@ -271,7 +271,6 @@ class LTI {
 
     // Loop until our token is unique for this meta value.
     while ( !empty($posts) ) {
-      echo 'looping!';
       $token = OAuthProvider::generateToken(LTI_OAUTH_TOKEN_LENGTH);
       $args['meta_value'] = sha1($token);
       $posts = get_posts($args);
