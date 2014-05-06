@@ -32,6 +32,10 @@
  * @todo Consider draft->published workflow for lti_consumer posts. Where draft
  *       would indicate inactive or unapproved credentials, and published
  *       indicating the credentials are active.
+ * @todo Implement oauth_nonce logging for a set period of time. This is to
+ *       minimize replay attacks. Recommended is to keep these logged for 90
+ *       minutes with an appropriate validation window on the incoming
+ *       oauth_timestamp.
  */
 
 // If file is called directly, abort.
@@ -63,6 +67,11 @@ class LTI {
     add_action( 'save_post', array( __CLASS__, 'save') );
 
     add_filter( 'template_include', array( __CLASS__, 'template_include' ) );
+
+    # API details
+    add_action( 'init', array( __CLASS__, 'add_rewrite_rule' ) );
+    add_action( 'query_vars', array( __CLASS__, 'query_vars' ) );
+    add_action( 'parse_request', array( __CLASS__, 'parse_request' ) );
 
 		if ( is_admin() ) {
 			add_action('admin_menu', array( __CLASS__, 'admin_menu' ) );
@@ -316,6 +325,102 @@ class LTI {
     // Save to save data now
     update_post_meta( $post_id, LTI_META_KEY_NAME, $_POST['lti_consumer_key'] );
     update_post_meta( $post_id, LTI_META_SECRET_NAME, $_POST['lti_consumer_secret'] );
+  }
+
+  public static function query_vars( $query_vars ) {
+    $query_vars[] = '__lti';
+    $query_vars[] = 'blog';
+    return $query_vars;
+  }
+
+  public static function add_rewrite_rule() {
+    add_rewrite_rule( '^api/lti/([0-9]+?/?)', 'index.php?__lti=1&blog=$matches[1]', 'top');
+  }
+
+  public static function parse_request() {
+    if ( LTI::is_lti_request() ) {
+      $LTIOAuth = new LTIOAuth();
+      if ($LTIOAuth->oauth_error == false) {
+        // @todo add hook here to process LTI request
+        //echo '<div class="success">LTI Launch Request OK</div>';
+      }
+      else {
+        // @todo error handler here.
+        //echo '<div class="error">LTI Launch not OK</div>';
+      }
+    }
+  }
+
+  /**
+   * Checks $_POST to see if the current post data is an incoming LTI request.
+   *
+   * We only check that the required LTI parameters are present. No furhter
+   * validation occurs at this point.
+   *
+   * @return bool TRUE if POST data represents valid lti request.
+   */
+  public static function is_lti_request() {
+    // Check required parameters.
+    if (isset( $_POST['lti_message_type'] )  && isset( $_POST['lti_version'] ) && isset( $_POST['resource_link_id'] ) ) {
+      // Required LTI parameters present.
+      return TRUE;
+    }
+    return FALSE;
+  }
+}
+
+class LTIOAuth {
+  private $oauthProvider;
+
+  public $oauth_error = false;
+
+  public function __construct() {
+    try {
+      $this->oauthProvider = new OAuthProvider();
+      $this->oauthProvider->consumerHandler( array( $this, 'consumerHandler' ) );
+      $this->oauthProvider->timestampNonceHandler( array( $this, 'timestampNonceHandler' ) );
+      $this->oauthProvider->isRequestTokenEndpoint(true);
+      $this->oauthProvider->setParam('url', NULL);
+      $this->oauthProvider->checkOAuthRequest();
+      // @todo manage additional parameters here?
+    }
+    catch (OAuthException $e) {
+      // @todo Change to simple user facing error message. Log with more details.
+      echo '<div class="error">';
+      echo OAuthProvider::reportProblem($e);
+      echo '</div>';
+      $this->oauth_error = true;
+    }
+  }
+  /**
+   * Implement timestampNonceHandler for OAuthProvider.
+   *
+   * @see http://us3.php.net/manual/en/oauthprovider.timestampnoncehandler.php
+   */
+  public function timestampNonceHandler() {
+    // @todo store and validate nonce.
+    // if nonce is not within timestamp range reject it.
+    // Purge old nonces outside window of acceptable time.
+    // return OAUTH_BAD_NONCE;
+    // return OAUTH_BAD_TIMESTAMP;
+    return OAUTH_OK;
+  }
+
+  /**
+   * Implement consumerHandler for OAuthProvider.
+   *
+   * @see http://us3.php.net/manual/en/oauthprovider.consumerhandler.php
+   */
+  public function consumerHandler () {
+    // Lookup consumer key.
+
+    // Ensure consumer key is valid if not return OAUTH_CONSUMER_KEY_UNKOWN
+
+    // Make sure key is valid (published?) if not return OAUTH_CONSUMER_KEY_REFUSED
+
+    // Set $provider->consumer_secret
+    $this->oauthProvider->consumer_secret = 'secret';
+    return OAUTH_OK;
   }
 }
 
