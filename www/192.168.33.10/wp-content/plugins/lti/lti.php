@@ -352,7 +352,7 @@ class LTI {
     if ( LTI::is_lti_request() ) {
       global $wp;
 
-      // make sure our queries run against the appropriate site.
+      // Make sure our queries run against the appropriate site.
       switch_to_blog($wp->query_vars['blog']);
       $LTIOAuth = new LTIOAuth();
       if ($LTIOAuth->oauth_error == false) {
