@@ -386,6 +386,9 @@ class LTI {
       $LTIOAuth = new LTIOAuth();
       if ($LTIOAuth->oauth_error == false) {
         // @todo add hook here to process LTI request
+        do_action('lti_setup');
+        do_action('lti_pre');
+        do_action('lti_launch');
         //echo '<div class="success">LTI Launch Request OK</div>';
       }
       else {
