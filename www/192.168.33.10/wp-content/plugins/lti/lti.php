@@ -431,14 +431,46 @@ class LTIOAuth {
    */
   public function consumerHandler () {
     // Lookup consumer key.
+    if ( ! empty($_POST['oauth_consumer_key']) ) {
+      $args = array(
+        'post_type' => 'lti_consumer',
+        'meta_key' => LTI_META_KEY_NAME,
+        'meta_value' => $_POST['oauth_consumer_key'],
+      );
+      $q = new WP_Query( $args );
 
-    // Ensure consumer key is valid if not return OAUTH_CONSUMER_KEY_UNKOWN
+      if ( $q->have_posts() ) {
+        if ( $q->posts[0] == 'trash' ) {
+          // Corresponding lti_consumer post was deleted.
+          return OAUTH_CONSUMER_KEY_REFUSED;
+        }
+        else {
+          $secret = get_post_meta( $q->posts[0]->ID, LTI_META_SECRET_NAME, TRUE);
+          if ( ! empty( $secret ) ) {
+            $this->oauthProvider->consumer_secret = $secret;
+            return OAUTH_OK;
+          }
+          else {
+            // This should have resulted in valid secret.
+            // @todo log error?
+            return OAUTH_CONSUMER_KEY_UNKOWN;
+          }
+        }
+      }
+      else {
+        // We did not find a matching consumer key.
+        return OAUTH_CONSUMER_KEY_UNKNOWN;
+      }
 
-    // Make sure key is valid (published?) if not return OAUTH_CONSUMER_KEY_REFUSED
+    }
+    else {
+      // No consumer key present in POST data.
+      return OAUTH_CONSUMER_KEY_UNKNOWN;
+    }
 
-    // Set $provider->consumer_secret
-    $this->oauthProvider->consumer_secret = 'secret';
-    return OAUTH_OK;
+    // Not sure how we would get here, but refust the key in the event
+    // @todo log error?
+    return OAUTH_CONSUMER_KEY_REFUSED;
   }
 }
 
