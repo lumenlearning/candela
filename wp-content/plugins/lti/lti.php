@@ -490,6 +490,11 @@ class LTIOAuth {
    */
   public function purgeNonces() {
     // Purge old nonces outside window of acceptable time.
+    global $wpdb;
+    $table_name = $wpdb->prefix . LTI_TABLE_NAME;
+    $query = $wpdb->prepare("DELETE FROM $table_name WHERE noncetime < DATE_SUB(NOW(), interval %d SECOND) ", LTI_NONCE_TIMELIMIT);
+    $wpdb->query($query);
+
   }
 
   /**
