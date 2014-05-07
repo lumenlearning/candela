@@ -48,6 +48,15 @@ define ('LTI_OAUTH_TOKEN_LENGTH', 40);
 define('LTI_META_KEY_NAME', '_lti_consumer_key');
 define('LTI_META_SECRET_NAME', '_lti_consumer_secret');
 
+// How big of a window to allow timestamps in seconds. Default 90 minutes (5400 seconds).
+define('LTI_NONCE_TIMELIMIT', 5400);
+
+// LTI Nonce table name.
+define('LTI_TABLE_NAME', 'ltinonce');
+
+// Database version
+define('LTI_DB_VERSION', '1.0');
+
 // Do our necessary plugin setup and add_action routines.
 LTI::init();
 
@@ -60,6 +69,8 @@ class LTI {
     if ( ! defined( 'LTI_PLUGIN_URL' ) ) {
       define( 'LTI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
     }
+
+    register_activation_hook( __FILE__, array( __CLASS__, 'install' ) );
 
     add_action( 'admin_notices', array( __CLASS__, 'check_dependencies') );
     add_action( 'init', array( __CLASS__, 'register_post_type' ) );
@@ -87,6 +98,24 @@ class LTI {
       wp_die( __('You do not have sufficient permissions to access this page.') );
     }
     include(LTI_PLUGIN_DIR . 'settings.php');
+  }
+
+  public static function install() {
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . LTI_TABLE_NAME;
+
+    $sql = "CREATE TABLE $table_name (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      noncetime datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+      noncevalue tinytext NOT NULL,
+      PRIMARY KEY  id (id)
+    );";
+
+    require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta( $sql );
+
+    add_option( 'lti_db_version', LTI_DB_VERSION );
   }
 
   /**
@@ -416,12 +445,48 @@ class LTIOAuth {
    * @see http://us3.php.net/manual/en/oauthprovider.timestampnoncehandler.php
    */
   public function timestampNonceHandler() {
-    // @todo store and validate nonce.
-    // if nonce is not within timestamp range reject it.
+    // Nonces are stored at the network level.
+    // @todo Review if this can/should be improved. Currently seems a little fragile.
+    switch_to_blog(1); // Make sure to call resture_current_blog() before exiting.
+
+    // If nonce is not within timestamp range reject it.
+    if ( ( time() - (int)$_POST['oauth_timestamp'] ) > LTI_NONCE_TIMELIMIT ) {
+      // Request is too old.
+      restore_current_blog();
+      return OAUTH_BAD_TIMESTAMP;
+    }
+
+    // Find out if this nonce has been used before.
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . LTI_TABLE_NAME;
+    $query = $wpdb->prepare("SELECT noncevalue FROM $table_name WHERE noncevalue = %s AND noncetime >= DATE_SUB(NOW(), interval %d SECOND) ", $_POST['oauth_nonce'], LTI_NONCE_TIMELIMIT);
+
+    $results = $wpdb->get_results($query);
+    if ( empty($results) ) {
+      // Store the nonce as we haven't seen it before.
+      $query = $wpdb->prepare("INSERT INTO $table_name (noncevalue, noncetime)VALUES(%s, FROM_UNIXTIME(%d))", array($_POST['oauth_nonce'], $_POST['oauth_timestamp']));
+      $wpdb->query($query);
+      restore_current_blog();
+      return OAUTH_OK;
+    }
+    else {
+      restore_current_blog();
+      // Replay attack or improper refresh.
+      return OAUTH_BAD_NONCE;
+    }
+
+    // We should not get here, but in case return OAUTH_BAD_NONCE.
+    // @todo log error?
+    restore_current_blog();
+    return OAUTH_BAD_NONCE;
+  }
+
+  /**
+   * Purge old nonces from table.
+   */
+  public function purgeNonces() {
     // Purge old nonces outside window of acceptable time.
-    // return OAUTH_BAD_NONCE;
-    // return OAUTH_BAD_TIMESTAMP;
-    return OAUTH_OK;
   }
 
   /**
