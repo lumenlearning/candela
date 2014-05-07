@@ -327,16 +327,27 @@ class LTI {
     update_post_meta( $post_id, LTI_META_SECRET_NAME, $_POST['lti_consumer_secret'] );
   }
 
+  /**
+   * Add our LTI api endpoint vars so that wordpress "understands" them.
+   */
   public static function query_vars( $query_vars ) {
     $query_vars[] = '__lti';
     $query_vars[] = 'blog';
     return $query_vars;
   }
 
+  /**
+   * Add our LTI api endpoint
+   */
   public static function add_rewrite_rule() {
     add_rewrite_rule( '^api/lti/([0-9]+?/?)', 'index.php?__lti=1&blog=$matches[1]', 'top');
   }
 
+  /**
+   * Implementation of action 'parse_request'.
+   *
+   * @see http://codex.wordpress.org/Plugin_API/Action_Reference/parse_request
+   */
   public static function parse_request() {
     if ( LTI::is_lti_request() ) {
       $LTIOAuth = new LTIOAuth();
