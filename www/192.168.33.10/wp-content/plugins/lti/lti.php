@@ -32,10 +32,6 @@
  * @todo Consider draft->published workflow for lti_consumer posts. Where draft
  *       would indicate inactive or unapproved credentials, and published
  *       indicating the credentials are active.
- * @todo Implement oauth_nonce logging for a set period of time. This is to
- *       minimize replay attacks. Recommended is to keep these logged for 90
- *       minutes with an appropriate validation window on the incoming
- *       oauth_timestamp.
  */
 
 // If file is called directly, abort.
@@ -61,6 +57,9 @@ define('LTI_DB_VERSION', '1.0');
 LTI::init();
 
 class LTI {
+  /**
+   * Takes care of registering our hooks and setting constants.
+   */
   public static function init() {
     if ( !defined( 'LTI_PLUGIN_DIR' ) ) {
       define( 'LTI_PLUGIN_DIR', __DIR__ . '/' );
@@ -84,22 +83,11 @@ class LTI {
     add_action( 'query_vars', array( __CLASS__, 'query_vars' ) );
     add_action( 'parse_request', array( __CLASS__, 'parse_request' ) );
 
-		if ( is_admin() ) {
-			add_action('admin_menu', array( __CLASS__, 'admin_menu' ) );
-		}
 	}
 
-  public static function admin_menu () {
-    add_options_page('LTI', 'LTI', 'manage_options', 'lti_options', array( __CLASS__, 'plugin_settings_page'));
-  }
-
-  public static function plugin_settings_page() {
-    if ( ! current_user_can('manage_options') ) {
-      wp_die( __('You do not have sufficient permissions to access this page.') );
-    }
-    include(LTI_PLUGIN_DIR . 'settings.php');
-  }
-
+  /**
+   * Add our nonce table to log received nonce to avoid replay attacks.
+   */
   public static function install() {
     global $wpdb;
 
@@ -424,6 +412,9 @@ class LTIOAuth {
 
   public $oauth_error = false;
 
+  /**
+   * Attempt to validate the incoming LTI request.
+   */
   public function __construct() {
     try {
       $this->oauthProvider = new OAuthProvider();
@@ -432,7 +423,6 @@ class LTIOAuth {
       $this->oauthProvider->isRequestTokenEndpoint(true);
       $this->oauthProvider->setParam('url', NULL);
       $this->oauthProvider->checkOAuthRequest();
-      // @todo manage additional parameters here?
     }
     catch (OAuthException $e) {
       // @todo Change to simple user facing error message. Log with more details.
