@@ -350,6 +350,10 @@ class LTI {
    */
   public static function parse_request() {
     if ( LTI::is_lti_request() ) {
+      global $wp;
+
+      // make sure our queries run against the appropriate site.
+      switch_to_blog($wp->query_vars['blog']);
       $LTIOAuth = new LTIOAuth();
       if ($LTIOAuth->oauth_error == false) {
         // @todo add hook here to process LTI request
@@ -359,6 +363,9 @@ class LTI {
         // @todo error handler here.
         //echo '<div class="error">LTI Launch not OK</div>';
       }
+
+      // If something else didn't direct us elsewhere restore the main blog.
+      restore_current_blog();
     }
   }
 
