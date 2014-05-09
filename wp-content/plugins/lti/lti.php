@@ -112,7 +112,7 @@ class LTI {
   public static function check_dependencies() {
     if ( ! extension_loaded('oauth') ) {
       echo '<div id="message" class="error fade"><p>';
-      echo 'LTI integration requires the OpenAuth library. Please see <a href="php.net/manual/en/book.oauth.php">oauth</a> for more information.';
+      echo 'LTI integration requires the OpenAuth library. Please see <a href="http://php.net/manual/en/book.oauth.php">oauth</a> for more information.';
       echo '</p></div>';
     }
   }
