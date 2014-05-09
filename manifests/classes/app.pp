@@ -62,7 +62,7 @@ class app {
     ensure => installed,
   }
   exec { 'install oauth':
-    command     => "/usr/bin/pecl install oauth",
+    command     => "sudo /usr/bin/pecl install oauth",
     require => Package['php-pear', 'libpcre3-dev'],
     creates => '/usr/lib/php5/20121212/oauth.so',
   }
