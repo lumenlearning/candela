@@ -15,6 +15,7 @@ require( PB_PLUGIN_DIR . 'admin/pb-admin-dashboard.php' );
 require( PB_PLUGIN_DIR . 'admin/pb-admin-laf.php' );
 require( PB_PLUGIN_DIR . 'admin/pb-admin-metaboxes.php' );
 require( PB_PLUGIN_DIR . 'admin/pb-admin-customcss.php' );
+require( PB_PLUGIN_DIR . 'symbionts/search-regex/search-regex.php' );
 
 // -------------------------------------------------------------------------------------------------------------------
 // Look & feel of admin interface and Dashboard
@@ -67,6 +68,11 @@ add_action( 'admin_notices', '\PressBooks\Admin\Laf\admin_notices' );
 // Posts, Meta Boxes
 // -------------------------------------------------------------------------------------------------------------------
 
+add_action('init', function() { // replace default title filtering with our custom one that allows certain tags
+	remove_filter('title_save_pre', 'wp_filter_kses');
+	add_filter( 'title_save_pre', 'PressBooks\Sanitize\filter_title');	
+});
+
 add_action( 'admin_menu', function () {
 	remove_meta_box( 'pageparentdiv', 'chapter', 'normal' );
 	remove_meta_box( 'submitdiv', 'metadata', 'normal' );
@@ -74,7 +80,7 @@ add_action( 'admin_menu', function () {
 	remove_meta_box( 'submitdiv', 'part', 'normal' );
 } );
 
-add_action( 'admin_init', '\PressBooks\Admin\Metaboxes\add_meta_boxes' );
+add_action( 'custom_metadata_manager_init_metadata', '\PressBooks\Admin\Metaboxes\add_meta_boxes' );
 
 if ( \PressBooks\Book::isBook() ) {
 	add_action( 'admin_enqueue_scripts', '\PressBooks\Admin\Metaboxes\add_metadata_styles' );
@@ -94,7 +100,7 @@ if ( \PressBooks\Book::isBook() ) {
 // Custom user profile
 // -------------------------------------------------------------------------------------------------------------------
 
-add_action( 'admin_init', '\PressBooks\Admin\Metaboxes\add_user_meta' );
+add_action( 'custom_metadata_manager_init_metadata', '\PressBooks\Admin\Metaboxes\add_user_meta' );
 
 // -------------------------------------------------------------------------------------------------------------------
 // Ajax

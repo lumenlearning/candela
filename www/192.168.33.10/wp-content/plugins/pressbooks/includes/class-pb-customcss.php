@@ -112,12 +112,20 @@ class CustomCss {
 	 */
 	static function isCustomCss() {
 
-		$theme = get_stylesheet_directory();
-		$theme = rtrim( trim( $theme ), '/' );
-		$theme = explode( '/', $theme );
-		$theme = end( $theme );
+		return ( 'pressbooks-custom-css' == get_stylesheet() );
+	}
 
-		return ( 'pressbooks-custom-css' == $theme );
+
+	/**
+	 * Is the romanize parts option true?
+	 *
+	 * @return bool
+	 */
+	static function isRomanized() {
+
+		$options = get_option( 'pressbooks_theme_options_pdf' );
+		
+		return ( @$options['pdf_romanize_parts'] );
 	}
 
 

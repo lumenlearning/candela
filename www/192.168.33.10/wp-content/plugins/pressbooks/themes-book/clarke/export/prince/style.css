@@ -1,7 +1,7 @@
 /*
 
   Name: Clarke PDF
-  Version: 1.2
+  Version: 1.3
   Author: PressBooks (Book Oven Inc.)
   Author URI: http://pressbooks.com
   License: Creative Commons Attribution 2.0 Generic license
@@ -89,9 +89,10 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
-/* Dedication & Epigraph */
+/* Dedication, Epigraph & Before Title */
 @page dedication,
-	  epigraph {
+	  epigraph,
+	  before-title {
   @bottom {
 	content:"";
   }
@@ -241,6 +242,10 @@ div.front-matter.epigraph {
 	page: epigraph;
 	prince-page-group: start;
 }
+div.front-matter.before-title {
+	page: before-title;
+	prince-page-group: start;
+}
 div.front-matter.introduction {
 	page: introduction;
 	prince-page-group: start;
@@ -378,8 +383,9 @@ p.bl_indent {
 
 /* HALFTITLE PAGE
 ==================== */
-body > h1.title:first-child {
+#half-title-page h1.title:first-of-type {
     string-set: book-title content();
+	page-break-before: right;
     page-break-after: always;
     bookmark-level: none;  
     font-size: 21pt;
@@ -502,6 +508,11 @@ body > h1.title:first-child {
 	counter-increment: chapter; 
 	margin-right: 7pt;	
 }
+#toc .chapter.numberless a::before {
+	content:'' ;
+	counter-increment: none;
+	margin-right: 0;	
+}
 #toc .part a::after {
 	content:'' ;
 }
@@ -548,7 +559,8 @@ div.back-matter > h1:first-of-type {
 }
 .dedication .front-matter-title-wrap,
 .disclaimer .front-matter-title-wrap,
-.epigraph .front-matter-title-wrap {
+.epigraph .front-matter-title-wrap,
+.before-title .front-matter-title-wrap {
 	border-top: none;
 }
 .part-title-wrap h1 {
@@ -557,6 +569,9 @@ div.back-matter > h1:first-of-type {
 }
 .chapter-title-wrap .chapter-number {
 	font-weight: normal;
+}
+div.chapter.numberless h3.chapter-number {
+	display: none;
 }
 .front-matter-title-wrap h1,
 #toc h1,

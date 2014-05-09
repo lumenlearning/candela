@@ -1,6 +1,6 @@
 /*
 Name: Fitzgerald PDF
-Version: 1.0
+Version: 1.1
 Author: PressBooks (Book Oven Inc.)
 Author URI: http://pressbooks.com
 Copyright 2011-2013 Book Oven Inc. (PressBooks.com) support@pressbooks.com
@@ -16,26 +16,39 @@ Reference @see: http://www.princexml.com/doc/8.1/
   font-family: "Crimson";
   font-weight: bold;
   font-style: normal;
-  src: url(../../fonts/CrimsonText-Bold.ttf) format("truetype");
+  src: url(../../fonts/Crimson-Bold.otf) format("opentype");
+}
+@font-face {
+  font-family: "Crimson";
+  font-weight: bold;
+  font-style: italic;
+  src: url(../../fonts/Crimson-BoldItalic.otf) format("opentype");
 }
 @font-face {
   font-family: "Crimson";
   font-weight: normal;
   font-style: italic;
-  src: url(../../fonts/CrimsonText-Italic.ttf) format("truetype");
+  src: url(../../fonts/Crimson-Italic.otf) format("opentype");
 }
 @font-face {
   font-family: "Crimson";
   font-weight: normal;
   font-style: normal;
-  src: url(../../fonts/CrimsonText-Roman.ttf) format("truetype");
+  src: url(../../fonts/Crimson-Roman.otf) format("opentype");
 }
 @font-face {
   font-family: "Crimson";
   font-weight: 600;
   font-style: normal;
-  src: url(../../fonts/CrimsonText-Semibold.ttf) format("truetype");
+  src: url(../../fonts/Crimson-Semibold.otf) format("opentype");
 }
+@font-face {
+  font-family: "Crimson";
+  font-weight: 600;
+  font-style: italic;
+  src: url(../../fonts/Crimson-SemiboldItalic.otf) format("opentype");
+}
+
 @font-face {
   font-family: "Roboto Condensed";
   font-weight: normal;
@@ -137,9 +150,10 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
-/* Dedication & Epigraph */
+/* Dedication, Epigraph & Before Title */
 @page dedication,
-	  epigraph {
+	  epigraph,
+	  before-title {
   @bottom {
 	content:"";
   }
@@ -298,6 +312,10 @@ div.front-matter.epigraph {
 	page: epigraph;
 	prince-page-group: start;
 }
+div.front-matter.before-title {
+	page: before-title;
+	prince-page-group: start;
+}
 div.front-matter.introduction {
 	page: introduction;
 	prince-page-group: start;
@@ -452,8 +470,9 @@ p.bl_indent {
 
 /* HALFTITLE PAGE
 ==================== */
-body > h1.title:first-child {
+#half-title-page h1.title:first-of-type {
     string-set: book-title content();
+	page-break-before: right;
     page-break-after: always;
     bookmark-level: none;  
     font-size: 12pt;
@@ -617,6 +636,11 @@ body > h1.title:first-child {
 	left: 0;
 	top: 0;	
 }
+#toc .chapter.numberless a::before {
+	content:'' ;
+	counter-increment: none;
+	margin-right: 0;	
+}
 #toc .part a::after {
 	content:'' ;
 }
@@ -693,7 +717,10 @@ h3.chapter-number {
 	border-bottom: 0.5px solid #000;
 	font-weight: lighter;
 	display: inline-block;
-	padding: 0 2em 0 1em;
+	padding: 0 2em 0 2em;
+}
+div.chapter.numberless h3.chapter-number {
+	display: none;
 }
 h3.front-matter-number, 
 h3.part-number, 

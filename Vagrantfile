@@ -4,8 +4,6 @@
 # Default hostname to the directory name
 hostname = File.basename(File.dirname(__FILE__));
 
-VAGRANTFILE_API_VERSION = "2"
-
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,

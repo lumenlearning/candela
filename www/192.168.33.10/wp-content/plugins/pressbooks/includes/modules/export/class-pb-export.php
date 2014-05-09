@@ -42,6 +42,7 @@ abstract class Export {
 	 */
 	protected $reservedIds = array(
 		'cover-image',
+		'half-title-page',
 		'title-page',
 		'copyright-page',
 		'toc',
@@ -126,6 +127,9 @@ abstract class Export {
 
 		if ( ! $fullpath ) {
 			$fullpath = realpath( get_stylesheet_directory() . "/export/$type/script.js" );
+			if ( CustomCss::isCustomCss() && CustomCss::isRomanized() && $type == 'prince' ) {
+				$fullpath = realpath( get_stylesheet_directory() . "/export/$type/script-romanize.js" );
+			}
 		}
 
 		return $fullpath;
@@ -187,7 +191,7 @@ abstract class Export {
 	 */
 	function createTmpFile() {
 
-		return array_search( 'uri', @array_flip( stream_get_meta_data( $GLOBALS[mt_rand()] = tmpfile() ) ) );
+		return \PressBooks\Utility\create_tmp_file();
 	}
 
 
@@ -268,8 +272,9 @@ abstract class Export {
 	 */
 	function fixAnnoyingCharacters( $html ) {
 
-		// Non-breaking spaces
-		$html = preg_replace( '/\xC2\xA0/', ' ', $html );
+		// Replace Non-breaking spaces with normal spaces
+		// TODO: Some users want this, others do not want this, make up your mind...
+		// $html = preg_replace( '/\xC2\xA0/', ' ', $html );
 
 		return $html;
 	}
@@ -502,6 +507,9 @@ abstract class Export {
 			if ( isset( $x['epub'] ) ) {
 				$modules[] = '\PressBooks\Export\Epub\Epub201'; // Must be set before MOBI
 			}
+			if ( isset( $x['epub3'] ) ) {
+				$modules[] = '\PressBooks\Export\Epub3\Epub3'; // Must be set before MOBI
+			}
 			if ( isset( $x['mobi'] ) ) {
 				$modules[] = '\PressBooks\Export\Mobi\Kindlegen'; // Must be set after EPUB
 			}
@@ -623,6 +631,7 @@ abstract class Export {
 				}
 			}
 
+			if ( '__UNSET__' == $loc ) $loc = 'en_US'; // No match found, default to english
 		}
 
 		// Return
@@ -654,6 +663,31 @@ abstract class Export {
 		}
 
 		return false;
+	}
+
+
+	/**
+	 * Inject house styles into CSS
+	 *
+	 * @param string $css
+	 *
+	 * @return string
+	 */
+	static function injectHouseStyles( $css ) {
+
+		$scan = array(
+			'/*__INSERT_PDF_HOUSE_STYLE__*/' => WP_CONTENT_DIR . '/themes/pdf-house-style.css',
+			'/*__INSERT_EPUB_HOUSE_STYLE__*/' => WP_CONTENT_DIR . '/themes/epub-house-style.css',
+			'/*__INSERT_MOBI_HOUSE_STYLE__*/' => WP_CONTENT_DIR . '/themes/mobi-house-style.css',
+		);
+
+		foreach ( $scan as $token => $replace_with ) {
+			if ( is_file( $replace_with ) ) {
+				$css = str_replace( $token, file_get_contents( $replace_with ), $css );
+			}
+		}
+
+		return $css;
 	}
 
 

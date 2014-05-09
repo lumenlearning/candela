@@ -1,7 +1,7 @@
 /*
 
   Name: Donham PDF
-  Version: 1.2
+  Version: 1.3
   Author: PressBooks (Book Oven Inc.)
   Author URI: http://pressbooks.com
   License: Creative Commons Attribution 2.0 Generic license
@@ -134,9 +134,10 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
-/* Dedication & Epigraph */
+/* Dedication, Epigraph & Before Title */
 @page dedication,
-	  epigraph {
+	  epigraph,
+	  before-title {
   @bottom {
 	content:"";
   }
@@ -286,6 +287,10 @@ div.front-matter.epigraph {
 	page: epigraph;
 	prince-page-group: start;
 }
+div.front-matter.before-title {
+	page: before-title;
+	prince-page-group: start;
+}
 div.front-matter.introduction {
 	page: introduction;
 	prince-page-group: start;
@@ -431,9 +436,10 @@ p.bl_indent {
 
 /* HALFTITLE PAGE
 ==================== */
-body > h1.title:first-child {
+#half-title-page h1.title:first-of-type {
 	font-family: "LinBiolinum", sans-serif;
     string-set: book-title content();
+	page-break-before: right;
     page-break-after: always;
     bookmark-level: none;  
     font-size: 24pt;
@@ -561,8 +567,14 @@ h3.part-number::before {
 .part-title-wrap h1 {
 	font-size: 2.6em;
 }
+div.chapter.numberless h3.chapter-number {
+	display: none;
+}
 h3.chapter-number::after {
 	content: ". \A0\A0"
+}
+div.chapter.numberless h3.chapter-number {
+	display: none;
 }
 .chapter-title-wrap {
 	margin-left: 6em;
@@ -724,6 +736,11 @@ div.back-matter > div.ugc h6.short-title:first-of-type {
 	content: counter(chapter) ". ";
 	counter-increment: chapter; 
 	margin-right: 7pt;	
+}
+#toc .chapter.numberless a::before {
+	content:'' ;
+	counter-increment: none;
+	margin-right: 0;	
 }
 #toc .part a::after {
 	content:'' ;

@@ -51,10 +51,14 @@ add_action('wp_enqueue_scripts', 'pressbooks_book_info_page');
 function pb_enqueue_scripts() {
 
 	if ( pb_is_custom_theme() ) {
-		// Use our default stylesheet, then override with the user's custom stylesheet.
-		wp_register_style( 'pressbooks', PB_PLUGIN_URL . 'themes-book/pressbooks-book/style.css', array(), null, 'screen' );
-		wp_enqueue_style( 'pressbooks' );
-		wp_register_style( 'pressbooks-custom-css', pb_get_custom_stylesheet_url(), array(), get_option( 'pressbooks_last_custom_css' ), 'screen' );
+		$deps = array();
+		if ( ! pb_custom_stylesheet_imports_base() ) {
+			// Use default stylesheet as base (to avoid horribly broken webbook)
+			wp_register_style( 'pressbooks', PB_PLUGIN_URL . 'themes-book/pressbooks-book/style.css', array(), null, 'screen' );
+			wp_enqueue_style( 'pressbooks' );
+			$deps = array( 'pressbooks' );
+		}
+		wp_register_style( 'pressbooks-custom-css', pb_get_custom_stylesheet_url(), $deps, get_option( 'pressbooks_last_custom_css' ), 'screen' );
 		wp_enqueue_style( 'pressbooks-custom-css' );
 	} else {
 		wp_register_style( 'pressbooks', get_bloginfo( 'stylesheet_url' ), array(), null, 'screen' );
@@ -314,6 +318,9 @@ function pressbooks_theme_options_summary() { ?>
 						if ( $value == 1 ) { _e( 'indent', 'pressbooks' ); }
 						elseif ( $value == 2 ) { _e( 'skip lines', 'pressbooks' ); } ?></em></li>
 					<?php break;
+				case 'ebook_compress_images': ?>
+					<li><?php _e( 'Compress images' , 'pressbooks' ) ?>: <em><?php echo $value == 1 ? __( 'enabled', 'pressbooks' ) : __( 'disabled', 'pressbooks' ); ?></em></li>
+					<?php break;
 			}
 		}
 		?>
@@ -408,6 +415,8 @@ function pressbooks_theme_options_global_sanitize( $input ) {
  * PDF Options Tab
  * ------------------------------------------------------------------------ */
 
+use PressBooks\CustomCss;
+
 // PDF Options Registration
 function pressbooks_theme_options_pdf_init() {
 
@@ -418,6 +427,7 @@ function pressbooks_theme_options_pdf_init() {
 		'pdf_paragraph_separation' => 1,
 		'pdf_blankpages' => 1,
 		'pdf_toc' => 1,
+		'pdf_romanize_parts' => 0,
 		'pdf_footnotes_style' => 1,
 		'pdf_crop_marks' => 0,
 		'pdf_hyphens' => 0,
@@ -451,7 +461,7 @@ function pressbooks_theme_options_pdf_init() {
 			 __( 'Pocket (4.25&quot; &times; 7&quot;)', 'pressbooks' ),
 			 __( 'A4 (21cm &times; 29.7cm)', 'pressbooks' ),
 			 __( 'A5 (14.8cm &times; 21cm)', 'pressbooks' ),
-
+			 __( '5&quot; &times; 8&quot;', 'pressbooks' ),
 		)
 	);
 	add_settings_field(
@@ -506,6 +516,18 @@ function pressbooks_theme_options_pdf_init() {
 			 __( 'Display table of contents', 'pressbooks' )
 		)
 	);
+	if ( CustomCss::isCustomCss() ) {
+		add_settings_field(
+			'pdf_romanize_parts',
+			__( 'Romanize Part Numbers', 'pressbooks' ),
+			'pressbooks_theme_pdf_romanize_parts_callback',
+			$_page,
+			$_section,
+			array(
+				 __( 'Convert part numbers into Roman numerals', 'pressbooks' )
+			)
+		);
+	}
 	add_settings_field(
 		'pdf_footnotes_style',
 		__( 'Footnotes Style', 'pressbooks' ),
@@ -543,7 +565,7 @@ add_action( 'admin_init', 'pressbooks_theme_options_pdf_init' );
 
 // PDF Options Section Callback
 function pressbooks_theme_options_pdf_callback() {
-	echo '<p>' . __( 'These options apply to PDF exports.' . 'pressbooks' ) . '</p>';
+	echo '<p>' . __( 'These options apply to PDF exports.', 'pressbooks' ) . '</p>';
 }
 
 
@@ -613,6 +635,19 @@ function pressbooks_theme_pdf_toc_callback( $args ) {
 	echo $html;
 }
 
+// PDF Options Field Callback
+function pressbooks_theme_pdf_romanize_parts_callback( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_pdf' );
+
+	if ( ! isset( $options['pdf_romanize_parts'] ) ) {
+		$options['pdf_romanize_parts'] = 0;
+	}
+
+	$html = '<input type="checkbox" id="pdf_romanize_parts" name="pressbooks_theme_options_pdf[pdf_romanize_parts]" value="1" ' . checked( 1, $options['pdf_romanize_parts'], false ) . '/>';
+	$html .= '<label for="pdf_romanize_parts"> ' . $args[0] . '</label>';
+	echo $html;
+}
 
 // PDF Options Field Callback
 function pressbooks_theme_pdf_footnotes_callback( $args ) {
@@ -702,7 +737,7 @@ function pressbooks_theme_options_pdf_sanitize( $input ) {
 	}
 
 	// Checkmarks
-	foreach ( array( 'pdf_toc', 'pdf_crop_marks', 'pdf_hyphens' ) as $val ) {
+	foreach ( array( 'pdf_toc', 'pdf_romanize_parts', 'pdf_crop_marks', 'pdf_hyphens' ) as $val ) {
 		if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
 		else $options[$val] = 1;
 	}
@@ -721,7 +756,8 @@ function pressbooks_theme_options_ebook_init() {
 	$_page = $_option = 'pressbooks_theme_options_ebook';
 	$_section = 'ebook_options_section';
 	$defaults = array(
-		'ebook_paragraph_separation' => 1
+		'ebook_paragraph_separation' => 1,
+		'ebook_compress_images' => 0,
 	);
 
 	if ( false == get_option( $_option ) ) {
@@ -747,6 +783,17 @@ function pressbooks_theme_options_ebook_init() {
 		)
 	);
 
+	add_settings_field(
+		'ebook_compress_images',
+		__( 'Compress images', 'pressbooks' ),
+		'pressbooks_theme_ebook_compress_images_callback',
+		$_page,
+		$_section,
+		array(
+			__( 'Reduce image size and quality', 'pressbooks' )
+		)
+	);
+
 	register_setting(
 		$_option,
 		$_option,
@@ -758,9 +805,8 @@ add_action( 'admin_init', 'pressbooks_theme_options_ebook_init' );
 
 // Ebook Options Section Callback
 function pressbooks_theme_options_ebook_callback() {
-	echo '<p>' . __( 'These options apply to ebook exports.' . 'pressbooks' ) . '</p>';
+	echo '<p>' . __( 'These options apply to ebook exports.', 'pressbooks' ) . '</p>';
 }
-
 
 // Ebook Options Field Callbacks
 function pressbooks_theme_ebook_paragraph_separation_callback( $args ) {
@@ -778,13 +824,36 @@ function pressbooks_theme_ebook_paragraph_separation_callback( $args ) {
 	echo $html;
 }
 
+// PDF Options Field Callback
+function pressbooks_theme_ebook_compress_images_callback( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_ebook' );
+
+	if ( ! isset( $options['ebook_compress_images'] ) ) {
+		$options['ebook_compress_images'] = 0;
+	}
+
+	$html = '<input type="checkbox" id="ebook_compress_images" name="pressbooks_theme_options_ebook[ebook_compress_images]" value="1" ' . checked( 1, $options['ebook_compress_images'], false ) . '/>';
+	$html .= '<label for="ebook_compress_images"> ' . $args[0] . '</label>';
+	echo $html;
+}
+
 
 // Ebook Options Input Sanitization
 function pressbooks_theme_options_ebook_sanitize( $input ) {
 
 	$options = get_option( 'pressbooks_theme_options_ebook' );
 
-	$options['ebook_paragraph_separation'] = absint( $input['ebook_paragraph_separation'] );
+	// Absint
+	foreach ( array( 'ebook_paragraph_separation' ) as $val ) {
+		$options[$val] = absint( $input[$val] );
+	}
+
+	// Checkmarks
+	foreach ( array( 'ebook_compress_images' ) as $val ) {
+		if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
+		else $options[$val] = 1;
+	}
 
 	return $options;
 }
@@ -821,7 +890,9 @@ function pressbooks_theme_pdf_css_override( $css ) {
 	6 = 4.25 x 7"
 	7 = 21 x 29.7cm
 	8 = 14.8 x 21cm
+	9 = 5in x 8in
 	*/
+	
 	switch ( @$options['pdf_page_size'] ) {
 		case 1:
 			$css .= "@page { size: 5.5in 8.5in; } \n";
@@ -846,6 +917,9 @@ function pressbooks_theme_pdf_css_override( $css ) {
 			break;
 		case 8:
 			$css .= "@page { size: 14.8cm 21cm; } \n";
+			break;
+		case 9:
+			$css .= "@page { size: 5in 8in; } \n";
 			break;
 	}
 
@@ -872,7 +946,7 @@ function pressbooks_theme_pdf_css_override( $css ) {
 
 	// Include blank pages? 1 = Yes (default), 2 = No
 	if ( 2 == @$options['pdf_blankpages'] ) {
-		$css .= "#title-page, #copyright-page, #toc, div.part, div.front-matter, div.back-matter, div.chapter { page-break-before: auto; } \n";
+		$css .= "#title-page, #copyright-page, #toc, div.part, div.front-matter, div.back-matter, div.chapter, #half-title-page h1.title:first-of-type  { page-break-before: auto; } \n";
 	}
 
 	// Display TOC? true (default) / false
@@ -961,6 +1035,16 @@ function pressbooks_theme_ebook_hacks( $hacks ) {
 
 	// Display chapter numbers?
 	$hacks['chapter_numbers'] = $options['chapter_numbers'];
+
+	// --------------------------------------------------------------------
+	// Ebook Options
+
+	$options = get_option( 'pressbooks_theme_options_ebook' );
+
+	// Indent paragraphs? 1 = Indent (default), 2 = Skip Lines
+	if ( @$options['ebook_compress_images'] ) {
+		$hacks['ebook_compress_images'] = true;
+	}
 
 	// --------------------------------------------------------------------
 	// Luther features we inject ourselves, (not user options, this theme not child)
