@@ -18,13 +18,16 @@ require( PB_PLUGIN_DIR . 'includes/pb-postype.php' );
 require( PB_PLUGIN_DIR . 'includes/pb-redirect.php' );
 require( PB_PLUGIN_DIR . 'includes/pb-sanitize.php' );
 require( PB_PLUGIN_DIR . 'includes/pb-taxonomy.php' );
+require( PB_PLUGIN_DIR . 'includes/pb-media.php' );
+require( PB_PLUGIN_DIR . 'symbionts/pb-latex/pb-latex.php' );
 
 // -------------------------------------------------------------------------------------------------------------------
 // Custom Metadata plugin
 // -------------------------------------------------------------------------------------------------------------------
 
-add_filter( 'custom_metadata_manager_default_editor_args', '\PressBooks\Editor::metadataManagerDefaultEditorArgs' );
 require( PB_PLUGIN_DIR . 'symbionts/custom-metadata/custom_metadata.php' );
+add_filter( 'custom_metadata_manager_wysiwyg_args_field_pb_custom_copyright', '\PressBooks\Editor::metadataManagerDefaultEditorArgs' );
+add_filter( 'custom_metadata_manager_wysiwyg_args_field_pb_about_unlimited', '\PressBooks\Editor::metadataManagerDefaultEditorArgs' );
 
 // -------------------------------------------------------------------------------------------------------------------
 // Languages
@@ -48,6 +51,12 @@ add_filter( 'intermediate_image_sizes', '\PressBooks\Image\intermediate_image_si
 add_filter( 'intermediate_image_sizes_advanced', '\PressBooks\Image\intermediate_image_sizes_advanced' );
 add_action( 'delete_attachment', '\PressBooks\Image\delete_attachment' );
 add_filter( 'wp_update_attachment_metadata', '\PressBooks\Image\save_attachment', 10, 2 );
+
+// -------------------------------------------------------------------------------------------------------------------
+// Audio/Video
+// -------------------------------------------------------------------------------------------------------------------
+
+add_filter('upload_mimes', '\PressBooks\Media\addMimeTypes');
 
 // -------------------------------------------------------------------------------------------------------------------
 // Custom Post Types and Taxonomies
@@ -79,6 +88,11 @@ add_action( 'wpmu_new_blog', function ( $b, $u ) {
 	$activate->wpmuNewBlog( $b, $u );
 }, 9, 2 );
 
+// Force PB colors
+add_action( 'wp_login', '\PressBooks\Activation::forcePbColors', 10, 2 );
+add_action( 'profile_update', '\PressBooks\Activation::forcePbColors' );
+add_action( 'user_register', '\PressBooks\Activation::forcePbColors' );
+
 // -------------------------------------------------------------------------------------------------------------------
 // Redirects
 // -------------------------------------------------------------------------------------------------------------------
@@ -98,8 +112,9 @@ add_action( 'do_robotstxt', '\PressBooks\Utility\add_sitemap_to_robots_txt' );
 // Shortcodes
 // -------------------------------------------------------------------------------------------------------------------
 
-$_ = new \PressBooks\Shortcodes\Footnotes\Footnotes();
-$_ = new \PressBooks\Shortcodes\WikiPublisher\Glyphs();
+$_ = \PressBooks\Shortcodes\Footnotes\Footnotes::getInstance();
+$_ = \PressBooks\Shortcodes\Generics\Generics::getInstance();
+$_ = \PressBooks\Shortcodes\WikiPublisher\Glyphs::getInstance();
 
 // -------------------------------------------------------------------------------------------------------------------
 // Upgrade Book Metadata

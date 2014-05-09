@@ -58,7 +58,8 @@ function register_post_types() {
 		'capability_type' => 'post',
 		'has_archive' => true,
 		'hierarchical' => false, // do not set to true unless you want to break permalinks. Do you really want to do that? >:(
-		'supports' => array( 'title', 'editor', 'author', 'comments', 'page-attributes', 'revisions' )
+		'supports' => array( 'title', 'editor', 'author', 'comments', 'page-attributes', 'revisions' ),
+		'taxonomies' => array( 'chapter-type' )
 	);
 	register_post_type( 'chapter', $args );
 
@@ -92,7 +93,7 @@ function register_post_types() {
 		'capability_type' => 'post',
 		'has_archive' => true,
 		'hierarchical' => true,
-		'supports' => array( 'title' )
+		'supports' => array( 'title', 'page-attributes' )
 	);
 	register_post_type( 'part', $args );
 

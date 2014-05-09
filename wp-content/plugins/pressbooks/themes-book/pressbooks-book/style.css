@@ -5,7 +5,7 @@ Description: Named after Martin Luther, this is a traditional book theme, good f
 Author: PressBooks (Book Oven Inc.)
 Author URI: http://pressbooks.com
 Copyright 2011-2013 Book Oven Inc. (PressBooks.com) code@pressbooks.com
-Version: 1.1
+Version: 1.3
 
 */
 
@@ -75,7 +75,7 @@ body {
 body {
   background: url("images/bg.png") repeat 0 0 #f9f9f9;
   color: #1F1F1D;
-  font: 1.1em/1.4em "Cardo","Times New Roman", serif;
+  font: 1em/1.4em "Droid Serif", "Georgia", "Times New Roman", serif;
   margin: 0;
   text-align: left;
 }
@@ -637,10 +637,14 @@ a.close {
   text-align: left;
 }
 #toc h4 {
-  font-size: 0.8em;
+  font: 0.8em "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
   font-style: normal;
   font-weight: bold;
   margin: 5px 0 2px;
+}
+#toc h4 a {
+  font: inherit;
+  font-weight: inherit;
 }
 #toc ul ul {
   border-bottom: 1px dotted #999;
@@ -964,6 +968,7 @@ aside {
 }
 ol { 
     list-style-type: none;
+    list-style-position: outside;
      counter-reset: level1;
 }
 ol li::before {
@@ -971,18 +976,22 @@ ol li::before {
 	counter-increment: level1;
 }
 ol ol {
+  list-style-position: outside;
 	list-style-type: none;
     counter-reset: level2;
 }   
 ol li li::before {
+  list-style-position: outside;
 	content: counter(level1) "." counter(level2) " ";
 	counter-increment: level2;
 }
 ol ol ol {
+  list-style-position: outside;
 	list-style-type: none;
-    counter-reset: level3;
+  counter-reset: level3;
 }
 ol li li li::before {
+  list-style-position: outside;
 	content: counter(level1) ". " counter(level2) ". " counter(level3) " ";
 	counter-increment: level3;
 }
@@ -1104,6 +1113,13 @@ ol li li li::before {
 .instapaper {
   float: right;
 }
+
+/* BLANK PAGE DIV USED FOR GENERATING A BLANK PAGE IN PDF SHOULD BE IGNORED */
+
+.blank-page {
+  display: none;
+}
+
 
 /* FOOTNOTES 
 ============== */

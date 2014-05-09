@@ -313,6 +313,9 @@ class Hpub extends Export {
 		// Cover
 		$this->createCover( $book_contents, $metadata );
 
+		// Before Title Page
+		$this->createBeforeTitle( $book_contents, $metadata );
+
 		// Title
 		$this->createTitle( $book_contents, $metadata );
 
@@ -352,7 +355,7 @@ class Hpub extends Export {
 			$path_to_tmp_stylesheet,
 			$this->loadTemplate( $path_to_original_stylesheet ) );
 
-		$this->scrapeAndKneadCss( $path_to_original_stylesheet, $path_to_tmp_stylesheet );
+		$this->scrapeKneadAndSaveCss( $path_to_original_stylesheet, $path_to_tmp_stylesheet );
 
 		$this->stylesheet = $stylesheet;
 	}
@@ -364,22 +367,19 @@ class Hpub extends Export {
 	 * @param string $path_to_original_stylesheet*
 	 * @param string $path_to_copy_of_stylesheet
 	 */
-	protected function scrapeAndKneadCss( $path_to_original_stylesheet, $path_to_copy_of_stylesheet ) {
+	protected function scrapeKneadAndSaveCss( $path_to_original_stylesheet, $path_to_copy_of_stylesheet ) {
 
 		$css_dir = pathinfo( $path_to_original_stylesheet, PATHINFO_DIRNAME );
+		$fullpath_to_hpub_images = $this->tmpDir . '/images';
+
 		$css = file_get_contents( $path_to_copy_of_stylesheet );
-		$fullpath = $this->tmpDir . '/images';
+		$css = static::injectHouseStyles( $css );
 
 		// Search for url("*"), url('*'), and url(*)
-		preg_match_all( '/url\(([\s])?([\"|\'])?(.*?)([\"|\'])?([\s])?\)/i', $css, $matches, PREG_PATTERN_ORDER );
+		$url_regex = '/url\(([\s])?([\"|\'])?(.*?)([\"|\'])?([\s])?\)/i';
+		$css = preg_replace_callback( $url_regex, function ( $matches ) use ( $css_dir, $fullpath_to_hpub_images ) {
 
-		// Remove duplicates, sort by biggest to smallest to prevent substring replacements
-		$matches = array_unique( $matches[3] );
-		usort( $matches, function ( $a, $b ) {
-			return strlen( $b ) - strlen( $a );
-		} );
-
-		foreach ( $matches as $url ) {
+			$url = $matches[3];
 			$filename = sanitize_file_name( basename( $url ) );
 
 			if ( preg_match( '#^\.\./images/#', $url ) && substr_count( $url, '/' ) == 2 ) {
@@ -389,23 +389,24 @@ class Hpub extends Export {
 
 				$my_image = realpath( "$css_dir/$url" );
 				if ( $my_image ) {
-					copy( $my_image, "$fullpath/$filename" );
+					copy( $my_image, "$fullpath_to_hpub_images/$filename" );
 				}
 
 			} elseif ( preg_match( '#^https?://#i', $url ) && preg_match( '/(\.jpe?g|\.gif|\.png)$/i', $url ) ) {
 
 				// Look for images via http(s), pull them in locally
 
-				if ( $new_filename = $this->fetchAndSaveUniqueImage( $url, $fullpath ) ) {
-					$css = str_replace( $url, "../images/$new_filename", $css );
+				if ( $new_filename = $this->fetchAndSaveUniqueImage( $url, $fullpath_to_hpub_images ) ) {
+					return "url(../images/$new_filename)";
 				}
 			}
 
-		}
+			return $matches[0]; // No change
+
+		}, $css );
 
 		// Overwrite the new file with new info
 		file_put_contents( $path_to_copy_of_stylesheet, $css );
-
 	}
 
 
@@ -464,6 +465,69 @@ class Hpub extends Export {
 			'filename' => $filename,
 		);
 
+	}
+
+
+	/**
+	 * @param array $book_contents
+	 * @param array $metadata
+	 */
+	protected function createBeforeTitle( $book_contents, $metadata ) {
+
+		$front_matter_printf = '<div class="front-matter %s" id="%s">';
+		$front_matter_printf .= '<div class="front-matter-title-wrap"><h3 class="front-matter-number">%s</h3><h1 class="front-matter-title">%s</h1></div>';
+		$front_matter_printf .= '<div class="ugc front-matter-ugc">%s</div>%s';
+		$front_matter_printf .= '</div>';
+
+		$vars = array(
+			'post_title' => '',
+			'stylesheet' => $this->stylesheet,
+			'post_content' => '',
+		);
+
+		$i = $this->frontMatterPos;
+		foreach ( array( 'before-title' ) as $compare ) {
+			foreach ( $book_contents['front-matter'] as $front_matter ) {
+
+				if ( ! $front_matter['export'] )
+					continue; // Skip
+
+				$id = $front_matter['ID'];
+				$subclass = \PressBooks\Taxonomy\front_matter_type( $id );
+
+				if ( $compare != $subclass )
+					continue; //Skip
+
+				$slug = $front_matter['post_name'];
+				$title = ( get_post_meta( $id, 'pb_show_title', true ) ? $front_matter['post_title'] : '' );
+				$content = $this->kneadHtml( $front_matter['post_content'], 'front-matter', $i );
+
+				$vars['post_title'] = $front_matter['post_title'];
+				$vars['post_content'] = sprintf( $front_matter_printf,
+					$subclass,
+					$slug,
+					$i,
+					Sanitize\decode( $title ),
+					$content,
+					'' );
+
+				$file_id = 'front-matter-' . sprintf( "%03s", $i );
+				$filename = "{$file_id}-{$slug}.html";
+
+				file_put_contents(
+					$this->tmpDir . "/$filename",
+					$this->loadTemplate( __DIR__ . '/templates/html.php', $vars ) );
+
+				$this->manifest[$file_id] = array(
+					'ID' => $front_matter['ID'],
+					'post_title' => $front_matter['post_title'],
+					'filename' => $filename,
+				);
+
+				++$i;
+			}
+		}
+		$this->frontMatterPos = $i;
 	}
 
 
@@ -600,7 +664,7 @@ class Hpub extends Export {
 			'post_content' => '',
 		);
 
-		$i = 1;
+		$i = $this->frontMatterPos;
 		$last_pos = false;
 		foreach ( array( 'dedication', 'epigraph' ) as $compare ) {
 			foreach ( $book_contents['front-matter'] as $front_matter ) {
@@ -675,7 +739,7 @@ class Hpub extends Export {
 			$id = $front_matter['ID'];
 			$subclass = \PressBooks\Taxonomy\front_matter_type( $id );
 
-			if ( 'dedication' == $subclass || 'epigraph' == $subclass || 'title-page' == $subclass )
+			if ( 'dedication' == $subclass || 'epigraph' == $subclass || 'title-page' == $subclass || 'before-title' == $subclass )
 				continue; // Skip
 
 			if ( 'introduction' == $subclass )
@@ -736,11 +800,11 @@ class Hpub extends Export {
 	 */
 	protected function createPartsAndChapters( $book_contents, $metadata ) {
 
-		$part_printf = '<div class="part" id="%s">';
+		$part_printf = '<div class="part %s" id="%s">';
 		$part_printf .= '<div class="part-title-wrap"><h3 class="part-number">%s</h3><h1 class="part-title">%s</h1></div>';
 		$part_printf .= '</div>';
 
-		$chapter_printf = '<div class="chapter" id="%s">';
+		$chapter_printf = '<div class="chapter %s" id="%s">';
 		$chapter_printf .= '<div class="chapter-title-wrap"><h3 class="chapter-number">%s</h3><h2 class="chapter-title">%s</h2></div>';
 		$chapter_printf .= '<div class="ugc chapter-ugc">%s</div>%s';
 		$chapter_printf .= '</div>';
@@ -752,8 +816,10 @@ class Hpub extends Export {
 		);
 
 		// Parts, Chapters
-		$i = $j = 1;
+		$i = $j = $c = $p = 1;
 		foreach ( $book_contents['part'] as $part ) {
+
+			$invisibility = ( get_post_meta( $part['ID'], 'pb_part_invisible', true ) == 'on' ) ? 'invisible' : '';
 
 			$part_printf_changed = '';
 			$array_pos = count( $this->manifest );
@@ -761,8 +827,15 @@ class Hpub extends Export {
 
 			// Inject introduction class?
 			if ( ! $this->hasIntroduction && count( $book_contents['part'] ) > 1 ) {
-				$part_printf_changed = str_replace( '<div class="part" id=', '<div class="part introduction" id=', $part_printf );
+				$part_printf_changed = str_replace( '<div class="part %s" id=', '<div class="part introduction %s" id=', $part_printf );
 				$this->hasIntroduction = true;
+			}
+
+			// Inject part content?
+			$part_content = trim( get_post_meta( $part['ID'], 'pb_part_content', true ) );
+			if ( $part_content ) {
+				$part_content = $this->kneadHtml( $this->preProcessPostContent( $part_content ), 'custom' );
+				$part_printf_changed = str_replace( '</h1></div></div>', "</h1></div><div class=\"ugc part-ugc\">{$part_content}</div></div>", $part_printf );
 			}
 
 			foreach ( $part['chapters'] as $chapter ) {
@@ -772,6 +845,7 @@ class Hpub extends Export {
 
 				$chapter_printf_changed = '';
 				$id = $chapter['ID'];
+				$subclass = \PressBooks\Taxonomy\chapter_type( $id );
 				$slug = $chapter['post_name'];
 				$title = ( get_post_meta( $id, 'pb_show_title', true ) ? $chapter['post_title'] : '' );
 				$content = $this->kneadHtml( $chapter['post_content'], 'chapter', $j );
@@ -795,15 +869,17 @@ class Hpub extends Export {
 
 				// Inject introduction class?
 				if ( ! $this->hasIntroduction ) {
-					$chapter_printf_changed = str_replace( '<div class="chapter" id=', '<div class="chapter introduction" id=', $chapter_printf );
+					$chapter_printf_changed = str_replace( '<div class="chapter %s" id=', '<div class="chapter introduction %s" id=', $chapter_printf );
 					$this->hasIntroduction = true;
 				}
 
+				$n = ( $subclass == 'numberless' ) ? '' : $c;
 				$vars['post_title'] = $chapter['post_title'];
 				$vars['post_content'] = sprintf(
 					( $chapter_printf_changed ? $chapter_printf_changed : $chapter_printf ),
+					$subclass,
 					$slug,
-					$j,
+					$n,
 					Sanitize\decode( $title ),
 					$content,
 					'' );
@@ -823,18 +899,23 @@ class Hpub extends Export {
 
 				$has_chapters = true;
 
-				++$j;
+				$j++;
+
+				if ( $subclass !== 'numberless' ) ++$c;
 			}
 
 			if ( $has_chapters && count( $book_contents['part'] ) > 1 ) {
 
 				$slug = $part['post_name'];
 
+				$m = ( $invisibility == 'invisible' ) ? '' : $p;
+
 				$vars['post_title'] = $part['post_title'];
 				$vars['post_content'] = sprintf(
 					( $part_printf_changed ? $part_printf_changed : $part_printf ),
+					$invisibility,
 					$slug,
-					$i,
+					$m,
 					Sanitize\decode( $part['post_title'] ) );
 
 				$file_id = 'part-' . sprintf( "%03s", $i );
@@ -853,6 +934,8 @@ class Hpub extends Export {
 					) ) + array_slice( $this->manifest, $array_pos, count( $this->manifest ) - 1, true );
 
 				++$i;
+				
+				if ( $invisibility !== 'invisible' ) ++$p;
 			}
 
 			// Did we actually inject the introduction class?
@@ -892,6 +975,22 @@ class Hpub extends Export {
 			$slug = $back_matter['post_name'];
 			$title = ( get_post_meta( $id, 'pb_show_title', true ) ? $back_matter['post_title'] : '' );
 			$content = $this->kneadHtml( $back_matter['post_content'], 'back-matter', $i );
+
+			$short_title = trim( get_post_meta( $id, 'pb_short_title', true ) );
+			$subtitle = trim( get_post_meta( $id, 'pb_subtitle', true ) );
+			$author = trim( get_post_meta( $id, 'pb_section_author', true ) );
+
+			if ( $author ) {
+				$content = '<h2 class="chapter-author">' . Sanitize\decode( $author ) . '</h2>' . $content;
+			}
+
+			if ( $subtitle ) {
+				$content = '<h2 class="chapter-subtitle">' . Sanitize\decode( $subtitle ) . '</h2>' . $content;
+			}
+
+			if ( $short_title ) {
+				$content = '<h6 class="short-title">' . Sanitize\decode( $short_title ) . '</h6>' . $content;
+			}
 
 			$vars['post_title'] = $back_matter['post_title'];
 			$vars['post_content'] = sprintf( $back_matter_printf,
@@ -960,6 +1059,7 @@ class Hpub extends Export {
 
 			$subtitle = '';
 			$author = '';
+			$title = Sanitize\strip_br( $v['post_title'] );
 			if ( preg_match( '/^front-matter-/', $k ) ) {
 				$class = 'front-matter ';
 				$class .= \PressBooks\Taxonomy\front_matter_type( $v['ID'] );
@@ -967,19 +1067,27 @@ class Hpub extends Export {
 				$author = trim( get_post_meta( $v['ID'], 'pb_section_author', true ) );
 			} elseif ( preg_match( '/^part-/', $k ) ) {
 				$class = 'part';
+				if ( get_post_meta( $v['ID'], 'pb_part_invisible', true ) == 'on' )
+					$class .= ' display-none';
 			} elseif ( preg_match( '/^chapter-/', $k ) ) {
 				$class = 'chapter';
+				$class .= \PressBooks\Taxonomy\chapter_type( $v['ID'] );
 				$subtitle = trim( get_post_meta( $v['ID'], 'pb_subtitle', true ) );
 				$author = trim( get_post_meta( $v['ID'], 'pb_section_author', true ) );
-				++$i;
+				if ( $this->numbered && \PressBooks\Taxonomy\chapter_type( $v['ID'] ) !== 'numberless' ) {
+					$title = " $i. " . $title;
+				}
+				if ( \PressBooks\Taxonomy\chapter_type( $v['ID'] ) !== 'numberless' ) ++$i;
 			} elseif ( preg_match( '/^back-matter-/', $k ) ) {
 				$class = 'back-matter ';
 				$class .= \PressBooks\Taxonomy\back_matter_type( $v['ID'] );
+				$subtitle = trim( get_post_meta( $v['ID'], 'pb_subtitle', true ) );
+				$author = trim( get_post_meta( $v['ID'], 'pb_section_author', true ) );
 			} else {
 				continue;
 			}
 
-			$html .= sprintf( '<li class="%s"><a href="%s"><span class="toc-chapter-title">%s</span>', $class, $v['filename'], Sanitize\decode( $v['post_title'] ) );
+			$html .= sprintf( '<li class="%s"><a href="%s"><span class="toc-chapter-title">%s</span>', $class, $v['filename'], Sanitize\decode( $title ) );
 
 			if ( $subtitle )
 				$html .= ' <span class="chapter-subtitle">' . Sanitize\decode( $subtitle ) . '</span>';
@@ -1119,11 +1227,18 @@ class Hpub extends Export {
 	 */
 	protected function fetchAndSaveUniqueImage( $url, $fullpath ) {
 
+		// Cheap cache
+		static $already_done = array();
+		if ( isset( $already_done[$url] ) ) {
+			return $already_done[$url];
+		}
+
 		$response = wp_remote_get( $url, array( 'timeout' => $this->timeout ) );
 
 		// WordPress error?
 		if ( is_wp_error( $response ) ) {
 			// TODO: handle $response->get_error_message();
+			$already_done[$url] = '';
 			return '';
 		}
 
@@ -1134,23 +1249,23 @@ class Hpub extends Export {
 		$filename = sanitize_file_name( urldecode( $filename ) );
 		$filename = Sanitize\force_ascii( $filename );
 
-		$file_contents = wp_remote_retrieve_body( $response );
+		$tmp_file = \PressBooks\Utility\create_tmp_file();
+		file_put_contents( $tmp_file, wp_remote_retrieve_body( $response ) );
 
-		// Check if file is actually an image
-		$im = @imagecreatefromstring( $file_contents );
-		if ( $im === false ) {
+		if ( ! \PressBooks\Image\is_valid_image( $tmp_file, $filename ) ) {
+			$already_done[$url] = '';
 			return ''; // Not an image
 		}
-		unset( $im );
 
 		// Check for duplicates, save accordingly
 		if ( ! file_exists( "$fullpath/$filename" ) ) {
-			file_put_contents( "$fullpath/$filename", $file_contents );
-		} elseif ( md5( $file_contents ) != md5( file_get_contents( "$fullpath/$filename" ) ) ) {
+			copy( $tmp_file, "$fullpath/$filename" );
+		} elseif ( md5( file_get_contents( $tmp_file ) ) != md5( file_get_contents( "$fullpath/$filename" ) ) ) {
 			$filename = wp_unique_filename( $fullpath, $filename );
-			file_put_contents( "$fullpath/$filename", $file_contents );
+			copy( $tmp_file, "$fullpath/$filename" );
 		}
 
+		$already_done[$url] = $filename;
 		return $filename;
 	}
 

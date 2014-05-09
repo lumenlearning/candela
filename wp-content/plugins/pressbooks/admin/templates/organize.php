@@ -12,12 +12,6 @@ $book_structure = \PressBooks\Book::getBookStructure();
 $book_is_public = ( 1 == get_option( 'blog_public' ) );
 ?>
 
-<style type="text/css">
-    .widefat thead tr th { color: #676767; }
-    tbody { margin-top: 10px; }
-</style>
-
-
 <div class="wrap">
 
 <?php if ( current_user_can( 'manage_options' ) ) : ?>
@@ -47,16 +41,16 @@ $book_is_public = ( 1 == get_option( 'blog_public' ) );
 <h2>
 	<?php bloginfo( 'name' ); ?>
 	<?php if ( is_super_admin() ): ?>
-    <a class="button add-new-h2" href="<?php echo $adminUrl; ?>edit.php?post_type=front-matter"><?php _e( 'Front Matter', 'pressbooks' ); ?></a>
-    <a class="button add-new-h2" href="<?php echo $adminUrl; ?>edit.php?post_type=chapter"><?php _e( 'Chapters', 'pressbooks' ); ?></a>
-    <a class="button add-new-h2" href="<?php echo $adminUrl; ?>edit.php?post_type=back-matter"><?php _e( 'Back Matter', 'pressbooks' ); ?></a>
-    <a class="button add-new-h2" href="<?php echo $adminUrl; ?>edit.php?post_type=part"><?php _e( 'Part', 'pressbooks' ); ?></a>
+    <a class="add-new-h2" href="<?php echo $adminUrl; ?>edit.php?post_type=front-matter"><?php _e( 'Front Matter', 'pressbooks' ); ?></a>
+    <a class="add-new-h2" href="<?php echo $adminUrl; ?>edit.php?post_type=chapter"><?php _e( 'Chapters', 'pressbooks' ); ?></a>
+    <a class="add-new-h2" href="<?php echo $adminUrl; ?>edit.php?post_type=back-matter"><?php _e( 'Back Matter', 'pressbooks' ); ?></a>
+    <a class="add-new-h2" href="<?php echo $adminUrl; ?>edit.php?post_type=part"><?php _e( 'Part', 'pressbooks' ); ?></a>
 	<?php else: ?>
-    <a class="button add-new-h2" href="<?php echo $adminUrl; ?>admin.php?page=pb_export"><?php _e( 'Export', 'pressbooks' ); ?></a>
-    <a class="button add-new-h2" href="<?php echo $adminUrl; ?>post-new.php?post_type=front-matter"><?php _e( 'Add Front Matter', 'pressbooks' ); ?></a>
-    <a class="button add-new-h2" href="<?php echo $adminUrl; ?>post-new.php?post_type=back-matter"><?php _e( 'Add Back Matter', 'pressbooks' ); ?></a>
-    <a class="button add-new-h2" href="<?php echo $adminUrl; ?>post-new.php?post_type=chapter"><?php _e( 'Add Chapter', 'pressbooks' ); ?></a>
-    <a class="button add-new-h2" href="<?php echo $adminUrl; ?>post-new.php?post_type=part"><?php _e( 'Add Part', 'pressbooks' ); ?></a>
+    <a class="add-new-h2" href="<?php echo $adminUrl; ?>admin.php?page=pb_export"><?php _e( 'Export', 'pressbooks' ); ?></a>
+    <a class="add-new-h2" href="<?php echo $adminUrl; ?>post-new.php?post_type=front-matter"><?php _e( 'Add Front Matter', 'pressbooks' ); ?></a>
+    <a class="add-new-h2" href="<?php echo $adminUrl; ?>post-new.php?post_type=back-matter"><?php _e( 'Add Back Matter', 'pressbooks' ); ?></a>
+    <a class="add-new-h2" href="<?php echo $adminUrl; ?>post-new.php?post_type=chapter"><?php _e( 'Add Chapter', 'pressbooks' ); ?></a>
+    <a class="add-new-h2" href="<?php echo $adminUrl; ?>post-new.php?post_type=part"><?php _e( 'Add Part', 'pressbooks' ); ?></a>
 	<?php endif; ?>
 </h2>
 <div class="clear"></div>
@@ -78,8 +72,11 @@ $book_is_public = ( 1 == get_option( 'blog_public' ) );
 	<?php foreach ( $book_structure['front-matter'] as $fm ): ?>
     <tr id="front-matter-<?php echo $fm['ID']; ?>">
         <td class="post-title page-title column-title">
-            <strong><a href="<?php echo 'post.php?post=' . $fm['ID'] . '&action=edit'; ?>">
-				<?php echo $fm['post_title']; ?></a>
+            <strong><a href="<?php echo 'post.php?post=' . $fm['ID'] . '&action=edit'; ?>"><?php
+				echo $fm['post_title'];
+				if ( get_post_meta( $fm['ID'], 'pb_ebook_start', true ) )
+					echo '<span title="' . __( 'Ebook start point', 'pressbooks' ) . '" style="color:#007F80;"> &#9733;</span> ';
+			?></a>
             </strong>
         </td>
         <td class="author column-author">
@@ -174,7 +171,11 @@ $book_is_public = ( 1 == get_option( 'blog_public' ) );
     <tr id="chapter-<?php echo $chapter['ID']; ?>">
         <td class="post-title page-title column-title">
             <strong>
-                <a href="<?php echo 'post.php?post=' . $chapter['ID'] . '&action=edit'; ?>"><?php echo $chapter['post_title']; ?></a>
+                <a href="<?php echo 'post.php?post=' . $chapter['ID'] . '&action=edit'; ?>"><?php
+					echo $chapter['post_title'];
+					if ( get_post_meta( $chapter['ID'], 'pb_ebook_start', true ) )
+						echo '<span title="' . __( 'Ebook start point', 'pressbooks' ) . '" style="color:#007F80;"> &#9733;</span> ';
+				?></a>
             </strong>
         </td>
         <!-- Include dragger image here - ../assets/imgages/dragger.png -->
@@ -252,8 +253,11 @@ $book_is_public = ( 1 == get_option( 'blog_public' ) );
 	<?php foreach ( $book_structure['back-matter'] as $bm ): ?>
     <tr id="back-matter-<?php echo $bm['ID']; ?>">
         <td class="post-title page-title column-title">
-            <strong><a href="<?php echo 'post.php?post=' . $bm['ID'] . '&action=edit'; ?>">
-				<?php echo $bm['post_title']; ?></a>
+            <strong><a href="<?php echo 'post.php?post=' . $bm['ID'] . '&action=edit'; ?>"><?php
+				echo $bm['post_title'];
+				if ( get_post_meta( $bm['ID'], 'pb_ebook_start', true ) )
+					echo '<span title="' . __( 'Ebook start point', 'pressbooks' ) . '" style="color:#007F80;"> &#9733;</span> ';
+			?></a>
             </strong>
         </td>
         <td class="author column-author">

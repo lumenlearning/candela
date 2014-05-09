@@ -118,6 +118,29 @@ class Epub201 extends Export {
 
 
 	/**
+	 * @var bool
+	 */
+	protected $compressImages = false;
+
+	
+	/**
+	 * @var string
+	 */
+	protected $filext = 'html';
+	
+	
+	/**
+	 * $var string
+	 */
+	protected $dir = __DIR__;
+	
+	/**
+	 * $var string
+	 */
+	protected $suffix = '.epub';
+	
+	
+	/**
 	 * @param array $args
 	 */
 	function __construct( array $args ) {
@@ -187,7 +210,7 @@ class Epub201 extends Export {
 			return false;
 		}
 
-		$filename = $this->timestampedFileName( '.epub' );
+		$filename = $this->timestampedFileName( $this->suffix );
 		if ( ! $this->zipEpub( $filename ) ) {
 			return false;
 		}
@@ -292,6 +315,10 @@ class Epub201 extends Export {
 			$this->romanizePartNumbers = true;
 		}
 
+		if ( @$hacks['ebook_compress_images'] ) {
+			$this->compressImages = true;
+		}
+
 	}
 
 
@@ -382,6 +409,7 @@ class Epub201 extends Export {
 			'no_deprecated_attr' => 2,
 			'unique_ids' => 'fixme-',
 			'hook' => '\PressBooks\Sanitize\html5_to_xhtml11',
+			'tidy' => -1,
 		);
 
 		// Reset on each htmLawed invocation
@@ -452,11 +480,16 @@ class Epub201 extends Export {
 
 		mkdir( $this->tmpDir . '/META-INF' );
 		mkdir( $this->tmpDir . '/OEBPS' );
-		mkdir( $this->tmpDir . '/OEBPS/images' );
+		mkdir( $this->tmpDir . '/OEBPS/assets' );
 
 		file_put_contents(
 			$this->tmpDir . '/META-INF/container.xml',
-			$this->loadTemplate( __DIR__ . '/templates/container.php' ) );
+			$this->loadTemplate( $this->dir . '/templates/container.php' ) );
+
+		file_put_contents(
+			$this->tmpDir . '/META-INF/com.apple.ibooks.display-options.xml',
+			$this->loadTemplate( $this->dir. '/templates/ibooks.php' ) );
+
 	}
 
 
@@ -478,6 +511,9 @@ class Epub201 extends Export {
 
 		// Cover
 		$this->createCover( $book_contents, $metadata );
+
+		// Before Title Page
+		$this->createBeforeTitle( $book_contents, $metadata );
 
 		// Title
 		$this->createTitle( $book_contents, $metadata );
@@ -539,19 +575,16 @@ class Epub201 extends Export {
 	protected function scrapeKneadAndSaveCss( $path_to_original_stylesheet, $path_to_copy_of_stylesheet ) {
 
 		$css_dir = pathinfo( $path_to_original_stylesheet, PATHINFO_DIRNAME );
+		$path_to_epub_assets = $this->tmpDir . '/OEBPS/assets';
+
 		$css = file_get_contents( $path_to_copy_of_stylesheet );
-		$fullpath = $this->tmpDir . '/OEBPS/images';
+		$css = static::injectHouseStyles( $css );
 
 		// Search for url("*"), url('*'), and url(*)
-		preg_match_all( '/url\(([\s])?([\"|\'])?(.*?)([\"|\'])?([\s])?\)/i', $css, $matches, PREG_PATTERN_ORDER );
+		$url_regex = '/url\(([\s])?([\"|\'])?(.*?)([\"|\'])?([\s])?\)/i';
+		$css = preg_replace_callback( $url_regex, function ( $matches ) use ( $css_dir, $path_to_epub_assets ) {
 
-		// Remove duplicates, sort by biggest to smallest to prevent substring replacements
-		$matches = array_unique( $matches[3] );
-		usort( $matches, function ( $a, $b ) {
-			return strlen( $b ) - strlen( $a );
-		} );
-
-		foreach ( $matches as $url ) {
+			$url = $matches[3];
 			$filename = sanitize_file_name( basename( $url ) );
 
 			if ( preg_match( '#^images/#', $url ) && substr_count( $url, '/' ) == 1 ) {
@@ -561,19 +594,41 @@ class Epub201 extends Export {
 
 				$my_image = realpath( "$css_dir/$url" );
 				if ( $my_image ) {
-					copy( $my_image, "$fullpath/$filename" );
+					copy( $my_image, "$path_to_epub_assets/$filename" );
+					return "url(assets/$filename)";
 				}
 
 			} elseif ( preg_match( '#^https?://#i', $url ) && preg_match( '/(\.jpe?g|\.gif|\.png)$/i', $url ) ) {
 
 				// Look for images via http(s), pull them in locally
 
-				if ( $new_filename = $this->fetchAndSaveUniqueImage( $url, $fullpath ) ) {
-					$css = str_replace( $url, "images/$new_filename", $css );
+				if ( $new_filename = $this->fetchAndSaveUniqueImage( $url, $path_to_epub_assets ) ) {
+					return "url(assets/$new_filename)";
 				}
+
+			} elseif ( preg_match( '#^\.\./\.\./fonts/[a-zA-Z0-9_-]+(\.ttf|\.otf)$#i', $url ) ) {
+
+				// Look for ../../fonts/*.ttf (or .otf), copy into our Epub
+
+				$my_font = realpath( "$css_dir/$url" );
+				if ( $my_font ) {
+					copy( $my_font, "$path_to_epub_assets/$filename" );
+					return "url(assets/$filename)";
+				}
+
+			} elseif ( preg_match( '#^https?://#i', $url ) && preg_match( '/(\.ttf|\.otf)$/i', $url ) ) {
+
+				// Look for fonts via http(s), pull them in locally
+
+				if ( $new_filename = $this->fetchAndSaveUniqueFont( $url, $path_to_epub_assets ) ) {
+					return "url(assets/$new_filename)";
+				}
+
 			}
 
-		}
+			return $matches[0]; // No change
+
+		}, $css );
 
 		// Overwrite the new file with new info
 		file_put_contents( $path_to_copy_of_stylesheet, $css );
@@ -595,7 +650,7 @@ class Epub201 extends Export {
 		}
 		$dest_image = sanitize_file_name( basename( $source_path ) );
 		$dest_image = Sanitize\force_ascii( $dest_image );
-		$dest_path = $this->tmpDir . "/OEBPS/images/" . $dest_image;
+		$dest_path = $this->tmpDir . "/OEBPS/assets/" . $dest_image;
 
 		$img = wp_get_image_editor( $source_path );
 		if ( ! is_wp_error( $img ) ) {
@@ -611,7 +666,7 @@ class Epub201 extends Export {
 
 		$html = '<div id="cover-image">';
 		if ( $this->coverImage ) {
-			$html .= sprintf( '<img src="images/%s" alt="%s" />', $this->coverImage, get_bloginfo( 'name' ) );
+			$html .= sprintf( '<img src="assets/%s" alt="%s" />', $this->coverImage, get_bloginfo( 'name' ) );
 		}
 		$html .= "</div>\n";
 
@@ -625,11 +680,11 @@ class Epub201 extends Export {
 		);
 
 		$file_id = 'front-cover';
-		$filename = "{$file_id}.html";
+		$filename = "{$file_id}.{$this->filext}";
 
 		file_put_contents(
 			$this->tmpDir . "/OEBPS/$filename",
-			$this->loadTemplate( __DIR__ . '/templates/xhtml.php', $vars ) );
+			$this->loadTemplate( $this->dir . '/templates/xhtml.php', $vars ) );
 
 		$this->manifest[$file_id] = array(
 			'ID' => -1,
@@ -637,6 +692,70 @@ class Epub201 extends Export {
 			'filename' => $filename,
 		);
 
+	}
+
+
+	/**
+	 * @param array $book_contents
+	 * @param array $metadata
+	 */
+	protected function createBeforeTitle( $book_contents, $metadata ) {
+
+		$front_matter_printf = '<div class="front-matter %s" id="%s">';
+		$front_matter_printf .= '<div class="front-matter-title-wrap"><h3 class="front-matter-number">%s</h3><h1 class="front-matter-title">%s</h1></div>';
+		$front_matter_printf .= '<div class="ugc front-matter-ugc">%s</div>%s';
+		$front_matter_printf .= '</div>';
+
+		$vars = array(
+			'post_title' => '',
+			'stylesheet' => $this->stylesheet,
+			'post_content' => '',
+			'isbn' => @$metadata['pb_ebook_isbn'],
+		);
+
+		$i = $this->frontMatterPos;
+		foreach ( array( 'before-title' ) as $compare ) {
+			foreach ( $book_contents['front-matter'] as $front_matter ) {
+
+				if ( ! $front_matter['export'] )
+					continue; // Skip
+
+				$id = $front_matter['ID'];
+				$subclass = \PressBooks\Taxonomy\front_matter_type( $id );
+
+				if ( $compare != $subclass )
+					continue; //Skip
+
+				$slug = $front_matter['post_name'];
+				$title = ( get_post_meta( $id, 'pb_show_title', true ) ? $front_matter['post_title'] : '' );
+				$content = $this->kneadHtml( $front_matter['post_content'], 'front-matter', $i );
+
+				$vars['post_title'] = $front_matter['post_title'];
+				$vars['post_content'] = sprintf( $front_matter_printf,
+					$subclass,
+					$slug,
+					$i,
+					Sanitize\decode( $title ),
+					$content,
+					'' );
+
+				$file_id = 'front-matter-' . sprintf( "%03s", $i );
+				$filename = "{$file_id}-{$slug}.{$this->filext}";
+
+				file_put_contents(
+					$this->tmpDir . "/OEBPS/$filename",
+					$this->loadTemplate( $this->dir . '/templates/xhtml.php', $vars ) );
+
+				$this->manifest[$file_id] = array(
+					'ID' => $front_matter['ID'],
+					'post_title' => $front_matter['post_title'],
+					'filename' => $filename,
+				);
+
+				++$i;
+			}
+		}
+		$this->frontMatterPos = $i;
 	}
 
 
@@ -689,11 +808,11 @@ class Epub201 extends Export {
 		);
 
 		$file_id = 'title-page';
-		$filename = "{$file_id}.html";
+		$filename = "{$file_id}.{$this->filext}";
 
 		file_put_contents(
 			$this->tmpDir . "/OEBPS/$filename",
-			$this->loadTemplate( __DIR__ . '/templates/xhtml.php', $vars ) );
+			$this->loadTemplate( $this->dir . '/templates/xhtml.php', $vars ) );
 
 		$this->manifest[$file_id] = array(
 			'ID' => -1,
@@ -743,11 +862,11 @@ class Epub201 extends Export {
 		);
 
 		$file_id = 'copyright';
-		$filename = "{$file_id}.html";
+		$filename = "{$file_id}.{$this->filext}";
 
 		file_put_contents(
 			$this->tmpDir . "/OEBPS/$filename",
-			$this->loadTemplate( __DIR__ . '/templates/xhtml.php', $vars ) );
+			$this->loadTemplate( $this->dir . '/templates/xhtml.php', $vars ) );
 
 		$this->manifest[$file_id] = array(
 			'ID' => - 1,
@@ -776,7 +895,7 @@ class Epub201 extends Export {
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
 
-		$i = 1;
+		$i = $this->frontMatterPos;
 		$last_pos = false;
 		foreach ( array( 'dedication', 'epigraph' ) as $compare ) {
 			foreach ( $book_contents['front-matter'] as $front_matter ) {
@@ -804,11 +923,11 @@ class Epub201 extends Export {
 					'' );
 
 				$file_id = 'front-matter-' . sprintf( "%03s", $i );
-				$filename = "{$file_id}-{$slug}.html";
+				$filename = "{$file_id}-{$slug}.{$this->filext}";
 
 				file_put_contents(
 					$this->tmpDir . "/OEBPS/$filename",
-					$this->loadTemplate( __DIR__ . '/templates/xhtml.php', $vars ) );
+					$this->loadTemplate( $this->dir . '/templates/xhtml.php', $vars ) );
 
 				$this->manifest[$file_id] = array(
 					'ID' => $front_matter['ID'],
@@ -852,7 +971,7 @@ class Epub201 extends Export {
 			$id = $front_matter['ID'];
 			$subclass = \PressBooks\Taxonomy\front_matter_type( $id );
 
-			if ( 'dedication' == $subclass || 'epigraph' == $subclass || 'title-page' == $subclass )
+			if ( 'dedication' == $subclass || 'epigraph' == $subclass || 'title-page' == $subclass || 'before-title' == $subclass )
 				continue; // Skip
 
 			if ( 'introduction' == $subclass )
@@ -888,11 +1007,11 @@ class Epub201 extends Export {
 				'' );
 
 			$file_id = 'front-matter-' . sprintf( "%03s", $i );
-			$filename = "{$file_id}-{$slug}.html";
+			$filename = "{$file_id}-{$slug}.{$this->filext}";
 
 			file_put_contents(
 				$this->tmpDir . "/OEBPS/$filename",
-				$this->loadTemplate( __DIR__ . '/templates/xhtml.php', $vars ) );
+				$this->loadTemplate( $this->dir . '/templates/xhtml.php', $vars ) );
 
 			$this->manifest[$file_id] = array(
 				'ID' => $front_matter['ID'],
@@ -917,7 +1036,7 @@ class Epub201 extends Export {
 		if ( $promo_html ) {
 
 			$file_id = 'pressbooks-promo';
-			$filename = "{$file_id}.html";
+			$filename = "{$file_id}.{$this->filext}";
 
 			$vars = array(
 				'post_title' =>  __( 'Make your own books using PressBooks.com', 'pressbooks' ),
@@ -928,7 +1047,7 @@ class Epub201 extends Export {
 
 			file_put_contents(
 				$this->tmpDir . "/OEBPS/$filename",
-				$this->loadTemplate( __DIR__ . '/templates/xhtml.php', $vars ) );
+				$this->loadTemplate( $this->dir . '/templates/xhtml.php', $vars ) );
 
 			$this->manifest[$file_id] = array(
 				'ID' => -1,
@@ -945,11 +1064,11 @@ class Epub201 extends Export {
 	 */
 	protected function createPartsAndChapters( $book_contents, $metadata ) {
 
-		$part_printf = '<div class="part" id="%s">';
+		$part_printf = '<div class="part %s" id="%s">';
 		$part_printf .= '<div class="part-title-wrap"><h3 class="part-number">%s</h3><h1 class="part-title">%s</h1></div>';
 		$part_printf .= '</div>';
 
-		$chapter_printf = '<div class="chapter" id="%s">';
+		$chapter_printf = '<div class="chapter %s" id="%s">';
 		$chapter_printf .= '<div class="chapter-title-wrap"><h3 class="chapter-number">%s</h3><h2 class="chapter-title">%s</h2></div>';
 		$chapter_printf .= '<div class="ugc chapter-ugc">%s</div>%s';
 		$chapter_printf .= '</div>';
@@ -962,8 +1081,10 @@ class Epub201 extends Export {
 		);
 
 		// Parts, Chapters
-		$i = $j = 1;
+		$i = $j = $c = $p = 1;
 		foreach ( $book_contents['part'] as $part ) {
+
+			$invisibility = ( get_post_meta( $part['ID'], 'pb_part_invisible', true ) == 'on' ) ? 'invisible' : '';
 
 			$part_printf_changed = '';
 			$array_pos = count( $this->manifest );
@@ -971,8 +1092,15 @@ class Epub201 extends Export {
 
 			// Inject introduction class?
 			if ( ! $this->hasIntroduction && count( $book_contents['part'] ) > 1 ) {
-				$part_printf_changed = str_replace( '<div class="part" id=', '<div class="part introduction" id=', $part_printf );
+				$part_printf_changed = str_replace( '<div class="part %s" id=', '<div class="part introduction %s" id=', $part_printf );
 				$this->hasIntroduction = true;
+			}
+
+			// Inject part content?
+			$part_content = trim( get_post_meta( $part['ID'], 'pb_part_content', true ) );
+			if ( $part_content ) {
+				$part_content = $this->kneadHtml( $this->preProcessPostContent( $part_content ), 'custom' );
+				$part_printf_changed = str_replace( '</h1></div></div>', "</h1></div><div class=\"ugc part-ugc\">{$part_content}</div></div>", $part_printf );
 			}
 
 			foreach ( $part['chapters'] as $chapter ) {
@@ -982,6 +1110,7 @@ class Epub201 extends Export {
 
 				$chapter_printf_changed = '';
 				$id = $chapter['ID'];
+				$subclass = \PressBooks\Taxonomy\chapter_type( $id );
 				$slug = $chapter['post_name'];
 				$title = ( get_post_meta( $id, 'pb_show_title', true ) ? $chapter['post_title'] : '' );
 				$content = $this->kneadHtml( $chapter['post_content'], 'chapter', $j );
@@ -1004,25 +1133,27 @@ class Epub201 extends Export {
 
 				// Inject introduction class?
 				if ( ! $this->hasIntroduction ) {
-					$chapter_printf_changed = str_replace( '<div class="chapter" id=', '<div class="chapter introduction" id=', $chapter_printf );
+					$chapter_printf_changed = str_replace( '<div class="chapter %s" id=', '<div class="chapter introduction %s" id=', $chapter_printf );
 					$this->hasIntroduction = true;
 				}
 
+				$n = ( $subclass == 'numberless' ) ? '' : $c;
 				$vars['post_title'] = $chapter['post_title'];
 				$vars['post_content'] = sprintf(
 					( $chapter_printf_changed ? $chapter_printf_changed : $chapter_printf ),
+					$subclass,
 					$slug,
-					( $this->numbered ? $j : '' ),
+					( $this->numbered ? $n : '' ),
 					Sanitize\decode( $title ),
 					$content,
 					'' );
 
 				$file_id = 'chapter-' . sprintf( "%03s", $j );
-				$filename = "{$file_id}-{$slug}.html";
+				$filename = "{$file_id}-{$slug}.{$this->filext}";
 
 				file_put_contents(
 					$this->tmpDir . "/OEBPS/$filename",
-					$this->loadTemplate( __DIR__ . '/templates/xhtml.php', $vars ) );
+					$this->loadTemplate( $this->dir . '/templates/xhtml.php', $vars ) );
 
 				$this->manifest[$file_id] = array(
 					'ID' => $chapter['ID'],
@@ -1032,26 +1163,31 @@ class Epub201 extends Export {
 
 				$has_chapters = true;
 
-				++$j;
+				$j++;
+
+				if ( $subclass !== 'numberless' ) ++$c;
 			}
 
 			if ( $has_chapters && count( $book_contents['part'] ) > 1 ) {
 
 				$slug = $part['post_name'];
 
+				$m = ( $invisibility == 'invisible' ) ? '' : $p;
+
 				$vars['post_title'] = $part['post_title'];
 				$vars['post_content'] = sprintf(
 					( $part_printf_changed ? $part_printf_changed : $part_printf ),
+					$invisibility,
 					$slug,
-					( $this->numbered ? ( $this->romanizePartNumbers ? \PressBooks\L10n\romanize( $i ) : $i ) : '' ),
+					( $this->numbered ? ( $this->romanizePartNumbers ? \PressBooks\L10n\romanize( $m ) : $m ) : '' ),
 					Sanitize\decode( $part['post_title'] ) );
 
 				$file_id = 'part-' . sprintf( "%03s", $i );
-				$filename = "{$file_id}-{$slug}.html";
+				$filename = "{$file_id}-{$slug}.{$this->filext}";
 
 				file_put_contents(
 					$this->tmpDir . "/OEBPS/$filename",
-					$this->loadTemplate( __DIR__ . '/templates/xhtml.php', $vars ) );
+					$this->loadTemplate( $this->dir . '/templates/xhtml.php', $vars ) );
 
 				// Insert into correct pos
 				$this->manifest = array_slice( $this->manifest, 0, $array_pos, true ) + array(
@@ -1062,6 +1198,8 @@ class Epub201 extends Export {
 					) ) + array_slice( $this->manifest, $array_pos, count( $this->manifest ) - 1, true );
 
 				++$i;
+				
+				if ( $invisibility !== 'invisible' ) ++$p;
 			}
 
 			// Did we actually inject the introduction class?
@@ -1103,6 +1241,22 @@ class Epub201 extends Export {
 			$title = ( get_post_meta( $id, 'pb_show_title', true ) ? $back_matter['post_title'] : '' );
 			$content = $this->kneadHtml( $back_matter['post_content'], 'back-matter', $i );
 
+			$short_title = trim( get_post_meta( $id, 'pb_short_title', true ) );
+			$subtitle = trim( get_post_meta( $id, 'pb_subtitle', true ) );
+			$author = trim( get_post_meta( $id, 'pb_section_author', true ) );
+
+			if ( $author ) {
+				$content = '<h2 class="chapter-author">' . Sanitize\decode( $author ) . '</h2>' . $content;
+			}
+
+			if ( $subtitle ) {
+				$content = '<h2 class="chapter-subtitle">' . Sanitize\decode( $subtitle ) . '</h2>' . $content;
+			}
+
+			if ( $short_title ) {
+				$content = '<h6 class="short-title">' . Sanitize\decode( $short_title ) . '</h6>' . $content;
+			}
+
 			$vars['post_title'] = $back_matter['post_title'];
 			$vars['post_content'] = sprintf( $back_matter_printf,
 				$subclass,
@@ -1113,11 +1267,11 @@ class Epub201 extends Export {
 				'' );
 
 			$file_id = 'back-matter-' . sprintf( "%03s", $i );
-			$filename = "{$file_id}-{$slug}.html";
+			$filename = "{$file_id}-{$slug}.{$this->filext}";
 
 			file_put_contents(
 				$this->tmpDir . "/OEBPS/$filename",
-				$this->loadTemplate( __DIR__ . '/templates/xhtml.php', $vars ) );
+				$this->loadTemplate( $this->dir . '/templates/xhtml.php', $vars ) );
 
 			$this->manifest[$file_id] = array(
 				'ID' => $back_matter['ID'],
@@ -1150,7 +1304,7 @@ class Epub201 extends Export {
         $array_pos = $this->positionOfToc();
 
 		$file_id = 'table-of-contents';
-		$filename = "{$file_id}.html";
+		$filename = "{$file_id}.{$this->filext}";
 		$vars['post_title'] = __( 'Table Of Contents', 'pressbooks' );
 
 		$this->manifest = array_slice( $this->manifest, 0, $array_pos + 1, true ) + array(
@@ -1172,6 +1326,7 @@ class Epub201 extends Export {
 
 			$subtitle = '';
 			$author = '';
+			$title = Sanitize\strip_br( $v['post_title'] );
 			if ( preg_match( '/^front-matter-/', $k ) ) {
 				$class = 'front-matter ';
 				$class .= \PressBooks\Taxonomy\front_matter_type( $v['ID'] );
@@ -1179,22 +1334,27 @@ class Epub201 extends Export {
 				$author = trim( get_post_meta( $v['ID'], 'pb_section_author', true ) );
 			} elseif ( preg_match( '/^part-/', $k ) ) {
 				$class = 'part';
+				if ( get_post_meta( $v['ID'], 'pb_part_invisible', true ) == 'on' )
+					$class .= ' display-none';
 			} elseif ( preg_match( '/^chapter-/', $k ) ) {
 				$class = 'chapter';
+				$class .= \PressBooks\Taxonomy\chapter_type( $v['ID'] );
 				$subtitle = trim( get_post_meta( $v['ID'], 'pb_subtitle', true ) );
 				$author = trim( get_post_meta( $v['ID'], 'pb_section_author', true ) );
-				if ( $this->numbered ) {
-					$v['post_title'] = " $i. " . $v['post_title'];
+				if ( $this->numbered && \PressBooks\Taxonomy\chapter_type( $v['ID'] ) !== 'numberless' ) {
+					$title = " $i. " . $title;
 				}
-				++$i;
+				if ( \PressBooks\Taxonomy\chapter_type( $v['ID'] ) !== 'numberless' ) ++$i;
 			} elseif ( preg_match( '/^back-matter-/', $k ) ) {
 				$class = 'back-matter ';
 				$class .= \PressBooks\Taxonomy\back_matter_type( $v['ID'] );
+				$subtitle = trim( get_post_meta( $v['ID'], 'pb_subtitle', true ) );
+				$author = trim( get_post_meta( $v['ID'], 'pb_section_author', true ) );
 			} else {
 				continue;
 			}
 
-			$html .= sprintf( '<li class="%s"><a href="%s"><span class="toc-chapter-title">%s</span>', $class, $v['filename'], Sanitize\decode( $v['post_title'] ) );
+			$html .= sprintf( '<li class="%s"><a href="%s"><span class="toc-chapter-title">%s</span>', $class, $v['filename'], Sanitize\decode( $title ) );
 
 			if ( $subtitle )
 				$html .= ' <span class="chapter-subtitle">' . Sanitize\decode( $subtitle ) . '</span>';
@@ -1215,7 +1375,7 @@ class Epub201 extends Export {
 
 		file_put_contents(
 			$this->tmpDir . "/OEBPS/$filename",
-			$this->loadTemplate( __DIR__ . '/templates/xhtml.php', $vars ) );
+			$this->loadTemplate( $this->dir . '/templates/xhtml.php', $vars ) );
 
 	}
 
@@ -1283,7 +1443,7 @@ class Epub201 extends Export {
 		$html = preg_replace( '/^<!DOCTYPE.+?>/', '', str_replace( array( '<html>', '</html>', '<body>', '</body>' ), array( '', '', '', '' ), $html ) );
 
 		// Mobi7 hacks
-		$html = $this->transformXML( $utf8_hack . "<html>$html</html>", __DIR__ . '/templates/mobi-hacks.xsl' );
+		$html = $this->transformXML( $utf8_hack . "<html>$html</html>", $this->dir . '/templates/mobi-hacks.xsl' );
 
 		$errors = libxml_get_errors(); // TODO: Handle errors gracefully
 		libxml_clear_errors();
@@ -1293,7 +1453,7 @@ class Epub201 extends Export {
 
 
 	/**
-	 * Parse HTML snippet, download all found <img> tags into /OEBPS/images/, return the HTML with changed <img> paths.
+	 * Parse HTML snippet, download all found <img> tags into /OEBPS/assets/, return the HTML with changed <img> paths.
 	 *
 	 * @param \DOMDocument $doc
 	 *
@@ -1301,7 +1461,7 @@ class Epub201 extends Export {
 	 */
 	protected function scrapeAndKneadImages( \DOMDocument $doc ) {
 
-		$fullpath = $this->tmpDir . '/OEBPS/images';
+		$fullpath = $this->tmpDir . '/OEBPS/assets';
 
 		$images = $doc->getElementsByTagName( 'img' );
 		foreach ( $images as $image ) {
@@ -1310,7 +1470,7 @@ class Epub201 extends Export {
 			$filename = $this->fetchAndSaveUniqueImage( $url, $fullpath );
 			if ( $filename ) {
 				// Replace with new image
-				$image->setAttribute( 'src', 'images/' . $filename );
+				$image->setAttribute( 'src', 'assets/' . $filename );
 			} else {
 				// Tag broken image
 				$image->setAttribute( 'src', "{$url}#fixme" );
@@ -1322,7 +1482,7 @@ class Epub201 extends Export {
 
 
 	/**
-	 * Fetch a url with wp_remote_get(), save it to $fullpath with a unique name.
+	 * Fetch an image with wp_remote_get(), save it to $fullpath with a unique name.
 	 * Will return an empty string if something went wrong.
 	 *
 	 * @param $url string
@@ -1332,11 +1492,87 @@ class Epub201 extends Export {
 	 */
 	protected function fetchAndSaveUniqueImage( $url, $fullpath ) {
 
+		// Cheap cache
+		static $already_done = array();
+		if ( isset( $already_done[$url] ) ) {
+			return $already_done[$url];
+		}
+
 		$response = wp_remote_get( $url, array( 'timeout' => $this->timeout ) );
 
 		// WordPress error?
 		if ( is_wp_error( $response ) ) {
 			// TODO: handle $response->get_error_message();
+			$already_done[$url] = '';
+			return '';
+		}
+		
+		// Basename without query string
+		$filename = explode( '?', basename( $url ) );
+
+		// isolate latex image service from WP, add file extension
+		if ( 's.wordpress.com' == parse_url( $url, PHP_URL_HOST ) && 'latex.php' == $filename[0] ) {
+			$filename = md5( array_pop( $filename ) );
+			// content-type = 'image/png'
+			$type = explode( '/', $response['headers']['content-type'] );
+			$type = array_pop( $type );
+			$filename = $filename . "." . $type;
+		} else {
+			$filename = array_shift( $filename );
+			$filename = sanitize_file_name( urldecode( $filename ) );
+			$filename = Sanitize\force_ascii( $filename );
+		}
+
+		$tmp_file = \PressBooks\Utility\create_tmp_file();
+		file_put_contents( $tmp_file, wp_remote_retrieve_body( $response ) );
+
+		if ( ! \PressBooks\Image\is_valid_image( $tmp_file, $filename ) ) {
+			$already_done[$url] = '';
+			return ''; // Not an image
+		}
+
+		if ( $this->compressImages ) {
+			$format = explode( '.', $filename );
+			$format = strtolower( end( $format ) ); // Extension
+			\PressBooks\Image\resize_down( $format, $tmp_file );
+		}
+
+		// Check for duplicates, save accordingly
+		if ( ! file_exists( "$fullpath/$filename" ) ) {
+			copy( $tmp_file, "$fullpath/$filename" );
+		} elseif ( md5( file_get_contents( $tmp_file ) ) != md5( file_get_contents( "$fullpath/$filename" ) ) ) {
+			$filename = wp_unique_filename( $fullpath, $filename );
+			copy( $tmp_file, "$fullpath/$filename" );
+		}
+
+		$already_done[$url] = $filename;
+		return $filename;
+	}
+
+
+	/**
+	 * Fetch a font with wp_remote_get(), save it to $fullpath with a unique name.
+	 * Will return an empty string if something went wrong.
+	 *
+	 * @param $url string
+	 * @param $fullpath string
+	 *
+	 * @return string filename
+	 */
+	protected function fetchAndSaveUniqueFont( $url, $fullpath ) {
+
+		// Cheap cache
+		static $already_done = array();
+		if ( isset( $already_done[$url] ) ) {
+			return $already_done[$url];
+		}
+
+		$response = wp_remote_get( $url, array( 'timeout' => $this->timeout ) );
+
+		// WordPress error?
+		if ( is_wp_error( $response ) ) {
+			// TODO: handle $response->get_error_message();
+			$already_done[$url] = '';
 			return '';
 		}
 
@@ -1347,20 +1583,21 @@ class Epub201 extends Export {
 		$filename = sanitize_file_name( urldecode( $filename ) );
 		$filename = Sanitize\force_ascii( $filename );
 
-		$file_contents = wp_remote_retrieve_body( $response );
+		$tmp_file = \PressBooks\Utility\create_tmp_file();
+		file_put_contents( $tmp_file, wp_remote_retrieve_body( $response ) );
 
-		if ( ! \PressBooks\Image\is_valid_image( $file_contents, $filename, true ) ) {
-			return ''; // Not an image
-		}
+		// TODO: Validate that this is actually a font
+		// TODO: Refactor fetchAndSaveUniqueImage() and fetchAndSaveUniqueFont() into a single method, but "inject" different validation
 
 		// Check for duplicates, save accordingly
 		if ( ! file_exists( "$fullpath/$filename" ) ) {
-			file_put_contents( "$fullpath/$filename", $file_contents );
-		} elseif ( md5( $file_contents ) != md5( file_get_contents( "$fullpath/$filename" ) ) ) {
+			copy( $tmp_file, "$fullpath/$filename" );
+		} elseif ( md5( file_get_contents( $tmp_file ) ) != md5( file_get_contents( "$fullpath/$filename" ) ) ) {
 			$filename = wp_unique_filename( $fullpath, $filename );
-			file_put_contents( "$fullpath/$filename", $file_contents );
+			copy( $tmp_file, "$fullpath/$filename" );
 		}
 
+		$already_done[$url] = $filename;
 		return $filename;
 	}
 
@@ -1517,7 +1754,7 @@ class Epub201 extends Export {
 			if ( $t == $new_type ) ++$new_pos;
 			if ( $p == $last_part ) break;
 		}
-		$new_url = "$new_type-" . sprintf( "%03s", $new_pos ) . "-$last_part.html";
+		$new_url = "$new_type-" . sprintf( "%03s", $new_pos ) . "-$last_part.{$this->filext}";
 
 		if ( $anchor )
 			$new_url .= $anchor;
@@ -1551,17 +1788,17 @@ class Epub201 extends Export {
 		// Find all the image files, insert them into the OPF file
 
 		$html = '';
-		$path_to_images = $this->tmpDir . '/OEBPS/images';
-		$images = scandir( $path_to_images );
+		$path_to_assets = $this->tmpDir . '/OEBPS/assets';
+		$assets = scandir( $path_to_assets );
 		$used_ids = array();
 
-		foreach ( $images as $image ) {
-			if ( '.' == $image || '..' == $image ) continue;
-			$mimetype = $this->mediaType( "$path_to_images/$image" );
-			if ( $this->coverImage == $image ) {
+		foreach ( $assets as $asset ) {
+			if ( '.' == $asset || '..' == $asset ) continue;
+			$mimetype = $this->mediaType( "$path_to_assets/$asset" );
+			if ( $this->coverImage == $asset ) {
 				$file_id = 'cover-image';
 			} else {
-				$file_id = 'media-' . pathinfo( "$path_to_images/$image", PATHINFO_FILENAME );
+				$file_id = 'media-' . pathinfo( "$path_to_assets/$asset", PATHINFO_FILENAME );
 				$file_id = Sanitize\sanitize_xml_id( $file_id );
 			}
 
@@ -1573,17 +1810,17 @@ class Epub201 extends Export {
 			}
 			$file_id = $check_if_used;
 
-			$html .= sprintf( '<item id="%s" href="OEBPS/images/%s" media-type="%s" />', $file_id, $image, $mimetype ) . "\n";
+			$html .= sprintf( '<item id="%s" href="OEBPS/assets/%s" media-type="%s" />', $file_id, $asset, $mimetype ) . "\n";
 
 			$used_ids[$file_id] = true;
 		}
-		$vars['manifest_images'] = $html;
+		$vars['manifest_assets'] = $html;
 
 		// Put contents
 
 		file_put_contents(
 			$this->tmpDir . "/book.opf",
-			$this->loadTemplate( __DIR__ . '/templates/opf.php', $vars ) );
+			$this->loadTemplate( $this->dir . '/templates/opf.php', $vars ) );
 
 	}
 
@@ -1611,7 +1848,7 @@ class Epub201 extends Export {
 
 		file_put_contents(
 			$this->tmpDir . "/toc.ncx",
-			$this->loadTemplate( __DIR__ . '/templates/ncx.php', $vars ) );
+			$this->loadTemplate( $this->dir . '/templates/ncx.php', $vars ) );
 
 	}
 
