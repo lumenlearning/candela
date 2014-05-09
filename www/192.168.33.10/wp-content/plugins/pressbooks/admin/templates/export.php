@@ -54,20 +54,23 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 	foreach ( $files as $date => $exports ) {
 		// Echo files to screen
 		if ( $c == 0 ) { ?>
-		<h2><?php _e( 'Latest Export', 'pressbooks' ); ?></h2>
+		<h2><?php _e( 'Latest Export', 'pressbooks' ); ?>: <?php echo strftime( '%B %e, %Y at %l:%M %p', $date ); ?></h2>
 		<div class="export-files latest">
 	<?php } elseif ( $c > 0 ) { ?>
-		<h3><?php _e( 'Exported', 'pressbooks' ); ?> <?php echo strftime( '%B %e, %Y at %l:%M%p', $date ); ?></h3>
+		<h3><?php _e( 'Exported', 'pressbooks' ); ?> <?php echo strftime( '%B %e, %Y at %l:%M %p', $date ); ?></h3>
 		<div class="export-files">
 	<?php }
 		foreach ( $exports as $file ) {
 			$file_extension = substr( strrchr( $file, '.' ), 1 );
+			$pre_suffix = strstr( $file, '._3.epub' );
 
-			if ( 'html' == $file_extension )
+		if ( 'html' == $file_extension )
 				$file_class = 'xhtml';
 			elseif ( 'xml' == $file_extension )
 				$file_class = 'wxr';
-			else
+			elseif ( 'epub' == $file_extension && '._3.epub' == $pre_suffix )
+				$file_class = 'epub3';
+		else
 				$file_class = $file_extension;
 
 			 ?>
@@ -77,8 +80,8 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 				<div class="export-file-container">
 					<a class="export-file" href="<?php echo ( $download_url_prefix . $file ); ?>"><span class="export-file-icon <?php echo ( $c == 0 ? 'large' : 'small' ); ?> <?php echo $file_class; ?>" title="<?php echo esc_attr( $file ); ?>"></span></a>
 					<div class="file-actions">
-						<a href="<?php echo ( $download_url_prefix . $file ); ?>"><img src="<?php echo PB_PLUGIN_URL; ?>assets/images/icon-download.png" width="16" height="16" alt="Download" /></a>
-						<input type="image" name="submit" src="<?php echo PB_PLUGIN_URL; ?>assets/images/icon-trash.gif" value="Delete" onclick="if (!confirm('<?php esc_attr_e( 'Are you sure you want to delete this?', 'pressbooks' ); ?>')){ return false }" />
+						<a href="<?php echo ( $download_url_prefix . $file ); ?>"><span class="icon download"></span></a>
+						<button class="delete" type="submit" name="submit" src="" value="Delete" onclick="if (!confirm('<?php esc_attr_e( 'Are you sure you want to delete this?', 'pressbooks' ); ?>')){ return false }"><span class="icon trash"></span></button>
 					</div>
 				</div>
 			</form>
@@ -97,6 +100,7 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 	$options = get_option('export_formats');
 	if ( ! isset( $options['pdf'] ) ) { $options['pdf'] = 1; }
 	if ( ! isset( $options['epub'] ) ) { $options['epub'] = 1; }
+	if ( ! isset( $options['epub3'] ) ) { $options['epub3'] = 1; }
 	if ( ! isset( $options['mobi'] ) ) { $options['mobi'] = 1; }
 	if ( ! isset( $options['hpub'] ) ) { $options['hpub'] = 0; }
 	if ( ! isset( $options['icml'] ) ) { $options['icml'] = 0; }
@@ -113,6 +117,14 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 	    
 	    <fieldset>
 	    <legend>Exotic formats:</legend>
+	    	<?php if ( in_array( network_site_url( null, 'http' ), array(
+	    		'http://textopress.com/',
+	    		'http://pressbooks.dev/',
+	    		'http://localhost/',
+	    		'http://127.0.0.1/'
+	    	) ) ) { ?>
+	    	<input type="checkbox" id="epub3" name="export_formats[epub3]" value="1" <?php checked(1, $options['epub3'], false); ?>/><label for="epub3"> <?php _e( 'EPUB 3 (Experimental)', 'pressbooks' ); ?></label><br />
+	    	<?php } ?>
 	    	<input type="checkbox" id="hpub" name="export_formats[hpub]" value="1" <?php checked(1, $options['hpub'], false); ?>/><label for="hpub"> <?php _e( 'Hpub', 'pressbooks' ); ?></label><br />
 	    	<input type="checkbox" id="icml" name="export_formats[icml]" value="1" <?php checked(1, $options['icml'], false); ?>/><label for="icml"> <?php _e( 'ICML (for InDesign)', 'pressbooks' ); ?></label><br />
 	    	<input type="checkbox" id="xhtml" name="export_formats[xhtml]" value="1" <?php checked(1, $options['xhtml'], false); ?>/><label for="xhtml"> <?php _e( 'XHTML', 'pressbooks' ); ?></label><br />
@@ -120,15 +132,18 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 	    </fieldset>
     </form>
     <div class="clear"></div>
-	<h3><?php _e( 'Your Export Theme Options', 'pressbooks' ); ?></h3>
-	<p><?php printf( __( 'You are using the &ldquo;%s&rdquo; theme', 'pressbooks' ), '' . wp_get_theme() );?>.</p>
-	<p><img src="<?php echo get_stylesheet_directory_uri(); ?>/screenshot.png" width="300" height="225" align="none" class="theme-screenshot" alt="" /></p>
-	<p><a href="<?php echo get_bloginfo( 'url' ); ?>/wp-admin/themes.php" class="button button-medium"><?php _e( 'Change Theme', 'pressbooks' ); ?></a></p>
-
-	<?php pressbooks_theme_options_summary() ?>
-	<p><a href="<?php echo get_bloginfo( 'url' ); ?>/wp-admin/themes.php?page=pressbooks_theme_options" class="button button-medium"><?php _e( 'Change Theme Options', 'pressbooks' ); ?></a></p>
-
+    <h3><?php _e( 'Your Theme Options', 'pressbooks' ); ?></h3>
+<div class="theme">
+	<div class="theme-screenshot">
+		<img src="<?php echo get_stylesheet_directory_uri(); ?>/screenshot.png" alt="">
 	</div>
+	<h3 class="theme-name"><?php echo wp_get_theme();?></h3>
+	<div class="theme-actions">
+		<a class="button button-primary" href="<?php echo get_bloginfo( 'url' ); ?>/wp-admin/themes.php"><?php _e( 'Change Theme', 'pressbooks' ); ?></a>
+		<a class="button button-secondary" href="<?php echo get_bloginfo( 'url' ); ?>/wp-admin/themes.php?page=pressbooks_theme_options"><?php _e( 'Options', 'pressbooks' ); ?></a>
+	</div>
+</div>    
+    
 </div>
 
 <div class="clear"></div>

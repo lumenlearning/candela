@@ -4,11 +4,16 @@ This file must validate as CSS 2.01 with absolutely no errors
 + http://idpf.org/epub/20/spec/OPS_2.0.1_draft.htm#Section3.0
 
 Name: Fitzgerald EPUB
-Version: 1.0
+Version: 1.1
 Author: PressBooks (Book Oven Inc.)
 Author URI: http://pressbooks.com
 Copyright 2011-2013 Book Oven Inc. (PressBooks.com) support@pressbooks.com
 */
+
+
+
+/*__INSERT_EPUB_HOUSE_STYLE__*/
+
 
 /* FONTS
 ===========	*/
@@ -259,7 +264,9 @@ h3.chapter-number {
 	display: inline-block;
 	padding: 0 2em 0 1em;
 }
-
+div.chapter.numberless h3.chapter-number {
+	display: none;
+}
 
 
 /*  BODY TITLES
@@ -512,3 +519,6 @@ sup.footnote, sup.endnote {
 .index .ugc  p.sub-entry {
 	padding-left:30px;
 }
+
+/*__INSERT_MOBI_HOUSE_STYLE__*/
+

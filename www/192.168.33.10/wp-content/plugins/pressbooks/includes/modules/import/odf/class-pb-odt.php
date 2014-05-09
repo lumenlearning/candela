@@ -122,10 +122,6 @@ class Odt extends Import {
 
 		$pid = wp_insert_post( $new_post );
 
-		if ( $this->authors ) {
-			update_post_meta( $pid, 'pb_section_author', $this->authors );
-		}
-
 		update_post_meta( $pid, 'pb_show_title', 'on' );
 		update_post_meta( $pid, 'pb_export', 'on' );
 
@@ -539,12 +535,11 @@ class Odt extends Import {
 
 		// trouble with simplexmlelement and elements with dashes
 		// (ODT's are ripe with dashes), so giving it to the DOM
-
 		$old_value = libxml_disable_entity_loader( true );
 		$xml = new \DOMDocument();
-		$xml->loadXML( $content, LIBXML_NOBLANKS | LIBXML_NOENT | LIBXML_XINCLUDE | LIBXML_NOERROR | LIBXML_NOWARNING );
+		$xml->loadXML( $content, LIBXML_NOBLANKS | LIBXML_NOENT | LIBXML_NONET | LIBXML_XINCLUDE | LIBXML_NOERROR | LIBXML_NOWARNING );
 		libxml_disable_entity_loader( $old_value );
-
+		
 		return $xml;
 	}
 

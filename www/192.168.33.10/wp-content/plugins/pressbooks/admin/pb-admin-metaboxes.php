@@ -129,8 +129,12 @@ function upload_cover_image( $pid, $post ) {
 function add_metadata_styles( $hook ) {
 
 	if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
-		if ( 'metadata' == get_post_type() ) {
-			wp_enqueue_style( 'metadata', PB_PLUGIN_URL . 'assets/css/metadata.css' );
+		$post_type = get_post_type();
+		if ( 'metadata' == $post_type ) {
+			wp_enqueue_style( 'metadata', PB_PLUGIN_URL . 'assets/css/metadata.css', array(), '20130927' );
+		} elseif ( 'part' == $post_type ) {
+			wp_enqueue_style( 'part', PB_PLUGIN_URL . 'assets/css/part.css', array(), '20130927' );
+			add_filter( 'page_attributes_dropdown_pages_args', function () { return array( 'post_type' => '__GARBAGE__' ); } ); // Hide this dropdown by querying for garbage
 		}
 	}
 }
@@ -404,7 +408,13 @@ function add_meta_boxes() {
 	x_add_metadata_field( 'pb_show_title', array( 'chapter', 'front-matter', 'back-matter' ), array(
 		'group' => 'export',
 		'field_type' => 'checkbox',
-		'label' => 'Show title in exports'
+		'label' => __( 'Show title in exports', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_ebook_start', array( 'chapter', 'front-matter', 'back-matter' ), array(
+		'group' => 'export',
+		'field_type' => 'checkbox',
+		'label' => __( 'Set as ebook start-point', 'pressbooks')
 	) );
 
 	// Front Matter Metadata
@@ -428,6 +438,52 @@ function add_meta_boxes() {
 		'label' => __( 'Front Matter Author (appears in Web/ebook/PDF output)', 'pressbooks' )
 	) );
 
+	// Back Matter Metadata
+
+	x_add_metadata_group( 'back-matter-metadata', 'back-matter', array(
+		'label' => __( 'Back Matter Metadata', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_short_title', 'back-matter', array(
+		'group' => 'back-matter-metadata',
+		'label' => __( 'Back Matter Short Title (appears in the PDF running header)', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_subtitle', 'back-matter', array(
+		'group' => 'back-matter-metadata',
+		'label' => __( 'Back Matter Subtitle (appears in the Web/ebook/PDF output)', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_section_author', 'back-matter', array(
+		'group' => 'back-matter-metadata',
+		'label' => __( 'Back Matter Author (appears in Web/ebook/PDF output)', 'pressbooks' )
+	) );
+
+	// Part Metadata
+
+	x_add_metadata_group( 'part-metadata-text', 'part', array(
+		'label' => __( 'Part Text', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_part_content', 'part', array(
+		'field_type' => 'wysiwyg',
+		'group' => 'part-metadata-text',
+		'label' => '',
+		'description' => __( 'Appears on part page. Parts will not appear if a book has only one part.', 'pressbooks' )
+	) );
+
+	x_add_metadata_group( 'part-metadata-visibility', 'part', array(
+		'label' => __( 'Part Visibility', 'pressbooks' ),
+		'context' => 'side',
+		'priority' => 'low',
+	) );
+
+	x_add_metadata_field( 'pb_part_invisible', 'part', array(
+		'field_type' => 'checkbox',
+		'group' => 'part-metadata-visibility',
+		'label' => 'Invisible',
+		'description' => __( 'Hide from table of contents and part numbering.', 'pressbooks' )
+	) );
 }
 
 
@@ -539,6 +595,7 @@ function add_user_meta() {
 			'et' => __( 'Estonian', 'pressbooks' ),
 			'fr_FR' => __( 'French', 'pressbooks' ),
 			'de_DE' => __( 'German', 'pressbooks' ),
+			'it_IT' => __( 'Italian', 'pressbooks' ),
 			'ja' => __( 'Japanese', 'pressbooks' ),
 			'pt_BR' => __( 'Portuguese, Brazil', 'pressbooks' ),
 			'es_ES' => __( 'Spanish', 'pressbooks' ),

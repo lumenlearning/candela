@@ -88,6 +88,10 @@ class Activation {
 			} );
 		}
 
+		// Set current metadata version to skip redundant upgrade routines
+		update_option( 'pressbooks_metadata_version', \PressBooks\Metadata::$currentVersion );
+		flush_rewrite_rules( false );
+
 		do_action( 'pressbooks_new_blog' );
 
 		restore_current_blog();
@@ -237,6 +241,7 @@ class Activation {
 						$my_post['ID'] = $newpost;
 						$my_post['post_parent'] = $parent_part;
 						wp_update_post( $my_post );
+						$chapter1 = $newpost;
 					} elseif ( $item['post_type'] == 'front-matter' ) {
 						$intro = $newpost;
 					} elseif ( $item['post_type'] == 'back-matter' ) {
@@ -252,12 +257,34 @@ class Activation {
 		wp_set_object_terms( $intro, 'introduction', 'front-matter-type' );
 		// Apply 'appendix' front matter type to 'appendix' post
 		wp_set_object_terms( $appendix, 'appendix', 'back-matter-type' );
+		// Apply 'type-1' chapter type to 'chapter 1' post
+		wp_set_object_terms( $chapter1, 'type-1', 'chapter-type' );
 
 		if ( ! wp_delete_comment( 1, true ) )
 			return;
 
 		$this->opts['pb_activated'] = time();
 		refresh_blog_details( $this->blog_id );
+	}
+
+
+	/**
+	 * Never let a user change [ Your Profile > Admin Color Scheme ]
+	 *
+	 * @param int $id
+	 * @param object $user (optional)
+	 */
+	static function forcePbColors( $id, $user = null ) {
+
+		if ( is_numeric( $id ) ) {
+			$user_id = $id;
+		} elseif ( $user instanceof \WP_User ) {
+			$user_id = $user->ID;
+		} else {
+			return;
+		}
+
+		update_user_option( $user_id, 'admin_color', 'pb_colors', true );
 	}
 
 }
