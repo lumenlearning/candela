@@ -71,6 +71,7 @@ class app {
     content => 'extension=oauth.so',
     mode    =>  644,
     require => Exec['install oauth'],
+    notify => Exec['reload apache'],
   }
 
 }
