@@ -26,6 +26,9 @@ class CandelaLTI {
     add_action( 'lti_launch', array( __CLASS__, 'lti_launch') );
 	}
 
+  /**
+   * Ensure all dependencies are set and available.
+   */
   public static function activate() {
     // Require lti plugin
     if ( ! is_plugin_active( 'lti/lti.php' ) and current_user_can( 'activate_plugins' ) ) {
@@ -33,7 +36,11 @@ class CandelaLTI {
     }
   }
 
+  /**
+   * Responder for action lti_launch.
+   */
   public static function lti_launch() {
+    // Currently just redirect to the blog/site homepage.
     wp_redirect( home_url() );
     exit;
   }
