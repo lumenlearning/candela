@@ -22,13 +22,6 @@ class CandelaLTI {
    * Takes care of registering our hooks and setting constants.
    */
   public static function init() {
-    if ( !defined( 'CANDELA_LTI_PLUGIN_DIR' ) ) {
-      define( 'CANDELA_LTI_PLUGIN_DIR', __DIR__ . '/' );
-    }
-
-    if ( ! defined( 'CANDELA_LTI_PLUGIN_URL' ) ) {
-      define( 'CANDELA_LTI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-    }
     register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
     add_action( 'lti_launch', array( __CLASS__, 'lti_launch') );
 	}
