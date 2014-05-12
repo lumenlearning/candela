@@ -1,0 +1,49 @@
+<?php
+/**
+ * @wordpress-plugin
+ * Plugin Name:       Candela LTI
+ * Description:       LTI Integration for Candela
+ * Version:           0.1
+ * Author:            Jeff Graham
+ * Author URI:        http://funnymonkey.com
+ * Text Domain:       lti
+ * License:           MIT
+ * GitHub Plugin URI: https://github.com/lumenlearning/candela-lti
+ */
+
+// If file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+// Do our necessary plugin setup and add_action routines.
+CandelaLTI::init();
+
+class CandelaLTI {
+  /**
+   * Takes care of registering our hooks and setting constants.
+   */
+  public static function init() {
+    if ( !defined( 'CANDELA_LTI_PLUGIN_DIR' ) ) {
+      define( 'CANDELA_LTI_PLUGIN_DIR', __DIR__ . '/' );
+    }
+
+    if ( ! defined( 'CANDELA_LTI_PLUGIN_URL' ) ) {
+      define( 'CANDELA_LTI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+    }
+    register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
+    add_action( 'lti_launch', array( __CLASS__, 'lti_launch') );
+	}
+
+  public static function activate() {
+    // Require lti plugin
+    if ( ! is_plugin_active( 'lti/lti.php' ) and current_user_can( 'activate_plugins' ) ) {
+      wp_die('This plugin requires the LTI plugin to be installed and active. <br /><a href="' . admin_url( 'plugins.php' ) . '">&laquo; Return to Plugins</a>');' )';
+    }
+  }
+
+  public static function lti_launch() {
+    wp_redirect( home_url() );
+    exit;
+  }
+
+}
+
