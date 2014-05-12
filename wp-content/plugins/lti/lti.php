@@ -11,29 +11,6 @@
  * GitHub Plugin URI: https://github.com/lumenlearning/lti
  */
 
-/**
- * @todo move this to its own repo
- * @todo update licensing details and other plugin meta.
- * @todo Request LTI credentials UI (skip standard post UI) nothing should be
- *       user editable. Adjust settings in call to register_post_type()
- *       currently it intentionally allows editing to aid in debugging.
- * @todo Enable users to creat/view/delete their own lti_consumer posts, but not
- *       anyone other user's lti_consumer posts. Admins should be able to see
- *       delete any credentials, and to create credentials on behalf of another
- *       user. Maybe expose normal UI with author selection for admin, but only
- *       on create. We likely don't want to enable "transferring" of credentials
- * @todo refactor add_meta_box() callbacks to not display key/secret when
- *       adding.
- * @todo add enough user prompting & inline documentation for templates
- *       on how to use the LTI information. Make this pluggable so that it is
- *       easy for people to add site-specific & LMS-specific details via
- *       templating to facilitate easy overrides and straightforward pull
- *       requests
- * @todo Consider draft->published workflow for lti_consumer posts. Where draft
- *       would indicate inactive or unapproved credentials, and published
- *       indicating the credentials are active.
- */
-
 // If file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -391,15 +368,12 @@ class LTI {
       switch_to_blog((int)$wp->query_vars['blog']);
       $LTIOAuth = new LTIOAuth();
       if ($LTIOAuth->oauth_error == false) {
-        // @todo add hook here to process LTI request
         do_action('lti_setup');
         do_action('lti_pre');
         do_action('lti_launch');
-        //echo '<div class="success">LTI Launch Request OK</div>';
       }
       else {
         // @todo error handler here.
-        //echo '<div class="error">LTI Launch not OK</div>';
       }
 
       // If something else didn't direct us elsewhere restore the main blog.
@@ -443,7 +417,7 @@ class LTIOAuth {
       $this->oauthProvider->checkOAuthRequest();
     }
     catch (OAuthException $e) {
-      // @todo Change to simple user facing error message. Log with more details.
+      // @todo improve error handler
       echo '<div class="error">';
       echo OAuthProvider::reportProblem($e);
       echo '</div>';
