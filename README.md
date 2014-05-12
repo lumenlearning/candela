@@ -61,3 +61,10 @@ define( 'PB_XMLLINT_COMMAND', '/usr/bin/xmllint' );
   * the other options on this page should be set/adjusted to suit administrative needs/preference
 1. Navigate to "My Catalog" -> "Add a New Book"
 1. Get writing!
+
+##Enable and configure LTI and candela LTI
+1. Navigate to "My Sites" -> "Network Admin" -> "Plugins"
+1. "Network Activate" LTI
+1. "Network Activate" Candela LTI
+1. Create new post "lti consumer" this creates key/secret pairs to be used for LTI launches.
+
