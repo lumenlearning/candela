@@ -88,7 +88,25 @@ class LTI {
   /**
    * Add our nonce table to log received nonce to avoid replay attacks.
    */
-  public static function install() {
+  public static function install( $sitewide ) {
+    global $wpdb;
+    if ( is_multisite() && $sitewide ) {
+      $blogs = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+      if ( ! empty($blogs) ) {
+        foreach ( $blogs as $blog_id ) {
+          switch_to_blog($blog_id);
+          LTI::create_db_table();
+          restore_current_blog();
+        }
+      }
+    }
+    LTI::create_db_table();
+  }
+
+  /**
+   * Create a database table for storing nonces.
+   */
+  public static function create_db_table() {
     global $wpdb;
 
     $table_name = $wpdb->prefix . LTI_TABLE_NAME;
@@ -438,14 +456,9 @@ class LTIOAuth {
    * @see http://us3.php.net/manual/en/oauthprovider.timestampnoncehandler.php
    */
   public function timestampNonceHandler() {
-    // Nonces are stored at the network level.
-    // @todo Review if this can/should be improved. Currently seems a little fragile.
-    switch_to_blog(1); // Make sure to call resture_current_blog() before exiting.
-
     // If nonce is not within timestamp range reject it.
     if ( ( time() - (int)$_POST['oauth_timestamp'] ) > LTI_NONCE_TIMELIMIT ) {
       // Request is too old.
-      restore_current_blog();
       return OAUTH_BAD_TIMESTAMP;
     }
 
@@ -460,18 +473,15 @@ class LTIOAuth {
       // Store the nonce as we haven't seen it before.
       $query = $wpdb->prepare("INSERT INTO $table_name (noncevalue, noncetime)VALUES(%s, FROM_UNIXTIME(%d))", array($_POST['oauth_nonce'], $_POST['oauth_timestamp']));
       $wpdb->query($query);
-      restore_current_blog();
       return OAUTH_OK;
     }
     else {
-      restore_current_blog();
       // Replay attack or improper refresh.
       return OAUTH_BAD_NONCE;
     }
 
     // We should not get here, but in case return OAUTH_BAD_NONCE.
     // @todo log error?
-    restore_current_blog();
     return OAUTH_BAD_NONCE;
   }
 
