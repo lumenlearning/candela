@@ -5,27 +5,28 @@
 
 get_header(); ?>
 
-  <div id="primary" class="content-area">
-    <div id="content" class="site-content" role="main">
       <?php
-        // Start the Loop.
-        while ( have_posts() ) {
-          the_post();
-          if ( get_post_meta( get_the_ID(), LTI_META_KEY_NAME, true) ) {
-            echo '<h2>Key: ';
-            echo get_post_meta( get_the_ID(), LTI_META_KEY_NAME, true);
-            echo '</h2>';
-          }
+      // restrict access to the page
+      	 if ( current_user_can_for_blog( $blog_id, 'edit_posts' ) || is_super_admin() ) {
 
-          if (get_post_meta( get_the_ID(), LTI_META_SECRET_NAME, true) ) {
-              echo '<h2>Secret: ';
-              echo get_post_meta( get_the_ID(), LTI_META_SECRET_NAME, true);
-              echo '</h2>';
-          }
-        }
+	      // Start the Loop.
+	      while ( have_posts() ) {
+		      the_post();
+		      if ( get_post_meta( get_the_ID(), LTI_META_KEY_NAME, true ) ) {
+			      echo '<h2>Key: ';
+			      echo get_post_meta( get_the_ID(), LTI_META_KEY_NAME, true );
+			      echo '</h2>';
+		      }
+
+		      if ( get_post_meta( get_the_ID(), LTI_META_SECRET_NAME, true ) ) {
+			      echo '<h2>Secret: ';
+			      echo get_post_meta( get_the_ID(), LTI_META_SECRET_NAME, true );
+			      echo '</h2>';
+		      }
+	      }
+      }
       ?>
     </div><!-- #content -->
-  </div><!-- #primary -->
 
 <?php
 get_sidebar( 'content' );
