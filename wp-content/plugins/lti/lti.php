@@ -273,7 +273,7 @@ class LTI {
    *  The type of token to generate either: 'key', 'secret'
    */
   public static function generateToken($type) {
-    $token = OAuthProvider::generateToken(LTI_OAUTH_TOKEN_LENGTH);
+    $token = OAuthProvider::generateToken(LTI_OAUTH_TOKEN_LENGTH, true);
 
     $args = array(
       'post_type' => 'lti_consumer',
@@ -292,7 +292,7 @@ class LTI {
 
     // Loop until our token is unique for this meta value.
     while ( !empty($posts) ) {
-      $token = OAuthProvider::generateToken(LTI_OAUTH_TOKEN_LENGTH);
+      $token = OAuthProvider::generateToken(LTI_OAUTH_TOKEN_LENGTH, true);
       $args['meta_value'] = sha1($token);
       $posts = get_posts($args);
     }
@@ -319,7 +319,7 @@ class LTI {
       return $post_id;
     }
 
-    if ( defined( 'DOING AUTOSAVE' ) && DOING_AUTOSAVE ) {
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
       return $post_id;
     }
 
