@@ -165,8 +165,20 @@ class LTI {
    * @see http://codex.wordpress.org/Function_Reference/add_meta_box
    */
   public static function add_meta_boxes() {
+    add_meta_box('api_endpoint_info', 'API URL', array( __CLASS__, 'api_endpoint_info_meta' ), 'lti_consumer', 'normal' );
     add_meta_box('consumer_secret', 'Consumer Secret', array( __CLASS__, 'consumer_secret_meta'), 'lti_consumer', 'normal' );
     add_meta_box('consumer_key', 'Consumer Key', array( __CLASS__, 'consumer_key_meta'), 'lti_consumer', 'normal' );
+  }
+
+  /**
+   * Callback for add_meta_box().
+   */
+  public static function api_endpoint_info_meta( $post ) {
+    global $wpdb;
+    echo '<p>';
+    _e( 'Your API endpoint can be accessed via the following URL.' );
+    echo '<h3>' . get_site_url(1) . '/api/lti/' . $wpdb->blogid. '</h3>';
+    echo '</p>';
   }
 
   /**
@@ -175,25 +187,18 @@ class LTI {
    * @see http://codex.wordpress.org/Function_Reference/add_meta_box
    */
   public static function consumer_secret_meta( $post ) {
-    // Add a nonce field so we can check for it later.
-    wp_nonce_field( 'lti_consumer', 'lti_consumer_nonce');
-
     // Use get_post_meta to retrieve an existing value from the database.
     $secret = get_post_meta( $post->ID, LTI_META_SECRET_NAME, true);
 
     if ( empty($secret) ) {
-      $secret = LTI::generateToken('secret');
+      $secret = __('Secret will be generated when post is saved.');
     }
 
     // Display the form, using the current value.
     echo '<label for="lti_consumer_secret">';
     _e( 'Consumer secret used for signing LTI requests.' );
     echo '</label>';
-    echo '<input type="text" id="lti_consumer_secret" name="lti_consumer_secret"';
-    if ( ! is_admin() ) {
-      echo ' disabled="disabled"';
-    }
-    echo ' value="' . esc_attr( $secret ) . '" size="40" />';
+    echo '<h3 id="lti_consumer_secret" name="lti_consumer_secret">' . esc_attr( $secret ) . '</h3>';
 
   }
 
@@ -207,61 +212,15 @@ class LTI {
     $key = get_post_meta( $post->ID, LTI_META_KEY_NAME, true);
 
     if ( empty( $key ) ) {
-      $key = LTI::generateToken('key');
+      $key = __('Key will be generated when post is saved.');
     }
 
     // Display the form, using the current value.
     echo '<label for="lti_consumer_key">';
     _e( 'Consumer key used for signing LTI requests.' );
     echo '</label>';
-    echo '<input type="text" id="lti_consumer_key" name="lti_consumer_key"';
-    if ( ! is_admin() ) {
-      echo ' disabled="disabled"';
-    }
-    echo ' value="' . esc_attr( $key ) . '" size="40" />';
+    echo '<h3 id="lti_consumer_key" name="lti_consumer_key">' . esc_attr( $key ) . '</h3>';
 
-  }
-
-  /**
-   * Create a new post.
-   *
-   * lti_consumer posts really have no user editable data so this helps by
-   * managing all the programmatic pieces so we can just pass the $author_id the
-   * post should be created on behalf of.
-   */
-  public static function create( $author_id = NULL ) {
-    // default to current user (or admin) if none provided
-    if ( $author_id == NULL ) {
-      $user = wp_get_current_user();
-      if ( 0 == $user->ID ) {
-        // User is not logged in, refuse to create
-        return FALSE;
-      }
-    }
-    else {
-      $user = get_userdata( $author_id );
-    }
-
-    $post = array(
-      'post_content'          => '',
-      'post_name'             => '',
-      'post_title'            => 'LTI: ' . $user->display_name,
-      'post_status'           => 'private',
-      'post_type'             => 'lti_consumer',
-      'post_author'           => $user->ID,
-      'ping_status'           => 'closed',
-      'post_password'         => '',
-      'post_excerpt'          => '',
-      'import_id'             => '',
-      'comment_status'        => 'closed',
-    );
-    $post_id = wp_insert_post($post, false);
-
-    // Now attach our key/secret metadata
-    if ( ! empty($post_id) ) {
-      update_post_meta($post_id, LTI_META_KEY_NAME, LTI::generateToken('key'));
-      update_post_meta($post_id, LTI_META_SECRET_NAME, LTI::generateToken('secret'));
-    }
   }
 
   /**
@@ -301,24 +260,22 @@ class LTI {
   }
 
   /**
+   * Minimum check to see if string is SHA1.
+   */
+  function is_sha1($string) {
+    if (ctype_xdigit($string) && strlen($string) == 40) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+
+  /**
    * Save a post submitted via form.
    *
    * This is here for completeness, but likely needs review to see if we want to
    * expose this part of the UI workflow at all.
    */
   public static function save( $post_id ) {
-    // Check if our nonce is set
-    if ( ! isset( $_POST['lti_consumer_nonce'] ) ) {
-      return $post_id;
-    }
-
-    $nonce = $_POST['lti_consumer_nonce'];
-
-    // Verify the nonce is valid
-    if ( ! wp_verify_nonce($nonce, 'lti_consumer' ) ) {
-      return $post_id;
-    }
-
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
       return $post_id;
     }
@@ -334,9 +291,16 @@ class LTI {
       }
     }
 
-    // Save to save data now
-    update_post_meta( $post_id, LTI_META_KEY_NAME, $_POST['lti_consumer_key'] );
-    update_post_meta( $post_id, LTI_META_SECRET_NAME, $_POST['lti_consumer_secret'] );
+    // Generate and save our key/secret if necessary.
+    $key = get_post_meta( $post_id, LTI_META_KEY_NAME, true);
+    if ( ! LTI::is_sha1($key) ) {
+      update_post_meta( $post_id, LTI_META_KEY_NAME, LTI::generateToken('key') );
+    }
+
+    $secret = get_post_meta( $post_id, LTI_META_SECRET_NAME, true);
+    if ( ! LTI::is_sha1($secret) ) {
+      update_post_meta( $post_id, LTI_META_SECRET_NAME, LTI::generateToken('key') );
+    }
   }
 
   /**
