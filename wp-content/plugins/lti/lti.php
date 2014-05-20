@@ -81,6 +81,20 @@ class LTI {
   }
 
   /**
+   * Handle logging only if WP_DEBUG is enabled.
+   */
+  public static function log( $message ) {
+    if ( true === WP_DEBUG ) {
+      if ( is_array( $message ) || is_object ( $message ) ) {
+        error_log ( print_r( $message, true ) );
+      }
+      else {
+        error_log ( $message );
+      }
+    }
+  }
+
+  /**
    * Create a database table for storing nonces.
    */
   public static function create_db_table() {
@@ -331,14 +345,9 @@ class LTI {
       // Make sure our queries run against the appropriate site.
       switch_to_blog((int)$wp->query_vars['blog']);
       $LTIOAuth = new LTIOAuth();
-      if ($LTIOAuth->oauth_error == false) {
-        do_action('lti_setup');
-        do_action('lti_pre');
-        do_action('lti_launch');
-      }
-      else {
-        // @todo error handler here.
-      }
+      do_action('lti_setup');
+      do_action('lti_pre');
+      do_action('lti_launch');
 
       // If something else didn't direct us elsewhere restore the main blog.
       restore_current_blog();
@@ -366,8 +375,6 @@ class LTI {
 class LTIOAuth {
   private $oauthProvider;
 
-  public $oauth_error = false;
-
   /**
    * Attempt to validate the incoming LTI request.
    */
@@ -381,11 +388,36 @@ class LTIOAuth {
       $this->oauthProvider->checkOAuthRequest();
     }
     catch (OAuthException $e) {
-      // @todo improve error handler
-      echo '<div class="error">';
-      echo OAuthProvider::reportProblem($e);
-      echo '</div>';
-      $this->oauth_error = true;
+      LTI::log( OAuthProvider::reportProblem( $e ) );
+
+      switch ($e->getCode()) {
+        case OAUTH_BAD_NONCE:
+          wp_die(__('This LTI request has expired. Please return to your application and restart the launch process.'), __( 'LTI Error' ) );
+          break;
+        case OAUTH_BAD_TIMESTAMP:
+          wp_die(__('This request is too old. Please return to your application and restart the launch process.'), __( 'LTI Error' ) );
+          break;
+        case OAUTH_CONSUMER_KEY_UNKNOWN:
+          wp_die(__('Consumer key is unknown, or has been temporarily disabled. Please check your consumer key settings and restart the launch process.'), __( 'LTI Error' ) );
+          break;
+        case OAUTH_CONSUMER_KEY_REFUSED:
+          wp_die(__('The consumer key was refused. Please check your configuration and follow up with the LTI provider for support.'), __( 'LTI Error' ) );
+          break;
+        case OAUTH_INVALID_SIGNATURE:
+          wp_die(__('The request signature is invalid, or does not match the signature computed.'), __( 'LTI Error' ) );
+          break;
+        case OAUTH_PARAMETER_ABSENT:
+          wp_die(__('A required launch parameter was not provided.'), __( 'LTI Error' ) );
+          break;
+        case OAUTH_SIGNATURE_METHOD_REJECTED:
+          wp_die(__('The signature method was not accepted by the service provider.'), __( 'LTI Error' ) );
+          break;
+        default:
+          // We really shouldn't get any of the other OAuthProvider error codes.
+          // log this.
+          wp_die(__('General launch error. Please follow up with the tool provider to consult any logs to further diagnose the issue.'), __( 'LTI Error' ) );
+          break;
+      }
     }
   }
   /**

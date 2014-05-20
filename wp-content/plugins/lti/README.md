@@ -6,7 +6,10 @@ This is a WordPress module intended to work with PHP 5.4.
 The goal is that this module will be generally useful and will allow
 many different LTI and WordPress integrations to build off of one LTI
 plugin that is easily extensible and allows for custom institutional
-or business rules.
+or business rules. Note that this module doesn't actually handle processing 
+incoming LTI requests. This module just does all of the housekeeping and
+you will need an additional plugin to enable the functionality you need.
+Please see the [candela-lti plugin](https://github.com/lumenlearning/candela/tree/master/www/192.168.33.10/wp-content/plugins/candela-lti) which is part of the candela stack for an example implementation.
 
 
 ## Requirements
