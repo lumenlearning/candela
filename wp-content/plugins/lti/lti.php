@@ -78,6 +78,9 @@ class LTI {
       }
     }
     LTI::create_db_table();
+
+    // Register our nonce cleanup.
+    wp_schedule_event( time(), 'daily', LTIOAuth::purgeNonces() );
   }
 
   /**
@@ -458,7 +461,7 @@ class LTIOAuth {
   /**
    * Purge old nonces from table.
    */
-  public function purgeNonces() {
+  public static function purgeNonces() {
     // Purge old nonces outside window of acceptable time.
     global $wpdb;
     $table_name = $wpdb->prefix . LTI_TABLE_NAME;
