@@ -80,6 +80,12 @@ define('WPLANG', '');
  */
 define('WP_DEBUG', false);
 
+/* Pressbooks configuration */
+define( 'PB_PRINCE_COMMAND', '/usr/bin/prince' );
+define( 'PB_KINDLEGEN_COMMAND', '/home/vagrant/kindlegen/kindlegen' );
+define( 'PB_EPUBCHECK_COMMAND', '/usr/bin/java -jar /home/vagrant/epubcheck-3.0.1/epubcheck-3.0.1.jar' );
+define( 'PB_XMLLINT_COMMAND', '/usr/bin/xmllint' );
+
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
