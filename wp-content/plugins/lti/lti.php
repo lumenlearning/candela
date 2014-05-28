@@ -279,7 +279,7 @@ class LTI {
   /**
    * Minimum check to see if string is SHA1.
    */
-  function is_sha1($string) {
+  public static function is_sha1($string) {
     if (ctype_xdigit($string) && strlen($string) == 40) {
       return TRUE;
     }
@@ -297,26 +297,21 @@ class LTI {
       return $post_id;
     }
 
-    if ( 'lti_consumer' == $_POST['post_type']['lti_consumer'] ) {
-      if ( ! current_user_can( 'edit_page', $post_id) ) {
-        return $post_id;
-      }
-    }
-    else {
-      if ( ! current_user_can( 'edit_post', $post_id) ) {
-        return $post_id;
-      }
+    if ( ! current_user_can( 'edit_page', $post_id) ) {
+      return $post_id;
     }
 
-    // Generate and save our key/secret if necessary.
-    $key = get_post_meta( $post_id, LTI_META_KEY_NAME, true);
-    if ( ! LTI::is_sha1($key) ) {
-      update_post_meta( $post_id, LTI_META_KEY_NAME, LTI::generateToken('key') );
-    }
+    if ( 'lti_consumer' == $_POST['post_type'] ) {
+      // Generate and save our key/secret if necessary.
+      $key = get_post_meta( $post_id, LTI_META_KEY_NAME, true);
+      if ( ! LTI::is_sha1($key) ) {
+        update_post_meta( $post_id, LTI_META_KEY_NAME, LTI::generateToken('key') );
+      }
 
-    $secret = get_post_meta( $post_id, LTI_META_SECRET_NAME, true);
-    if ( ! LTI::is_sha1($secret) ) {
-      update_post_meta( $post_id, LTI_META_SECRET_NAME, LTI::generateToken('key') );
+      $secret = get_post_meta( $post_id, LTI_META_SECRET_NAME, true);
+      if ( ! LTI::is_sha1($secret) ) {
+        update_post_meta( $post_id, LTI_META_SECRET_NAME, LTI::generateToken('key') );
+      }
     }
   }
 
@@ -454,7 +449,7 @@ class LTIOAuth {
     }
 
     // We should not get here, but in case return OAUTH_BAD_NONCE.
-    // @todo log error?
+    LTI::log("Reached bad branch in timestampNonceHandler: Post data follows:\n". var_export($_POST, 1));
     return OAUTH_BAD_NONCE;
   }
 
@@ -498,7 +493,7 @@ class LTIOAuth {
           }
           else {
             // This should have resulted in valid secret.
-            // @todo log error?
+            LTI::log("Failed to find proper secret for lti consumer ID: " . $q->posts[0]->ID);
             return OAUTH_CONSUMER_KEY_UNKOWN;
           }
         }
@@ -515,7 +510,7 @@ class LTIOAuth {
     }
 
     // Not sure how we would get here, but refust the key in the event
-    // @todo log error?
+    LTI::log("Reached bad branch in consumerHandler: Post data follows:\n". var_export($_POST, 1));
     return OAUTH_CONSUMER_KEY_REFUSED;
   }
 }
