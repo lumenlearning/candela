@@ -226,7 +226,14 @@ class CandelaCitation {
           // Re-associate fields per citation
           $citations[$index][$field] = $_POST['citation-' . $field][$index];
         }
+
+        // Name is required
+        if (empty($citations[$index]['name'])) {
+          unset($citations[$index]);
+        }
       }
+
+
     }
 
     if ( ! empty($citations) ) {
