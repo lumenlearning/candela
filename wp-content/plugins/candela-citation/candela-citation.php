@@ -191,7 +191,7 @@ class CandelaCitation {
     switch ($field) {
       case 'type':
         $options = array(
-          '' => __('Choose a license'),
+          '' => __('Choose citation type'),
           'original' => __('Original content'),
           'cc' => __('CC licensed content'),
           'copyrighted_video' => __('Copyrighted video content'),
@@ -257,18 +257,15 @@ class CandelaCitation {
             // Re-associate fields per citation
             $citations[$index][$field] = $_POST['citation-' . $field][$index];
           }
-
-          // Name is required
-          if (empty($citations[$index]['name'])) {
+          // Citation type is required
+          if (empty($citations[$index]['type'])) {
             unset($citations[$index]);
           }
         }
       }
     }
 
-    if ( ! empty($citations) ) {
-      update_post_meta( $post_id, CANDELA_CITATION_FIELD, serialize( $citations ) );
-    }
+    update_post_meta( $post_id, CANDELA_CITATION_FIELD, serialize( $citations ) );
   }
 
 }
