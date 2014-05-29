@@ -31,12 +31,27 @@ class CandelaCitation {
   }
 
   /**
+   * Return an array of post types to add citations to.
+   */
+  public static function postTypes() {
+    return array(
+      'back-matter',
+      'chapter',
+      'front-matter',
+      'part',
+    );
+  }
+
+  /**
    * Attach custom meta fields.
    *
    * @see http://codex.wordpress.org/Function_Reference/add_meta_box
    */
   public static function add_meta_boxes() {
-    add_meta_box('citations', 'Citations', array( __CLASS__, 'add_citation_meta' ), 'lti_consumer', 'normal' );
+    $types = CandelaCitation::postTypes();
+    foreach ( $types as $type ) {
+      add_meta_box('citations', 'Citations', array( __CLASS__, 'add_citation_meta' ), $type, 'normal' );
+    }
   }
 
   /**
@@ -213,27 +228,28 @@ class CandelaCitation {
 
     $citations = array();
 
+    $types = CandelaCitation::postTypes();
     $fields = CandelaCitation::citation_fields();
 
-    // Use the first citation field to determine if citation fields were submitted.
-    $key = key($fields);
+    if ( isset( $_POST['post_type'] ) && in_array( $_POST['post_type'], $types ) ) {
+      // Use the first citation field to determine if citation fields were submitted.
+      $key = key($fields);
 
-    $post_field = 'citation-' . $key;
-    if ( isset($_POST[$post_field] ) ) {
-      // We have field data for citations, iterate over
-      foreach ( $_POST[$post_field] as $index => $junk) {
-        foreach ($fields as $field => $info) {
-          // Re-associate fields per citation
-          $citations[$index][$field] = $_POST['citation-' . $field][$index];
-        }
+      $post_field = 'citation-' . $key;
+      if ( isset($_POST[$post_field] ) ) {
+        // We have field data for citations, iterate over
+        foreach ( $_POST[$post_field] as $index => $junk) {
+          foreach ($fields as $field => $info) {
+            // Re-associate fields per citation
+            $citations[$index][$field] = $_POST['citation-' . $field][$index];
+          }
 
-        // Name is required
-        if (empty($citations[$index]['name'])) {
-          unset($citations[$index]);
+          // Name is required
+          if (empty($citations[$index]['name'])) {
+            unset($citations[$index]);
+          }
         }
       }
-
-
     }
 
     if ( ! empty($citations) ) {
