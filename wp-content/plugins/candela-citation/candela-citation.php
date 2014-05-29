@@ -107,25 +107,33 @@ class CandelaCitation {
 
   public static function citation_fields() {
     return array(
-      'name' => array(
+      'type' => array(
+        'type' => 'select',
+        'label' => __( 'Learning Resource Type' ),
+      ),
+      'description' => array(
         'type' => 'text',
-        'label' => __( 'Name' ),
+        'label' => __( 'Description' ),
+      ),
+      'author' => array(
+        'type' => 'text',
+        'label' => __( 'Author' ),
+      ),
+      'organization' => array(
+        'type' => 'text',
+        'label' => __( 'Organization' ),
       ),
       'url' => array(
         'type' => 'text',
         'label' => __( 'URL' ),
       ),
-      'published' => array(
-        'type' => 'date',
-        'label' => __( 'Date Published' ),
-      ),
-      'type' => array(
-        'type' => 'select',
-        'label' => __( 'Learning Resource Type' ),
-      ),
       'license' => array(
         'type' => 'select',
         'label' => __( 'License' ),
+      ),
+      'license_notes' => array(
+        'type' => 'text',
+        'label' => __( 'License term notes' ),
       ),
     );
   }
@@ -183,20 +191,25 @@ class CandelaCitation {
     switch ($field) {
       case 'type':
         $options = array(
-          'handout' => __('Handout'),
+          'original' => __('Original content'),
+          'cc' => __('CC licensed content'),
+          'copyrighted_video' => __('Copyrighted video content'),
+          'pd' => __('Public domain content'),
+          'cc-attribution' => __('CC with specific attribution'),
+          'lumen' => __('Lumen Learning authored content'),
         );
         break;
       case 'license':
         $options = array(
+          'pd' =>  __( 'Public Domain' ),
+          'cc0' =>  __( 'CC0 No Rights Reserved (CC0)' ),
           'cc-by' =>  __( 'CC Attribution (CC BY)' ),
-          'cc-by-nd' =>  __( 'CC Attribution-NoDerivs (CC BY-ND)' ),
           'cc-by-sa' =>  __( 'CC Attribution-ShareAlike (CC BY-SA)' ),
+          'cc-by-nd' =>  __( 'CC Attribution-NoDerivs (CC BY-ND)' ),
           'cc-by-nc' =>  __( 'CC Attribution-NonCommercial (CC BY-NC)' ),
           'cc-by-nc-sa' =>  __( 'CC Attribution-NonCommerial-ShareAlike (CC BY-NC-SA)' ),
           'cc-by-nc-nd' =>  __( 'CC Attribution-NonCommercial-NoDerivs (CC BY-NC-ND)' ),
-          'cc0' =>  __( 'CC0 No Rights Reserved (CC0)' ),
-          'pd' =>  __( 'Public Domain' ),
-          'copyright' =>  __( 'All Rights Reserved' ),
+          'arr' =>  __( 'All Rights Reserved' ),
           'other' =>  __( 'Other' ),
         );
         break;
