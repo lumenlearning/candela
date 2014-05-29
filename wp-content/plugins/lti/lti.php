@@ -301,7 +301,7 @@ class LTI {
       return $post_id;
     }
 
-    if ( 'lti_consumer' == $_POST['post_type'] ) {
+    if ( isset( $_POST['post_type'] ) && ('lti_consumer' == $_POST['post_type']) ) {
       // Generate and save our key/secret if necessary.
       $key = get_post_meta( $post_id, LTI_META_KEY_NAME, true);
       if ( ! LTI::is_sha1($key) ) {
