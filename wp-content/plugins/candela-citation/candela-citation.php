@@ -109,7 +109,7 @@ class CandelaCitation {
     return array(
       'type' => array(
         'type' => 'select',
-        'label' => __( 'Learning Resource Type' ),
+        'label' => __( 'Type' ),
       ),
       'description' => array(
         'type' => 'text',
@@ -129,7 +129,7 @@ class CandelaCitation {
       ),
       'license' => array(
         'type' => 'select',
-        'label' => __( 'License' ),
+        'label' => __( 'Licensing' ),
       ),
       'license_notes' => array(
         'type' => 'text',
@@ -191,6 +191,7 @@ class CandelaCitation {
     switch ($field) {
       case 'type':
         $options = array(
+          '' => __('Choose a license'),
           'original' => __('Original content'),
           'cc' => __('CC licensed content'),
           'copyrighted_video' => __('Copyrighted video content'),
@@ -202,13 +203,13 @@ class CandelaCitation {
       case 'license':
         $options = array(
           'pd' =>  __( 'Public Domain' ),
-          'cc0' =>  __( 'CC0 No Rights Reserved (CC0)' ),
-          'cc-by' =>  __( 'CC Attribution (CC BY)' ),
-          'cc-by-sa' =>  __( 'CC Attribution-ShareAlike (CC BY-SA)' ),
-          'cc-by-nd' =>  __( 'CC Attribution-NoDerivs (CC BY-ND)' ),
-          'cc-by-nc' =>  __( 'CC Attribution-NonCommercial (CC BY-NC)' ),
-          'cc-by-nc-sa' =>  __( 'CC Attribution-NonCommerial-ShareAlike (CC BY-NC-SA)' ),
-          'cc-by-nc-nd' =>  __( 'CC Attribution-NonCommercial-NoDerivs (CC BY-NC-ND)' ),
+          'cc0' =>  __( 'CC0 ' ),
+          'cc-by' =>  __( 'CC BY' ),
+          'cc-by-sa' =>  __( 'CC BY-SA' ),
+          'cc-by-nd' =>  __( 'CC BY-ND' ),
+          'cc-by-nc' =>  __( 'CC BY-NC' ),
+          'cc-by-nc-sa' =>  __( 'CC BY-NC-SA' ),
+          'cc-by-nc-nd' =>  __( 'CC BY-NC-ND' ),
           'arr' =>  __( 'All Rights Reserved' ),
           'other' =>  __( 'Other' ),
         );
