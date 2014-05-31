@@ -105,6 +105,75 @@ class CandelaCitation {
     echo '</tbody></table>';
   }
 
+  /**
+   *
+   */
+  public static function renderCitation( $post_id ) {
+    // Use get_post_meta to retrieve an existing value from the database.
+    $citations = get_post_meta( $post_id, CANDELA_CITATION_FIELD, true);
+    if ( ! empty( $citations ) ) {
+      $citations = unserialize( $citations );
+    }
+    else {
+      $citations = array();
+    }
+
+    $grouped = array();
+
+    $license = CandelaCitation::getOptions('license');
+    foreach ($citations as $citation) {
+      switch ( $citation['type'] ) {
+        case 'original';
+          $cite = 'Original content contributed by [AUTHOR] of [ORGANIZATION] to [PROJECT].';
+          break;
+        case 'cc';
+          $cite = 'Content created by [AUTHOR] of [ORGANIZATION] for [PROJECT], originally published at [URL] under a [LICENSE] license.';
+          break;
+        case 'copyrighted_video';
+          $cite = 'The video of [DESCRIPTION] was created by [AUTHOR] of [ORGANIZATION] for [PROJECT] and published at [URL]. This video is copyrighted and is not licensed under an open license. Embedded as permitted by [LICENSE_TERMS].';
+          break;
+        case 'pd';
+          $cite = 'Content created (or published) by [AUTHOR] or [ORGANIZATION] (at [URL]).';
+          break;
+        case 'cc-attribution';
+          $cite = '[LICENSE_TERMS]';
+          break;
+        case 'lumen';
+          $cite = 'Content created by [AUTHOR] of [ORGANIZATION] for [PROJECT], originally published at [URL] under a [LICENSE] license.';
+          break;
+      }
+
+      // Replace templated portions if provided in citation.
+      $cite = empty( $citation['description'] ) ? $cite : str_replace('[DESCRIPTION]', $citation['description'], $cite);
+      $cite = empty( $citation['author'] ) ? $cite : str_replace('[AUTHOR]', $citation['author'], $cite);
+      $cite = empty( $citation['organization'] ) ? $cite : str_replace('[ORGANIZATION]', $citation['organization'], $cite);
+      $cite = empty( $citation['url'] ) ? $cite : str_replace('[URL]', $citation['url'], $cite);
+      $cite = empty( $citation['project'] ) ? $cite : str_replace('[PROJECT]', $citation['project'], $cite);
+      $cite = empty( $citation['license'] ) ? $cite : str_replace('[LICENSE]', $license[$citation['license']], $cite);
+      $cite = empty( $citation['license_terms'] ) ? $cite : str_replace('[LICENSE_TERMS]', $citation['license_terms'], $cite);
+      $grouped[$citation['type']][] = $cite;
+
+    }
+
+    $output = array();
+    if ( ! empty($grouped) ) {
+      $types = CandelaCitation::getOptions('type');
+
+      foreach ( $types as $type => $info ) {
+        if ( ! empty( $grouped[$type] ) ) {
+          array_merge( $output, $grouped[$type] );
+        }
+      }
+
+      if (! empty( $grouped['original'] ) ) {
+        foreach ( $groups['original'] as $citation ) {
+          $output[] = $citation;
+        }
+      }
+    }
+    return $output;
+  }
+
   public static function citation_fields() {
     return array(
       'type' => array(
@@ -127,13 +196,17 @@ class CandelaCitation {
         'type' => 'text',
         'label' => __( 'URL' ),
       ),
+      'project' => array(
+        'type' => 'text',
+        'label' => __( 'Project' ),
+      ),
       'license' => array(
         'type' => 'select',
         'label' => __( 'Licensing' ),
       ),
-      'license_notes' => array(
+      'license_terms' => array(
         'type' => 'text',
-        'label' => __( 'License term notes' ),
+        'label' => __( 'License terms' ),
       ),
     );
   }
@@ -156,7 +229,7 @@ class CandelaCitation {
           }
           break;
         default:
-          $fields[$key]['value'] = $citation[$key];
+          $fields[$key]['value'] = empty( $citation[$key] ) ? '' : $citation[$key];
           break;
       }
     }
@@ -187,9 +260,10 @@ class CandelaCitation {
     return $row;
   }
 
-  public static function GetOptions($field, $selected) {
+  public static function GetOptions($field, $selected = array()) {
     switch ($field) {
       case 'type':
+        // Note that the order here determines order on output. See renderCitation
         $options = array(
           '' => __('Choose citation type'),
           'original' => __('Original content'),
