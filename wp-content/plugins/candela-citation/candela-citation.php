@@ -149,7 +149,7 @@ class CandelaCitation {
       $cite = empty( $citation['organization'] ) ? $cite : str_replace('[ORGANIZATION]', $citation['organization'], $cite);
       $cite = empty( $citation['url'] ) ? $cite : str_replace('[URL]', $citation['url'], $cite);
       $cite = empty( $citation['project'] ) ? $cite : str_replace('[PROJECT]', $citation['project'], $cite);
-      $cite = empty( $citation['license'] ) ? $cite : str_replace('[LICENSE]', $license[$citation['license']], $cite);
+      $cite = empty( $citation['license'] ) ? $cite : str_replace('[LICENSE]', $license[$citation['license']]['label'], $cite);
       $cite = empty( $citation['license_terms'] ) ? $cite : str_replace('[LICENSE_TERMS]', $citation['license_terms'], $cite);
       $grouped[$citation['type']][] = $cite;
 
@@ -161,13 +161,7 @@ class CandelaCitation {
 
       foreach ( $types as $type => $info ) {
         if ( ! empty( $grouped[$type] ) ) {
-          array_merge( $output, $grouped[$type] );
-        }
-      }
-
-      if (! empty( $grouped['original'] ) ) {
-        foreach ( $groups['original'] as $citation ) {
-          $output[] = $citation;
+          $output = array_merge( $output, $grouped[$type] );
         }
       }
     }

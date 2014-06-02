@@ -27,6 +27,23 @@
 					</div><!-- .entry-content -->
 				</div><!-- #post-## -->
 
+				<?php if ( $citations = CandelaCitation::renderCitation( $post->ID ) ): ?>
+					<div class="post-citations sidebar">
+						<h3 id="citation-header-<?php print $post->ID; ?>"><?php _e('Citations'); ?></h3>
+						<ul id="citation-list-<?php print $post->ID; ?>">
+						<?php foreach ($citations as $citation ): ?>
+							<li><?php print $citation ?></li>
+						<?php endforeach; ?>
+						</ul>
+						<script>
+							jQuery( document ).ready( function( $ ) {
+								$( "#citation-header-<?php print $post->ID;?>" ).click(function() {
+									$( "#citation-list-<?php print $post->ID;?>").toggle();
+								});
+							});
+						</script>
+					</div>
+				<?php endif; ?>
 
 				</div><!-- #content -->
 
