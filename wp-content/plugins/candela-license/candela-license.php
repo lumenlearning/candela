@@ -55,6 +55,22 @@ class CandelaLicense {
   }
 
   /**
+   * Given a post ID render the license field for this field.
+   */
+  public static function renderLicense( $post_id ) {
+    $license = get_post_meta( $post_id, CANDELA_LICENSE_FIELD, true);
+    $options = CandelaLicense::GetOptions(array($license));
+
+    if (!empty($options[$license]['link'] && !empty($options[$license]['image'] ) ) ) {
+      echo '<a href="' . $options[$license]['link'] . ' rel="license"><img src="' . $options[$license]['image'] . '"></a>';
+    }
+    else {
+      echo '<meta name="DC.rights.license" content="' . $options[$license]['label'] . '" >';
+      echo '<div class="license">' . $options[$license]['label'] . '</div>';
+    }
+  }
+
+  /**
    *
    */
   public static function add_license_meta( $post, $metabox ) {
@@ -71,27 +87,62 @@ class CandelaLicense {
 
   public static function GetOptions($selected = array()) {
     $options = array(
-      'pd' =>  __( 'Public Domain' ),
-      'cc0' =>  __( 'CC0 ' ),
-      'cc-by' =>  __( 'CC BY' ),
-      'cc-by-sa' =>  __( 'CC BY-SA' ),
-      'cc-by-nd' =>  __( 'CC BY-ND' ),
-      'cc-by-nc' =>  __( 'CC BY-NC' ),
-      'cc-by-nc-sa' =>  __( 'CC BY-NC-SA' ),
-      'cc-by-nc-nd' =>  __( 'CC BY-NC-ND' ),
-      'arr' =>  __( 'All Rights Reserved' ),
-      'other' =>  __( 'Other' ),
+      'pd' => array(
+        'label' => __( 'Public Domain' ),
+        'link' => 'https://creativecommons.org/about/pdm',
+        'image' => 'http://i.creativecommons.org/p/mark/1.0/88x31.png',
+      ),
+      'cc0' => array(
+        'label' => __( 'CC0 ' ),
+        'link' => 'https://creativecommons.org/publicdomain/zero/1.0/',
+        'image' => 'http://i.creativecommons.org/p/zero/1.0/88x31.png',
+      ),
+      'cc-by' => array(
+        'label' => __( 'CC BY' ),
+        'link' => 'http://creativecommons.org/licenses/by/4.0/',
+        'image' => 'https://i.creativecommons.org/l/by/4.0/88x31.png',
+      ),
+      'cc-by-sa' => array(
+        'label' => __( 'CC BY-SA' ),
+        'link' => 'http://creativecommons.org/licenses/by-sa/4.0/',
+        'image' => 'https://i.creativecommons.org/l/by-sa/4.0/88x31.png',
+      ),
+      'cc-by-nd' => array(
+        'label' => __( 'CC BY-ND' ),
+        'link' => 'http://creativecommons.org/licenses/by-nd/4.0/',
+        'image' => 'https://i.creativecommons.org/l/by-nd/4.0/88x31.png',
+      ),
+      'cc-by-nc' => array(
+        'label' => __( 'CC BY-NC' ),
+        'link' => 'http://creativecommons.org/licenses/by-nc/4.0/',
+        'image' => 'https://i.creativecommons.org/l/by-nc/4.0/88x31.png',
+      ),
+      'cc-by-nc-sa' => array(
+        'label' => __( 'CC BY-NC-SA' ),
+        'link' => 'http://creativecommons.org/licenses/by-nc-sa/4.0/',
+        'image' => 'https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png',
+      ),
+      'cc-by-nc-nd' => array(
+        'label' => __( 'CC BY-NC-ND' ),
+        'link' => 'http://creativecommons.org/licenses/by-nc-nd/4.0/',
+        'image' => 'https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png',
+      ),
+      'arr' => array(
+        'label' => __( 'All Rights Reserved' ),
+        'link' => '',
+        'image' => '',
+      ),
+      'other' => array(
+        'label' => __( 'Other' ),
+        'link' => '',
+        'image' => '',
+      ),
     );
 
-    $result = array();
     foreach ( $options as $option => $label ) {
-      $result[$option] = array(
-        'label' => $label,
-        'selected' => (in_array($option, $selected) ? TRUE : FALSE),
-      );
+      $options[$option]['selected'] = (in_array($option, $selected) ? TRUE : FALSE);
     }
-
-    return $result;
+    return $options;
   }
 
   /**
