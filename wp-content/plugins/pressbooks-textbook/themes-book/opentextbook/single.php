@@ -30,7 +30,7 @@
 				<?php if ( $citations = CandelaCitation::renderCitation( $post->ID ) ): ?>
 					<div class="post-citations sidebar">
 						<h3 id="citation-header-<?php print $post->ID; ?>"><?php _e('Citations'); ?></h3>
-						<ul id="citation-list-<?php print $post->ID; ?>">
+						<ul id="citation-list-<?php print $post->ID; ?>" style="display:none;">
 						<?php foreach ($citations as $citation ): ?>
 							<li><?php print $citation ?></li>
 						<?php endforeach; ?>
