@@ -75,7 +75,7 @@ class CandelaCitation {
 
     $rows[] = CandelaCitation::get_meta_row();
     $first = TRUE;
-    echo '<table>';
+    echo '<table id="citation-table">';
     $i = 0;
     foreach ($rows as $fields) {
       $headers = array();
@@ -95,14 +95,29 @@ class CandelaCitation {
       }
 
       echo '<tr><td>';
-      echo implode( '</td><td>', str_replace('@@INDEX@@', $i, $row) );
+      echo implode( '</td><td>', str_replace('%%INDEX%%', $i, $row) );
       echo '</td></tr>';
       $i++;
     }
+    echo '</tbody></table>';
+
+    echo '<button id="citation-add-more-button" type="button">';
+    _e('Add more citations');
+    echo '</button>';
+    echo '<script type="text/javascript">
+      jQuery( document ).ready( function( $ ) {
+        var citationIndex = '. $i . ';
+        citationWidgets = \'<tr><td>' . implode( '</td><td>', $row ) . '</td></tr>\';
+        $( "#citation-add-more-button" ).click(function() {
+          newWidgets = citationWidgets.split("%%INDEX%%").join(citationIndex);
+          $( "#citation-table tbody").append(newWidgets);
+          citationIndex++;
+        });
+      });
+    </script>';
+
 
     // @todo jQuery append add more widgets.
-
-    echo '</tbody></table>';
   }
 
   /**
@@ -232,7 +247,7 @@ class CandelaCitation {
     foreach ($fields as $key => $widget) {
       switch ($widget['type']) {
         case 'select':
-          $markup = '<select name="citation-' . esc_attr($key) . '[@@INDEX@@]">';
+          $markup = '<select name="citation-' . esc_attr($key) . '[%%INDEX%%]">';
           foreach ( $widget['options'] as $value => $option ) {
             $markup .= '<option value="' . esc_attr($value) . '" ' . ($option['selected'] ? 'selected' : '') . '>' . esc_html( $option['label'] ) . '</option>';
           }
@@ -244,7 +259,7 @@ class CandelaCitation {
           break;
         default:
           $row[$key] = array(
-            'widget' => '<input name="citation-' . esc_attr($key) . '[@@INDEX@@]" type="' . $widget['type'] . '" value="' . esc_attr( $widget['value'] ) . '">',
+            'widget' => '<input name="citation-' . esc_attr($key) . '[%%INDEX%%]" type="' . $widget['type'] . '" value="' . esc_attr( $widget['value'] ) . '">',
             'label' => $widget['label'],
           );
           break;
