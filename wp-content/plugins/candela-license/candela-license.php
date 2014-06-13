@@ -4,8 +4,8 @@
  * Plugin Name:       Candela License
  * Description:       Page license for Candela
  * Version:           0.1
- * Author:            Jeff Graham
- * Author URI:        http://funnymonkey.com
+ * Author:            Lumen Learning
+ * Author URI:        http://lumenlearning.com
  * Text Domain:       lti
  * License:           MIT
  * GitHub Plugin URI: https://github.com/lumenlearning/candela-license

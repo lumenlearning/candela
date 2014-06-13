@@ -4,8 +4,8 @@
  * Plugin Name:       LTI
  * Description:       IMS LTI Integration for Wordpress
  * Version:           0.1
- * Author:            Jeff Graham
- * Author URI:        http://funnymonkey.com
+ * Author:            Lumen Learning
+ * Author URI:        http://lumenlearning.com
  * Text Domain:       lti
  * License:           MIT
  * GitHub Plugin URI: https://github.com/lumenlearning/lti
