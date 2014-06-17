@@ -194,7 +194,7 @@ class LTI {
     global $wpdb;
     echo '<p>';
     _e( 'Your API endpoint can be accessed via the following URL.' );
-    echo '<h3>' . get_site_url(1) . '/api/lti/' . $wpdb->blogid. '</h3>';
+    echo '<div>' . get_site_url(1) . '/api/lti/' . $wpdb->blogid. '</div>';
     echo '</p>';
   }
 
@@ -215,7 +215,7 @@ class LTI {
     echo '<label for="lti_consumer_secret">';
     _e( 'Consumer secret used for signing LTI requests.' );
     echo '</label>';
-    echo '<h3 id="lti_consumer_secret" name="lti_consumer_secret">' . esc_attr( $secret ) . '</h3>';
+    echo '<div id="lti_consumer_secret" name="lti_consumer_secret">' . esc_attr( $secret ) . '</div>';
 
   }
 
@@ -236,7 +236,7 @@ class LTI {
     echo '<label for="lti_consumer_key">';
     _e( 'Consumer key used for signing LTI requests.' );
     echo '</label>';
-    echo '<h3 id="lti_consumer_key" name="lti_consumer_key">' . esc_attr( $key ) . '</h3>';
+    echo '<div id="lti_consumer_key" name="lti_consumer_key">' . esc_attr( $key ) . '</div>';
 
   }
 
