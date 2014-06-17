@@ -265,9 +265,14 @@ abstract class Import {
 					$importer = new Odf\Odt();
 					$ok = $importer->import( $current_import );
 					break;
-				
+
 				case 'docx':
 					$importer = new Ooxml\Docx();
+					$ok = $importer->import( $current_import );
+					break;
+
+				case 'imscc':
+					$importer = new IMSCC\IMSCC();
 					$ok = $importer->import( $current_import );
 					break;
 			}
@@ -292,6 +297,7 @@ abstract class Import {
 				'xml' => 'application/xml',
 				'odt' => 'application/vnd.oasis.opendocument.text',
 				'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+				'imscc' => 'application/zip',
 			);
 			$overrides = array( 'test_form' => false, 'mimes' => $allowed_file_types );
 
@@ -323,9 +329,14 @@ abstract class Import {
 					$importer = new Odf\Odt();
 					$ok = $importer->setCurrentImportOption( $upload );
 					break;
-				
+
 				case 'docx':
 					$importer = new Ooxml\Docx();
+					$ok = $importer->setCurrentImportOption( $upload );
+					break;
+
+				case 'imscc':
+					$importer = new IMSCC\IMSCC();
 					$ok = $importer->setCurrentImportOption( $upload );
 					break;
 			}
