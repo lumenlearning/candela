@@ -145,6 +145,7 @@ class LTI {
       'rewrite' => true,
       'can_export' => false,
       'supports' => array(
+        'title',
         'author',
       ),
     );
