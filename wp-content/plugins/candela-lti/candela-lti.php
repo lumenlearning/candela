@@ -40,7 +40,10 @@ class CandelaLTI {
    * Responder for action lti_launch.
    */
   public static function lti_launch() {
+    global $wp;
+
     // Currently just redirect to the blog/site homepage.
+    switch_to_blog((int)$wp->query_vars['blog']);
     wp_redirect( home_url() );
     exit;
   }
