@@ -50,6 +50,7 @@ class LTI {
 
     add_action( 'admin_notices', array( __CLASS__, 'check_dependencies') );
     add_action( 'init', array( __CLASS__, 'register_post_type' ) );
+
     add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
     add_action( 'save_post', array( __CLASS__, 'save') );
 
@@ -67,16 +68,7 @@ class LTI {
    */
   public static function install( $sitewide ) {
     global $wpdb;
-    if ( is_multisite() && $sitewide ) {
-      $blogs = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
-      if ( ! empty($blogs) ) {
-        foreach ( $blogs as $blog_id ) {
-          switch_to_blog($blog_id);
-          LTI::create_db_table();
-          restore_current_blog();
-        }
-      }
-    }
+
     LTI::create_db_table();
 
     // Register our nonce cleanup.
@@ -193,8 +185,8 @@ class LTI {
   public static function api_endpoint_info_meta( $post ) {
     global $wpdb;
     echo '<p>';
-    _e( 'Your API endpoint can be accessed via the following URL.' );
-    echo '<div>' . get_site_url(1) . '/api/lti/' . $wpdb->blogid. '</div>';
+    _e( 'Your API endpoint can be accessed via the following URL. Replace BLOGID with the site id of the site the user should be redirected to.' );
+    echo '<div>' . get_site_url(1) . '/api/lti/BLOGID</div>';
     echo '</p>';
   }
 
@@ -341,14 +333,11 @@ class LTI {
       global $wp;
 
       // Make sure our queries run against the appropriate site.
-      switch_to_blog((int)$wp->query_vars['blog']);
       $LTIOAuth = new LTIOAuth();
       do_action('lti_setup');
       do_action('lti_pre');
       do_action('lti_launch');
 
-      // If something else didn't direct us elsewhere restore the main blog.
-      restore_current_blog();
     }
   }
 

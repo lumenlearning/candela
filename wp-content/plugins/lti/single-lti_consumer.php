@@ -22,12 +22,13 @@ get_header(); ?>
           }
 
           global $wpdb;
-          $endpoint = get_site_url(1) . '/api/lti/' . $wpdb->blogid;
+          $endpoint = get_site_url(1) . '/api/lti/BLOGID';
           echo '<div><label for="lti_consumer_endpoint">';
           _e( 'Endpoint' );
           echo ': </label>';
           echo '<strong id="lti_consumer_endpoint" name="lti_consumer_endpoint">' . $endpoint . '</strong>';
           echo '</div>';
+          echo '<div class="description">Replace BLOGID with the site id the user should be redirected to.</div>';
 
 		      if ( $key = get_post_meta( get_the_ID(), LTI_META_KEY_NAME, true ) ) {
             echo '<div><label for="lti_consumer_key">';
