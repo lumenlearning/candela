@@ -321,7 +321,7 @@ class LTI {
    * Add our LTI api endpoint
    */
   public static function add_rewrite_rule() {
-    add_rewrite_rule( '^api/lti/([0-9]+?/?)', 'index.php?__lti=1&blog=$matches[1]', 'top');
+    add_rewrite_rule( '^api/lti/([0-9]+/?)', 'index.php?__lti=1&blog=$matches[1]', 'top');
   }
 
   /**
