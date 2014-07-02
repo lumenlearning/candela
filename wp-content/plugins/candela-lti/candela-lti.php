@@ -105,6 +105,9 @@ class CandelaLTI {
     $query_vars[] = '__candelalti';
     $query_vars[] = 'resource_link_id';
     $query_vars[] = 'target_action';
+    $query_vars[] = 'action';
+    $query_vars[] = 'ID';
+    $query_vars[] = 'candela-lti-nonce';
     return $query_vars;
   }
 
@@ -123,7 +126,8 @@ class CandelaLTI {
   public static function parse_request() {
     global $wp, $wpdb;
     if ( CandelaLTI::user_can_map_lti_links() && isset( $wp->query_vars['__candelalti'] ) && !empty($wp->query_vars['__candelalti'] ) ) {
-      if ( wp_verify_nonce($_GET['candela-lti-nonce'], 'mapping-lti-link') &&
+      // Process adding link associations
+      if ( wp_verify_nonce($wp->query_vars['candela-lti-nonce'], 'mapping-lti-link') &&
            ! empty( $wp->query_vars['resource_link_id']) &&
            ! empty( $wp->query_vars['target_action'] ) ) {
         // Update db record everything is valid
@@ -150,12 +154,25 @@ class CandelaLTI {
         }
       }
 
+      // Process action items.
+      if ( wp_verify_nonce($wp->query_vars['candela-lti-nonce'], 'unmapping-lti-link') && ! empty( $wp->query_vars['action'] ) ) {
+        switch ( $wp->query_vars['action'] ) {
+          case 'delete':
+            if ( !empty($wp->query_vars['ID'] && is_numeric($wp->query_vars['ID']))) {
+              $wpdb->delete( CANDELA_LTI_TABLE, array( 'ID' => $wp->query_vars['ID'] ) );
+            }
+            break;
+        }
+      }
+
       // If we have a target_action, redirect to it, otherwise redirect back to home.
       if ( ! empty( $wp->query_vars['target_action'] ) ) {
         wp_redirect( $wp->query_vars['target_action'] );
       }
+      else if ( ! empty($_SERVER['HTTP_REFERER'] ) ) {
+        wp_redirect( $_SERVER['HTTP_REFERER'] );
+      }
       else {
-        // Error message?
         wp_redirect( home_url() );
       }
       exit();
@@ -200,6 +217,18 @@ class CandelaLTI {
 
   }
 
+  public static function get_maps_by_target_action( $target_action = '' ) {
+    global $wpdb;
+
+    if ( empty( $target_action ) && is_single() ) {
+      $target_action = get_permalink();
+    }
+
+    $table_name = CANDELA_LTI_TABLE;
+    $sql = $wpdb->prepare("SELECT * FROM $table_name WHERE target_action = %s", $target_action);
+    return $wpdb->get_results($sql);
+  }
+
   /**
    * If we have an authenticated user and unmapped LTI launch add a link to
    * associate current page with the LTI launch.
@@ -214,6 +243,20 @@ class CandelaLTI {
         $url .= '&resource_link_id=' . urlencode($map->resource_link_id) . '&target_action=' . urlencode( get_permalink() );
         $link = '<a href="' . $url . '">' . __('Map LTI launch to current URL') . '</a>';
         $content .= '<div class="lti-map">' . $link . '</div>';
+      }
+      else {
+        $maps = CandelaLTI::get_maps_by_target_action();
+        if ( ! empty( $maps ) ) {
+          $base_url = get_site_url(1) . '/api/candelalti';
+          $base_url = wp_nonce_url($base_url, 'unmapping-lti-link', 'candela-lti-nonce');
+          $translated = __('Remove LTI resource_link_id(##RES##)');
+          $links = array();
+          foreach ( $maps as $map ) {
+            $url = $base_url . '&action=delete&ID=' . $map->ID;
+            $links[] = '<a href="' . $url . '">' . str_replace('##RES##', $map->resource_link_id, $translated) . '</a>';
+          }
+          $content .= '<div class="lti-map"><ul><li>' . implode('</li><li>', $links) . '</li></ul></div>';
+        }
       }
     }
     return $content;
