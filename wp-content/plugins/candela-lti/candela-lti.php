@@ -238,16 +238,15 @@ class CandelaLTI {
       $map = CandelaLTI::get_lti_map();
       $target_action = get_permalink();
       $resource_link_id = '';
-      $add_link = FALSE;
+      $links = array();
       if ( empty( $map ) || ( empty( $map->target_action ) && ! empty( $map->resource_link_id ) ) ) {
         $resource_link_id = $map->resource_link_id;
         // Map is either not set at all or needs to be set, inject content to do so.
-        $translated = __('Map LTI resource_link_id(##RES##) to here');
+        $translated = __('Add LTI resource_link_id(##RES##)');
         $url = get_site_url(1) . '/api/candelalti';
         $url = wp_nonce_url($url, 'mapping-lti-link', 'candela-lti-nonce');
         $url .= '&resource_link_id=' . urlencode($map->resource_link_id) . '&target_action=' . urlencode( $target_action );
-        $add = '<div class="lti addmap"><a href="' . $url . '">' . str_replace('##RES##', $map->resource_link_id, $translated) . '</a></div>';
-        $add_link = TRUE;
+        $links['add'] = '<div class="lti addmap"><a href="' . $url . '">' . str_replace('##RES##', $map->resource_link_id, $translated) . '</a></div>';
       }
 
       $maps = CandelaLTI::get_maps_by_target_action();
@@ -255,25 +254,18 @@ class CandelaLTI {
         $base_url = get_site_url(1) . '/api/candelalti';
         $base_url = wp_nonce_url($base_url, 'unmapping-lti-link', 'candela-lti-nonce');
         $translated = __('Remove LTI resource_link_id(##RES##)');
-        $links = array();
         foreach ( $maps as $map ) {
           if ($map->resource_link_id == $resource_link_id ) {
             // don't include add and delete link
-            $add_link = FALSE;
+            unset($links['add']);
           }
           $url = $base_url . '&action=delete&ID=' . $map->ID;
           $links[] = '<a href="' . $url . '">' . str_replace('##RES##', $map->resource_link_id, $translated) . '</a>';
         }
-        $remove = '<div class="lti removemap"><ul><li>' . implode('</li><li>', $links) . '</li></ul></div>';
       }
 
-      // Add add link
-      if ( $add_link ) {
-        $content .= $add;
-      }
-
-      if ( ! empty( $remove ) ) {
-        $content .= $remove;
+      if ( ! empty( $links ) ) {
+        $content .= '<div class="lti-mapping"><ul><li>' . implode('</li><li>', $links) . '</li></ul></div>';
       }
     }
     return $content;
