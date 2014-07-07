@@ -1,4 +1,8 @@
+## Install Wordpress
 
+The following instructions assume basic familiarity with installing Wordpress, and that this codebase is located in a web accessible location.
+
+1. Navigate to your installed base.
 1. Click "Create a Configuration File"
 1. Click "Let's go!"
 1. DB Connection details;
@@ -20,7 +24,7 @@
 1. Click "Install"
 1. Follow on screen instructions making appropriate edits to `wp-config.php` and `.htaccess`
 
-##Enable and Configure Pressbooks and Pressbooks Textbooks
+## Enable and Configure Pressbooks and Pressbooks Textbooks
 
 1. Once above edits are made relogin
 1. Navigate to "My Sites" -> "Network Admin" -> "Plugins"
