@@ -42,6 +42,8 @@ class CandelaLTI {
 
     // Add a content filter with low priority to inject our mapping link
     add_filter('the_content', array( __CLASS__, 'content_map_lti_launch'), 20);
+
+    add_action('admin_menu', array( __CLASS__, 'admin_menu'));
 	}
 
   /**
@@ -54,6 +56,38 @@ class CandelaLTI {
     }
 
     CandelaLTI::create_db_table();
+  }
+
+  public static function admin_menu() {
+    add_menu_page(
+      __('LTI maps', 'candela_lti'),
+      __('LTI maps', 'candela_lti'),
+      CANDELA_LTI_CAP_LINK_LTI,
+      'lti-maps',
+      array(__CLASS__, 'lti_maps_page_handler')
+    );
+  }
+
+  public static function lti_maps_page_handler() {
+    global $wpdb;
+
+    include_once(__DIR__ . '/candela-lti-table.php');
+    $table = new Candela_LTI_Table;
+    $table->prepare_items();
+
+    $message = '';
+print_r($table->current_action());
+    if ( 'delete' === $table->current_action() ) {
+      $message = '<div class="updated below-h2" id="message"><p>' . sprintf(__('Maps deleted: %d', 'candela_lti'), count($_REQUEST['ID'])) . '</p></div>';
+    }
+
+    print '<div class="wrap">';
+    print $message;
+    print '<form id="candela-lti-maps" method="GET">';
+    print '<input type="hidden" name="page" value="' . $_REQUEST['page'] . '" />';
+    $table->display();
+    print '</form>';
+    print '</div>';
   }
 
   /**
@@ -211,7 +245,6 @@ class CandelaLTI {
       // lti_setup action.
       switch_to_blog(1);
       $resource_link_id = get_user_meta( $current_user->ID, CANDELA_LTI_USERMETA_LASTLINK, TRUE );
-
       restore_current_blog();
     }
 
