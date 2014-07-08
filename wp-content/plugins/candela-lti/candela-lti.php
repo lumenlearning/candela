@@ -299,7 +299,7 @@ class CandelaLTI {
   }
 
   /**
-   * Create a database table for storing nonces.
+   * Create a database table for storing LTI maps, this is a global table.
    */
   public static function create_db_table() {
     $table_name = CANDELA_LTI_TABLE;
