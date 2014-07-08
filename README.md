@@ -33,6 +33,8 @@ The following instructions assume basic familiarity with installing Wordpress, a
 1. "Network Activate" Disable Comments
 1. "Network Activate" Candela Citations
 1. "Network Activate" Candela License
+1. "Network Activate" LTI
+1. "Network Activate" Candela LTI
 1. Use the "Settings" link for Disable Comments to access the settings page. Select "Everywhere: Disable all comment-related controls and settings in WordPress." Click the "Save Changes" button.
 1. Navigate to "My Catalog" -> "Network Admin" -> "Themes"
 1. Select "Installed Themes"
@@ -54,12 +56,8 @@ The hypothes.is functionality is included as part of Pressbooks Textbooks and ne
 1. Click the "Save Changes" button.
 
 
-##Enable and configure LTI and candela LTI
+## Creating LTI key/secret pairs
 
 1. Navigate to "My Catalog" -> "PRIMARY SITE NAME" -> "Dashboard"
-1. Click "Plugins"
-1. "Activate" LTI
-1. Navigate to "My Sites" -> "Network Admin" -> "Plugins"
-1. "Network Activate" Candela LTI
 1. In the left admin menu (primary site only), navigate to "LTI Consumers" -> "Add New."
 
