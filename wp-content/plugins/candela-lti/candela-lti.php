@@ -26,11 +26,13 @@ class CandelaLTI {
     define('CANDELA_LTI_TABLE', 'wp_candelalti');
     define('CANDELA_LTI_DB_VERSION', '1.0');
     define('CANDELA_LTI_USERMETA_LASTLINK', 'candelalti_lastkey');
+    define('CANDELA_LTI_CAP_LINK_LTI', 'candela link lti launch');
 
     register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
     register_uninstall_hook(__FILE__, array( __CLASS__, 'deactivate') );
 
     add_action( 'init', array( __CLASS__, 'add_rewrite_rule' ) );
+    add_action( 'init', array( __CLASS__, 'setup_capabilities' ) );
     add_action( 'query_vars', array( __CLASS__, 'query_vars' ) );
     add_action( 'parse_request', array( __CLASS__, 'parse_request' ) );
 
@@ -116,6 +118,16 @@ class CandelaLTI {
    */
   public static function add_rewrite_rule() {
     add_rewrite_rule( '^api/candelalti?(.*)', 'index.php?__candelalti=1&$matches[1]', 'top');
+  }
+
+  /**
+   * Setup our new capabilities.
+   */
+  public static function setup_capabilities() {
+    global $wp_roles;
+
+    $wp_roles->add_cap('administrator', CANDELA_LTI_CAP_LINK_LTI);
+    $wp_roles->add_cap('editor', CANDELA_LTI_CAP_LINK_LTI);
   }
 
   /**
@@ -278,7 +290,10 @@ class CandelaLTI {
    */
   public static function user_can_map_lti_links() {
     if ( is_user_logged_in() ) {
-      return TRUE;
+      $current_user = wp_get_current_user();
+      if ( $current_user->has_cap(CANDELA_LTI_CAP_LINK_LTI) ) {
+        return TRUE;
+      }
     }
     return FALSE;
   }
