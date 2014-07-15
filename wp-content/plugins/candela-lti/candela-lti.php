@@ -76,7 +76,7 @@ class CandelaLTI {
     $table->prepare_items();
 
     $message = '';
-print_r($table->current_action());
+
     if ( 'delete' === $table->current_action() ) {
       $message = '<div class="updated below-h2" id="message"><p>' . sprintf(__('Maps deleted: %d', 'candela_lti'), count($_REQUEST['ID'])) . '</p></div>';
     }
