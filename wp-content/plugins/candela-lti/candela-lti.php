@@ -113,7 +113,7 @@ print_r($table->current_action());
     // Currently just redirect to the blog/site homepage.
     if ( ! ( empty( $wp->query_vars['blog'] ) ) ){
       switch_to_blog((int)$wp->query_vars['blog']);
-      wp_redirect( home_url() );
+      wp_redirect( get_bloginfo('wpurl') . '/table-of-contents' );
       exit;
     }
 
