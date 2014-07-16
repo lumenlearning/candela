@@ -27,6 +27,8 @@ class CandelaLTI {
     define('CANDELA_LTI_DB_VERSION', '1.0');
     define('CANDELA_LTI_USERMETA_LASTLINK', 'candelalti_lastkey');
     define('CANDELA_LTI_CAP_LINK_LTI', 'candela link lti launch');
+    define('CANDELA_LTI_USERMETA_EXTERNAL_KEY', 'candelalti_external_userid');
+    define('CANDELA_LTI_PASSWORD_LENGTH', 32);
 
     register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
     register_uninstall_hook(__FILE__, array( __CLASS__, 'deactivate') );
@@ -126,6 +128,9 @@ class CandelaLTI {
    * Do any setup necessary to manage LTI launches.
    */
   public static function lti_setup() {
+    // Manage authentication and account creation.
+    CandelaLTI::lti_accounts();
+
     // If this is a valid user store the resource_link_id so we have it later.
     if ( CandelaLTI::user_can_map_lti_links() ) {
       $current_user = wp_get_current_user();
@@ -133,6 +138,129 @@ class CandelaLTI {
     }
   }
 
+  /**
+   * Take care of authenticating the incoming user and creating an account if
+   * required.
+   */
+  public static function lti_accounts() {
+    // Used to track if we call wp_logout() since is_user_logged_in() will still
+    // report true after our call to that.
+    // @see http://wordpress.stackexchange.com/questions/13087/wp-logout-not-logging-me-out
+    $logged_out = FALSE;
+
+    // if we do not have an external user_id skip account stuff.
+    if ( empty($_POST['user_id']) ) {
+      return;
+    }
+
+    // Find user account (if any) with matching ID
+    $user = CandelaLTI::find_user_by_external_id( $_POST['user_id'] );
+
+    if ( is_user_logged_in() ) {
+      // if the external ID does not match this users external id, log them out.
+      $current_user = wp_get_current_user();
+      $external_id = CandelaLTI::get_external_id_by_userid( $current_user->ID );
+      if ( ! empty( $external_id ) ) {
+        if ( $external_id != $_POST['user_id'] ) {
+          $logged_out = TRUE;
+          wp_logout();
+        }
+        else {
+          $user = $current_user;
+        }
+      }
+      else {
+        // Associate external id to current_user.
+        CandelaLTI::set_external_id_for_userid( $current_user->ID, $_POST['user_id'] );
+        $user = $current_user;
+      }
+    }
+
+    if ( empty($user) ) {
+      // Create a user account if we do not have a matching account
+      $user = CandelaLTI::create_user_account( $_POST['user_id'] );
+    }
+
+    // If the user is not currently logged in... authenticate as the matched account.
+    if ( ! is_user_logged_in() || $logged_out ) {
+      CandelaLTI::login_user_no_password( $user->ID );
+    }
+
+    // Associate the external id with this account.
+    if ( ! empty($_POST['user_id'] ) ) {
+      CandelaLTI::set_external_id_for_userid( $user->ID, $_POST['user_id'] );
+    }
+  }
+
+  public static function get_external_id_by_userid( $user_id ) {
+    switch_to_blog(1);
+    $external_id = get_user_meta( $user_id, CANDELA_LTI_USERMETA_EXTERNAL_KEY, TRUE );
+    restore_current_blog();
+    return $external_id;
+  }
+
+  public static function set_external_id_for_userid( $user_id, $external_id ) {
+    switch_to_blog(1);
+    update_user_meta( $user_id, CANDELA_LTI_USERMETA_EXTERNAL_KEY, $external_id );
+    restore_current_blog();
+  }
+
+  /**
+   * Create a user account corresponding to the current incoming LTI request.
+   *
+   * @param string $username
+   *   The username of the new account to create. If this username already exists
+   *   we return the corresponding user account.
+   *
+   * @todo consider using 'lis_person_contact_email_primary' if passed as email.
+   * @return the newly created user account.
+   */
+  public static function create_user_account( $username ) {
+    $existing_user = get_user_by('login', $username);
+    if ( ! empty($existing_user) ) {
+      return $existing_user;
+    }
+    else {
+      $email = $username . '@127.0.0.1';
+      $password = wp_generate_password( CANDELA_LTI_PASSWORD_LENGTH, true);
+
+      $user_id = wp_create_user( $username, $password, $email );
+
+      $user = new WP_User( $user_id );
+      $user->set_role( 'subscriber' );
+      update_user_meta( $user->ID, CANDELA_LTI_USERMETA_EXTERNAL_KEY, $_POST['user_id'] );
+
+      return $user;
+    }
+  }
+
+  public static function find_user_by_external_id( $id ) {
+    switch_to_blog(1);
+    $params = array(
+      'meta_key' => CANDELA_LTI_USERMETA_EXTERNAL_KEY,
+      'meta_value' => $id,
+      'number' => 1,
+      'count_total' => false,
+    );
+    $users = get_users( $params );
+    $user = reset( $users );
+    restore_current_blog();
+
+    return $user;
+  }
+
+  /**
+   * login the current user (if not logged in) as the user matching $user_id
+   *
+   * @see http://wordpress.stackexchange.com/questions/53503/can-i-programmatically-login-a-user-without-a-password
+   */
+  public static function login_user_no_password( $user_id ) {
+    if ( ! is_user_logged_in() ) {
+      wp_clear_auth_cookie();
+      wp_set_current_user( $user_id );
+      wp_set_auth_cookie( $user_id );
+    }
+  }
 
   /**
    * Add our LTI api endpoint vars so that wordpress "understands" them.
