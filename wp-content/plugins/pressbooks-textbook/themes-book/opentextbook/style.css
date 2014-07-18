@@ -4,13 +4,13 @@ Description: Textbook specific features for the open textbook project. The scree
 Author: Brad Payne
 Version: 0.1
 Template: pressbooks-book
-Tags: Pressbooks Textbook 
+Tags: Pressbooks Textbook
 */
 
 @import url("../../../pressbooks/themes-book/pressbooks-book/style.css");
 
 /********************
-	@Font-Face 
+	@Font-Face
 *********************/
 /* Google fonts included via functions.php */
 
@@ -147,7 +147,7 @@ p.cc-block{
 	width: 100% !important;
 	margin: 30px auto 8px !important;
 	border-radius: 4px;
-	
+
 }
 
 .screen-reader-text{
@@ -155,13 +155,13 @@ p.cc-block{
 }
 
 /*******************************
-	Textbook specific styles 
+	Textbook specific styles
 ********************************/
 
 .bcc-box{
 /*	width: 100%;*/
 	padding: 2% 3%;
-	margin-bottom: 15px; 
+	margin-bottom: 15px;
 	border-radius: 4px;
 }
 
@@ -170,7 +170,7 @@ p.cc-block{
 	margin: -2% -3% 15px;
 	color: #ffffff;
 	padding: 15px 0 15px;
-	
+
 }
 
 .bcc-highlight{
@@ -270,4 +270,85 @@ span.small.xhtml {
 	#sidebar{
 		margin-right: -24px;
 	}
+}
+
+/*************************
+	Buttons
+**************************/
+.btn {
+	box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+	border-radius: 4px;
+	color: #fff;
+	display: inline-block;
+	font-family: 'Oswald', sans-serif;
+	margin: 0 10px;
+	padding: 7px 20px;
+	text-align: center;
+	text-transform: uppercase;
+	width: 120px;
+}
+.btn.red {
+	background-color: #a51b1b;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(179, 56, 56)), to(rgb(165, 27, 27)));
+	background-image: -webkit-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	background-image: -moz-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	background-image: -o-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	background-image: -ms-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	background-image: linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#b33838', EndColorStr='#a51b1b');
+}
+a:hover.btn.red {
+	background-color: #961616;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(171, 51, 51)), to(rgb(150, 22, 22)));
+	background-image: -webkit-linear-gradient(top, rgb(171, 51, 51), rgb(150, 22, 22));
+	background-image: -moz-linear-gradient(top, rgb(171, 51, 51), rgb(150, 22, 22));
+	background-image: -o-linear-gradient(top, rgb(171, 51, 51), rgb(150, 22, 22));
+	background-image: -ms-linear-gradient(top, rgb(171, 51, 51), rgb(150, 22, 22));
+	background-image: linear-gradient(top, rgb(171, 51, 51), rgb(150, 22, 22));
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ab3333', EndColorStr='#961616');
+}
+a:active.btn.red {
+	background-color: #841212;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(144, 42, 42)), to(rgb(132, 18, 18)));
+	background-image: -webkit-linear-gradient(top, rgb(144, 42, 42), rgb(132, 18, 18));
+	background-image: -moz-linear-gradient(top, rgb(144, 42, 42), rgb(132, 18, 18));
+	background-image: -o-linear-gradient(top, rgb(144, 42, 42), rgb(132, 18, 18));
+	background-image: -ms-linear-gradient(top, rgb(144, 42, 42), rgb(132, 18, 18));
+	background-image: linear-gradient(top, rgb(144, 42, 42), rgb(132, 18, 18));
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#902a2a', EndColorStr='#841212');
+}
+
+.btn.blue {
+  background-color: #1b1ba5;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(56, 56, 179)), to(rgb(27, 27, 165)));
+  background-image: -webkit-linear-gradient(top, rgb(56, 56, 179), rgb(27, 27, 165));
+  background-image: -moz-linear-gradient(top, rgb(56, 56, 179), rgb(27, 27, 165));
+  background-image: -o-linear-gradient(top, rgb(56, 56, 179), rgb(27, 27, 165));
+  background-image: -ms-linear-gradient(top, rgb(56, 56, 179), rgb(27, 27, 165));
+  background-image: linear-gradient(top, rgb(56, 56, 179), rgb(27, 27, 165));
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#3838b3', EndColorStr='#1b1ba5');
+}
+a:hover.btn.blue {
+  background-color: #161696;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(51, 51, 171)), to(rgb(22, 22, 150)));
+  background-image: -webkit-linear-gradient(top, rgb(51, 51, 171), rgb(22, 22, 150));
+  background-image: -moz-linear-gradient(top, rgb(51, 51, 171), rgb(22, 22, 150));
+  background-image: -o-linear-gradient(top, rgb(51, 51, 171), rgb(22, 22, 150));
+  background-image: -ms-linear-gradient(top, rgb(51, 51, 171), rgb(22, 22, 150));
+  background-image: linear-gradient(top, rgb(51, 51, 171), rgb(22, 22, 150));
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#3333ab', EndColorStr='#161696');
+}
+a:active.btn.blue {
+  background-color: #121284;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(42, 42, 144)), to(rgb(18, 18, 132)));
+  background-image: -webkit-linear-gradient(top, rgb(42, 42, 144), rgb(18, 18, 132));
+  background-image: -moz-linear-gradient(top, rgb(42, 42, 144), rgb(18, 18, 132));
+  background-image: -o-linear-gradient(top, rgb(42, 42, 144), rgb(18, 18, 132));
+  background-image: -ms-linear-gradient(top, rgb(42, 42, 144), rgb(18, 18, 132));
+  background-image: linear-gradient(top, rgb(42, 42, 144), rgb(18, 18, 132));
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#2a2a90', EndColorStr='#121284');
+}
+
+ul.lti-mapping {
+	list-style: none;
 }
