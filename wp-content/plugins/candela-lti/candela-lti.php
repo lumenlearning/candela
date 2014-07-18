@@ -25,8 +25,9 @@ class CandelaLTI {
     // Table name is always root (site)
     define('CANDELA_LTI_TABLE', 'wp_candelalti');
     define('CANDELA_LTI_DB_VERSION', '1.0');
-    define('CANDELA_LTI_USERMETA_LASTLINK', 'candelalti_lastkey');
     define('CANDELA_LTI_CAP_LINK_LTI', 'candela link lti launch');
+    define('CANDELA_LTI_USERMETA_LASTLINK', 'candelalti_lastkey');
+    define('CANDELA_LTI_USERMETA_LTI_INFO', 'candelalti_lti_info');
     define('CANDELA_LTI_USERMETA_EXTERNAL_KEY', 'candelalti_external_userid');
     define('CANDELA_LTI_PASSWORD_LENGTH', 32);
 
@@ -135,6 +136,7 @@ class CandelaLTI {
     if ( CandelaLTI::user_can_map_lti_links() ) {
       $current_user = wp_get_current_user();
       update_user_meta( $current_user->ID, CANDELA_LTI_USERMETA_LASTLINK, $_POST['resource_link_id'] );
+      update_user_meta( $current_user->ID, CANDELA_LTI_USERMETA_LTI_INFO, serialize($_POST) );
     }
   }
 
@@ -307,19 +309,29 @@ class CandelaLTI {
         // Update db record everything is valid
         $map = CandelaLTI::get_lti_map($wp->query_vars['resource_link_id'] );
 
+        $current_user = wp_get_current_user();
         $values = array(
           'resource_link_id' => $wp->query_vars['resource_link_id'],
           'target_action' => $wp->query_vars['target_action'],
+          'user_id' => $current_user->ID,
+          'lti_info' => serialize( CandelaLTI::get_lti_info_by_user( $current_user->ID ) ),
+        );
+        $value_format = array(
+          '%s',
+          '%s',
+          '%d',
+          '%s',
         );
 
         if ( ! empty( $map->target_action ) ) {
           // update the existing map.
           $where = array( 'resource_link_id' => $wp->query_vars['resource_link_id'] );
-          $result = $wpdb->update(CANDELA_LTI_TABLE, $values, $where, '%s', '%s' );
+          $where_format = array( '%s' );
+          $result = $wpdb->update(CANDELA_LTI_TABLE, $values, $where, $value_format, $where_format );
         }
         else {
           // map was empty... insert the new map.
-          $result = $wpdb->insert(CANDELA_LTI_TABLE, $values, '%s');
+          $result = $wpdb->insert(CANDELA_LTI_TABLE, $values, $value_format );
         }
 
         if ( $result === FALSE ) {
@@ -352,6 +364,22 @@ class CandelaLTI {
       exit();
     }
 
+  }
+
+  /**
+   * Get the last LTI launch info for a given user.
+   */
+  public static function get_lti_info_by_user( $user_id ) {
+    switch_to_blog(1);
+    $lti_info = get_user_meta( $user_id, CANDELA_LTI_USERMETA_LTI_INFO, TRUE);
+    if ( ! empty( $lti_info ) ) {
+      $lti_info = unserialize( $lti_info );
+    }
+    else {
+      $lti_info = array();
+    }
+    restore_current_blog();
+    return $lti_info;
   }
 
   /**
@@ -469,6 +497,8 @@ class CandelaLTI {
       ID mediumint(9) NOT NULL AUTO_INCREMENT,
       resource_link_id TINYTEXT,
       target_action TINYTEXT,
+      user_id mediumint(9),
+      lti_info TEXT,
       PRIMARY KEY (id),
       UNIQUE KEY resource_link_id (resource_link_id(32))
     );";
