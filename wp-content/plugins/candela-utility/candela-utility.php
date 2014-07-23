@@ -9,7 +9,7 @@
  * Author:            Lumen Learning
  * Author URI:        http://lumenlearning.com
  * Text Domain:       lti
- * License:           MIT
+ * License:           GPLv2 or later
  * GitHub Plugin URI: https://github.com/lumenlearning/candela-lti
  */
 
