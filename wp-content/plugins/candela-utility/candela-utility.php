@@ -28,8 +28,8 @@ function init() {
 	add_action( 'init', '\Candela\Utility\register_theme' );
 	add_action( 'wp_enqueue_style', '\Candela\Utility\register_child_theme' );
 	add_filter( 'allowed_themes', '\Candela\Utility\add_theme', 12 );
-
-	add_action('plugins_loaded', '\Candela\Utility\remove_pressbooks_branding');
+	add_action( 'admin_menu', '\Candela\Utility\adjust_admin_menu', 11);
+	add_action( 'plugins_loaded', '\Candela\Utility\remove_pressbooks_branding' );
 }
 
 function remove_pressbooks_branding() {
@@ -61,5 +61,25 @@ function add_theme( $themes ) {
 		$themes = array_merge( $themes, $merge_themes );
 	}
 	return $themes;
+}
+
+function adjust_admin_menu() {
+	global $blog_id;
+
+	$current_user = wp_get_current_user();
+
+	if ( $blog_id != 1 ) {
+		remove_menu_page( "edit.php?post_type=lti_consumer" );
+	}
+
+	// Remove items that non-admins should not see
+	if ( ! in_array('administrator', $current_user->roles) ) {
+		remove_menu_page('themes.php');
+		remove_menu_page('pb_export');
+		remove_menu_page('pb_import');
+		remove_submenu_page('options-general.php', 'pb_import');
+		remove_menu_page('lti-maps');
+	}
+
 }
 
