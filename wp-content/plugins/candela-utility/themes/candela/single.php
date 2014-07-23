@@ -19,9 +19,9 @@
 			      <?php endif; ?>
 
 
-						<?php if ( get_post_type( $post->ID ) !== 'part' ) {
-							the_content();
-						} else {
+						<?php
+						the_content();
+						if ( get_post_type( $post->ID ) === 'part' ) {
 							echo get_post_meta( $post->ID, 'pb_part_content', true );
 						} ?>
 					</div><!-- .entry-content -->
