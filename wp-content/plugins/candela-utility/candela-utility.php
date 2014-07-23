@@ -28,6 +28,14 @@ function init() {
 	add_action( 'init', '\Candela\Utility\register_theme' );
 	add_action( 'wp_enqueue_style', '\Candela\Utility\register_child_theme' );
 	add_filter( 'allowed_themes', '\Candela\Utility\add_theme', 12 );
+
+	add_action('plugins_loaded', '\Candela\Utility\remove_pressbooks_branding');
+}
+
+function remove_pressbooks_branding() {
+	remove_action( 'admin_head', '\PressBooks\Admin\Laf\add_feedback_dialogue' );
+	remove_filter( 'admin_footer_text', '\PressBooks\Admin\Laf\add_footer_link' );
+	remove_action( 'admin_bar_menu', '\PressBooks\Admin\Laf\replace_menu_bar_branding', 11 );
 }
 
 function register_theme() {
