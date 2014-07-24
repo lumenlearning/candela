@@ -30,6 +30,9 @@ function init() {
 	add_filter( 'allowed_themes', '\Candela\Utility\add_theme', 12 );
 	add_action( 'admin_menu', '\Candela\Utility\adjust_admin_menu', 11);
 	add_action( 'plugins_loaded', '\Candela\Utility\remove_pressbooks_branding' );
+
+	add_filter( 'admin_footer_text', '\Candela\Utility\add_footer_link' );
+	add_action( 'admin_bar_menu', '\Candela\Utility\replace_menu_bar_branding', 11 );
 }
 
 function remove_pressbooks_branding() {
@@ -96,3 +99,47 @@ function adjust_admin_menu() {
 
 }
 
+/*
+ * Replace logo in menu bar and add links to About page, Contact page, and forums
+ *
+ * @param \WP_Admin_Bar $wp_admin_bar The admin bar object as it currently exists
+ */
+function replace_menu_bar_branding( $wp_admin_bar ) {
+
+	// remove wordpress menus
+	$wp_admin_bar->remove_menu( 'wp-logo' );
+	$wp_admin_bar->remove_menu( 'documentation' );
+	$wp_admin_bar->remove_menu( 'feedback' );
+	$wp_admin_bar->remove_menu( 'wporg' );
+	$wp_admin_bar->remove_menu( 'about' );
+
+	// remove pressbooks menus
+	$wp_admin_bar->remove_menu( 'support-forums' );
+	$wp_admin_bar->remove_menu( 'contact' );
+
+	$wp_admin_bar->add_menu( array(
+		'id' => 'wp-logo',
+		'title' => 'Candela',
+		'href' => ( 'http://lumenlearning.com/' ),
+		'meta' => array(
+			'title' => __( 'About LumenLearning', 'lumen' ),
+		),
+	) );
+
+}
+
+
+/**
+ * Add a custom message in admin footer
+ */
+function add_footer_link() {
+
+	printf(
+		'<p id="footer-left" class="alignleft">
+		<span id="footer-thankyou">%s <a href="http://lumenlearning.com">Candela</a>
+		</span>
+		</p>',
+		__( 'Powered by', 'lumen' )
+	);
+
+}
