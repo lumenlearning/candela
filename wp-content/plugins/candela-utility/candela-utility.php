@@ -82,5 +82,17 @@ function adjust_admin_menu() {
 		remove_menu_page('edit-comments.php');
 	}
 
+	// Remove items for non-admins and non-editors
+	if ( ! ( in_array('administrator' , $current_user->roles ) || in_array('editor', $current_user->roles) ) ) {
+		$metadata = new \PressBooks\Metadata();
+		$meta = $metadata->getMetaPost();
+		if ( ! empty( $meta ) ) {
+			$book_info_url = 'post.php?post=' . absint( $meta->ID ) . '&action=edit';
+		} else {
+			$book_info_url = 'post-new.php?post_type=metadata';
+		}
+		remove_menu_page($book_info_url);
+	}
+
 }
 
