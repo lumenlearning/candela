@@ -79,6 +79,7 @@ function adjust_admin_menu() {
 		remove_menu_page('pb_import');
 		remove_submenu_page('options-general.php', 'pb_import');
 		remove_menu_page('lti-maps');
+		remove_menu_page('edit-comments.php');
 	}
 
 }
