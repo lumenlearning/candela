@@ -61,7 +61,7 @@ class CandelaLicense {
     $license = get_post_meta( $post_id, CANDELA_LICENSE_FIELD, true);
     $options = CandelaLicense::GetOptions(array($license));
 
-    if (!empty($options[$license]['link'] && !empty($options[$license]['image'] ) ) ) {
+    if (!empty($options[$license]['link']) && !empty($options[$license]['image']) ) {
       echo '<a href="' . $options[$license]['link'] . ' rel="license"><img src="' . $options[$license]['image'] . '"></a>';
     }
     else {
