@@ -39,4 +39,11 @@ div.im_block h3:first-child{
 	font-size:85%;
 	line-height:1.3em;
 }
+.im_glossdef {
+	display: none; 
+}
+.im_glossterm.hoverdef {
+	cursor: help;
+  	border-bottom: 1px dotted #999999;
+}
 
