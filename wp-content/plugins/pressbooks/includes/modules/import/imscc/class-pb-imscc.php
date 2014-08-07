@@ -314,7 +314,7 @@ class IMSCCParser {
         case '#text':
         case 'text':
           $text = $element->nodeValue;
-          if ( ! empty( trim( $text ) ) ) {
+          if ( trim( $text ) ) {
             $info['text'] = $text;
           }
           break;
