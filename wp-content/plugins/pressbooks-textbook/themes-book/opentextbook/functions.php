@@ -54,6 +54,17 @@ function opentextbook_theme_options_global_init() {
 		)
 	);
 	
+	add_settings_field(
+		'enable_mathjax',
+		__( 'MathJax', 'opentextbook' ),
+		'opentextbook_theme_mathjax_callback',
+		$_page,
+		$_section,
+		array(
+			 __( 'Enable MathJax', 'opentextbook' )
+		)
+	);
+	
 	register_setting(
 		$_page,
 		$_option,
@@ -93,6 +104,20 @@ function opentextbook_theme_source_based_css_callback( $args ) {
 	echo $html;
 }
 
+// Mathjax Field Callback
+function opentextbook_theme_mathjax_callback( $args ) {
+
+	$options = get_option( 'opentextbook_theme_options_global' );
+	
+	if ( ! isset( $options['enable_mathjax'] ) ) {
+		$options['enable_mathjax'] = 0;
+	}
+	$html .= '<input type="checkbox" id="enable_mathjax" name="opentextbook_theme_options_global[enable_mathjax]" value="1" '.checked(1, $options['enable_mathjax'], false) . '/>';
+	$html .= '<label for="enable_mathjax">'.$args[0].'</label>';
+	
+	echo $html;
+}
+
 // Global Options Input Sanitization
 function opentextbook_theme_options_global_sanitize( $input ) {
 
@@ -103,6 +128,7 @@ function opentextbook_theme_options_global_sanitize( $input ) {
 	} else {
 		$options['toc_collapse'] = 1;
 	}
+	
 	$options['source_based_css'] = 0;
 	if ( isset( $input['source_based_css_1'] ) && $input['source_based_css_1']=='1' ) {
 		$options['source_based_css'] += 1;
@@ -110,6 +136,12 @@ function opentextbook_theme_options_global_sanitize( $input ) {
 	if ( isset( $input['source_based_css_2'] ) && $input['source_based_css_2']=='2' ) {
 		$options['source_based_css'] += 2;
 	} 
+	
+	if ( ! isset( $input['enable_mathjax'] ) || $input['enable_mathjax'] != '1' ) {
+		$options['enable_mathjax'] = 0;
+	} else {
+		$options['enable_mathjax'] = 1;
+	}
 	return $options;
 }
 
@@ -140,6 +172,11 @@ function opentextbook_get_header_scripts() {
 	if (@$options['source_based_css']&2==2) {
 		wp_enqueue_style('opentextbook_lb_css', 
 			get_stylesheet_directory_uri().'/css/lb.css');
+	}
+	if ( @$options['enable_mathjax'] ) {
+		wp_enqueue_script(
+			'opentextbook_enable_mathjax', 
+			'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML');
 	}
 }
 add_action('wp_enqueue_scripts', 'opentextbook_get_header_scripts');
