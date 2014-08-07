@@ -42,8 +42,4 @@ div.im_block h3:first-child{
 .im_glossdef {
 	display: none; 
 }
-.im_glossterm.hoverdef {
-	cursor: help;
-  	border-bottom: 1px dotted #999999;
-}
 

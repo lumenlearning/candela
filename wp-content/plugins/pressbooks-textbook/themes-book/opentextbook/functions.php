@@ -172,10 +172,6 @@ function opentextbook_get_header_scripts() {
 	if (@$options['source_based_css']&2==2) {
 		wp_enqueue_style('opentextbook_lb_css', 
 			get_stylesheet_directory_uri().'/css/lb.css');
-		wp_enqueue_script(
-			'opentextbook_lb_js', 
-			get_stylesheet_directory_uri().'/js/lb.js',
-			array( 'jquery' ));
 	}
 	if ( @$options['enable_mathjax'] ) {
 		wp_enqueue_script(
