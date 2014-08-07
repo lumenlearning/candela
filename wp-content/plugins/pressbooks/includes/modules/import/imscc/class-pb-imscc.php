@@ -405,6 +405,8 @@ class IMSCCParser {
               $xpath = new \DOMXPath($doc);
               $body = $xpath->query('/html/body');
               $html = $doc->saveHTML($body->item(0));
+              // Prefix element IDs with special meaning
+              $html = preg_replace('/id="(wrap|content|sidebar|booknav|toc)"/','id="page_$1"',$html);
               return $html;
               break;
             default:
