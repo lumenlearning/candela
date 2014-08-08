@@ -17,11 +17,15 @@ class IMSCC extends Import {
       return FALSE;
     }
 
+    list($chapters, $ispart) = $imscc->getImportableContent();
+    
     $option = array(
       'file' => $upload['file'],
       'file_type' => $upload['type'],
       'type_of' => 'imscc',
-      'chapters' => $imscc->getImportableContent(),
+      'chapters' => $chapters,
+      'is_part' => $ispart,
+      'allow_parts' => true
     );
     $imscc->cleanUp();
 
@@ -42,6 +46,7 @@ class IMSCC extends Import {
     $items = $imscc->manifestGetItems();
     $match_ids = array_flip( array_keys( $current_import['chapters'] ) );
     if (!empty($items)) {
+      $current_post_parent = -1;
       foreach ($items as $id => $item) {
         // Skip
         if ( ! $this->flaggedForImport( $id ) ) continue;
@@ -50,21 +55,36 @@ class IMSCC extends Import {
         $post_type = $this->determinePostType( $id );
         $new_post = array(
           'post_title' => wp_strip_all_tags( $item['title'] ),
-          'post_content' => $imscc->getContent( $id ),
           'post_type' => $post_type,
-          'post_status' => 'draft',
+          'post_status' => ( 'part' == $post_type )?'publish':'draft',
         );
+        if ( 'part' != $post_type ) {
+          $new_post['post_content'] = $imscc->getContent( $id );
+        }
 
         if ( 'chapter' == $post_type ) {
-          $new_post['post_parent'] = $this->getChapterParent();
+          if ($current_post_parent==-1) {
+            $new_post['post_parent'] = $this->getChapterParent();
+          } else {
+            $new_post['post_parent'] = $current_post_parent;
+          }
         }
 
         $pid = wp_insert_post( $new_post );
+        
+        //store part post ID to use as parent for subsequent chapters
+        if ( 'part' == $post_type ) {
+          $current_post_parent = $pid;
+        }
 
         // @todo postmeta like author
 
         update_post_meta( $pid, 'pb_show_title', 'on' );
         update_post_meta( $pid, 'pb_export', 'on' );
+        
+        if ( 'part' == $post_type && $imscc->getContent( $id ) ) {
+          update_post_meta( $pid, 'pb_part_content', $imscc->getContent( $id ) );
+        }
 
         Book::consolidatePost( $pid, get_post( $pid ) );
         ++$total;
@@ -99,7 +119,10 @@ class IMSCCParser {
 
   // Cache discovered importable content.
   private $content;
-
+  
+  // Cache whether content appears to be section header
+  private $content_ispart;
+  
   function __construct($file) {
     try {
       $this->unzip($file);
@@ -283,7 +306,8 @@ class IMSCCParser {
     }
     else {
       // Figure out what to do.
-      $content = '<pre>' . var_export($item, 1) . '</pre>';
+      //seeing this isn't useful
+      //$content = '<pre>' . var_export($item, 1) . '</pre>';
     }
 
     return $content;
@@ -351,12 +375,14 @@ class IMSCCParser {
   function getImportableContent() {
     if ( empty( $this->content ) ) {
       $this->content = array();
+      $this->content_ispart = array();
       foreach ( $this->items as $id => $item ) {
         $this->content[$item['identifier']] = $item['title'];
+        $this->content_ispart[$item['identifier']] = !isset($item['identifierref']);
       }
     }
 
-    return $this->content;
+    return array($this->content, $this->content_ispart);
   }
 
     /**

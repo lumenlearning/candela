@@ -58,6 +58,9 @@ $current_import = get_option( 'pressbooks_current_import' );
 				<th><?php _e( 'Title', 'pressbooks' ); ?></th>
 				<th style="width:10%;"><?php _e( 'Front Matter', 'pressbooks' ); ?></th>
 				<th style="width:10%;"><?php _e( 'Chapter', 'pressbooks' ); ?></th>
+				<?php if ( !empty( $current_import['allow_parts'] ) ) {?>
+				<th style="width:10%;"><?php _e( 'Part', 'pressbooks' ); ?></th>
+				<?php } ?>
 				<th style="width:10%;"><?php _e( 'Back Matter', 'pressbooks' ); ?></th>
 			</tr>
 			</thead>
@@ -74,7 +77,12 @@ $current_import = get_option( 'pressbooks_current_import' );
 					<td><input type='checkbox' id='selective_import_<?php echo $i; ?>' name='chapters[<?php echo $key; ?>][import]' value='1'></td>
 					<td><label for="selective_import_<?php echo $i; ?>"><?php echo $chapter; ?></label></td>
 					<td><input type='radio' name='chapters[<?php echo $key; ?>][type]' value='front-matter'></td>
+					<?php if ( !empty( $current_import['allow_parts'] ) ) {?>
+					<td><input type='radio' name='chapters[<?php echo $key; ?>][type]' value='chapter' <?php if (!$current_import['is_part'][$key]) echo 'checked="checked"';?>></td>
+					<td><input type='radio' name='chapters[<?php echo $key; ?>][type]' value='part' <?php if ($current_import['is_part'][$key]) echo 'checked="checked"';?>></td>
+					<?php } else { ?>
 					<td><input type='radio' name='chapters[<?php echo $key; ?>][type]' value='chapter' checked='checked'></td>
+					<?php } ?>
 					<td><input type='radio' name='chapters[<?php echo $key; ?>][type]' value='back-matter'></td>
 				</tr>
 				<?php
