@@ -91,7 +91,31 @@ $current_import = get_option( 'pressbooks_current_import' );
 			?>
 			</tbody>
 		</table>
-
+		<?php
+		if ( is_plugin_active( 'candela-citation/candela-citation.php' ) ) { 
+		?>
+			<div class="metabox-holder">
+				<div id="citations" class="postbox">
+					<h3><?php echo __( 'Citations', 'candela-citations' ); ?></h3>
+					<div class="inside">
+						<?php	CandelaCitation::add_citation_meta(null, null); ?>
+					</div>
+				</div>
+			</div>
+		<?php 
+		} 
+		if ( is_plugin_active( 'candela-license/candela-license.php' ) ) {
+		?>
+			<div class="metabox-holder">
+				<div id="citations" class="postbox">
+					<h3><?php echo __( 'Page License', 'candela-license' ); ?></h3>
+					<div class="inside">
+						<?php	CandelaLicense::add_license_meta(null, null);?>
+					</div>
+				</div>
+			</div>
+		<?php } ?>
+		
 		<p><?php
 			submit_button( __( 'Start', 'pressbooks' ), 'primary', 'submit', false );
 			echo " &nbsp; "; // Space
