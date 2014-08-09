@@ -17,14 +17,14 @@ class IMSCC extends Import {
       return FALSE;
     }
 
-    list($chapters, $ispart) = $imscc->getImportableContent();
+    list($chapters, $types) = $imscc->getImportableContent();
     
     $option = array(
       'file' => $upload['file'],
       'file_type' => $upload['type'],
       'type_of' => 'imscc',
       'chapters' => $chapters,
-      'is_part' => $ispart,
+      'post_types' => $types,
       'allow_parts' => true
     );
     $imscc->cleanUp();
@@ -120,8 +120,9 @@ class IMSCCParser {
   // Cache discovered importable content.
   private $content;
   
-  // Cache whether content appears to be section header
-  private $content_ispart;
+  // Cache whether content appears to be part or a chapter
+  //   (part if it's a module title>
+  private $content_type;
   
   function __construct($file) {
     try {
@@ -378,11 +379,11 @@ class IMSCCParser {
       $this->content_ispart = array();
       foreach ( $this->items as $id => $item ) {
         $this->content[$item['identifier']] = $item['title'];
-        $this->content_ispart[$item['identifier']] = !isset($item['identifierref']);
+        $this->content_type[$item['identifier']] = isset($item['identifierref'])?'chapter':'part';
       }
     }
 
-    return array($this->content, $this->content_ispart);
+    return array($this->content, $this->content_type);
   }
 
     /**
