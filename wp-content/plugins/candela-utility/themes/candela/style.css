@@ -71,6 +71,18 @@ ol.alphalist li::before{
 .page-title {
 	font-weight: normal;
 }
+
+#toc h4, #toc li.chapter {
+	padding-left: 10px;
+	text-indent: -10px;
+}
+
+#toc .dashicons {
+	color: #aaa;
+}
+#toc h4:hover .dashicons {
+	color: #777;
+}
 /****************************************
 	Structure
 *****************************************/

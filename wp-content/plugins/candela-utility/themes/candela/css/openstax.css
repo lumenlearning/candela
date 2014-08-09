@@ -1,0 +1,25 @@
+.cnx-eoc div.exercise {
+	background-color:#eee;
+	margin-bottom: 1.2em;
+}
+.cnx-eoc div.exercise > .title {
+	background-color:#aaa;
+	color:#fff;
+	padding: 1px 5px;
+}
+.cnx-eoc div.exercise .body {
+	margin: 5px;
+}
+div.note {
+	margin: 10px 3em 0;
+}
+div.figure {
+	margin: 20px;
+}
+div.figure div.mediaobject {
+	text-align: center;
+}
+div.figure > div.title, div.figure > div.caption {
+	font-size:85%;
+	line-height:1.3em;
+}
