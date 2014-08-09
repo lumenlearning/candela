@@ -79,18 +79,26 @@ class Epub201 extends Import {
 		foreach ( $xml->manifest->children() as $item ) {
 
 			// Get attributes
-			$id = $title = $type = '';
+			$id = $title = $type = $href = '';
 			foreach ( $item->attributes() as $key => $val ) {
 				if ( 'id' == $key ) $id = (string) $val;
 				elseif ( 'media-type' == $key ) $type = (string) $val;
 				elseif ( 'href' == $key && 'OEBPS/copyright.html' == $val ) $this->pbCheck( $val );
+				if ( 'href' == $key ) $href = $val;
 			}
 
 			// Skip
 			if ( 'application/xhtml+xml' != $type ) continue;
 
 			// Set
-			$title = $id; // TODO: Get real title
+			$title = $id; 
+			$html = $this->getZipContent( $this->basedir . $href, false );
+
+			$matches = array();
+	
+			preg_match( '/<title>(.+)<\/title>/', $html, $matches );
+			$title = ( ! empty( $matches[1] ) ? wp_strip_all_tags( $matches[1] ) : '__UNKNOWN__' );
+			
 			$option['chapters'][$id] = $title;
 		}
 
@@ -375,6 +383,9 @@ class Epub201 extends Import {
 		// Remove auto-created <html> <body> and <!DOCTYPE> tags.
 		$result = preg_replace( '/^<!DOCTYPE.+?>/', '', str_replace( array ( '<html>', '</html>', '<body>', '</body>' ), array ( '', '', '', '' ), $html ) );
 
+		// Prefix element IDs with special meaning
+		$result = preg_replace('/id="(wrap|content|sidebar|booknav|toc)"/','id="page_$1"',$result);
+		
 		if ( true == $this->isPbEpub ) {
 			// Remove PB created div id (on EPUB201 Export) that will generate a princexml error on re-export 
 			// @see createPartsAndChapters() in export/epub/class-pb-epub201.php

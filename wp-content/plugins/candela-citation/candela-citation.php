@@ -315,6 +315,7 @@ class CandelaCitation {
    */
   public static function save( $post_id ) {
     error_log(var_export($_POST,1));
+   
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
       return $post_id;
     }
@@ -327,8 +328,18 @@ class CandelaCitation {
 
     $types = CandelaCitation::postTypes();
     $fields = CandelaCitation::citation_fields();
+    
+    $posttype = '';
+    if ( isset( $_POST['post_type'] ) ) {
+      $posttype = $_POST['post_type'];
+    } else {
+      $post = get_post( $post_id );
+      if ( !empty( $post->post_type ) ) {
+      	      $posttype = $post->post_type;
+      }
+    }
 
-    if ( isset( $_POST['post_type'] ) && in_array( $_POST['post_type'], $types ) ) {
+    if ( $posttype != '' && in_array( $posttype, $types ) ) {
       // Use the first citation field to determine if citation fields were submitted.
       $key = key($fields);
 
@@ -347,7 +358,6 @@ class CandelaCitation {
         }
       }
     }
-
     update_post_meta( $post_id, CANDELA_CITATION_FIELD, serialize( $citations ) );
   }
 
