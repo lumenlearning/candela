@@ -115,7 +115,17 @@ class CandelaLTI {
     }
     // Currently just redirect to the blog/site homepage.
     if ( ! ( empty( $wp->query_vars['blog'] ) ) ){
-      switch_to_blog((int)$wp->query_vars['blog']);
+      if ( !is_numeric( $wp->query_vars['blog'] ) ) {
+         $details = get_blog_details($wp->query_vars['blog']);
+         if ( $details && $details->blog_id ) {
+           switch_to_blog((int)$details->blog_id);
+         } else {
+           wp_redirect( get_site_url( 1 ) );
+           exit;
+         }
+      } else {
+         switch_to_blog((int)$wp->query_vars['blog']);
+      }
       wp_redirect( get_bloginfo('wpurl') . '/table-of-contents' );
       exit;
     }
@@ -281,6 +291,7 @@ class CandelaLTI {
    * Add our LTI resource_link_id mapping api endpoint
    */
   public static function add_rewrite_rule() {
+    add_rewrite_rule( '^api/lti/([a-z][a-z0-9]*)/?$', 'index.php?__lti=1&blog=$matches[1]', 'top');
     add_rewrite_rule( '^api/candelalti?(.*)', 'index.php?__candelalti=1&$matches[1]', 'top');
   }
 
