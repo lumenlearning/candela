@@ -47,6 +47,7 @@ class CandelaLTI {
     add_filter('the_content', array( __CLASS__, 'content_map_lti_launch'), 20);
 
     add_action('admin_menu', array( __CLASS__, 'admin_menu'));
+    
 	}
 
   /**
@@ -100,6 +101,7 @@ class CandelaLTI {
     CandelaLTI::remove_db_table();
   }
 
+
   /**
    * Responder for action lti_launch.
    */
@@ -115,8 +117,23 @@ class CandelaLTI {
     }
     // Currently just redirect to the blog/site homepage.
     if ( ! ( empty( $wp->query_vars['blog'] ) ) ){
-      switch_to_blog((int)$wp->query_vars['blog']);
-      wp_redirect( get_bloginfo('wpurl') . '/table-of-contents' );
+      if ( !is_numeric( $wp->query_vars['blog'] ) ) {
+         $details = get_blog_details($wp->query_vars['blog']);
+         if ( $details && $details->blog_id ) {
+           switch_to_blog((int)$details->blog_id);
+         } else {
+           wp_redirect( get_site_url( 1 ) );
+           exit;
+         }
+      } else {
+         switch_to_blog((int)$wp->query_vars['blog']);
+      }
+      if ( ! ( empty ( $wp->query_vars['bookpage'] ) ) ) {
+      	 $post = $wp->query_vars['bookpage'];
+      } else {
+      	 $post = 'table-of-contents';
+      }
+      wp_redirect( get_bloginfo('wpurl') . '/' . $post );
       exit;
     }
 
@@ -274,6 +291,7 @@ class CandelaLTI {
     $query_vars[] = 'action';
     $query_vars[] = 'ID';
     $query_vars[] = 'candela-lti-nonce';
+    $query_vars[] = 'bookpage';
     return $query_vars;
   }
 
@@ -282,6 +300,12 @@ class CandelaLTI {
    */
   public static function add_rewrite_rule() {
     add_rewrite_rule( '^api/candelalti?(.*)', 'index.php?__candelalti=1&$matches[1]', 'top');
+    
+    //Extend the LTI api endpoint to support name-based blogs
+    // and to allow link to specific posts in the launch
+    add_rewrite_rule( '^api/lti/([0-9]+)/([a-z\-0-9]+)/?', 'index.php?__lti=1&blog=$matches[1]&bookpage=$matches[2]', 'top');
+    add_rewrite_rule( '^api/lti/([a-z][a-z0-9]*)/([a-z\-0-9]+)/?', 'index.php?__lti=1&blog=$matches[1]&bookpage=$matches[2]', 'top');
+    add_rewrite_rule( '^api/lti/([a-z][a-z0-9]*)/?\s*$', 'index.php?__lti=1&blog=$matches[1]', 'top');
   }
 
   /**
@@ -344,7 +368,7 @@ class CandelaLTI {
       if ( wp_verify_nonce($wp->query_vars['candela-lti-nonce'], 'unmapping-lti-link') && ! empty( $wp->query_vars['action'] ) ) {
         switch ( $wp->query_vars['action'] ) {
           case 'delete':
-            if ( !empty($wp->query_vars['ID'] && is_numeric($wp->query_vars['ID']))) {
+            if ( !empty($wp->query_vars['ID']) && is_numeric($wp->query_vars['ID'])) {
               $wpdb->delete( CANDELA_LTI_TABLE, array( 'ID' => $wp->query_vars['ID'] ) );
             }
             break;
