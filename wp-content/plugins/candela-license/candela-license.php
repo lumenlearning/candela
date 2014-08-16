@@ -28,6 +28,7 @@ class CandelaLicense {
 
     add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
     add_action( 'save_post', array( __CLASS__, 'save') );
+    add_filter( 'pb_import_metakeys', array( __CLASS__, 'get_import_metakeys') );
   }
 
   /**
@@ -61,7 +62,7 @@ class CandelaLicense {
     $license = get_post_meta( $post_id, CANDELA_LICENSE_FIELD, true);
     $options = CandelaLicense::GetOptions(array($license));
 
-    if (!empty($options[$license]['link'] && !empty($options[$license]['image'] ) ) ) {
+    if (!empty($options[$license]['link']) && !empty($options[$license]['image']) ) {
       echo '<a href="' . $options[$license]['link'] . ' rel="license"><img src="' . $options[$license]['image'] . '"></a>';
     }
     else {
@@ -143,6 +144,14 @@ class CandelaLicense {
       $options[$option]['selected'] = (in_array($option, $selected) ? TRUE : FALSE);
     }
     return $options;
+  }
+  
+  /**
+   * Add Candela License to to-import meta 
+   */
+  public static function get_import_metakeys( $fields ) {
+  	$fields[] = CANDELA_LICENSE_FIELD; 
+  	return $fields; 
   }
 
   /**
