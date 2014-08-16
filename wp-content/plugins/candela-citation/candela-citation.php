@@ -39,6 +39,7 @@ class CandelaCitation {
       'chapter',
       'front-matter',
       'part',
+      'pb_import'
     );
   }
 
@@ -328,7 +329,17 @@ class CandelaCitation {
     $types = CandelaCitation::postTypes();
     $fields = CandelaCitation::citation_fields();
 
-    if ( isset( $_POST['post_type'] ) && in_array( $_POST['post_type'], $types ) ) {
+    $posttype = '';
+    if ( isset( $_POST['post_type'] ) ) {
+      $posttype = $_POST['post_type'];
+    } else {
+      $post = get_post( $post_id );
+      if ( !empty( $post->post_type ) ) {
+      	      $posttype = $post->post_type;
+      }
+    }
+ 
+    if ( $posttype != '' && in_array( $posttype, $types ) ) {
       // Use the first citation field to determine if citation fields were submitted.
       $key = key($fields);
 

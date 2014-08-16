@@ -39,6 +39,7 @@ class CandelaLicense {
       'chapter',
       'front-matter',
       'part',
+      'pb_import'
     );
   }
 
@@ -61,7 +62,7 @@ class CandelaLicense {
     $license = get_post_meta( $post_id, CANDELA_LICENSE_FIELD, true);
     $options = CandelaLicense::GetOptions(array($license));
 
-    if (!empty($options[$license]['link'] && !empty($options[$license]['image'] ) ) ) {
+    if (!empty($options[$license]['link']) && !empty($options[$license]['image'] ) ) {
       echo '<a href="' . $options[$license]['link'] . ' rel="license"><img src="' . $options[$license]['image'] . '"></a>';
     }
     else {
@@ -164,7 +165,17 @@ class CandelaLicense {
 
     $licenses = array_keys(CandelaLicense::GetOptions());
 
-    if ( isset( $_POST['post_type'] ) && in_array( $_POST['post_type'], $types ) ) {
+    $posttype = '';
+    if ( isset( $_POST['post_type'] ) ) {
+      $posttype = $_POST['post_type'];
+    } else {
+      $post = get_post( $post_id );
+      if ( !empty( $post->post_type ) ) {
+      	      $posttype = $post->post_type;
+      }
+    }
+ 
+    if ( $posttype != '' && in_array( $posttype, $types ) ) {
       if ( isset( $_POST['candela-license'] ) && in_array($_POST['candela-license'], $licenses)) {
         update_post_meta( $post_id, CANDELA_LICENSE_FIELD, $_POST['candela-license']);
       }
