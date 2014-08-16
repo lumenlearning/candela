@@ -28,6 +28,7 @@ class CandelaLicense {
 
     add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
     add_action( 'save_post', array( __CLASS__, 'save') );
+    add_filter( 'pb_import_metakeys', array( __CLASS__, 'get_import_metakeys') );
   }
 
   /**
@@ -143,6 +144,14 @@ class CandelaLicense {
       $options[$option]['selected'] = (in_array($option, $selected) ? TRUE : FALSE);
     }
     return $options;
+  }
+  
+  /**
+   * Add Candela License to to-import meta 
+   */
+  public static function get_import_metakeys( $fields ) {
+  	$fields[] = CANDELA_LICENSE_FIELD; 
+  	return $fields; 
   }
 
   /**
