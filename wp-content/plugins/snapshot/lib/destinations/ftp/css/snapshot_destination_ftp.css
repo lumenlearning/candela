@@ -1,0 +1,21 @@
+button#snapshot-destination-test-connection {
+	float: left;
+}
+
+#snapshot-ajax-destination-test {
+    display: block;
+    float: left;
+    margin-left: 20px;
+    padding: 5px 10px;
+    background-color: #FFFFFF;
+    border-color: #DFDFDF;
+	width: 60%
+}
+
+#snapshot-ajax-destination-test.snapshot-loading {
+	background: url("../img/snapshot-test-connection-loader.gif") no-repeat scroll 0 0 transparent;
+	height: 25px;
+}
+
+
+/* 94382-1408466579-ai */

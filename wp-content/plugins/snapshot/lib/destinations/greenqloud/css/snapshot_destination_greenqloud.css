@@ -1,0 +1,24 @@
+button#snapshot-destination-test-connection,
+button#snapshot-destination-aws-get-bucket-list,
+span#snapshot-destination-bucket-display,
+select#snapshot-destination-bucket-list {
+/*	float: left; */
+}
+
+#snapshot-ajax-destination-test-result,
+#snapshot-ajax-destination-bucket-error {
+    display: block;
+    padding: 5px 10px;
+    background-color: #FFFFFF;
+    border-color: #DFDFDF;
+	width: 60%
+}
+
+#snapshot-ajax-destination-test-result.snapshot-loading,
+#snapshot-ajax-destination-bucket-error.snapshot-loading {
+	background: url("../img/snapshot-test-connection-loader.gif") no-repeat scroll 0 0 transparent;
+	height: 25px;
+}
+
+
+/* 94382-1408466579-ai */
