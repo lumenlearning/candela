@@ -1,0 +1,219 @@
+.snapshot-warning p, p.snapshot-warning {
+	font-weight: bold;
+}
+
+/*
+.snapshot-error p, p.snapshot-error, .widefat p.snapshot-error {
+	font-weight: bold;
+	color: #FF0000;
+}
+*/
+
+.snapshot-success {
+	font-weight: bold;
+	color: green;
+}
+
+.snapshot-error {
+	font-weight: bold;
+	color: #FF0000;
+}
+
+.snapshot-wrap ul.snapshot-table-list li {
+/*	width: 33%; */
+	width: 25%;
+	float: left;
+}
+
+.snapshot-wrap table.widefat {
+	margin-bottom: 7px;
+	margin-top: 7px;
+}
+
+.snapshot-wrap table.widefat td {
+	padding: 6px 7px;
+}
+
+.snapshot-wrap table.widefat th.snapshot-col-restore { width: 1%; }
+.snapshot-wrap table.widefat th.snapshot-col-delete { width: 1%; }
+.snapshot-wrap table.widefat th.snapshot-col-blog, table.snapshot-item-archives-table th.column-blog { width: 7%; }
+.snapshot-wrap table.widefat th.snapshot-col-name, table.snapshot-item-archives-table th.column-name { width: 7%; }
+.snapshot-wrap table.widefat th.snapshot-col-date, table.snapshot-item-archives-table th.column-date { width: 10%; }
+.snapshot-wrap table.widefat th.snapshot-col-notes { width: 10%; }
+table.snapshot-item-archives-table th.column-notes { width: 10%; }
+.snapshot-wrap table.widefat th.snapshot-col-authorized { width: 10%; }
+.snapshot-wrap table.widefat th.snapshot-col-directory { width: 10%; }
+.snapshot-wrap table.widefat th.snapshot-col-access-key { width: 10%; }
+.snapshot-wrap table.widefat th.snapshot-col-bucket { width: 10%; }
+.snapshot-wrap table.widefat th.snapshot-col-server { width: 10%; }
+.snapshot-wrap table.widefat th.snapshot-col-login { width: 10%; }
+.snapshot-wrap table.widefat th.snapshot-col-used { width: 5%; }
+.snapshot-wrap table.widefat th.snapshot-col-file, table.snapshot-item-archives-table th.column-archives { width: 20%; }
+.snapshot-wrap table.widefat th.snapshot-col-interval, table.snapshot-item-archives-table th.column-interval { width: 13%; }
+.snapshot-wrap table.widefat th.snapshot-col-size, table.snapshot-item-archives-table th.column-size { width: 10%; }
+.snapshot-wrap table.widefat th.snapshot-col-logs, table.snapshot-item-archives-table th.column-logs { width: 10%; }
+.snapshot-wrap table.widefat th.snapshot-col-destination, table.snapshot-item-archives-table th.column-destination { width: 7%; }
+table.snapshot-item-archives-table th.column-file { width: 20%; }
+.snapshot-wrap table.widefat th.snapshot-col-status, table.snapshot-item-archives-table th.column-status { width: 10%; }
+
+table.snapshot-item-archives-table th.column-cb { width: 2%;}
+.snapshot-wrap table.widefat th.snapshot-col-delete,
+.snapshot-wrap table.widefat td.snapshot-col-delete {
+	text-align: center;
+}
+
+#icon-snapshot.icon32 {
+	background: url(../images/icon/greyscale-36.png) center center no-repeat;
+	height: 36px;
+	width: 36px;
+}
+
+#snapshot-progress-bar-container {
+	width: 60%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	float: left;
+	height: 500px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#snapshot-progress-bar-container .snapshot-item {
+    border-color: #DFDFDF;
+    border-style: solid;
+    border-width: 1px;
+    margin-top: -1px;
+    min-height: 36px;
+    position: relative;
+    width: 99%;
+}
+
+#snapshot-progress-bar-container .snapshot-item .progress {
+    background: -moz-linear-gradient(center bottom , #FFFFFF 0pt, #F7F7F7 100%) repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #D1D1D1;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1) inset;
+    float: right;
+    height: 22px;
+    line-height: 2em;
+    margin: 6px 10px 2px 0;
+    overflow: hidden;
+    padding: 0;
+    width: 200px;
+	display: block;
+	opacity: 1.0;
+}
+
+#snapshot-progress-bar-container .snapshot-item .progress .percent {
+    color: rgba(0, 0, 0, 0.6);
+    padding: 0 8px;
+    position: relative;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+/*    width: 200px; */
+    z-index: 10;
+}
+
+#snapshot-progress-bar-container .snapshot-item .progress .bar {
+    background-color: #83B4D8;
+    background-image: -moz-linear-gradient(center bottom , #72A7CF 0pt, #90C5EE 100%);
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    height: 100%;
+    margin-top: -24px;
+    width: 0;
+    z-index: 9;
+    border-right-color: #9999DD;
+}
+
+#snapshot-progress-bar-container .snapshot-item .snapshot-text {
+    height: 34px;
+    position: relative;
+    line-height: 36px;
+    overflow: hidden;
+    padding: 0 10px;
+}
+
+#snapshot-progress-bar-container button.snapshot-button-abort {
+    float: right;
+	font-size: 10px;
+/*    height: 24px; */
+    margin-top: 7px;
+	margin-right: 5px;
+/*    padding: 9px; */
+}
+
+div.snapshot-tables-set {
+	clear: both;
+	float: left;
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+div.snapshot-tables-set p.snapshot-tables-title {
+	font-weight: bold;
+}
+
+div.snapshot-tables-set p.snapshot-tables-title a {
+	font-weight: normal;
+}
+
+div.snapshot-log-file-contents {
+	height: 300px;
+	overflow: auto;
+}
+
+ul.snapshot-log-set {
+	margin: 10px 10px;
+	padding: 10px;
+}
+
+tr.snapshot-log-item {
+	background-color: #DDD;
+}
+
+.snapshot-wrap table.snapshot-backup-files td.left {
+	vertical-align: top;
+	width: 40%;
+}
+
+.snapshot-wrap table.snapshot-backup-files td.right {
+	vertical-align: top;
+	width: 60%;
+}
+
+.snapshot-wrap table.snapshot-backup-files textarea {
+    border-style: solid;
+    border-width: 1px;
+    width: 95%;
+}
+
+#snapshot-ajax-destination-test-result {
+	clear: both;
+	display: block;
+	background: #FFFFFF;
+	width: 95%;
+}
+
+#snapshot-memory-info {
+	width: 65%;
+	float: left;
+	margin-top: 20px;
+}
+
+#snapshot-memory-info div.label {
+	width: 33%;
+	float: left;
+	font-weight: bold;
+}
+
+#snapshot-memory-info div.label span {
+	/*width: 20%; */
+	float: left;
+	padding-left: 5px;
+}
+
+#snapshot-memory-info div.label span.number {
+	font-weight: normal;
+
+
+/* 94382-1408466579-ai */

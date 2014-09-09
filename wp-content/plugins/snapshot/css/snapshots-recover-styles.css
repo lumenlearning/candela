@@ -1,0 +1,13 @@
+span.description {
+	font-family: sans-serif;
+	font-size: 12px;
+	font-style: italic;
+}
+label { font-weight: bold; }
+form.restore_form input[type="text"] { width: 80%; }
+.restore-error { color: red; }
+.restore-success { color: green; }
+.debug { color: green; }
+
+
+/* 94382-1408466579-ai */

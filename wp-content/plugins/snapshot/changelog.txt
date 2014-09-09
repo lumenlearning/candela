@@ -1,0 +1,300 @@
+Plugin Name: Snapshot
+Author: Incsub
+Contributor: Paul Menard
+Contributor: Rheinard Korf (Incsub)
+
+Change Log:
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+2.4.2.7 2014-07-24
+----------------------------------------------------------------------
+- Fixed critical bug with 'local server' as the destination. Automatic backup restored.
+
+2.4.2.6 2014-05-29
+----------------------------------------------------------------------
+- Corrected reported issues where media files on Windows server was not being included in archive creation. 
+
+2.4.2.5 2014-05-22
+----------------------------------------------------------------------
+- Corrected PHP warning for non-initialized variable shown sometimes on the restore screen.
+- Corrected issues with the restore looping logic user for large tables.
+
+2.4.2.4
+----------------------------------------------------------------------
+- Changes to Google Drive destination logic. Moved loading of external Google SDK into destination init function. See if this gets us past the reported library conflicts.
+
+2.4.2.3
+----------------------------------------------------------------------
+- Modified priority for 'cron_schedules' filter registration used within Snapshot to register custom backup intervals for WP_Cron. This is to help prevent issues when other plugins tend to ignore the proper use of filters. 
+
+2.4.2.2
+----------------------------------------------------------------------
+- Corrected reported issue where with one destination defined could not select Dropbox sync via snapshot files option.
+
+2.4.2.1
+----------------------------------------------------------------------
+- Added wrappers to prevent loading Google SDK classes if already loaded by another plugin.
+- Added optional define 'WPMUDEV_SNAPSHOT_DESTINATIONS_EXCLUDE' which can be added to the wp-config.php to prevent certain destinations from being loaded. Possible values are SnapshotDestinationDropbox, SnapshotDestinationGoogleDrive, SnapshotDestinationAWS, SnapshotDestinationFTP, SnapshotDestinationGreenQloud. Multiple destinations can be included as a comma separated value.
+
+2.4.2
+----------------------------------------------------------------------
+- Added support for Google Drive as a destination. 
+- Added support for generic AWS/S3 type system like DreamObjects
+- Corrected stray comma on restore SQL. 
+
+
+2.4.1 - 2014-01-17
+----------------------------------------------------------------------
+- Corrected reported issue where the site lookup was not functioning properly on the restore panel when using site ID under.
+- Correctes reported issue where if the archive was in a sub-directory on the local server the restore init failed. 
+- Updated import panel to allow import or archives local server from alternate locations. 
+- Added support logic when using non-default destination directories. If move of the temp archive to final destination fails then the archive is moved to default snapshot archives folder instead of simply aborting. 
+
+2.4.0.9 - 2013-12-18
+----------------------------------------------------------------------
+- Corrected issue with WPEngine and Dropbox include paths for OAuth. 
+- Corrected to restore logic where non-WordPress tables are included.
+- Reworked restore logic for global tables (users & usermeta) to be setup in segments like other tables.
+- Corrected issue when restoring global tables when table has zero records. 
+- Added debug output on Dropbox chunked uploads to write to snapshot process log for investigation of reported issues. 
+
+2.4.0.8 - 2013-12-13
+----------------------------------------------------------------------
+- Correction to typo. get_siteurl() should be get_site_url()
+
+2.4.0.7 - 2013-12-13
+----------------------------------------------------------------------
+- Update to migration logic. Added support logic to correct old style (pre-MU 3.5) image URLs stores in posts when restoring to new post MU 3.5 site. In pre-MU 3.5 the image URLs were formatted such http://www.site.com/files/2013/12/image.jpg while in 3.5 and new installs the image URLs are http://www.site.com/wp-content/uploads//2013/12/image.jpg. Prior versions of Snapshot only update the domain part of the URL. Reminder Migration logic is still considered beta.
+- Testing for WordPress 3.8
+- Update to WPMU DEV Dashboard Notifications library. 
+
+2.4.0.6 - 2013-11-13
+----------------------------------------------------------------------
+- Fixed reported issue on files restore. When selecting the 'Restore all files' option in some cases none or not all files were being restored. 
+
+2.4.0.5 - 2013-11-06
+----------------------------------------------------------------------
+- Fixed reported issue where blog lookup by ID was no longer functioning under Multi-domain configurations. 
+
+2.4.0.4 - 2013-10-31
+----------------------------------------------------------------------
+- Corrected reported issue of snapshot handing when ONLY Files to be included in archive and there are no files to add to the archive. The result is an empty archive containing only the manifest file.
+- Under Multisite added support logic for Domain Mapper when selecting which sub-site to backup. Users can now enter full mapped domain instead of just the local sub-domain. 
+- Corrected PHP Strict Redefining already defined constructor for class error by moving old-style PHP4 class constructor function below PHP5 __construct() function.
+
+
+2.4.0.3 - 2013-10-17
+----------------------------------------------------------------------
+- Corrected reported issue where files were not being included in manual archives when selecting 'common files'. 
+
+2.4.0.2 - 2013-10-15
+----------------------------------------------------------------------
+- Changed logic for handling files when building zip archives to cut down on zip archive overhead. 
+- Removed legacy support for hp sessions. Now using own containers to hold temporary variables. 
+- Updated instructions on Import page to help with any confusion between an import and restore
+- Fixed some typos on labels. 
+
+
+2.4.0.1 - 2013-10-11
+----------------------------------------------------------------------
+- Corrected reported issue causing 'run now' option to not be available on regular WordPress sites. 
+- Corrected some PHP Notices and Warnings
+
+2.4 - 2013-10-09
+----------------------------------------------------------------------
+- Added migration logic. This is still considered beta. Migration types supported are Regular to Multisite, Multisite to Multisite (same system or different), Multisite to regular. Using the migration logic you can even change the site URL. Note the destination blog must already be setup and working within WordPress.
+- Added backup logic to include users and usermeta data related to the blog being archived. Only user who's primary blog is the archive blog.
+- Rewrite of the import logic. You can now pull in external files from public URL instead of needing to upload the archive to your server first.
+- Code cleanup on some of the archive logic. 
+
+2.3.3.5 - 2013-07-03
+----------------------------------------------------------------------
+- Removed debug output. 
+
+2.3.3.4 - 2013-07-03
+----------------------------------------------------------------------
+- Fixed issue with reported phantom table queries when backup for main site within Multisite.
+- Added support for scheduling backups when WP_CRON is disabled. 
+- Added output on System Info for OpenSSL installed and version. 
+- Added output on System Info for cURL installed, version and protocols supported.
+
+2.3.3.3 - 2013-06-24
+----------------------------------------------------------------------
+- Fixed issue with blog lookup when using Multisite sub-directories
+
+2.3.3.2 - 2013-04-30
+----------------------------------------------------------------------
+- Correction to FTP destination logic to include ftp_ssl_connect function which allows support for FTP with TSL/SSL
+- Modifications to FTP destination screen to replace SSL dropdown with protocol option showing FTP, SFTP and FTP-ES.
+- Corrects admin JavaScript to filter arrays to exclude prototype/scriptaculous automatic methods. 
+- Corrects to ZipArchive logic to strip off leading slashes of filenames which caused them to be hidden on Windows systems
+- Added code to create empty file CACHEDIR.TAG at top uploads/snapshots directory to exclude snapshot archives from unix system backup tools. 
+
+2.3.3.1 - 2013-04-25
+----------------------------------------------------------------------
+- XSS prevention patches
+- Correction to logic for purging local archive associated with remote destinations
+- Added AWS destination region to Sydney
+- Dropbox correction to filter out destination directories with multiple slashes
+
+2.3.3 - 2013-03-09
+----------------------------------------------------------------------
+- Fixed issue where non-WordPress prefixed tables were not showing in tables listing
+- Fixed issue with Dropbox missing slash on destination path for chunk send transactions commit.
+- Fixed issue where users were using backslashes in in destination paths. 
+- Fixed page icon not displaying correctly on archives settings page. 
+ 
+2.3.2.1 - 2013-03-13
+----------------------------------------------------------------------
+- Fixed bug on archive purge when set to 1.
+
+2.3.2 - 2013-02-17
+----------------------------------------------------------------------
+- Corrected issue with Dropbox reporting Bad OAuth Request
+- Added some support logic to prevent abort on hosts where php_uname is disabled. The php_uname function is used for AWS Destinations. 
+
+2.3.1 - 2013-01-28
+----------------------------------------------------------------------
+- Corrected issue with FTP Destination not setting timeout correctly. 
+- Adjusted display for Interval to not show percent transfer for all destinations.
+- Cleanup some logic for setting/removing scheduled WP_CRON tasks on plugin deactivation and activation.
+
+2.3 - 2013-01-22
+----------------------------------------------------------------------
+- Added blog lookup option on Add New Snapshot form. This replaces the previous blog dropdown used to select the backup target. Should work better for very large systems. 
+- Fixed but where phantom snapshot directories were being created under sub-site uploads directory tree. 
+- Fixed issue where Snapshot configurations are only initialized on the Network or primary site admin area.
+
+2.2 - 2012-12-18
+----------------------------------------------------------------------
+- Added logic to support folder and file sync to Dropbox destination.
+- Added logic to backup file sub-sections instead of attempting complete section. So instead of trying to submit the entire plugins folder. We are adding each plugin sub-directory, each theme sub-directory, each media year.
+- Added logic to Abort currently running scheduled processes.
+- Added better scheduled process locking notification. 
+- Added status column to main listing and archive showing Archive status and Destination count
+- Added Destination/Sync progress output percentage to main listing. 
+- Added logic to show what is running Now and will show trailing log of process
+- Added greenqloud as destination option.
+
+2.1 - 2012-11-29
+----------------------------------------------------------------------
+- Added Selective Restore options. Similar to backup options. Lets you select to restore certain tables, File sets (Theme, Plugins, Media). 
+- Also on Restore made process more efficient by restoring sections instead of individual files per call. http://premium.wpmudev.org/forums/topic/snapshot-takes-40-minutes-to-restore-files
+- Correct issue with Windows paths http://premium.wpmudev.org/forums/topic/site-restore-not-working
+- Added role capabilities manage_snapshots_items, manage_snapshots_destinations, manage_snapshots_settings to allow fine tune of who can access Snapshot. This is Single WordPress sonly. On Multisite this is still only Network Admins. http://premium.wpmudev.org/forums/topic/snapshot-features-requests#post-309939
+
+
+2.0.5 - 2012-11-13
+----------------------------------------------------------------------
+- Resolved http://premium.wpmudev.org/forums/topic/save-and-run-immediately-does-not-seem-to-work
+- Resolved http://premium.wpmudev.org/forums/topic/changes-to-schedule-do-not-actually-change-schedule
+- Resolved http://premium.wpmudev.org/forums/topic/delete-destination-bug
+- Resolved http://premium.wpmudev.org/forums/topic/not-backing-up-to-s3-as-configured
+- Added scheduling logic to allow specifying specific start time and interval to scheduling processing
+- Added display logic to show when WP_CRON has been disabled by other plugins or in wp-config
+- Corrected OAuth logic used in Dropbox to not intercept common query strings for other Dropbox plugins. 
+
+2.0.4 - 2012-11-02
+----------------------------------------------------------------------
+- Corrected issue with Amazon (AWS) remote destination when server is running open_basedir http://premium.wpmudev.org/forums/topic/plugin-doesnt-work-on-debian-squeeze-and-ispconfig-3
+- New AWS library used that will handle non-US connections seamlessly.
+- For Dropbox destinations moved include for Dropbox ZPI to be used only when needed instead of loading globally. Will reduce initial memory. 
+- Wrapper on session_start calls to check for existing session id.
+- Fixed issue with enquing scripts that was effecting HTTPS on admin.
+- Fixed issue on non-WP table selection for non-Multisite systems
+- Corrected issue where other plugins are sub-classing $wpdb and snapshot assumed it was running under Multi-DB
+- Corrected bad href on cancel button when adding a Destination http://premium.wpmudev.org/forums/topic/rogue-code-appearing-in-snapshot
+
+2.0.3.1 - 2012-10-12
+----------------------------------------------------------------------
+- Corrected to logic when determining tables associated with blog. http://premium.wpmudev.org/forums/topic/snapshot-table-confusion
+
+2.0.3 - 2012-10-09
+----------------------------------------------------------------------
+- Corrected issue on FTP Destination when using destination directory http://premium.wpmudev.org/forums/topic/snapshot-fails-to-put
+- Corrected issue with Multi-DB integration. Now correctly selecting other databases. Works on restore as well. http://premium.wpmudev.org/forums/topic/snapshot-isnt-doing-anything
+- Correct issue which was causing the previous plugin version options data not to be properly loaded on upgrades. 
+- Corrected JavaScript conflict on manual snapshot creation with jQuery 1.8.2 coming with WordPress 3.5
+- Modified File archive logic. Previous logic added a file at a time to zip archive. This is too costly. Now adding files by section: Media, Plugins, Themes, etc.
+- Added size of archive file to all listing panels. Added better size logic to provide better kb, M, G, etc. size display. 
+- Added Settings section for global file excludes. Previously excludes were only at snapshot level.
+- Added Settings section for easier control or error abort and logging when performing backup or restores. 
+- Added WP version and WP database version to archive manifest information. 
+- Change global object to wpmudev_snapshot for branding and prevent collision with other plugins.
+- Changed all public functions to be prefixed with 'snapshot_'.
+- Wrapped all class with 'class_exists' code to prevent collisions. 
+- Updated inline Settings documentation and field instructions.
+
+2.0.2 - 2012-09-21
+----------------------------------------------------------------------
+- Corrected issue displaying non-WordPress tables under WordPress single running BuddyPress
+http://premium.wpmudev.org/forums/topic/select-non-core-wp-tables-with-snapshot-2x#post-277620
+- Corrected label on main Snapshots table listing for core and non-core tables selected.
+- Added last archive file size to the main Snapshots row output. 
+ 
+
+2.0.1 - 2012-09-19
+----------------------------------------------------------------------
+- Correct URL/Path issue on Dropbox authorization when running WordPress in sub-directory. Thanks Arun!
+- Added clarification to the Remote Destination form fields on Dropbox, AWS and FTP.
+
+2.0 - 2012-09-10
+----------------------------------------------------------------------
+- Support for files
+- Support for remote destinations: FTP, Dropbox, Amazon S3
+- Better support for large file handling
+- Support for alternate destination folder on local server and remote destination
+- Better WP cron management
+- Support for exclusion of file. 
+- Support for custom remote destinations. More on docs coming
+- Better main listing screen complete with standard WP functionality for paging/filtering
+- Added secondary archive screen to list all archive for a specific snapshot. Similar pattern supporting paging
+- Better log view via thickbox 
+
+1.0.6 - 2012-04-09
+----------------------------------------------------------------------
+- Corrected logic to work when zlib compression is turned on. Works now for backups and restore operations
+http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it-to-work
+
+1.0.5 - 2012-04-06
+----------------------------------------------------------------------
+- Corrected error on missing function when attempting to uninstall the plugin per the support thread http://premium.wpmudev.org/forums/topic/unable-to-delete-the-plugin
+- Corrected issue on restore processing causing the previous snapshot files to become missing. 
+
+1.0.4 - 2012-04-03
+----------------------------------------------------------------------
+- Corrected error where table names were not properly escaped.
+- Added Settings panel for Memory Limit control on backup/restore processing
+- Added Error Handler logic to trap PHP fatal errors to backup/restore logs
+- Added date or last Snapshot to the All Snapshots Archives column information
+
+
+1.0.3 - 2012-03-29
+----------------------------------------------------------------------
+- Corrected issue on Directory display permissions on Settings > Server Info
+- Added PHP information to Server Info Settings panel. This should help support and users get at PHP timeout values, etc. 
+- Improved logging logic for new snapshots. Entry and logs now created at start of snapshot instead of on completion. This should allow for better debugging if the table backup aborts. 
+
+
+1.0.2 - 2012-03-27
+----------------------------------------------------------------------
+- Major recoding of the backup/restore processing, error handling and timeout handling. 
+- The plugin is not network enabled only. Via the Network screens the admin can backup any site under a multisite install. 
+- Added scheduling. The admin can set the snapshot archive interval to be one of many different options. 
+- Dropped Activity log panel
+- Added logic to write backup/restore processing to log file. Which are viewable for debugging.
+- Improved on-demand backup to show percentage for each table. Also added an abort option should the processing become stuck.
+
+1.0.1 - 2012-02-15
+----------------------------------------------------------------------
+- Fixed bug in timestamp display for UTC timezones. When selecting UTC-7 for example the time displayed remained GMT 0.
+- Fixed bug in table display on Multisite primary site. On the primary site all tables for all sites were being displayed. 
+- Fixed bug in uninstall processing used when the plugin delete action is taken from Plugin menu.
+
+1.0.0 - 2012-02-09
+----------------------------------------------------------------------
+- Initial stable release
+
+
+94382-1408466579-ai

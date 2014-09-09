@@ -1,0 +1,2461 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Snapshot 2.4.2\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Paul Menard <paul@codehooligans.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: English\n"
+
+#: lib/class_database_tools.php:59
+msgid "There was an error writing a line to the backup script:"
+msgstr ""
+
+#: lib/class_database_tools.php:132
+msgid "Error getting table details"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:17
+#: lib/class_snapshot_archives_table.php:18
+msgid "Archive"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:33
+#: lib/destinations/aws/index.php:517
+#: lib/destinations/dropbox/index.php:203
+#: lib/destinations/ftp/index.php:177
+#: lib/destinations/google-drive/index.php:519
+#: lib/destinations/greenqloud/index.php:495
+msgid "Delete"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:36
+msgid "Resend Archive"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:124
+#: lib/class_snapshot_items_table.php:460
+msgid "files synced to destination"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:138
+#: lib/class_snapshot_archives_table.php:157
+#: lib/class_snapshot_items_table.php:186
+msgid "restore"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:143
+msgid "File sync has no restore at this time"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:149
+#: lib/class_snapshot_archives_table.php:227
+#: lib/class_snapshot_items_table.php:480
+#: lib/snapshot_admin_metaboxes.php:1243
+msgid "download"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:167
+#: lib/class_snapshot_items_table.php:193
+#: lib/destinations/aws/index.php:542
+#: lib/destinations/dropbox/index.php:232
+#: lib/destinations/ftp/index.php:208
+#: lib/destinations/google-drive/index.php:543
+#: lib/destinations/greenqloud/index.php:520
+msgid "delete"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:175
+msgid "resend"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:223
+#: lib/class_snapshot_items_table.php:466
+#: lib/class_snapshot_items_table.php:477
+#: lib/snapshot_admin_metaboxes.php:1239
+msgid "view"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:288
+#: lib/class_snapshot_archives_table.php:317
+#: lib/class_snapshot_items_table.php:581
+#: lib/class_snapshot_items_table.php:610
+msgid "Pending"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:293
+#: lib/class_snapshot_archives_table.php:322
+#: lib/class_snapshot_items_table.php:586
+#: lib/class_snapshot_items_table.php:615
+msgid "Fail"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:298
+#: lib/class_snapshot_archives_table.php:327
+#: lib/class_snapshot_items_table.php:591
+#: lib/class_snapshot_items_table.php:620
+msgid "Complete"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:304
+#: lib/class_snapshot_archives_table.php:306
+msgid "Archives:"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:333
+#: lib/class_snapshot_items_table.php:626
+msgid "Destination:"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:344
+#: lib/snapshot_admin_metaboxes.php:1123
+msgid "File"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:345
+#: lib/snapshot_admin_metaboxes.php:1122
+msgid "Date"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:346
+#: lib/class_snapshot_items_table.php:642
+#: lib/snapshot_admin_metaboxes.php:185
+#: lib/snapshot_admin_metaboxes.php:961
+#: lib/snapshot_admin_metaboxes.php:1124
+msgid "Notes"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:347
+#: lib/snapshot_admin_metaboxes.php:1125
+msgid "Size"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:348
+#: lib/snapshot_admin_metaboxes.php:1129
+msgid "Logs"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:349
+msgid "Status"
+msgstr ""
+
+#: lib/class_snapshot_archives_table.php:377
+msgid "Select the snapshot item to restore"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:121
+msgid "Show All Destinations"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:162
+#: lib/destinations/aws/index.php:542
+#: lib/destinations/dropbox/index.php:229
+#: lib/destinations/ftp/index.php:206
+#: lib/destinations/google-drive/index.php:543
+#: lib/destinations/greenqloud/index.php:520
+msgid "edit"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:177
+msgid "run now"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:266
+#: lib/snapshot_admin_metaboxes.php:624
+msgid "Manual"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:279
+#: lib/class_snapshot_items_table.php:324
+msgid "abort"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:283
+#: lib/class_snapshot_items_table.php:305
+msgid "Now"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:330
+msgid "Next"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:339
+msgid "Last"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:353
+#: snapshot.php:1943
+msgid "Local Server"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:464
+#: lib/class_snapshot_items_table.php:645
+msgid "Archives"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:474
+msgid "Latest Log:"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:499
+msgid "view log"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:506
+msgid "No Snapshot file found"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:637
+#: lib/destinations/aws/index.php:518
+#: lib/destinations/dropbox/index.php:204
+#: lib/destinations/dropbox/index.php:391
+#: lib/destinations/ftp/index.php:178
+#: lib/destinations/google-drive/index.php:520
+#: lib/destinations/greenqloud/index.php:496
+#: lib/snapshot_admin_metaboxes.php:160
+#: lib/snapshot_admin_metaboxes.php:960
+#: lib/snapshot_admin_scheduling_forms.php:7
+msgid "Name"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:640
+#: lib/snapshot_admin_metaboxes.php:59
+#: lib/snapshot_admin_metaboxes.php:108
+msgid "Blog"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:643
+msgid "Interval"
+msgstr ""
+
+#: lib/class_snapshot_items_table.php:644
+#: lib/destinations/dropbox/index.php:287
+#: lib/destinations/ftp/index.php:257
+msgid "Destination"
+msgstr ""
+
+#: lib/destinations/aws/index.php:37
+msgid "Amazon S3"
+msgstr ""
+
+#: lib/destinations/aws/index.php:82
+msgid "US Standard"
+msgstr ""
+
+#: lib/destinations/aws/index.php:83
+msgid "US West (Oregon) Region"
+msgstr ""
+
+#: lib/destinations/aws/index.php:84
+msgid "US West (Northern California) Region"
+msgstr ""
+
+#: lib/destinations/aws/index.php:85
+msgid "EU (Ireland) Region"
+msgstr ""
+
+#: lib/destinations/aws/index.php:86
+msgid "Asia Pacific (Singapore) Region"
+msgstr ""
+
+#: lib/destinations/aws/index.php:87
+msgid "Asia Pacific (Sydney) Region"
+msgstr ""
+
+#: lib/destinations/aws/index.php:88
+msgid "Asia Pacific (Tokyo) Region"
+msgstr ""
+
+#: lib/destinations/aws/index.php:89
+msgid "South America (Sao Paulo) Region"
+msgstr ""
+
+#: lib/destinations/aws/index.php:90
+#: lib/snapshot_utilities.php:1117
+msgid "other"
+msgstr ""
+
+#: lib/destinations/aws/index.php:94
+#: lib/destinations/greenqloud/index.php:88
+msgid "Standard"
+msgstr ""
+
+#: lib/destinations/aws/index.php:95
+msgid "Reduced Redundancy"
+msgstr ""
+
+#: lib/destinations/aws/index.php:99
+#: lib/destinations/aws/index.php:694
+#: lib/destinations/greenqloud/index.php:92
+#: lib/destinations/greenqloud/index.php:667
+msgid "Private"
+msgstr ""
+
+#: lib/destinations/aws/index.php:100
+#: lib/destinations/aws/index.php:696
+#: lib/destinations/greenqloud/index.php:93
+#: lib/destinations/greenqloud/index.php:669
+msgid "Public Read"
+msgstr ""
+
+#: lib/destinations/aws/index.php:101
+#: lib/destinations/aws/index.php:698
+#: lib/destinations/greenqloud/index.php:94
+#: lib/destinations/greenqloud/index.php:671
+msgid "Public Read/Write"
+msgstr ""
+
+#: lib/destinations/aws/index.php:102
+#: lib/destinations/aws/index.php:700
+#: lib/destinations/greenqloud/index.php:95
+#: lib/destinations/greenqloud/index.php:673
+msgid "Authenticated Read"
+msgstr ""
+
+#: lib/destinations/aws/index.php:440
+#: lib/destinations/dropbox/index.php:168
+#: lib/destinations/ftp/index.php:115
+#: lib/destinations/google-drive/index.php:469
+#: lib/destinations/greenqloud/index.php:421
+msgid "Name is required"
+msgstr ""
+
+#: lib/destinations/aws/index.php:445
+msgid "AWS Key is required"
+msgstr ""
+
+#: lib/destinations/aws/index.php:450
+msgid "AWS Secret Key is requires"
+msgstr ""
+
+#: lib/destinations/aws/index.php:519
+#: lib/destinations/aws/index.php:603
+msgid "AWS Access Key ID"
+msgstr ""
+
+#: lib/destinations/aws/index.php:520
+#: lib/destinations/greenqloud/index.php:498
+msgid "Bucket"
+msgstr ""
+
+#: lib/destinations/aws/index.php:521
+#: lib/destinations/dropbox/index.php:207
+#: lib/destinations/ftp/index.php:181
+#: lib/destinations/google-drive/index.php:522
+#: lib/destinations/greenqloud/index.php:499
+msgid "Directory"
+msgstr ""
+
+#: lib/destinations/aws/index.php:522
+#: lib/destinations/dropbox/index.php:208
+#: lib/destinations/ftp/index.php:182
+#: lib/destinations/google-drive/index.php:523
+#: lib/destinations/greenqloud/index.php:500
+msgid "Used"
+msgstr ""
+
+#: lib/destinations/aws/index.php:563
+msgid "No Amazon S3 Destinations"
+msgstr ""
+
+#: lib/destinations/aws/index.php:573
+#: lib/destinations/dropbox/index.php:269
+#: lib/destinations/ftp/index.php:239
+#: lib/destinations/google-drive/index.php:570
+#: lib/destinations/greenqloud/index.php:551
+msgid "Delete Destination"
+msgstr ""
+
+#: lib/destinations/aws/index.php:587
+msgid "Define an Amazon AWS destination connection. You can define multiple destinations which use Amazon AWS. Each destination can use different security keys and/or buckets."
+msgstr ""
+
+#: lib/destinations/aws/index.php:592
+msgid "Amazon S3 Destination"
+msgstr ""
+
+#: lib/destinations/aws/index.php:598
+#: lib/destinations/dropbox/index.php:351
+#: lib/destinations/ftp/index.php:281
+#: lib/destinations/google-drive/index.php:623
+#: lib/destinations/greenqloud/index.php:576
+msgid "Destination Name"
+msgstr ""
+
+#: lib/destinations/aws/index.php:608
+msgid "AWS Secret Access Key"
+msgstr ""
+
+#: lib/destinations/aws/index.php:615
+#: lib/destinations/greenqloud/index.php:593
+msgid "Use SSL Connection"
+msgstr ""
+
+#: lib/destinations/aws/index.php:632
+msgid "AWS Region"
+msgstr ""
+
+#: lib/destinations/aws/index.php:646
+msgid "Alternate Region host"
+msgstr ""
+
+#: lib/destinations/aws/index.php:654
+#: lib/destinations/greenqloud/index.php:627
+msgid "Storage Type"
+msgstr ""
+
+#: lib/destinations/aws/index.php:670
+#: lib/destinations/greenqloud/index.php:643
+msgid "Bucket Name"
+msgstr ""
+
+#: lib/destinations/aws/index.php:682
+#: lib/destinations/greenqloud/index.php:655
+msgid "Select Bucket"
+msgstr ""
+
+#: lib/destinations/aws/index.php:689
+#: lib/destinations/greenqloud/index.php:662
+msgid "File permissions for uploaded files"
+msgstr ""
+
+#: lib/destinations/aws/index.php:706
+#: lib/destinations/greenqloud/index.php:679
+#: lib/snapshot_admin_metaboxes.php:862
+msgid "Directory (optional)"
+msgstr ""
+
+#: lib/destinations/aws/index.php:709
+#: lib/destinations/greenqloud/index.php:682
+msgid "If directory is blank the snapshot file will be stored at the bucket root. If the directory is provided it will be created inside the bucket. This is a global setting and will be used by all snapshot configurations using this destination. You can also defined a directory used by a specific snapshot."
+msgstr ""
+
+#: lib/destinations/aws/index.php:716
+#: lib/destinations/ftp/index.php:376
+#: lib/destinations/greenqloud/index.php:689
+msgid "Test Connection"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:46
+msgid "Dropbox"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:205
+#: lib/destinations/ftp/index.php:180
+msgid "Login"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:206
+#: lib/destinations/dropbox/index.php:367
+#: lib/destinations/dropbox/index.php:437
+msgid "Authorized"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:245
+#: lib/destinations/dropbox/index.php:247
+#: lib/destinations/dropbox/index.php:369
+msgid "Yes"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:259
+msgid "No Dropbox Destinations"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:281
+msgid "Define a Dropbox destination connection. Provide a name below. You will need to save this form then return here to Authorize the connection to Dropbox"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:296
+#: lib/destinations/ftp/index.php:266
+msgid "Form Errors"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:359
+msgid "Destination Directory"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:362
+msgid "<strong>All archive uploaded to your Dropbox account via Snapshot will be stored into /Apps/WPMU DEV Snapshot/</strong>"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:363
+msgid "The optional directory here allow you to store the uploaded files into a sub-directories. This can be multiple levels of sub-directories. The directory names can contain spaces. This is a global setting and will be used by all snapshot configurations using this destination. You can also defined a directory used by a specific snapshot. Please use / instead of \\"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:370
+msgid "Force Re-Authorize with Dropbox"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:374
+msgid "Account Info"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:404
+msgid "UID"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:411
+msgid "Country"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:417
+msgid "Usage"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:439
+#: lib/snapshot_admin_metaboxes.php:1732
+msgid "No"
+msgstr ""
+
+#: lib/destinations/dropbox/index.php:440
+msgid "The first step in the Dropbox setup is Authorizing Snapshot to communicate with your Dropbox account. Dropbox requires that you grant Snapshot access to your account. This is required in order for Snapshot to upload files to your Dropbox account."
+msgstr ""
+
+#: lib/destinations/ftp/index.php:29
+msgid "FTP/sFTP"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:37
+msgid "FTP"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:38
+msgid "SFTP"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:40
+msgid "FTP with TSL/SSL"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:120
+msgid "Address is requires"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:125
+msgid "Username is requires"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:130
+msgid "Password is requires"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:135
+msgid "Connection type is required"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:179
+msgid "Host"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:229
+msgid "No FTP Destinations"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:251
+msgid "Define an FTP destination connection. You can define multiple destinations which use FTP. Each destination can connect to different servers with different remote paths."
+msgstr ""
+
+#: lib/destinations/ftp/index.php:288
+msgid "Server Address"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:291
+msgid "This should remote server address as in somehost.co or ftp.somehost.com or maybe the IP address 123.456.789.255. Do not use ftp://somehost.com"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:296
+msgid "Username"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:302
+msgid "Password"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:307
+msgid "Remote Path"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:310
+msgid "The remote path will be used to store the snapshot archives. The remote path must already existing on the server. If the remote path is blank then the FTP home directory will be used as the destination for snapshot files. This is a global setting and will be used by all snapshot configurations using this destination. You can also defined a directory used by a specific snapshot."
+msgstr ""
+
+#: lib/destinations/ftp/index.php:315
+msgid "Connection Protocol"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:326
+msgid "FTP: uses standard PHP library functions.  (default)<br />SFTP: Implementation use the <a href=\"http://phpseclib.sourceforge.net\" target=\"_blank\">PHP Secure Communications Library</a>. This option may not work depending on how your PHP binaries are compiled.<br />FTPS with TSL/SSL. This option attempts a secure connection. Will only work if PHP and OpenSSL are properly configured on your host and the destination host. This option will not work under Windows using the default PHP binaries. Check the PHP docs for ftp_ssl_connection"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:345
+msgid "Server Port (optional)"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:348
+msgid "In most normal cases the port should be left blank. Only in rare cases where the system administrator set the default FTP/sFTP port to some other value should the port be set here. If left blank the port will be assumed as 21 for FTP or 22 for sFTP."
+msgstr ""
+
+#: lib/destinations/ftp/index.php:353
+msgid "Server Timeout"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:356
+msgid "The default timeout for PHP FTP connections is 90 seconds. Sometimes this timeout needs to be longer for slower connections to busy servers."
+msgstr ""
+
+#: lib/destinations/ftp/index.php:362
+msgid "Passive Mode"
+msgstr ""
+
+#: lib/destinations/ftp/index.php:369
+msgid "Default: No. This options turns on or off passive mode. In passive mode, data connections are initiated by the client, rather than by the server. It may be needed if the client is behind firewall."
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:42
+msgid "Google Drive"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:236
+#, php-format
+msgid "Error: Could not connect to %s: Error: %s"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:251
+#, php-format
+msgid "Connecting to %s"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:352
+#, php-format
+msgid "Error: Could not send file <pre>%s</pre> :"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:477
+msgid "Client ID is requires"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:481
+msgid "Client Secret is requires"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:491
+msgid "Access Token from Google is required"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:521
+#: lib/destinations/google-drive/index.php:655
+msgid "Client ID"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:560
+#, php-format
+msgid "No %s Destinations"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:599
+msgid "Define an Google Drive destination connection. You can define multiple destinations which use Google Drive. Each destination can use different security keys and/or directory."
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:604
+msgid "Google Drive Destination"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:611
+msgid "Step 1: Define a name for this Destination"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:611
+#: lib/destinations/google-drive/index.php:652
+#: lib/destinations/google-drive/index.php:710
+msgid "<strong>COMPLETE</strong>"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:634
+msgid "Directory ID (optional)"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:637
+msgid "Note: This is not a traditional directory path like /usr/local/path but a unique ID assigned by Google for the directory with your Drive. See the instructions to the right on how to obtain the Directory ID."
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:640
+#: lib/destinations/google-drive/index.php:659
+msgid "Instructions"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:642
+#, php-format
+msgid "Go to your %s"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:642
+msgid "Drive account. Navigate to or create a new directory where you want to upload the Snapshot archives. Make sure you are viewing the destination directory."
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:643
+msgid "The URL for the directory will be something similar to <em>https://drive.google.com/#folders/0B6GD66ctHXXCOWZKNDRIRGJJXS3</em>. The Directory ID would be the last part after /#folders/ <strong><em>0B6GD66ctHXXCOWZKNDRIRGJJXS3</em></strong>."
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:644
+msgid "You can define multiple Directory IDs seperated by comma"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:652
+msgid "Step 2: Google Drive Access Credentials"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:661
+#, php-format
+msgid "Go to the %s"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:661
+msgid "Google Project Console"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:662
+msgid "Select existing of Add a new Project. If you add a new project you will see a popup. Enter a project name. The Project ID is not important and can be ignored."
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:663
+msgid "Once the Project creation is completed go to the <strong>APIs & auth > APIs</strong> section. Here you need to enable the <strong>Drive API</strong> and <strong>Drive SDK</strong> APIs"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:664
+msgid "Next, go to the <strong>APIs & auth > Credentials</strong> section. Click on the <strong>CREATE NEW CLIENT ID</strong> button. In the popup select the Application Type as <strong>Web application</strong>. In the field <strong>Authorized redirect URI</strong> copy the value from the Redirect URI field to the left. Then click the <strong>Create Client ID</strong> button."
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:665
+msgid "After the popup closes copy the Client ID and Client Secret from the Google page and paste into the form fields on the left."
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:670
+msgid "Client Secret"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:676
+msgid "Redirect URI"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:710
+msgid "Step 3: Google Authorize"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:726
+msgid "Success. The Google Access Token has been received. You must save this form one last time to retain the token. The stored toekn will be used in the future when connecting to Google"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:732
+msgid "Re-Authorize"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:734
+msgid "Authorize"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:741
+msgid "Unable to obtain Authorization URL from Google"
+msgstr ""
+
+#: lib/destinations/google-drive/index.php:753
+msgid "Authorization complete."
+msgstr ""
+
+#: lib/destinations/greenqloud/index.php:37
+msgid "GreenQloud Storage"
+msgstr ""
+
+#: lib/destinations/greenqloud/index.php:84
+msgid "GreenQloud server"
+msgstr ""
+
+#: lib/destinations/greenqloud/index.php:426
+msgid "GreenQloud API Access Key is required"
+msgstr ""
+
+#: lib/destinations/greenqloud/index.php:431
+msgid "GreenQloud API Secret Key is requires"
+msgstr ""
+
+#: lib/destinations/greenqloud/index.php:497
+#: lib/destinations/greenqloud/index.php:581
+msgid "Access Key ID"
+msgstr ""
+
+#: lib/destinations/greenqloud/index.php:541
+msgid "No GreenQloud Storage Destinations"
+msgstr ""
+
+#: lib/destinations/greenqloud/index.php:565
+msgid "Define an GreenQloud Storage destination connection. You can define multiple destinations which use GreenQloud. Each destination can use different security keys and/or buckets."
+msgstr ""
+
+#: lib/destinations/greenqloud/index.php:570
+msgid "GreenQloud Storage Destination"
+msgstr ""
+
+#: lib/destinations/greenqloud/index.php:583
+msgid "API Access"
+msgstr ""
+
+#: lib/destinations/greenqloud/index.php:586
+msgid "Secret Access Key"
+msgstr ""
+
+#: lib/destinations/greenqloud/index.php:610
+msgid "Region"
+msgstr ""
+
+#: lib/snapshot_admin_destinations_lib.php:17
+msgid "You must override all required vars in your Snapshot Destination class!"
+msgstr ""
+
+#: lib/snapshot_admin_destinations_lib.php:25
+msgid "You must override the function 'display_listing_table' in your Snapshot Destination class!"
+msgstr ""
+
+#: lib/snapshot_admin_destinations_lib.php:29
+msgid "You must override the function 'sendfile_to_remote' in your Snapshot Destination class!"
+msgstr ""
+
+#: lib/snapshot_admin_destinations_lib.php:33
+msgid "You must override the function 'display_details_form' in your Snapshot Destination class!"
+msgstr ""
+
+#: lib/snapshot_admin_destinations_lib.php:99
+msgctxt "Snapshot Destination Page Title"
+msgid "All Snapshot Destinations"
+msgstr ""
+
+#: lib/snapshot_admin_destinations_lib.php:100
+msgctxt "Snapshot page description"
+msgid "This page show all the destinations available for the Snapshot plugin. A destination is a remote system like Amazon S3, Dropbox or SFTP. Simply select the destination type from the drop down then will in the details. When you add or edit a Snapshot you will be able to assign it a destination. When the snapshot backup runs the archive file will be sent to the destination instead of stored locally."
+msgstr ""
+
+#: lib/snapshot_admin_destinations_lib.php:177
+#: lib/snapshot_admin_destinations_lib.php:200
+msgctxt "Snapshot Plugin Page Title"
+msgid "Edit Snapshot Destination"
+msgstr ""
+
+#: lib/snapshot_admin_destinations_lib.php:188
+msgctxt "Snapshot Plugin Page Title"
+msgid "Add Snapshot Destination"
+msgstr ""
+
+#: lib/snapshot_admin_destinations_lib.php:231
+msgid "Save Destination"
+msgstr ""
+
+#: lib/snapshot_admin_destinations_lib.php:233
+#: lib/snapshot_admin_metaboxes.php:77
+#: lib/snapshot_admin_metaboxes.php:79
+#: lib/snapshot_admin_metaboxes.php:141
+#: lib/snapshot_admin_metaboxes.php:143
+#: lib/snapshot_admin_metaboxes.php:1499
+#: lib/snapshot_admin_metaboxes.php:1505
+#: lib/snapshot_admin_panels.php:267
+#: lib/snapshot_admin_panels.php:374
+msgid "Cancel"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:62
+msgid "This archive is from a previous import action. The information from the archive did not match the current blog. So before you can change the configuration you need to assign it to an existing account."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:69
+#: lib/snapshot_admin_metaboxes.php:134
+#: lib/snapshot_admin_metaboxes.php:1489
+msgid "Change"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:73
+#: lib/snapshot_admin_metaboxes.php:138
+#: lib/snapshot_admin_metaboxes.php:1495
+msgid "Error on blog lookup. Try again"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:77
+#: lib/snapshot_admin_metaboxes.php:79
+#: lib/snapshot_admin_metaboxes.php:141
+#: lib/snapshot_admin_metaboxes.php:143
+#: lib/snapshot_admin_metaboxes.php:1499
+#: lib/snapshot_admin_metaboxes.php:1505
+msgid "Lookup"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:77
+#: lib/snapshot_admin_metaboxes.php:1499
+msgid "Enter the blog sub-domain prefix \"site1\" or blog ID \"22\" or mapped domain or leave blank for primary site."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:79
+msgid "Enter the blog domain \"myblog.com\" or blog ID \"22\". Once the form is submitted this cannot be changed."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:115
+msgid "Unknown Blog"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:127
+msgid "Blog to backup"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:141
+msgid "Enter the blog sub-domain prefix \"site1\" or blog ID \"22\" or mapped domain or leave blank for primary site. Once the form is submitted this cannot be changed."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:143
+msgid "Enter the blog path or blog ID or blank for primary blog. Once the form is submitted this cannot be changed."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:177
+msgid "Give this configuration a name"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:202
+msgid "Description about this configuration."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:275
+msgid "Select the database tables backup option for this Snapshot."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:281
+msgid "Do not include database tables in this Snapshot"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:287
+msgid "Include <strong>all</strong> blog database tables in this archive. This will automatically include new tables."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:294
+msgid "Include <strong>selected</strong> database tables in this Snapshot"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:300
+#: lib/snapshot_admin_metaboxes.php:2306
+msgid "WordPress Global Tables"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:301
+msgid "WordPress core Tables"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:302
+#: lib/snapshot_admin_metaboxes.php:2308
+msgid "Non-WordPress Tables"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:303
+#: lib/snapshot_admin_metaboxes.php:2309
+msgid "Other Tables"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:304
+msgid "Error Tables - These tables are skipped for the noted reasons."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:321
+#: lib/snapshot_admin_metaboxes.php:2330
+msgid "Select all"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:325
+msgid "These global user tables contain blog specific user information which can be included as part of the snapshot archive. Only users whose primary blog matches this selected blog will be included. <strong>Superadmin users will not be included in the sub-site archive.</strong>"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:380
+msgid "No Tables"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:433
+msgid "Select the File backup option for this Snapshot."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:440
+#: lib/snapshot_admin_metaboxes.php:2439
+msgid "Do not include files"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:450
+msgid "Include <strong>common</strong> files:"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:452
+msgid "Themes, Plugins,"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:454
+msgid "Media"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:467
+#: lib/snapshot_admin_metaboxes.php:2445
+msgid "Include <strong>selected</strong> files:"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:479
+msgid "Themes: All active and inactive themes will be included"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:486
+msgid "Plugins: All active and inactive plugins will be included"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:493
+msgid "Media Files:"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:502
+msgid "wp-config.php - Your current wp-config.php file"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:509
+msgid ".htaccess - Your current root .htaccess file"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:528
+msgid "Dropbox Only - Select Archive or Mirroring option for this Snapshot."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:545
+msgid "<strong>Archive</strong> - (Default) Selecting archive will produce a zip archive. This is standard method for backing up your site. A single zip archive will be created for files and database tables."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:551
+msgid "<strong>Mirror/Sync</strong> - <strong>Dropbox ONLY</strong> Selecting mirroring if you want to replicate the file structure of this site to a Dropbox destination. You can include Database tables. If selected they will still be send as a zip archive to the destination root folder. <strong>There is currently no restore with this option</strong>"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:557
+msgid "List files here to exclude from this snapshot. This is handy to exclude very large files like videos that are 2G in size, you may be hosting but know you have a backup elsewhere. Files should be listed one per line. You can also exclude files for all snapshots by using the Global File Exclusions on the Settings panel."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:563
+msgid "The exclude logic uses pattern matching. So instead of entering the complete server pathname for a file or directory you can simply use the filename of parent directory. For example to exclude the theme twentyten you could enter this one of many ways: twentyten,  themes/twentyten /wp-content/themes/twentyten, /var/www/wp-content/themes/twentyten. <strong>Regular Expression are not allowed at this time</strong>."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:594
+msgid "Select a backup interval from the options below. If you select 'Immediate' the backup will start immediately and will only occur once. If you select any other value the initial backup will start within a few minutes then repeat on the selected interval."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:596
+msgid "You can change the interval when a backup occurs by selecting from the options below. If you select 'Suspend' the recurring backups will be stopped. If you select to schedule a backup or change the interval, the initial backup will start within a few minutes then repeat on the selected interval"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:600
+msgid "Your site has disabled the WordPress Cron scheduler (WP_CRON). When scheduling an archive to be created it may not run. Check your wp-config.php for the DISABLE_WP_CRON define. If found either remove it or set the value to \"false\"."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:608
+msgid "Backup Interval"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:618
+msgid "Immediate Options"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:621
+#: lib/snapshot_admin_metaboxes.php:629
+msgid "Run immediate"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:627
+msgid "Save only"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:635
+msgid "Scheduled Options"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:655
+msgid "Start Backup"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:667
+msgid "None"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:672
+#: lib/snapshot_admin_metaboxes.php:696
+#: lib/snapshot_admin_metaboxes.php:730
+#: lib/snapshot_admin_metaboxes.php:765
+msgid "Minute"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:685
+#: lib/snapshot_admin_metaboxes.php:719
+#: lib/snapshot_admin_metaboxes.php:755
+msgid "Hour"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:709
+msgid "Weekday"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:745
+msgid "Day"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:780
+#: lib/snapshot_admin_metaboxes.php:854
+msgid "The Snapshot scheduling process uses the WordPress Cron (WPCron) system. This is the same process used to run daily checks for updates to core, plugins and themes. It should be understood this WPCron process is not precise. If you schedule a Snapshot for a specific minute of the hour WPCron may not execute at exactly that time. WPCron relies on regular front-end traffic to your website to kickoff the processing."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:788
+msgid "Control the total number of <strong>local</strong> archives to keep for this snapshot. Once the archive limit is reached, older locally stored archives will be removed. In common cases you may want to set the backup interval to once a week. Then set the number of archives to keep to 52 which would give you a year or backups. But keep in mind on a large site this will be a lot of extra disk space required."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:794
+msgid "Maximum number of local archives"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:804
+msgid "Example: 10, 100. Enter 0 to keep all"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:837
+msgid "Backup Destination"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:838
+msgid "Add more Destinations"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:852
+msgid "If you select a remote destination and the 'Interval' is set as Immediate, the snapshot backup file will not be sent during the normal backup step. Instead the transfer of the backup file will be scheduled at a later time. This is to prevent the screen from locking while the backup file is sent to the remote destination."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:872
+msgid "The optional Directory can be used to override or supplement the selected destination directory value. If 'local server' is selected and if the directory does not start with a forward slash '/' the directory will be relative to the site root."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:873
+msgid "This field support tokens you can use to create dynamic values. You can use any combination of the following tokens. Use the forward slash '/' to separate directory elements."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:875
+msgid "This represents the Directory/Bucket used by the selected Backup Destination or if local, the Settings Folder Location. This can be used to supplement a value entered into this Snapshot. If [DEST_PATH] is not used the Directory value here will override the complete value from the selected Destination."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:876
+msgid "This represents the full domain of the selected site per this snapshot"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:897
+msgid "This is the unique ID assigned to this Snapshot set"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:906
+#, php-format
+msgid "For Google Drive destinations this is not a normal directory path. Instead you must provide the Directory ID. Go to your %s. Navigate to or create a new directory where you want to upload the Snapshot archives. Make sure you are viewing the destination directory. The URL for the directory will be something similar to <em>https://drive.google.com/#folders/0B6GD66ctHXXCOWZKNDRIRGJJXS3</em>. The Directory ID would be the last part after /#folders/ <strong><em>0B6GD66ctHXXCOWZKNDRIRGJJXS3</em></strong>."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:906
+msgid "Drive account"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:944
+msgctxt "Snapshot page description"
+msgid "Migrate Snapshot files and logs created under previous version of the Snapshot plugin."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:950
+msgid "Migrate old Snapshots"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:952
+msgid "Migrate Snapshots"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:956
+msgctxt "Snapshot page description"
+msgid "The following items will be converted to the new Snapshot format."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:962
+msgid "Filename"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:990
+msgctxt "Snapshot page description"
+msgid "No legacy snapshot data found to convert."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1093
+msgid "Below is a listing of your archives showing at most the most recent 6 entries. If the archive is local you can click on the filename to download it. You can also view or download the load file the archive."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1094
+msgid "View all archives"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1121
+msgid "Select"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1259
+msgid "No Archives"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1286
+#: lib/snapshot_admin_metaboxes.php:2464
+msgid "Plugins"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1290
+msgid "Turn off all plugins"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1295
+msgid "Set a theme to active"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1384
+msgid "You can restore the backup to a different blog within your Multisite environment. Note: The destination blog MUST already exist. This migration logic is considered still in beta."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1391
+msgid "Restore Note: URL mismatch!. The Snapshot archive does not appear made from the current WordPress system. Every attempt will be made to replace the source URL with the URL from the destination."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1400
+msgid "Information from Archive"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1410
+#: lib/snapshot_admin_metaboxes.php:1474
+msgid "Blog ID:"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1419
+#: lib/snapshot_admin_metaboxes.php:1488
+msgid "Site URL:"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1431
+#: lib/snapshot_admin_metaboxes.php:1524
+msgid "Database Name:"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1441
+#: lib/snapshot_admin_metaboxes.php:1537
+msgid "Database Base Prefix:"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1451
+#: lib/snapshot_admin_metaboxes.php:1550
+msgid "Database Prefix:"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1460
+#: lib/snapshot_admin_metaboxes.php:1564
+msgid "Upload Path:"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1464
+msgid "Will be restored to"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1505
+msgid "Enter the blog path \"site1\" or blog ID \"22\"."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1596
+msgctxt "Snapshot page description"
+msgid "Set a destination folder for your snapshots. This folder will be created inside your site's media upload folder."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1598
+msgctxt "Snapshot page description"
+msgid "Optionally, you can attempt to set the snapshot folder to a directory outside of your web site. This may not be available depending on your hosting configuration. Check with your hosting provider. If you change the folder to be outside of your web site you will not be able to access the archive via this plugin. You will need to use FTP or some other solution provided by your hosting provider."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1600
+msgctxt "Snapshot page description"
+msgid "If you do change the Snapshot folder, the existing folder will be moved/renamed to the new value. <strong>The new folder must not already exist.</strong>"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1605
+msgid "Backup Folder"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1610
+#, php-format
+msgid "Default folder is %s. If you change the folder name the previous snapshot files will be moved to the new folder."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1613
+msgid "Current folder"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1619
+#: lib/snapshot_admin_metaboxes.php:1677
+#: lib/snapshot_admin_metaboxes.php:2026
+#: lib/snapshot_admin_metaboxes.php:2112
+#: lib/snapshot_admin_metaboxes.php:2169
+#: lib/snapshot_admin_metaboxes.php:2220
+msgid "Save Settings"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1658
+msgctxt "Snapshot page description"
+msgid "The Segment Size can be defined as the number of rows to backup per table per request. The Segment Size controls the backup processing when you create a new snapshot. During the backup processing Snapshot will make a request to the server to backup each table. You can see this in the progress meters when you create a new snapshot. In most situations this backup process will attempt to backup the table in one step. But on some server configurations the timeout is set very low or the table size is very large and prevents the backup process from finishing. To control this the Snapshot backup process will breakup the requests into smaller 'chunks of work' requested to the server."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1660
+msgctxt "Snapshot page description"
+msgid "For example you have a table with 80,000 records. This would take more than the normal 3 minutes or less most servers allow for processing it attempted in a single request. By setting the segment size to 1000 the Snapshot process will breakup the table into 80 small parts. These 1000 records per request should complete within the allow server timeout period."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1665
+msgid "Segment Size"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1671
+#, php-format
+msgid "The segment size is the number of database records to backup per request. It is recommended you keep this at least above 1000.<br />Default segment size is: %s."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1690
+msgid "The following table shows version information about your server. When contacting support it might be helpful to provide this information along with your specific issues."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1694
+msgid "WordPress Version"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1705
+msgid "PHP Version"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1714
+msgid "MySQL Version"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1723
+msgid "Is Multisite"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1730
+msgid "Yes, Number of Sites"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1739
+msgid "WP_CRON"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1744
+msgid "Snapshot uses WP_CRON to run automated backups. If you have disabled WP_CRON via your wp-config.php you will not be able to schedule snapshots."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1746
+msgid "WP_CRON - Disabled. Check your wp-config.php for the DISABLE_WP_CRON define. When scheduling snapshots to run you will need to call the wp-cron.php file from an external source"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1748
+msgid "WP_CRON Enabled."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1752
+msgid "WP_CRON Lock timeout: "
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1791
+msgid "Folder Permissions"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1807
+msgid "Missing Folder"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1810
+msgid "Not Writable "
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1812
+msgid "Writable "
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1823
+msgid "OpenSSL"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1828
+msgid "The OpenSSL Apache module is require to make secure connections with destinations like Dropbox and Amazon AWS."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1831
+msgid "OpenSSL not installed."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1833
+msgid "OpenSSL installed"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1840
+msgid "cURL"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1845
+msgid "cURL is used when connecting to remote destinations like Dropbox and Amazon AWS."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1848
+msgid "cURL not installed."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1850
+msgid "cURL installed"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1853
+msgid "Version"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1854
+msgid "SSL Version"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1855
+msgid "Libz Version"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1856
+msgid "Protocols"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1868
+msgid "PHP runtime information"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1874
+msgid "Running PHP in Safe Mode"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1875
+msgid "Max Execution Time (seconds)"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1876
+msgid "Magic Quotes"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1877
+#: snapshot.php:550
+msgid "Error Reporting"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1878
+msgid "Display Errors"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1879
+#: lib/snapshot_admin_metaboxes.php:2015
+#: snapshot.php:532
+msgid "Memory Limit"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1880
+msgid "ZLib Compression"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1881
+msgid "Open Basedir"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1882
+msgid "Safe Mode"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1899
+msgid " The value displayed can be adjusted by Snapshot PHP scripts."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1901
+msgid " The value displayed cannot be adjusted by Snapshot PHP scripts."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1968
+msgctxt "Snapshot page description"
+msgid "The Memory Limit setting can allow Snapshot to use more or limit the amount of memory used by Snapshot during the backup or restore processing. The value set here can be higher than the value you would define for WP_MEMORY_LIMIT in you wp-config.php. This is because working with zip archives takes more memory than just serving a web page. For any moderate size site this value should be at least <strong>256M</strong>."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:1970
+msgctxt "Snapshot page description"
+msgid "<strong>If left blank, Snapshot will compare the php.ini (memory_limit), WP_MEMORY_LIMIT and WP_MAX_MEMORY_LIMIT settings and use the largest value.</strong>"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2004
+msgctxt "Snapshot page description"
+msgid "Warning: Unable to update the 'memory_limit' via the PHP function init_set. This means in order in to increased the allowed memory limit for Snapshot you will need to make the change directly in your php.ini file. Contact your host provider for details."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2020
+msgid "Important to include the size M = Megabytes, G = Gigbytes as in 256M, 1G, etc."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2039
+msgid "You can export your current Snapshot configuration to save offsite."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2042
+#: lib/snapshot_admin_metaboxes.php:2043
+msgid "Export"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2090
+msgid "Use this setting to create global exclusions. This means the excluded files or directories will be excluded automatically from all snapshot configurations. You can also setup exclusions specific to a single snapshot via the configuration screen. The exclude logic uses pattern matching. So instead of entering the complete server pathname for a file or directory you can use simply use the filename of parent directory. For example to exclude the theme twentyten you could enter this one of many ways: twentyten,  themes/twentyten /wp-content/themes/twentyten, /var/www/wp-content/themes/twentyten. <strong>Regular Expression are not allowed at this time</strong>."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2095
+msgid "Global Exclusions"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2105
+#, php-format
+msgid "The Snapshot directory %s is automatically excluded from all snapshots"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2124
+msgid "Errors - Fatal run-time errors. These indicate errors that can not be recovered from, such as a memory allocation problem. Execution of the script is halted."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2125
+msgid "Warnings - Run-time warnings (non-fatal errors). Execution of the script is not halted."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2126
+msgid "Notices - Run-time notices. Indicate that the script encountered something that could indicate an error, but could also happen in the normal course of running a script."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2137
+msgid "This section controls how Snapshot will handle an error condition during the backup / restore processing. There are two columns for each type of error. The 'stop' column controls if Snapshot will abort the current process should that type of error be reached. The 'log' column controls if the type of error and details will be written to the processing log. In most cases you want to set 'stop' for Errors only. And set 'log' for all."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2141
+msgid "Stop"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2142
+msgid "Log"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2143
+msgid "Error Description"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2186
+msgid "This section lets you select which zip compression library to use. The zip library is used during the backup and restore processing by Snapshot. Chose from the options below."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2190
+msgid "Select Compression Option"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2201
+msgid "ZipArchive - In most cases ZipArchive is built into PHP and generally faster than PclZIP. This library primarily uses files instead of memory for temporary storage when compressing large files."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2212
+msgid "PclZip - is part of the WordPress core libraries. It will be slower than built-in PHP functions like ZipArchive. This library  uses memory instead of files for temporary storage when compressing large files."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2270
+msgid "Restore Note: The archive you are about to restore includes the global database tables users and/or usermeta. Normally, you do not want to restore these tables unless your site is broken. To restore either of these database tables you must select them from the 'Restore selected database tables' section below. The data contained within these tables will be merged with the current global tables"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2274
+#, php-format
+msgid "Restore Note: The archive contains tables names with a different database prefix ( %s ) than this site ( %s ). The tables restored will automatically be renamed to the site prefix"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2281
+msgid "Select the database tables restore option."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2287
+msgid "Restore <strong>all</strong> blog database tables contained in this archive <strong>(excluding global tables users & usermeta)</strong>"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2289
+msgid "Restore <strong>all</strong> blog database tables contained in this archive "
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2295
+msgid "Do not restore any database tables"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2301
+msgid "Restore <strong>selected</strong> database tables"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2307
+msgid "WordPress Blog Tables"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2335
+msgid "When restoring users and usermeta records under a Multisite environment there are a few limitations. Please read the following carefully"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2337
+msgid "If restoring to the primary blog ALL user entries will be replaced!"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2338
+msgid "If restoring to a non-primary blog, the user's ID and user_name fields are checked against existing users."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2340
+msgid "- If a match is not found a new user will be created. This means a new user ID will be assigned."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2341
+msgid "- If a match is found but the user ID is different. The found user ID will be used."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2344
+msgid "If the restored user ID is changed, Snapshot will update usermeta, posts and comments records with the new user ID. A new usermeta record will be added with the key '_old_user_id' with the value of the previous user ID. Snapshot cannot attempt updates to other tables like BuddyPress where the user ID fields are not known. These will need to be updated manually."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2377
+msgid "No tables"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2416
+msgid "Restore Note: The archive you are about to restore includes the .htaccess and/or the wp-config.php files. Normally you do not want to restore these files unless your site is broken. To restore either of these files you must select them from the'include selected files' section below."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2423
+msgid "Select the File sections to restore:"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2428
+msgid "Restore all files"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2432
+msgid "(excluding .htaccess & wp-config.php files)"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2450
+msgid "Restore Note: The files wp-config.php and .htaccess can only be restored for the primary site. Even then it is not advisable to restore these file for a working Multisite installation."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2458
+msgid "Themes"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2470
+msgid "Media Files"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2476
+msgid "wp-config.php"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2482
+msgid ".htaccess"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2534
+msgid "Remote Archives"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2536
+msgid "The import process can import an archive from a remote system server via FTP, Amazon S3 or Dropbox. The remote archive <strong>must</strong> by publicly accessible as this import process does not yet support authentication. See notes below on specific services."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2538
+msgid "<strong>Remote FTP:</strong> When downloading from a remote FTP server you must ensure the file is moved to a location where it will be accessible via a simple http:// or https:// URL."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2540
+msgid "<strong>Dropbox:</strong> If you are attempting to download a Dropbox Snapshot archive written to the App/WPMU DEV Snapshot you first need to copy the file to a public folder within your Dropbox account before grabbing the public link."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2541
+msgid "<strong>Amazon S3:</strong> When downloading a file from S3 you need to ensure the file is public. "
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2543
+#, php-format
+msgid "Import cannot be used to retreive remote files because your PHP install does not have cURL installed. This means you will need to manually upload the file to your server into the snapshot archives directory <em>%s</em>"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2547
+msgid "Local Archives"
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2548
+#, php-format
+msgid "For archives already on your server but not showing in the All Snapshots listing you can simply submit this form without entering a value below. This will scan the snapshot archivs directory (<em>%s</em>) for any missing archives and add them to the listing."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2550
+msgid "If the missing archive is on the server but saved to a different path. Maybe you setup the archive to save to an alternate directory. Then you can enter the full server path to the <strong>directory</strong> where the archive resides."
+msgstr ""
+
+#: lib/snapshot_admin_metaboxes.php:2557
+msgid "URL or local path to Snapshot Archive"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:60
+msgctxt "Snapshot New Page Title"
+msgid "Add New Snapshot"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:61
+msgctxt "Snapshot page description"
+msgid "Use this form to create a new snapshot of your site. Fill in the optional Name and Notes fields. Select the tables to be included in this snapshot."
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:66
+#, php-format
+msgid "Your web server timeout is set very low, %d seconds. Also, it appears this timeout cannot be adjusted via the Snapshot backup process. Attempting a snapshot backup could result in a partial backup of your tables."
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:84
+#: lib/snapshot_admin_panels.php:241
+#: lib/snapshot_admin_panels.php:345
+msgid "Snapshot Information"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:87
+#: lib/snapshot_admin_panels.php:245
+msgid "What Files to Archive?"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:90
+#: lib/snapshot_admin_panels.php:249
+msgid "What Tables to Archive"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:93
+#: lib/snapshot_admin_panels.php:253
+msgid "When to Archive"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:96
+#: lib/snapshot_admin_panels.php:257
+msgid "Where to save the Archive "
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:100
+msgid "Create Snapshot"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:163
+msgctxt "Snapshot New Page Title"
+msgid "All Snapshots"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:166
+msgctxt "Snapshot page description"
+msgid "This is a listing of all Snapshots created within your site. To delete a snapshot set the checkbox then click the 'Delete Snapshots' button below the listing. To restore a snapshot click the 'Restore' button for that snapshot. To edit a snapshot click the name of the snapshot"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:169
+#: lib/snapshot_admin_panels.php:455
+msgid "Current time:"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:173
+msgid "Next File Send:"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:176
+msgid "<span class=\"snapshot-error\">(I)</span> indicates an imported archive"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:220
+msgctxt "Snapshot Plugin Page Title"
+msgid "Edit Snapshot"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:221
+msgctxt "Snapshot page description"
+msgid "Use this form to update the details for a previous snapshot. Also, provided is a link you can use to download the snapshot for sharing or archiving."
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:262
+msgid "All Archives"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:265
+msgid "Save Snapshot"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:298
+#: lib/snapshot_admin_panels.php:383
+msgctxt "Snapshot Plugin Page Title"
+msgid "Restore Snapshot"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:300
+msgctxt "Snapshot page description"
+msgid "On this page you can restore a previous snapshot. Using the 'Restore Options' section below you can also opt to turn off all plugins as well as switch to a different theme as part of the restore."
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:302
+msgid "You are about to restore a previous version of your WordPress database. This will remove any new information added since the snapshot backup."
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:307
+#, php-format
+msgid "Your web server timeout is set very low, %d seconds. Also, it appears this timeout cannot be adjusted via the Snapshot restore process. Attempting a snapshot restore could result in a partial restore of your tables."
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:349
+msgid "Selected Archive to Restore"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:354
+msgid "Restore Blog Options"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:359
+msgid "What Tables to Restore?"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:363
+msgid "What Files to Restore?"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:367
+msgid "Restore Theme Options"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:372
+#: snapshot.php:1147
+msgid "Restore Snapshot"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:385
+msgctxt "Snapshot page description"
+msgid "ERROR: Missing argument. Please return to the main Snapshot panel and select the archive to restore. "
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:410
+msgctxt "Snapshot Plugin Page Title"
+msgid "Snapshots Settings"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:411
+msgctxt "Snapshot page description"
+msgid "The Settings panel provides access to a number of configuration options you can customize Snapshot to meet you site needs."
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:459
+msgid "This Snapshot item is setup as <strong>files sync</strong>. You cannot perform a resend of the individual items like on a normal archive. But you can click the <strong>resend</strong> on any item below to clear the last send dates on all files. This will force all files to be re-synced."
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:477
+msgctxt "Snapshot Plugin Page Title"
+msgid "Snapshots Scan / Import"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:481
+msgid "The Snapshot import form below is used to import snapshot archives from outside of this environment into view of the snapshot plugin. If you are attempting to restore an archive from a remote server for example you first need to import the archive here. This will then show the archive in the All Snapshots listing. From that page you can then perform the needed restore."
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:487
+msgid "Import Options"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:490
+msgid "Scan / Import Snapshots"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:511
+msgid "PHP max_execution_time"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:513
+msgid "Attempting to download remote file"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:526
+#: lib/snapshot_admin_panels.php:579
+#: lib/snapshot_admin_panels.php:629
+msgid "Processing archive"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:545
+msgid "Error: Your server does not have lib_curl installed. So the import process cannot retrieve remote file."
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:548
+msgid "local import file not found. This could mean either the entered URL was not valid or the file was not publicly accessible."
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:561
+#: lib/snapshot_admin_panels.php:611
+msgid "Importing archives from"
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:603
+#, php-format
+msgid "local import file not found %s. This could mean either the entered path was not valid or accessible."
+msgstr ""
+
+#: lib/snapshot_admin_panels.php:654
+msgid "Snapshot import complete"
+msgstr ""
+
+#: lib/snapshot_utilities.php:652
+msgid "Every 5 Minutes"
+msgstr ""
+
+#: lib/snapshot_utilities.php:659
+msgid "Every 15 Minutes"
+msgstr ""
+
+#: lib/snapshot_utilities.php:666
+msgid "Every 30 Minutes"
+msgstr ""
+
+#: lib/snapshot_utilities.php:673
+msgid "Once Hourly"
+msgstr ""
+
+#: lib/snapshot_utilities.php:680
+msgid "Once Daily"
+msgstr ""
+
+#: lib/snapshot_utilities.php:687
+msgid "Twice Daily"
+msgstr ""
+
+#: lib/snapshot_utilities.php:694
+msgid "Once Weekly"
+msgstr ""
+
+#: lib/snapshot_utilities.php:701
+msgid "Twice Weekly"
+msgstr ""
+
+#: lib/snapshot_utilities.php:708
+msgid "Once Monthly"
+msgstr ""
+
+#: lib/snapshot_utilities.php:715
+msgid "Twice Monthly"
+msgstr ""
+
+#: lib/snapshot_utilities.php:852
+msgid "Midnight"
+msgstr ""
+
+#: lib/snapshot_utilities.php:854
+msgid "Noon"
+msgstr ""
+
+#: lib/snapshot_utilities.php:856
+msgid "am"
+msgstr ""
+
+#: lib/snapshot_utilities.php:858
+msgid "pm"
+msgstr ""
+
+#: lib/snapshot_utilities.php:883
+msgid "Sunday"
+msgstr ""
+
+#: lib/snapshot_utilities.php:884
+msgid "Monday"
+msgstr ""
+
+#: lib/snapshot_utilities.php:885
+msgid "Tuesday"
+msgstr ""
+
+#: lib/snapshot_utilities.php:886
+msgid "Wednesday"
+msgstr ""
+
+#: lib/snapshot_utilities.php:887
+msgid "Thursday"
+msgstr ""
+
+#: lib/snapshot_utilities.php:888
+msgid "Friday"
+msgstr ""
+
+#: lib/snapshot_utilities.php:889
+msgid "Saturday"
+msgstr ""
+
+#: lib/snapshot_utilities.php:1106
+msgid "Tables:"
+msgstr ""
+
+#: lib/snapshot_utilities.php:1113
+msgid "core"
+msgstr ""
+
+#: lib/snapshot_utilities.php:1115
+msgid "non-core"
+msgstr ""
+
+#: lib/snapshot_utilities.php:1119
+msgid "error"
+msgstr ""
+
+#: lib/snapshot_utilities.php:1121
+msgid "global"
+msgstr ""
+
+#: lib/snapshot_utilities.php:1146
+msgid "Files:"
+msgstr ""
+
+#: lib/snapshot_utilities.php:1421
+#: lib/snapshot_utilities.php:1617
+msgid "Manifest data not found in archive."
+msgstr ""
+
+#: lib/snapshot_utilities.php:1428
+msgid "Manifest data does not contain ITEM section."
+msgstr ""
+
+#: lib/snapshot_utilities.php:1436
+msgid "Manifest ITEM does not contain 'timestamp' item."
+msgstr ""
+
+#: lib/snapshot_utilities.php:1571
+msgid "Manifest ITEM does not contain 'data' section."
+msgstr ""
+
+#: lib/snapshot_utilities.php:1593
+#: lib/snapshot_utilities.php:1603
+msgid "Archive imported successfully."
+msgstr ""
+
+#: lib/snapshot_utilities.php:1607
+msgid "already present. not importing."
+msgstr ""
+
+#: lib/snapshot_utilities.php:1760
+#, php-format
+msgid "<p>The session save path (%s) is not set to a valid directory. Check your PHP (php.ini) settings or contact your hosting provider.</p>"
+msgstr ""
+
+#: lib/snapshot_utilities.php:1763
+#, php-format
+msgid "<p>The session_save_path (%s) is not writeable. Check your PHP (php.ini) settings or contact your hosting provider.</p>"
+msgstr ""
+
+#: snapshot.php:80
+msgid "Snapshots"
+msgstr ""
+
+#: snapshot.php:344
+#: snapshot.php:1172
+msgid "Settings"
+msgstr ""
+
+#: snapshot.php:370
+msgctxt "page label"
+msgid "Snapshots"
+msgstr ""
+
+#: snapshot.php:371
+msgctxt "menu label"
+msgid "Snapshots"
+msgstr ""
+
+#: snapshot.php:381
+msgctxt "page label"
+msgid "All Snapshots"
+msgstr ""
+
+#: snapshot.php:382
+msgctxt "menu label"
+msgid "All Snapshots"
+msgstr ""
+
+#: snapshot.php:391
+msgctxt "page label"
+msgid "Add New Snapshot"
+msgstr ""
+
+#: snapshot.php:392
+msgctxt "menu label"
+msgid "Add New"
+msgstr ""
+
+#: snapshot.php:401
+msgctxt "page label"
+msgid "Snapshot Destinations"
+msgstr ""
+
+#: snapshot.php:402
+msgctxt "menu label"
+msgid "Destinations"
+msgstr ""
+
+#: snapshot.php:412
+msgctxt "page label"
+msgid "Snapshots Import"
+msgstr ""
+
+#: snapshot.php:413
+msgctxt "menu label"
+msgid "Import"
+msgstr ""
+
+#: snapshot.php:422
+msgctxt "page label"
+msgid "Snapshots Settings"
+msgstr ""
+
+#: snapshot.php:423
+msgctxt "menu label"
+msgid "Settings"
+msgstr ""
+
+#: snapshot.php:450
+msgid "The Snapshot has been updated."
+msgstr ""
+
+#: snapshot.php:451
+msgid "The Snapshot has been created."
+msgstr ""
+
+#: snapshot.php:452
+msgid "The Snapshot has been deleted."
+msgstr ""
+
+#: snapshot.php:453
+msgid "The Snapshot has been restored."
+msgstr ""
+
+#: snapshot.php:454
+#: snapshot.php:621
+msgid "Settings have been update."
+msgstr ""
+
+#: snapshot.php:455
+msgid "Item scheduled to run."
+msgstr ""
+
+#: snapshot.php:514
+msgid "Folder Location"
+msgstr ""
+
+#: snapshot.php:520
+msgid "Database Segment Size"
+msgstr ""
+
+#: snapshot.php:526
+msgid "Server Info"
+msgstr ""
+
+#: snapshot.php:544
+msgid "Global File Exclusions"
+msgstr ""
+
+#: snapshot.php:556
+msgid "Compression Library"
+msgstr ""
+
+#: snapshot.php:592
+msgid "Snapshot Migration"
+msgstr ""
+
+#: snapshot.php:617
+msgid "The Destination has been updated."
+msgstr ""
+
+#: snapshot.php:618
+msgid "The Destination has been added."
+msgstr ""
+
+#: snapshot.php:619
+msgid "The Destination has been deleted."
+msgstr ""
+
+#: snapshot.php:620
+msgid "The Destination has been restored."
+msgstr ""
+
+#: snapshot.php:919
+#: snapshot.php:957
+msgid "per Page"
+msgstr ""
+
+#: snapshot.php:1071
+msgid "The Snapshot plugin provides the ability to create quick on-demand snapshot of your WordPress site database and files. You can create as many snapshots as needed. The Snapshot plugin also provides the ability to restore a snapshot backup."
+msgstr ""
+
+#: snapshot.php:1073
+#: snapshot.php:1081
+msgid "<strong>Name</strong> - Provide a custom name for this snapshot. Default name is \"snapshot\"."
+msgstr ""
+
+#: snapshot.php:1074
+#: snapshot.php:1082
+msgid "<strong>Notes</strong> - Add some optional notes about the snapshot. Maybe some details on what plugins or theme were active. Or some note before you activate some new plugin."
+msgstr ""
+
+#: snapshot.php:1075
+msgid "<strong>What to Backup</strong> - This section lists all tables for your site. Select the table you want to include in the backup. The tables are grouped by WordPress Core and Other tables. These Other tables could have been created and used by some of the plugins you installed."
+msgstr ""
+
+#: snapshot.php:1076
+msgid "<strong>When to Archive</strong> - This section shows a dropdown where you can select how often to create a backup of the selected tables. The default is \"Manual\". If selected will create a one time on demand backup. You can also select to schedule the backup by selecting one of the many options available. If the backup is scheduled you will also be able to set the number of archives to keep."
+msgstr ""
+
+#: snapshot.php:1077
+#: snapshot.php:1085
+msgid "<strong>Where to save the Archive</strong> - The only available option at this time is local. This means the files will be stored on the local server. Future options will be remote systems like Dropbox, Amazon S3, FTP, etc."
+msgstr ""
+
+#: snapshot.php:1080
+msgid "On the Edit Snapshot panel you can rename or add notes to the snapshot item. Also provided is a link to the snapshot file which you can download and archive to your local system."
+msgstr ""
+
+#: snapshot.php:1083
+msgid "<strong>When to Archive</strong> - This section shows a dropdown where you can select how often to create a backup of the selected tables. The default is \"Manual\". If selected will create a one time on demand backup. You can also select to schedule the backup by selecting one of the many options available."
+msgstr ""
+
+#: snapshot.php:1084
+msgid "<strong>Tables in Archive</strong> - This sections lists the tables included in the snapshot archives. The table selection is set when you create a new snapshot configuration."
+msgstr ""
+
+#: snapshot.php:1086
+msgid "<strong>All Archives</strong> - This section lists the various archive files creates from this snapshot configuration. Here you can click the archive filename to download. On the same row you will also see a link to view the log entries related to the creation of this archive instance. At the bottom is a link to download the full snapshot log file."
+msgstr ""
+
+#: snapshot.php:1090
+msgid "From this screen you can restore a snapshot. The restore will reload the database export into you current live site. Each table selected during the snapshot creation will be emptied before the snapshot information is loaded. It is important to understand this restore will be removing and new information added since the snapshot."
+msgstr ""
+
+#: snapshot.php:1091
+msgid "On the restore screen you will see a section for \"Restore Option\". The details for each option are discussed below"
+msgstr ""
+
+#: snapshot.php:1092
+msgid "<strong>Turn off all plugins</strong> - As part of the restore process you can automatically deactivate all plugins. This is helpful if you had trouble with a plugin and are trying to return your site back to some stable state."
+msgstr ""
+
+#: snapshot.php:1093
+msgid "<strong>Set a theme to active</strong> - Similar to the Plugins option you can select to have a specific theme set to active as part of the restore process. Again, this is helpful if you installed a new theme that broke your site and you want to return your site back to a stable state."
+msgstr ""
+
+#: snapshot.php:1094
+msgid "<strong>All Archives</strong> - This section lists the various archive files creates from this snapshot configuration. From the listing select the archive to be used for the restore."
+msgstr ""
+
+#: snapshot.php:1098
+msgid "All of your snapshots are listed here. Within the listing there are a number of options you can take."
+msgstr ""
+
+#: snapshot.php:1098
+msgid "<strong>Delete</strong> - On each row you will see a checkbox. To delete one or more existing Snapshots click checkbox then click the \"Delete Snapshots\" button below the listing."
+msgstr ""
+
+#: snapshot.php:1099
+msgid "<strong>Edit/Restore/Delete</strong> - Hover over the Name to reveal options for Edit, Restore, Delete. The Edit option will show the Snapshot detail form where you can change many of the configuration options. The Restore option will show a form where you can select from the various restore options. The Delete option will delete this snapshot only"
+msgstr ""
+
+#: snapshot.php:1100
+msgid "<strong>Notes</strong> - The Notes columns shows the description you assigned to the Snapshot. Also in this column are the tabls included in this snapshot."
+msgstr ""
+
+#: snapshot.php:1101
+msgid "<strong>Interval</strong> - The Interval column shows how often the snapshot will be generated. When you created the snapshot instance you had the option to create a manual snapshot or schedule the snapshot to be created on certain interval (once an hour, once a day, etc.). If the interval is scheduled this column will show the estimated time for the next backup."
+msgstr ""
+
+#: snapshot.php:1102
+msgid "<strong>Destination</strong> - The Destinations column shows where the archive is stored. This can be local, Amazon S3, Dropbox, or any custom destination."
+msgstr ""
+
+#: snapshot.php:1103
+msgid "<strong>Archive</strong> - The Archives column shows the last snapshot archive created."
+msgstr ""
+
+#: snapshot.php:1107
+msgid "The Settings panel provides access to a number of configuration settings you can customize Snapshot to meet you site needs."
+msgstr ""
+
+#: snapshot.php:1108
+msgid "<strong>Folder Location</strong> - By default the snapshot files are stored under your site's /wp-content/uploads/ directory in a new folder named 'snapshots'. If for some reason you already use a folder of this name you can set a different folder name to be used. If you change the folder name after some snapshots have been generated these files will be moved to the new folder. Note you cannot move the folder outside the /wp-content/uploads/ directory."
+msgstr ""
+
+#: snapshot.php:1109
+msgid "<strong>Database Segment Size</strong> - The Segment Size can be defined as the number of rows to backup per table per request. The Segment Size controls the backup processing when you create a new snapshot. During the backup processing Snapshot will make a request to the server to backup each table. You can see this in the progress meters when you create a new snapshot. In most situations this backup process will attempt to backup the table in one step. But on some server configurations the timeout is set very low or the table size is very large and prevents the backup process from finishing. To control this the Snapshot backup process will breakup the requests into smaller 'chunks of work' requested to the server. "
+msgstr ""
+
+#: snapshot.php:1110
+msgid "<strong>Server Info</strong> - This section provides useful details about your site configuration and should be used when contacting support."
+msgstr ""
+
+#: snapshot.php:1110
+msgid "<strong>Memory Limit</strong> - This section can control the amount of memory used/needed by Snapshot when created/restoring an archive."
+msgstr ""
+
+#: snapshot.php:1111
+msgid "<strong>Archive Import</strong> - Do you have some snapshot zip file from an older version that somehow became disconnected with the settings. You can now import the zip file and snapshot will add it to the listing."
+msgstr ""
+
+#: snapshot.php:1117
+msgid "Overview"
+msgstr ""
+
+#: snapshot.php:1126
+msgid "New Snapshot"
+msgstr ""
+
+#: snapshot.php:1139
+msgid "Edit Snapshot"
+msgstr ""
+
+#: snapshot.php:1155
+msgid "All Snapshots"
+msgstr ""
+
+#: snapshot.php:1164
+msgid "Activity Log"
+msgstr ""
+
+#: snapshot.php:1737
+msgid "ERROR: The new Snapshot folder already exists. "
+msgstr ""
+
+#: snapshot.php:2335
+msgid "ERROR: Cannot create snapshot folder. Check that the parent folder is writable"
+msgstr ""
+
+#: snapshot.php:2350
+#: snapshot.php:2394
+#: snapshot.php:2454
+#: snapshot.php:2485
+msgid "ERROR: The Snapshot destination folder is not writable"
+msgstr ""
+
+#: snapshot.php:2380
+#: snapshot.php:2440
+#: snapshot.php:2471
+msgid "ERROR: Cannot create snapshot Log folder. Check that the parent folder is writeable"
+msgstr ""
+
+#: snapshot.php:2410
+msgid "ERROR: Cannot create snapshot Restore folder. Check that the parent folder is writeable"
+msgstr ""
+
+#: snapshot.php:2424
+msgid "ERROR: The Snapshot restore folder is not writable"
+msgstr ""
+
+#: snapshot.php:2517
+msgid "ERROR: Cannot create snapshot Lock folder. Check that the parent folder is writeable"
+msgstr ""
+
+#: snapshot.php:2531
+msgid "ERROR: The Snapshot locks folder is not writable"
+msgstr ""
+
+#: snapshot.php:2878
+msgid "ERROR: Snapshot backup aborted.<br />The Snapshot folder is not writeable. Check the settings."
+msgstr ""
+
+#: snapshot.php:3195
+msgid "ERROR: Snapshot backup aborted."
+msgstr ""
+
+#: snapshot.php:3709
+msgid "SUCCESS: Created Snapshot: "
+msgstr ""
+
+#: snapshot.php:3710
+msgid "Add Another Snapshot"
+msgstr ""
+
+#: snapshot.php:4139
+msgid "ERROR: The Snapshot missing 'item_data' key"
+msgstr ""
+
+#: snapshot.php:4149
+msgid "ERROR: The Snapshot incorrect 'item_data' ["
+msgstr ""
+
+#: snapshot.php:4164
+#: snapshot.php:4172
+msgid "ERROR: The Snapshot file not found:"
+msgstr ""
+
+#: snapshot.php:4184
+msgid "ERROR: The Snapshot folder is not writeable. Check the settings"
+msgstr ""
+
+#: snapshot.php:4528
+msgid "ERROR: Unable to locate table restore file from archive: "
+msgstr ""
+
+#: snapshot.php:4559
+msgid "ERROR: The Snapshot missing 'file_data_idx' key"
+msgstr ""
+
+#: snapshot.php:4569
+msgid "ERROR: The Snapshot missing session 'FILES-DATA' object."
+msgstr ""
+
+#: snapshot.php:4577
+msgid "ERROR: The Snapshot missing restore file at idx ["
+msgstr ""
+
+#: snapshot.php:4674
+#, php-format
+msgid "Unable to create directory %s. Make sure the parent folder is writeable."
+msgstr ""
+
+#: snapshot.php:4763
+msgid "SUCCESS: Snapshot Restore complete! "
+msgstr ""
+
+#: snapshot.php:5989
+msgid "Creating Archive"
+msgstr ""
+
+#: snapshot.php:6189
+msgid "file: The following files are excluded due to match exclusion patterns."
+msgstr ""
+
+#: snapshot.php:6200
+msgid "file: The following files are excluded because snapshot cannot open them. Check file permissions or locks"
+msgstr ""
+
+#: snapshot.php:6369
+msgid "Syncing Files"
+msgstr ""
+
+#: snapshot.php:6371
+msgid "Sending Archive"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Snapshot"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://premium.wpmudev.org/project/snapshot"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "This plugin allows you to take quick on-demand backup snapshots of your working WordPress database. You can select from the default WordPress tables as well as custom plugin tables within the database structure. All snapshots are logged, and you can restore the snapshot as needed."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WPMU DEV"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://premium.wpmudev.org/"
+msgstr ""
+
