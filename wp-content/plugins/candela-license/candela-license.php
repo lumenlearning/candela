@@ -62,7 +62,7 @@ class CandelaLicense {
     $options = CandelaLicense::GetOptions(array($license));
 
     if (!empty($options[$license]['link'] && !empty($options[$license]['image'] ) ) ) {
-      echo '<a href="' . $options[$license]['link'] . ' rel="license"><img src="' . $options[$license]['image'] . '"></a>';
+      echo '<a href="' . $options[$license]['link'] . '" rel="license"><img src="' . $options[$license]['image'] . '"></a>';
     }
     else {
       echo '<meta name="DC.rights.license" content="' . $options[$license]['label'] . '" >';
