@@ -26,8 +26,14 @@ class CandelaLicense {
       define('CANDELA_LICENSE_FIELD', '_candela_license');
     }
 
+    define('CANDELA_LICENSE_DEFAULT', 'cc-by');
+
+    add_action( 'admin_menu', array(__CLASS__, 'admin_menu' ) );
+    add_action( 'admin_init', array(__CLASS__, 'settings_api_init') );
     add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
-    add_action( 'save_post', array( __CLASS__, 'save') );
+    add_action( 'save_post', array( __CLASS__, 'save'), 10, 2 );
+
+    add_filter( 'pre_update_option_' . CANDELA_LICENSE_FIELD, array( __CLASS__, 'update_license_default' ), 10, 2 );
   }
 
   /**
@@ -77,7 +83,7 @@ class CandelaLicense {
     // Use get_post_meta to retrieve an existing value from the database.
     $license = get_post_meta( $post->ID, CANDELA_LICENSE_FIELD, true);
     $options = CandelaLicense::GetOptions(array($license));
-    $markup = '<select name="candela-license">';
+    $markup = '<select name="' . CANDELA_LICENSE_FIELD . '">';
     foreach ( $options as $value => $option ) {
       $markup .= '<option value="' . esc_attr($value) . '" ' . ($option['selected'] ? 'selected' : '') . '>' . esc_html( $option['label'] ) . '</option>';
     }
@@ -148,8 +154,7 @@ class CandelaLicense {
   /**
    * Save a post submitted via form.
    */
-  public static function save( $post_id ) {
-    error_log(var_export($_POST,1));
+  public static function save( $post_id, $post ) {
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
       return $post_id;
     }
@@ -163,12 +168,86 @@ class CandelaLicense {
     $types = CandelaLicense::postTypes();
 
     $licenses = array_keys(CandelaLicense::GetOptions());
+    if ( in_array( $post->post_type, $types ) ) {
+      if( isset( $_REQUEST[CANDELA_LICENSE_FIELD] ) && in_array($_REQUEST[CANDELA_LICENSE_FIELD], $licenses)) {
+        $value = $_REQUEST[CANDELA_LICENSE_FIELD];
+      }
+      elseif ( isset( $post->{CANDELA_LICENSE_FIELD} ) && in_array($post->{CANDELA_LICENSE_FIELD}, $licenses)) {
+        $value = $post->{CANDELA_LICENSE_FIELD};
+      }
+      else {
+        $value = get_option(CANDELA_LICENSE_FIELD, CANDELA_LICENSE_DEFAULT);
+      }
+      update_post_meta( $post_id, CANDELA_LICENSE_FIELD, $value );
+    }
+  }
 
-    if ( isset( $_POST['post_type'] ) && in_array( $_POST['post_type'], $types ) ) {
-      if ( isset( $_POST['candela-license'] ) && in_array($_POST['candela-license'], $licenses)) {
-        update_post_meta( $post_id, CANDELA_LICENSE_FIELD, $_POST['candela-license']);
+  public static function admin_menu() {
+    add_options_page(
+      __('Candela License', 'candela-license'),
+      __('Candela License', 'candela-license'),
+      'manage_options',
+      'candela-license',
+      array(__CLASS__, 'candela_license_options_page')
+    );
+  }
+
+  public static function settings_api_init() {
+    // pressbooks_theme_options_global
+    add_settings_section(
+      'candela_license_section',
+      __('Default License Settings', 'candela-license'),
+      array(__CLASS__, 'license_settings_section_callback'),
+      'candela-license'
+    );
+
+    add_settings_field(
+      CANDELA_LICENSE_FIELD,
+      __('License', 'candela-license'),
+      array(__CLASS__, 'license_setting_callback'),
+      'candela-license',
+      'candela_license_section'
+    );
+
+    register_setting('candela-settings-group', CANDELA_LICENSE_FIELD);
+  }
+
+  public static function license_settings_section_callback() {
+  }
+
+  public static function license_setting_callback() {
+    $license = get_option(CANDELA_LICENSE_FIELD, CANDELA_LICENSE_DEFAULT);
+    $options = CandelaLicense::GetOptions(array($license));
+    $markup = '<select name="' . CANDELA_LICENSE_FIELD . '">';
+    foreach ( $options as $value => $option ) {
+      $markup .= '<option value="' . esc_attr($value) . '" ' . ($option['selected'] ? 'selected' : '') . '>' . esc_html( $option['label'] ) . '</option>';
+    }
+    $markup .= '</select>';
+    echo $markup;
+  }
+
+  public static function candela_license_options_page() {
+    print '<div class="wrap">';
+    print '<h2>' . __('License', 'candela-license') . '</h2>';
+    print '<form action="options.php" method="POST">';
+    settings_fields( 'candela-settings-group' );
+    do_settings_sections( 'candela-license' );
+    submit_button(__('Set license on all pages', 'candela-license') );
+    print '</form>';
+    print '</div>';
+  }
+
+  public static function update_license_default($new, $old) {
+    // iterate over all pages and update license.
+    $types = CandelaLicense::postTypes();
+
+    foreach ($types as $type) {
+      $posts = get_posts(array('post_type' => $type ) );
+      foreach ($posts as $post) {
+        update_post_meta( $post->ID, CANDELA_LICENSE_FIELD, $new );
       }
     }
+    return $new;
   }
 }
 
