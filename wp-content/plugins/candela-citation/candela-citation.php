@@ -26,8 +26,10 @@ class CandelaCitation {
       define('CANDELA_CITATION_FIELD', '_candela_citation');
     }
 
+    add_action( 'admin_menu', array(__CLASS__, 'admin_menu' ) );
     add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
     add_action( 'save_post', array( __CLASS__, 'save') );
+
   }
 
   /**
@@ -74,50 +76,7 @@ class CandelaCitation {
     }
 
     $rows[] = CandelaCitation::get_meta_row();
-    $first = TRUE;
-    echo '<table id="citation-table">';
-    $i = 0;
-    foreach ($rows as $fields) {
-      $headers = array();
-      $row = array();
-      foreach ($fields as $field) {
-        if ( $first ) {
-          $headers[] = $field['label'];
-        }
-        $row[] = $field['widget'];
-      }
-
-      if ( $first ) {
-        echo '<thead><tr><th>';
-        echo implode( '</th><th>', $headers );
-        echo '</th></tr></thead><tbody>';
-        $first = FALSE;
-      }
-
-      echo '<tr><td>';
-      echo implode( '</td><td>', str_replace('%%INDEX%%', $i, $row) );
-      echo '</td></tr>';
-      $i++;
-    }
-    echo '</tbody></table>';
-
-    echo '<button id="citation-add-more-button" type="button">';
-    _e('Add more citations');
-    echo '</button>';
-    echo '<script type="text/javascript">
-      jQuery( document ).ready( function( $ ) {
-        var citationIndex = '. $i . ';
-        citationWidgets = \'<tr><td>' . implode( '</td><td>', $row ) . '</td></tr>\';
-        $( "#citation-add-more-button" ).click(function() {
-          newWidgets = citationWidgets.split("%%INDEX%%").join(citationIndex);
-          $( "#citation-table tbody").append(newWidgets);
-          citationIndex++;
-        });
-      });
-    </script>';
-
-
-    // @todo jQuery append add more widgets.
+    CandelaCitation::citations_table( $rows );
   }
 
   /**
@@ -323,33 +282,172 @@ class CandelaCitation {
       return $post_id;
     }
 
-    $citations = array();
-
     $types = CandelaCitation::postTypes();
-    $fields = CandelaCitation::citation_fields();
 
     if ( isset( $_POST['post_type'] ) && in_array( $_POST['post_type'], $types ) ) {
-      // Use the first citation field to determine if citation fields were submitted.
-      $key = key($fields);
+      $citations = CandelaCitation::process_citations();
+      update_post_meta( $post_id, CANDELA_CITATION_FIELD, serialize( $citations ) );
+    }
 
-      $post_field = 'citation-' . $key;
-      if ( isset($_POST[$post_field] ) ) {
-        // We have field data for citations, iterate over
-        foreach ( $_POST[$post_field] as $index => $junk) {
-          foreach ($fields as $field => $info) {
-            // Re-associate fields per citation
-            $citations[$index][$field] = $_POST['citation-' . $field][$index];
-          }
-          // Citation type is required
-          if (empty($citations[$index]['type'])) {
-            unset($citations[$index]);
-          }
+  }
+
+  public static function process_citations() {
+    $citations = array();
+    $fields = CandelaCitation::citation_fields();
+
+    // Use the first citation field to determine if citation fields were submitted.
+    $key = key($fields);
+
+    $post_field = 'citation-' . $key;
+    if ( isset($_POST[$post_field] ) ) {
+      // We have field data for citations, iterate over
+      foreach ( $_POST[$post_field] as $index => $junk) {
+        foreach ($fields as $field => $info) {
+          // Re-associate fields per citation
+          $citations[$index][$field] = $_POST['citation-' . $field][$index];
+        }
+        // Citation type is required
+        if (empty($citations[$index]['type'])) {
+          unset($citations[$index]);
         }
       }
     }
-
-    update_post_meta( $post_id, CANDELA_CITATION_FIELD, serialize( $citations ) );
+    return $citations;
   }
 
+  public static function admin_menu() {
+    add_options_page(
+      __('Candela Citations', 'candela-citation'),
+      __('Candela Citations', 'candela-citation'),
+      'manage_options',
+      'candela-citation',
+      array(__CLASS__, 'global_citation_page')
+    );
+  }
+
+  public static function global_citation_page() {
+
+    $rows = array();
+    if (!empty($_POST['__citation'])) {
+      $citations = CandelaCitation::process_global_form();
+
+      if (!empty($citations)) {
+        foreach($citations as $citation) {
+          $rows[] = CandelaCitation::get_meta_row( $citation );
+        }
+      }
+    }
+    print '<div class="wrap">';
+    print '<h2>' . __('Global Citations', 'candela-citation') . '</h2>';
+    print '<form method="POST" action="' . get_permalink() . '">';
+    print '<input type="hidden" name="__citation" value="1" >';
+
+    $rows[] = CandelaCitation::get_meta_row();
+    CandelaCitation::citations_table( $rows );
+
+    print '<input type="submit" id="citation-add-all" name="citation-add-all" value="' .  __('Add citations to every page', 'candela-citation') . '">';
+    print '<input type="submit" id="citation-replace-all" name="citation-replace-all" value="' . __('OVERWRITE citations on every page', 'candela-citation') . '">';
+
+    print '</form>';
+    print '</div>';
+  }
+
+  public static function process_global_form() {
+    $citations = CandelaCitation::process_citations();
+    if ( ! empty($citations)) {
+      if (isset($_POST['citation-replace-all'])) {
+        CandelaCitation::replace_all_citations($citations);
+      }
+
+      if (isset($_POST['citation-add-all'])) {
+        CandelaCitation::add_all_citations($citations);
+      }
+    }
+    return $citations;
+  }
+
+  public static function replace_all_citations($citations) {
+    $types = CandelaCitation::postTypes();
+
+    foreach ($types as $type) {
+      $posts = get_posts(array('post_type' => $type ) );
+      foreach ($posts as $post) {
+        update_post_meta( $post->ID, CANDELA_CITATION_FIELD, serialize( $citations ) );
+      }
+    }
+  }
+
+  public static function add_all_citations($citations) {
+    $types = CandelaCitation::postTypes();
+
+    foreach ($types as $type) {
+      $posts = get_posts(array('post_type' => $type ) );
+      foreach ($posts as $post) {
+        // Get existing citations and append new ones.
+        $existing = get_post_meta( $post->ID, CANDELA_CITATION_FIELD, true);
+        if ( ! empty( $existing ) ) {
+          $existing = unserialize( $existing );
+          $new = array_merge($existing, $citations);
+        }
+        else {
+          $new = $citations;
+        }
+        update_post_meta( $post->ID, CANDELA_CITATION_FIELD, serialize( $new ) );
+      }
+    }
+  }
+
+  /**
+   * Add our citation processing vars so that wordpress "understands" them.
+   */
+  public static function query_vars( $query_vars ) {
+    $query_vars[] = '__citation';
+    return $query_vars;
+  }
+
+  public static function citations_table( $rows ) {
+    $first = TRUE;
+    $fields = CandelaCitation::citation_fields();
+    echo '<table id="citation-table">';
+    $i = 0;
+    foreach ($rows as $fields) {
+      $headers = array();
+      $row = array();
+      foreach ($fields as $field) {
+        if ( $first ) {
+          $headers[] = $field['label'];
+        }
+        $row[] = $field['widget'];
+      }
+
+      if ( $first ) {
+        echo '<thead><tr><th>';
+        echo implode( '</th><th>', $headers );
+        echo '</th></tr></thead><tbody>';
+        $first = FALSE;
+      }
+
+      echo '<tr><td>';
+      echo implode( '</td><td>', str_replace('%%INDEX%%', $i, $row) );
+      echo '</td></tr>';
+      $i++;
+    }
+    echo '</tbody></table>';
+
+    echo '<button id="citation-add-more-button" type="button">';
+    _e('Add more citations');
+    echo '</button>';
+    echo '<script type="text/javascript">
+      jQuery( document ).ready( function( $ ) {
+        var citationIndex = '. $i . ';
+        citationWidgets = \'<tr><td>' . implode( '</td><td>', $row ) . '</td></tr>\';
+        $( "#citation-add-more-button" ).click(function() {
+          newWidgets = citationWidgets.split("%%INDEX%%").join(citationIndex);
+          $( "#citation-table tbody").append(newWidgets);
+          citationIndex++;
+        });
+      });
+    </script>';
+  }
 }
 
