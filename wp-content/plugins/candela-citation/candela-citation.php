@@ -96,35 +96,97 @@ class CandelaCitation {
 
     $license = CandelaCitation::getOptions('license');
     foreach ($citations as $citation) {
+      $authorblock = '';
+      if ( !empty( $citation['author'] ) ) {
+	$authorblock .= $citation['author'];
+	if ( !empty( $citation['organization'] ) ) {
+	  $authorblock .= ' of ' . $citation['organization'];
+	}
+      } else if ( !empty( $citation['organization'] ) ) {
+	$authorblock .= $citation['organization'];
+      } 
+      if ( !empty( $citation['project'] ) ) {
+	if ( $authorblock == '' ) {
+	  $authorblock .= $citation['project'];
+	} else {
+	  $authorblock .= ' [PROJ-TO] ' . $citation['project'];
+	}
+      }
+      if ( $authorblock == '' ) {
+	$authorblock = 'UNKNOWN';
+      }
       switch ( $citation['type'] ) {
         case 'original';
-          $cite = 'Original content contributed by [AUTHOR] of [ORGANIZATION] to [PROJECT].';
-          break;
+          $authorblock = str_replace('[PROJ-TO]', 'to', $authorblock);
+	  $cite = 'Original content [DESCRIPTION] contributed by [AUTHORBLOCK]';
+	  break;
         case 'cc';
-          $cite = 'Content created by [AUTHOR] of [ORGANIZATION] for [PROJECT], originally published at [URL] under a [LICENSE] license.';
+          $authorblock = str_replace('[PROJ-TO]', 'for', $authorblock);
+          $cite = 'Content [DESCRIPTION] created by [AUTHORBLOCK]';
+	  if ( !empty( $citation['url'] ) || !empty( $citation['license'] ) || !empty( $citation['license_terms'] ) ) {
+	    $cite .= ', originally published';
+	    if ( !empty( $citation['url'] ) ) {
+	      $cite .= ' at [URL]';
+	    }
+	    if ( !empty( $citation['license'] ) ) {
+	      $cite .= ' under a [LICENSE] license';
+	    }
+	    if ( !empty( $citation['license_terms'] ) ) {
+	      $cite .= ' with terms [LICENSE_TERMS]';
+	    }
+	  }
           break;
         case 'copyrighted_video';
-          $cite = 'The video of [DESCRIPTION] was created by [AUTHOR] of [ORGANIZATION] for [PROJECT] and published at [URL]. This video is copyrighted and is not licensed under an open license. Embedded as permitted by [LICENSE_TERMS].';
-          break;
+          $authorblock = str_replace('[PROJ-TO]', 'for', $authorblock);
+          $cite = 'Video [DESCRIPTION] created by [AUTHORBLOCK] ';
+	  if ( !empty( $citation['url'] ) ) {
+	    $cite .= 'and published at [URL] ';
+	  }
+	  $cite .= 'This video is copyrighted and is not licensed under an open license. Embedded as permitted by ';
+	  if ( !empty( $citation['license_terms'] ) ) {
+	    $cite .= $citation['license_terms'];
+	  } else {
+	    $cite .= ' the Terms of Use';
+	  }
+	  break;
         case 'pd';
-          $cite = 'Content created (or published) by [AUTHOR] or [ORGANIZATION] (at [URL]).';
+          $authorblock = str_replace('[PROJ-TO]', 'for', $authorblock);
+          $cite = 'Content [DESCRIPTION] created (or published) by [AUTHORBLOCK] ';
+          if ( !empty( $citation['url'] ) ) {
+            $cite .= '(at [URL])';
+          }
           break;
         case 'cc-attribution';
           $cite = '[LICENSE_TERMS]';
           break;
         case 'lumen';
-          $cite = 'Content created by [AUTHOR] of [ORGANIZATION] for [PROJECT], originally published at [URL] under a [LICENSE] license.';
+          $authorblock = str_replace('[PROJ-TO]', 'for', $authorblock);
+          if ($authorblock == 'UNKNOWN') {
+          	  $authorblock = 'Lumen Learning';
+          }
+          $cite = 'Content [DESCRIPTION] created by [AUTHORBLOCK]';
+          if ( !empty( $citation['url'] ) || !empty( $citation['license'] ) ) {
+	    $cite .= ', originally published ';
+	    if ( !empty( $citation['url'] ) ) {
+	      $cite .= 'at [URL] ';
+	    }
+	    if ( !empty( $citation['license'] ) ) {
+	      $cite .= 'under a [LICENSE] license';
+	    }
+	  }
           break;
       }
 
       // Replace templated portions if provided in citation.
-      $cite = empty( $citation['description'] ) ? $cite : str_replace('[DESCRIPTION]', $citation['description'], $cite);
-      $cite = empty( $citation['author'] ) ? $cite : str_replace('[AUTHOR]', $citation['author'], $cite);
-      $cite = empty( $citation['organization'] ) ? $cite : str_replace('[ORGANIZATION]', $citation['organization'], $cite);
+      $cite = str_replace('[AUTHORBLOCK]', $authorblock, $cite);
+      $cite = empty( $citation['description'] ) ? str_replace('[DESCRIPTION]', '', $cite) : str_replace('[DESCRIPTION]', '('.$citation['description'].')', $cite);
+      //$cite = empty( $citation['author'] ) ? $cite : str_replace('[AUTHOR]', $citation['author'], $cite);
+      //$cite = empty( $citation['organization'] ) ? $cite : str_replace('[ORGANIZATION]', $citation['organization'], $cite);
       $cite = empty( $citation['url'] ) ? $cite : str_replace('[URL]', $citation['url'], $cite);
-      $cite = empty( $citation['project'] ) ? $cite : str_replace('[PROJECT]', $citation['project'], $cite);
+      //$cite = empty( $citation['project'] ) ? $cite : str_replace('[PROJECT]', $citation['project'], $cite);
       $cite = empty( $citation['license'] ) ? $cite : str_replace('[LICENSE]', $license[$citation['license']]['label'], $cite);
       $cite = empty( $citation['license_terms'] ) ? $cite : str_replace('[LICENSE_TERMS]', $citation['license_terms'], $cite);
+      $cite .= '.';
       $grouped[$citation['type']][] = $cite;
 
     }
