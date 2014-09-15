@@ -233,6 +233,16 @@ class CandelaLicense {
     settings_fields( 'candela-settings-group' );
     do_settings_sections( 'candela-license' );
     submit_button(__('Set license on all pages', 'candela-license') );
+
+    print "<script type=\"text/javascript\">
+      jQuery( document ).ready( function( $ ) {
+        $('#submit').click(function() {
+          if (!confirm(\"Are you sure you want to update licenses for *every* page in this book?\")) {
+            event.preventDefault();
+          }
+        });
+      });
+    </script>";
     print '</form>';
     print '</div>';
   }
