@@ -348,6 +348,26 @@ class CandelaCitation {
     print '<input type="submit" id="citation-add-all" name="citation-add-all" value="' .  __('Add citations to every page', 'candela-citation') . '">';
     print '<input type="submit" id="citation-replace-all" name="citation-replace-all" value="' . __('OVERWRITE citations on every page', 'candela-citation') . '">';
 
+    print "<script type=\"text/javascript\">
+      jQuery( document ).ready( function( $ ) {
+        $('#citation-add-all').click(function() {
+          if (!confirm(\"Are you sure you want to add citations to *every* page in this book?\")) {
+            event.preventDefault();
+          }
+        });
+      });
+    </script>";
+
+    print "<script type=\"text/javascript\">
+      jQuery( document ).ready( function( $ ) {
+        $('#citation-replace-all').click(function() {
+          if (!confirm(\"Are you sure you want to replace all citations in *every* page in this book?\")) {
+            event.preventDefault();
+          }
+        });
+      });
+    </script>";
+
     print '</form>';
     print '</div>';
   }
