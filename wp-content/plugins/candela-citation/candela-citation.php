@@ -26,6 +26,8 @@ class CandelaCitation {
       define('CANDELA_CITATION_FIELD', '_candela_citation');
     }
 
+    define('CANDELA_CITATION_SEPARATOR', '. ');
+
     add_action( 'admin_menu', array(__CLASS__, 'admin_menu' ) );
     add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
     add_action( 'save_post', array( __CLASS__, 'save') );
@@ -93,52 +95,34 @@ class CandelaCitation {
     }
 
     $grouped = array();
-
+    $fields = CandelaCitation::citation_fields();
     $license = CandelaCitation::getOptions('license');
+
     foreach ($citations as $citation) {
-      switch ( $citation['type'] ) {
-        case 'original';
-          $cite = 'Original content contributed by [AUTHOR] of [ORGANIZATION] to [PROJECT].';
-          break;
-        case 'cc';
-          $cite = 'Content created by [AUTHOR] of [ORGANIZATION] for [PROJECT], originally published at [URL] under a [LICENSE] license.';
-          break;
-        case 'copyrighted_video';
-          $cite = 'The video of [DESCRIPTION] was created by [AUTHOR] of [ORGANIZATION] for [PROJECT] and published at [URL]. This video is copyrighted and is not licensed under an open license. Embedded as permitted by [LICENSE_TERMS].';
-          break;
-        case 'pd';
-          $cite = 'Content created (or published) by [AUTHOR] or [ORGANIZATION] (at [URL]).';
-          break;
-        case 'cc-attribution';
-          $cite = '[LICENSE_TERMS]';
-          break;
-        case 'lumen';
-          $cite = 'Content created by [AUTHOR] of [ORGANIZATION] for [PROJECT], originally published at [URL] under a [LICENSE] license.';
-          break;
+      $parts = array();
+
+      foreach ($fields as $field => $info) {
+
+        if (!empty($citation[$field]) && $field != 'type') {
+          $parts[] = $info['prefix'] . esc_html($citation[$field]) . $info['suffix'];
+        }
       }
-
-      // Replace templated portions if provided in citation.
-      $cite = empty( $citation['description'] ) ? $cite : str_replace('[DESCRIPTION]', $citation['description'], $cite);
-      $cite = empty( $citation['author'] ) ? $cite : str_replace('[AUTHOR]', $citation['author'], $cite);
-      $cite = empty( $citation['organization'] ) ? $cite : str_replace('[ORGANIZATION]', $citation['organization'], $cite);
-      $cite = empty( $citation['url'] ) ? $cite : str_replace('[URL]', $citation['url'], $cite);
-      $cite = empty( $citation['project'] ) ? $cite : str_replace('[PROJECT]', $citation['project'], $cite);
-      $cite = empty( $citation['license'] ) ? $cite : str_replace('[LICENSE]', $license[$citation['license']]['label'], $cite);
-      $cite = empty( $citation['license_terms'] ) ? $cite : str_replace('[LICENSE_TERMS]', $citation['license_terms'], $cite);
-      $grouped[$citation['type']][] = $cite;
-
+      $grouped[$citation['type']][] = implode(CANDELA_CITATION_SEPARATOR, $parts);
     }
 
-    $output = array();
+    $output = '';
     if ( ! empty($grouped) ) {
       $types = CandelaCitation::getOptions('type');
-
       foreach ( $types as $type => $info ) {
         if ( ! empty( $grouped[$type] ) ) {
-          $output = array_merge( $output, $grouped[$type] );
+          $output .= '<h4>' . $info['label'] . '</h4>';
+          $output .= '<ul class="citation-list"><li>';
+          $output .= implode('</li><li>', $grouped[$type] );
+          $output .= '</li></ul>';
         }
       }
     }
+
     return $output;
   }
 
@@ -147,34 +131,50 @@ class CandelaCitation {
       'type' => array(
         'type' => 'select',
         'label' => __( 'Type' ),
+        'prefix' => '',
+        'suffix' => '',
       ),
       'description' => array(
         'type' => 'text',
         'label' => __( 'Description' ),
+        'prefix' => '',
+        'suffix' => '',
       ),
       'author' => array(
         'type' => 'text',
         'label' => __( 'Author' ),
+        'prefix' => '<strong>' . __( 'Authored by' ) . '</strong>: ',
+        'suffix' => '',
       ),
       'organization' => array(
         'type' => 'text',
         'label' => __( 'Organization' ),
+        'prefix' => '<strong>' . __( 'Provided by' ) . '</strong>: ',
+        'suffix' => '',
       ),
       'url' => array(
         'type' => 'text',
         'label' => __( 'URL' ),
+        'prefix' => '<strong>' . __( 'Located at' ) . '</strong>: (',
+        'suffix' => ')',
       ),
       'project' => array(
         'type' => 'text',
         'label' => __( 'Project' ),
+        'prefix' => '<strong>' . __( 'Project' ) . '</strong>: ',
+        'suffix' => '',
       ),
       'license' => array(
         'type' => 'select',
         'label' => __( 'Licensing' ),
+        'prefix' => '<strong>' . __('License') . '</strong>: <em>',
+        'suffix' => '</em>',
       ),
       'license_terms' => array(
         'type' => 'text',
         'label' => __( 'License terms' ),
+        'prefix' => '<strong>' . __('License Terms') . '</strong>: ',
+        'suffix' => '',
       ),
     );
   }

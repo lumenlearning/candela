@@ -349,6 +349,10 @@ a:active.btn.blue {
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#2a2a90', EndColorStr='#121284');
 }
 
+.citation-list {
+	list-style: disc inside;
+}
+
 ul.lti-mapping {
 	list-style: none;
 }
