@@ -26,12 +26,46 @@ class CandelaCitation {
       define('CANDELA_CITATION_FIELD', '_candela_citation');
     }
 
+    define('CANDELA_CITATION_DB_VERSION', '1.0');
     define('CANDELA_CITATION_SEPARATOR', '. ');
+    define('CANDELA_CITATION_DB_OPTION', 'candela_citation_db_version');
 
+    CandelaCitation::update_db();
     add_action( 'admin_menu', array(__CLASS__, 'admin_menu' ) );
     add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
     add_action( 'save_post', array( __CLASS__, 'save') );
 
+  }
+
+  /**
+   *
+   */
+  public static function update_db() {
+    $version = get_option(CANDELA_CITATION_DB_OPTION, '');
+
+    if (empty($version)) {
+      update_option(CANDELA_CITATION_DB_OPTION, CANDELA_CITATION_DB_VERSION);
+      CandelaCitation::update_to_json_encode();
+    }
+  }
+
+  /**
+   * Previously citaitons were stored as serialized values.
+   */
+  public static function update_to_json_encode() {
+    // Get all post citation data and then update from serialize to json_encode
+    // This avoids several issues with serialize when certain meta characters
+    // are in the value.
+    $types = CandelaCitation::postTypes();
+
+    foreach ($types as $type) {
+      $posts = get_posts(array('post_type' => $type, 'post_status' => 'any' ) );
+      foreach ($posts as $post) {
+        $citations = get_post_meta( $post->ID, CANDELA_CITATION_FIELD, true);
+        $citations = unserialize( $citations );
+        update_post_meta( $post->ID, CANDELA_CITATION_FIELD, json_encode( $citations ) );
+      }
+    }
   }
 
   /**
@@ -65,7 +99,7 @@ class CandelaCitation {
     // Use get_post_meta to retrieve an existing value from the database.
     $citations = get_post_meta( $post->ID, CANDELA_CITATION_FIELD, true);
     if ( ! empty( $citations ) ) {
-      $citations = unserialize( $citations );
+      $citations = json_decode( stripslashes( $citations ), TRUE );
     }
     else {
       $citations = array();
@@ -88,7 +122,7 @@ class CandelaCitation {
     // Use get_post_meta to retrieve an existing value from the database.
     $citations = get_post_meta( $post_id, CANDELA_CITATION_FIELD, true);
     if ( ! empty( $citations ) ) {
-      $citations = unserialize( $citations );
+      $citations = json_decode( stripslashes( $citations ) , TRUE );
     }
     else {
       $citations = array();
@@ -286,7 +320,7 @@ class CandelaCitation {
 
     if ( isset( $_POST['post_type'] ) && in_array( $_POST['post_type'], $types ) ) {
       $citations = CandelaCitation::process_citations();
-      update_post_meta( $post_id, CANDELA_CITATION_FIELD, serialize( $citations ) );
+      update_post_meta( $post_id, CANDELA_CITATION_FIELD, json_encode( $citations ) );
     }
 
   }
@@ -392,7 +426,7 @@ class CandelaCitation {
     foreach ($types as $type) {
       $posts = get_posts(array('post_type' => $type, 'post_status' => 'any' ) );
       foreach ($posts as $post) {
-        update_post_meta( $post->ID, CANDELA_CITATION_FIELD, serialize( $citations ) );
+        update_post_meta( $post->ID, CANDELA_CITATION_FIELD, json_encode( $citations ) );
       }
     }
   }
@@ -406,13 +440,13 @@ class CandelaCitation {
         // Get existing citations and append new ones.
         $existing = get_post_meta( $post->ID, CANDELA_CITATION_FIELD, true);
         if ( ! empty( $existing ) ) {
-          $existing = unserialize( $existing );
+          $existing = json_decode( stripslashes ( $existing ), TRUE);
           $new = array_merge($existing, $citations);
         }
         else {
           $new = $citations;
         }
-        update_post_meta( $post->ID, CANDELA_CITATION_FIELD, serialize( $new ) );
+        update_post_meta( $post->ID, CANDELA_CITATION_FIELD, json_encode( $new ) );
       }
     }
   }
