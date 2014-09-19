@@ -361,6 +361,7 @@ class CandelaCitation {
 
   public static function global_citation_page() {
 
+    // Process incoming form and preload previous citations.
     $rows = array();
     if (!empty($_POST['__citation'])) {
       $citations = CandelaCitation::process_global_form();
@@ -371,6 +372,7 @@ class CandelaCitation {
         }
       }
     }
+
     print '<div class="wrap">';
     print '<h2>' . __('Global Citations', 'candela-citation') . '</h2>';
     print '<form method="POST" action="' . get_permalink() . '">';
@@ -404,6 +406,69 @@ class CandelaCitation {
 
     print '</form>';
     print '</div>';
+
+    // Show citations for every book
+    $structure = pb_get_book_structure();
+    if ( ! empty( $structure['__order'] ) ) {
+      $grouped = array();
+      $headers = array(__('Post'));
+      foreach ( $structure['__order'] as $id => $info ) {
+        $post = get_post ( $id );
+
+        // Use get_post_meta to retrieve an existing value from the database.
+        $citations = get_post_meta( $id, CANDELA_CITATION_FIELD, true);
+        if ( ! empty( $citations ) ) {
+          $citations = json_decode( stripslashes( $citations ) , TRUE );
+        }
+        else {
+          $citations = array();
+        }
+        $fields = CandelaCitation::citation_fields();
+
+        foreach ($citations as $citation) {
+          $parts = array();
+          $parts[] = '<a href="' . get_permalink( $post->ID ) . '">' . $post->post_title . '</a>';
+          foreach ($fields as $field => $info) {
+            if ( empty( $headers[$field] ) ) {
+              $headers[$field] = $info['label'];
+            }
+            if (!empty($citation[$field])) {
+              $parts[] = esc_html($citation[$field]);
+            }
+          }
+          $grouped[$id][$citation['type']][] = $parts;
+        }
+      }
+
+      if (!empty( $grouped ) ) {
+        print '<div class="wrap"><table>';
+        print '<thead><tr>';
+        foreach ($headers as $title) {
+          print '<th>' . $title . '</th>';
+        }
+        print '</tr></thead>';
+
+        print '<tbody>';
+        foreach ( $grouped as $id => $citations) {
+          foreach ( $citations as $type => $parts ) {
+
+            foreach ($parts as $row ) {
+              print '<tr>';
+              foreach ( $row as $field ) {
+                print '<td>' . $field . '</td>';
+              }
+              print '</tr>';
+            }
+          }
+        }
+        print '</tbody>';
+
+        print '</table></div>';
+      }
+      else {
+        print '';
+      }
+    }
   }
 
   public static function process_global_form() {
