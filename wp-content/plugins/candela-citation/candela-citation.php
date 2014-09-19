@@ -506,7 +506,12 @@ class CandelaCitation {
         $existing = get_post_meta( $post->ID, CANDELA_CITATION_FIELD, true);
         if ( ! empty( $existing ) ) {
           $existing = json_decode( stripslashes ( $existing ), TRUE);
-          $new = array_merge($existing, $citations);
+          if ( ! is_array( $existing ) || empty( $existing ) ) {
+            $new = $citations;
+          }
+          else {
+            $new = array_merge($existing, $citations);
+          }
         }
         else {
           $new = $citations;
