@@ -67,8 +67,8 @@ function gettext( $translated_text, $text, $domain ) {
 			"text, rename the chapter, add new chapters, and add new parts." => "text, rename the page, add new pages, and add new parts.",
 			"Only users you invite can see your book, regardless of individual chapter " => "Only users you invite can see your book, regardless of individual page ",
 		);
-		if (isset($translations[$text])) {
-			$translated_text = $translations[$text];
+		if (isset($translations[$translated_text])) {
+			$translated_text = $translations[$translated_text];
 		}
 	}
 	return $translated_text;
