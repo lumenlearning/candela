@@ -96,15 +96,7 @@ class CandelaCitation {
    *
    */
   public static function add_citation_meta( $post, $metabox ) {
-    // Use get_post_meta to retrieve an existing value from the database.
-    $citations = get_post_meta( $post->ID, CANDELA_CITATION_FIELD, true);
-    if ( ! empty( $citations ) ) {
-      $citations = json_decode( stripslashes( $citations ), TRUE );
-    }
-    else {
-      $citations = array();
-    }
-
+    $citations = CandelaCitation::get_citations( $post->ID );
 
     $rows = array();
     foreach ( $citations as $citation ) {
@@ -115,18 +107,24 @@ class CandelaCitation {
     CandelaCitation::citations_table( $rows );
   }
 
+  public static function get_citations( $post_id ) {
+    $citations = array();
+    $meta  = get_post_meta( $post_id, CANDELA_CITATION_FIELD, true);
+
+    if ( ! empty( $meta ) ) {
+      $citations = json_decode( stripslashes ( $meta ), TRUE);
+      if ( ! is_array( $citations ) || empty( $citations ) ) {
+        $citations = array();
+      }
+    }
+    return $citations;
+  }
+
   /**
    *
    */
   public static function renderCitation( $post_id ) {
-    // Use get_post_meta to retrieve an existing value from the database.
-    $citations = get_post_meta( $post_id, CANDELA_CITATION_FIELD, true);
-    if ( ! empty( $citations ) ) {
-      $citations = json_decode( stripslashes( $citations ) , TRUE );
-    }
-    else {
-      $citations = array();
-    }
+    $citations = CandelaCitation::get_citations( $post_id );
 
     $grouped = array();
     $fields = CandelaCitation::citation_fields();
@@ -415,14 +413,7 @@ class CandelaCitation {
       foreach ( $structure['__order'] as $id => $info ) {
         $post = get_post ( $id );
 
-        // Use get_post_meta to retrieve an existing value from the database.
-        $citations = get_post_meta( $id, CANDELA_CITATION_FIELD, true);
-        if ( ! empty( $citations ) ) {
-          $citations = json_decode( stripslashes( $citations ) , TRUE );
-        }
-        else {
-          $citations = array();
-        }
+        $citations = CandelaCitation::get_citations( $id );
         $fields = CandelaCitation::citation_fields();
 
         foreach ($citations as $citation) {
@@ -503,15 +494,9 @@ class CandelaCitation {
       $posts = get_posts(array('post_type' => $type, 'post_status' => 'any' ) );
       foreach ($posts as $post) {
         // Get existing citations and append new ones.
-        $existing = get_post_meta( $post->ID, CANDELA_CITATION_FIELD, true);
+        $existing = CandelaCitation::get_citations( $post->ID );
         if ( ! empty( $existing ) ) {
-          $existing = json_decode( stripslashes ( $existing ), TRUE);
-          if ( ! is_array( $existing ) || empty( $existing ) ) {
-            $new = $citations;
-          }
-          else {
-            $new = array_merge($existing, $citations);
-          }
+          $new = array_merge($existing, $citations);
         }
         else {
           $new = $citations;
