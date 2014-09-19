@@ -28,11 +28,57 @@ function init() {
 	add_action( 'init', '\Candela\Utility\register_theme' );
 	add_action( 'wp_enqueue_style', '\Candela\Utility\register_child_theme' );
 	add_filter( 'allowed_themes', '\Candela\Utility\add_theme', 12 );
+	add_filter( 'gettext', '\Candela\Utility\gettext', 20, 3 );
+	add_filter( 'gettext_with_context', '\Candela\Utility\gettext_with_context', 20, 4 );
 	add_action( 'admin_menu', '\Candela\Utility\adjust_admin_menu', 11);
 	add_action( 'plugins_loaded', '\Candela\Utility\remove_pressbooks_branding' );
 
 	add_filter( 'admin_footer_text', '\Candela\Utility\add_footer_link' );
 	add_action( 'admin_bar_menu', '\Candela\Utility\replace_menu_bar_branding', 11 );
+}
+
+function gettext( $translated_text, $text, $domain ) {
+	if ( $domain == 'pressbooks' ) {
+		$translations = array(
+			"Chapter Metadata" => "Page Metadata",
+			"Chapter Short Title (appears in the PDF running header)" => "Page Short Title (appears in the PDF running header)",
+			"Chapter Subtitle (appears in the Web/ebook/PDF output)" => "Page Subtitle (appears in the Web/ebook/PDF output)",
+			"Chapter Author (appears in Web/ebook/PDF output)" => "Page Author (appears in Web/ebook/PDF output)",
+			"Promote your book, set individual chapters privacy below." => "Promote your book, set individual page's privacy below.",
+			"Add Chapter" => "Add Page",
+			"Reordering the Chapters" => "Reordering the Pages",
+			"Chapter 1" => "Page 1",
+			"Imported %s chapters." => "Imported %s pages.",
+			"Chapters" => "Pages",
+			"Chapter" => "Page",
+			"Add New Chapter" => "Add New Page",
+			"Edit Chapter" => "Edit Page",
+			"New Chapter" => "New Page",
+			"View Chapter" => "View Page",
+			"Search Chapters" => "Search Pages",
+			"No chapters found" => "No pages found",
+			"No chapters found in Trash" => "No pages found in Trash",
+			"Chapter numbers" => "Page numbers",
+			"display chapter numbers" => "display page numbers",
+			"do not display chapter numbers" => "do not display page numbers",
+			"Chapter Numbers" => "Page Numbers",
+			"Display chapter numbers" => "Display page numbers",
+			"This is the first chapter in the main body of the text. You can change the " => "This is the first page in the main body of the text. You can change the ",
+			"text, rename the chapter, add new chapters, and add new parts." => "text, rename the page, add new pages, and add new parts.",
+			"Only users you invite can see your book, regardless of individual chapter " => "Only users you invite can see your book, regardless of individual page ",
+		);
+		if (isset($translations[$text])) {
+			$translated_text = $translations[$text];
+		}
+	}
+	return $translated_text;
+}
+
+function gettext_with_context( $translated_text, $text, $context, $domain ) {
+	if ( $domain == 'pressbooks' ) {
+		$translated_text = gettext($translated_text, $text, $domain);
+	}
+	return $translated_text;
 }
 
 function remove_pressbooks_branding() {
