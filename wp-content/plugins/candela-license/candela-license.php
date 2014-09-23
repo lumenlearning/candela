@@ -252,7 +252,7 @@ class CandelaLicense {
     $types = CandelaLicense::postTypes();
 
     foreach ($types as $type) {
-      $posts = get_posts(array('post_type' => $type, 'posts_status' => 'any' ) );
+      $posts = get_posts(array('post_type' => $type, 'post_status' => 'any', 'posts_per_page' => '-1' ) );
       foreach ($posts as $post) {
         update_post_meta( $post->ID, CANDELA_LICENSE_FIELD, $new );
       }
