@@ -59,7 +59,7 @@ class CandelaCitation {
     $types = CandelaCitation::postTypes();
 
     foreach ($types as $type) {
-      $posts = get_posts(array('post_type' => $type, 'post_status' => 'any' ) );
+      $posts = get_posts(array('post_type' => $type, 'post_status' => 'any', 'posts_per_page' => '-1' ) );
       foreach ($posts as $post) {
         $citations = get_post_meta( $post->ID, CANDELA_CITATION_FIELD, true);
         $citations = unserialize( $citations );
