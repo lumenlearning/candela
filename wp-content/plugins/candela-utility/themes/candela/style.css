@@ -412,9 +412,12 @@ a:active.btn.blue {
   background-image: -ms-linear-gradient(top, rgb(42, 42, 144), rgb(18, 18, 132));
   background-image: linear-gradient(top, rgb(42, 42, 144), rgb(18, 18, 132));
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#2a2a90', EndColorStr='#121284');
+}
 
 .citation-list {
-       list-style: disc inside;
+	list-style: disc inside;
+}
 
 ul.lti-mapping {
-       list-style: none;
+	list-style: none;
+}
