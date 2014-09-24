@@ -9,12 +9,20 @@
 										$about_unlimited = preg_replace( '/<p[^>]*>(.*)<\/p[^>]*>/i', '$1', $about_unlimited ); // Make valid HTML by removing first <p> and last </p>
 										echo $about_unlimited; ?></p>
 								<?php endif; ?>	
-								
+							<!-- if there is a custom copyright description -->		
+							<?php if ( ! empty ($metadata['pb_custom_copyright'])) : ?>
+									<h2><?php _e('Copyright', 'pressbooks') ;?></h2>
+									<p><?php 
+										$custom_copyright = pb_decode( $metadata['pb_custom_copyright']);
+										$custom_copyright = preg_replace( '/<p[^>]*>(.*)<\/p[^>]*>/i', '$1', $custom_copyright );
+										echo $custom_copyright;?>
+									</p>
+							<?php endif; ?>
 							  <div id="share">
 								  <div id="twitter" data-url="<?php the_permalink(); ?>" data-text="Check out this great book on PressBooks." data-title="Tweet"></div>
 								  <div id="facebook" data-url="<?php the_permalink(); ?>" data-text="Check out this great book on PressBooks." data-title="Like"></div>
 								  <div id="googleplus" data-url="<?php the_permalink(); ?>" data-text="Check out this great book on PressBooks." data-title="+1"></div>
-</div>	
+							  </div>	
 						</div>
 							
 								<?php	$args = $args = array(
@@ -44,22 +52,24 @@
 					$files = \PBT\Utility\latest_exports();
 					$options = get_option( 'pbt_redistribute_settings' );
 					if ( is_array( $files ) && ( true == $options['latest_files_public'] ) ) {
-						echo '<h2>Alternate Formats</h2><p>This book is also available for free; download in the following formats:</p>';
+						echo '<div class="alt-formats">'
+						. '<h4>Alternate Formats</h4>'
+						. '<p>This book is also available for free; download in the following formats:</p>';
 
 						$dir = \PressBooks\Export\Export::getExportFolder();
 						foreach ( $files as $ext => $filename ) {
 							$file_extension = substr( strrchr( $ext, '.' ), 1 );
-							$pre_suffix = strstr( $ext, '._3.epub' );
+							$pre_suffix = (false == strstr( $ext, '._3.epub' )) ? strstr( $ext, '._vanilla.xml') : strstr( $ext, '._3.epub' );
 
 							switch ( $file_extension ) {
 								case 'html':
 									$file_class = 'xhtml';
 									break;
 								case 'xml':
-									$file_class = 'wxr';
+									$file_class = ( false == $pre_suffix) ? 'wxr' : 'vanillawxr';
 									break;
 								case 'epub':
-									('._3.epub' == $pre_suffix ) ? $file_class = 'epub3' : $file_class = 'epub';
+									$file_class =  ( false  == $pre_suffix ) ? 'epub' : 'epub3';
 									break;
 								default:
 									$file_class = $file_extension;
@@ -70,8 +80,13 @@
 
 							// rewrite rule
 							$url = "open/download?filename={$filename}&type={$file_class}";
-							echo '<a href="' . $url . '"><span class="export-file-icon small ' . $file_class . '" title="' . esc_attr( $filename ) . '"></span></a>';
+							echo '<link itemprop="bookFormat" href="http://schema.org/EBook">'
+								. '<a itemprop="offers" itemscope itemtype="http://schema.org/Offer" href="' . $url . '">'
+								. '<span class="export-file-icon small ' . $file_class . '" title="' . esc_attr( $filename ) . '"></span>'
+								. '<meta itemprop="price" content="$0.00"><link itemprop="availability" href="http://schema.org/InStock"></a>';
 						}
+						// end .alt-formats
+						echo "</div";
 					}
 					?>
 					</div><!-- end .secondary-block -->

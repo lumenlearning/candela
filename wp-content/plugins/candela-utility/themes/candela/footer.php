@@ -36,16 +36,15 @@
 				</tr>
 				<?php
 				// Copyright
-				echo '<tr><td>' . __( 'Copyright', 'pressbooks' ) . '</td><td>';
+				echo '<tr><td>' . __( 'Copyright', 'pressbooks' ) . ':</td><td>';
 				echo ( ! empty( $metadata['pb_copyright_year'] ) ) ? $metadata['pb_copyright_year'] : date( 'Y' );
-				if ( ! empty( $metadata['pb_copyright_holder'] ) ) echo ' ' . __( 'by', 'pressbooks' ) . ' ' . $metadata['pb_copyright_holder'] . '. ';
+				if ( ! empty( $metadata['pb_copyright_holder'] ) ) echo ' ' . __( 'by ', 'pressbooks' ) . ' ' . $metadata['pb_copyright_holder'] . '. ';
 				echo "</td></tr>\n";
 				?>
 
 				</table>
 				<?php endif; ?>
-				<?php endif; ?>
-
+		<?php endif; ?>
 	</div><!-- #inner -->
 </div><!-- #footer -->
 <?php wp_footer(); ?>
