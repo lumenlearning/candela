@@ -462,7 +462,7 @@ class CandelaCitation {
     $structure = pb_get_book_structure();
     if ( ! empty( $structure['__order'] ) ) {
       $grouped = array();
-      $headers = array(__('Post'));
+      $headers = array('title' => __('Post'));
       foreach ( $structure['__order'] as $id => $info ) {
         $post = get_post ( $id );
 
@@ -471,13 +471,13 @@ class CandelaCitation {
 
         foreach ($citations as $citation) {
           $parts = array();
-          $parts[] = '<a href="' . get_permalink( $post->ID ) . '">' . $post->post_title . '</a>';
+          $parts['title'] = '<a href="' . get_permalink( $post->ID ) . '">' . $post->post_title . '</a>';
           foreach ($fields as $field => $info) {
             if ( empty( $headers[$field] ) ) {
               $headers[$field] = $info['label'];
             }
             if (!empty($citation[$field])) {
-              $parts[] = esc_html($citation[$field]);
+              $parts[$field] = esc_html($citation[$field]);
             }
           }
           $grouped[$id][$citation['type']][] = $parts;
@@ -498,8 +498,13 @@ class CandelaCitation {
 
             foreach ($parts as $row ) {
               print '<tr>';
-              foreach ( $row as $field ) {
-                print '<td>' . $field . '</td>';
+              foreach ( array_keys($headers) as $field) {
+                if (!empty($row[$field])) {
+                  print '<td>' . $row[$field] . '</td>';
+                }
+                else {
+                  print '<td></td>';
+                }
               }
               print '</tr>';
             }
