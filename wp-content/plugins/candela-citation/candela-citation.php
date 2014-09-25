@@ -580,7 +580,7 @@ class CandelaCitation {
     foreach ($rows as $fields) {
       $row = array();
       foreach ($fields as $field) {
-        $row[] = $field['label-html'] . $field['widget'];
+        $row[] = $field['label-html'] . '&nbsp;&nbsp;' .  $field['widget'];
       }
 
       echo '<div class="postbox"><div class="handlediv" title="Click to toggle"><br /></div><h3 class="hndle">' . __('Citation') . '</h3><div class="inside"><div class="custom-metadata-field text">';
