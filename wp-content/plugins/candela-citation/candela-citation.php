@@ -236,9 +236,10 @@ class CandelaCitation {
 
     $row = array();
     foreach ($fields as $key => $widget) {
+      $id = 'citation-' . esc_attr($key) . '[%%INDEX%%]';
       switch ($widget['type']) {
         case 'select':
-          $markup = '<select name="citation-' . esc_attr($key) . '[%%INDEX%%]">';
+          $markup = '<select name="' . $id . '" id="' . $id . '">';
           foreach ( $widget['options'] as $value => $option ) {
             $markup .= '<option value="' . esc_attr($value) . '" ' . ($option['selected'] ? 'selected' : '') . '>' . esc_html( $option['label'] ) . '</option>';
           }
@@ -246,12 +247,14 @@ class CandelaCitation {
           $row[$key] = array(
             'widget' => $markup,
             'label' => $widget['label'],
+            'label-html' => '<label for="citation-' . esc_attr($key) . '[%%INDEX%%]">' . $widget['label'] . '</label>',
           );
           break;
         default:
           $row[$key] = array(
-            'widget' => '<input name="citation-' . esc_attr($key) . '[%%INDEX%%]" type="' . $widget['type'] . '" value="' . esc_attr( $widget['value'] ) . '">',
+            'widget' => '<input name="' . $id . '" id="' . $id . '" type="' . $widget['type'] . '" value="' . esc_attr( $widget['value'] ) . '">',
             'label' => $widget['label'],
+            'label-html' => '<label for="citation-' . esc_attr($key) . '[%%INDEX%%]">' . $widget['label'] . '</label>',
           );
           break;
       }
@@ -517,42 +520,30 @@ class CandelaCitation {
   public static function citations_table( $rows ) {
     $first = TRUE;
     $fields = CandelaCitation::citation_fields();
-    echo '<table id="citation-table">';
+    echo '<div id="citation-table">';
     $i = 0;
     foreach ($rows as $fields) {
-      $headers = array();
       $row = array();
       foreach ($fields as $field) {
-        if ( $first ) {
-          $headers[] = $field['label'];
-        }
-        $row[] = $field['widget'];
+        $row[] = $field['label-html'] . $field['widget'];
       }
 
-      if ( $first ) {
-        echo '<thead><tr><th>';
-        echo implode( '</th><th>', $headers );
-        echo '</th></tr></thead><tbody>';
-        $first = FALSE;
-      }
-
-      echo '<tr><td>';
-      echo implode( '</td><td>', str_replace('%%INDEX%%', $i, $row) );
-      echo '</td></tr>';
+      echo '<div class="postbox"><div class="handlediv" title="Click to toggle"><br /></div><h3 class="hndle">' . __('Citation') . '</h3><div class="inside"><div class="custom-metadata-field text">';
+      echo implode( '</div><div class="custom-metadata-field text">', str_replace('%%INDEX%%', $i, $row) );
+      echo '</div></div></div>';
       $i++;
     }
-    echo '</tbody></table>';
-
+    echo '</div>';
     echo '<button id="citation-add-more-button" type="button">';
     _e('Add more citations');
     echo '</button>';
     echo '<script type="text/javascript">
       jQuery( document ).ready( function( $ ) {
         var citationIndex = '. $i . ';
-        citationWidgets = \'<tr><td>' . implode( '</td><td>', $row ) . '</td></tr>\';
+        citationWidgets = \'<div class="postbox"><div class="handlediv" title="Click to toggle"><br /></div><h3 class="hndle">' . __('Citation') . '</h3><div class="inside"><div class="custom-metadata-field text">' . implode( '</div><div class="custom-metadata-field text">', $row ) . '</div></div></div>\';
         $( "#citation-add-more-button" ).click(function() {
           newWidgets = citationWidgets.split("%%INDEX%%").join(citationIndex);
-          $( "#citation-table tbody").append(newWidgets);
+          $( "#citation-table").append(newWidgets);
           citationIndex++;
         });
       });
