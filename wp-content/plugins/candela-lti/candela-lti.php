@@ -24,16 +24,16 @@ class CandelaLTI {
   public static function init() {
     // Table name is always root (site)
     define('CANDELA_LTI_TABLE', 'wp_candelalti');
-    define('CANDELA_LTI_DB_VERSION', '1.0');
+    define('CANDELA_LTI_DB_VERSION', '1.1');
     define('CANDELA_LTI_CAP_LINK_LTI', 'candela link lti launch');
     define('CANDELA_LTI_USERMETA_LASTLINK', 'candelalti_lastkey');
-    define('CANDELA_LTI_USERMETA_LTI_INFO', 'candelalti_lti_info');
     define('CANDELA_LTI_USERMETA_EXTERNAL_KEY', 'candelalti_external_userid');
     define('CANDELA_LTI_PASSWORD_LENGTH', 32);
 
     register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
     register_uninstall_hook(__FILE__, array( __CLASS__, 'deactivate') );
 
+    add_action( 'init', array( __CLASS__, 'update_db' ) );
     add_action( 'init', array( __CLASS__, 'add_rewrite_rule' ) );
     add_action( 'init', array( __CLASS__, 'setup_capabilities' ) );
     add_action( 'query_vars', array( __CLASS__, 'query_vars' ) );
@@ -136,7 +136,6 @@ class CandelaLTI {
     if ( CandelaLTI::user_can_map_lti_links() ) {
       $current_user = wp_get_current_user();
       update_user_meta( $current_user->ID, CANDELA_LTI_USERMETA_LASTLINK, $_POST['resource_link_id'] );
-      update_user_meta( $current_user->ID, CANDELA_LTI_USERMETA_LTI_INFO, serialize($_POST) );
     }
   }
 
@@ -278,6 +277,25 @@ class CandelaLTI {
   }
 
   /**
+   * Update the database
+   */
+  public static function update_db() {
+    $version = get_option( 'candela_lti_db_version', '');
+    if (empty($version) || $version = '1.0') {
+      $meta_type = 'user';
+      $user_id = 0; // ignored since delete all = TRUE
+      $meta_key = 'candelalti_lti_info';
+      $meta_value = ''; // ignored
+      $delete_all = TRUE;
+      delete_metadata( $meta_type, $user_id, $meta_key, $meta_value, $delete_all );
+
+      switch_to_blog(1);
+      update_option( 'candela_lti_db_version', CANDELA_LTI_DB_VERSION );
+      restore_current_blog();
+    }
+  }
+
+  /**
    * Add our LTI resource_link_id mapping api endpoint
    */
   public static function add_rewrite_rule() {
@@ -314,7 +332,6 @@ class CandelaLTI {
           'resource_link_id' => $wp->query_vars['resource_link_id'],
           'target_action' => $wp->query_vars['target_action'],
           'user_id' => $current_user->ID,
-          'lti_info' => serialize( CandelaLTI::get_lti_info_by_user( $current_user->ID ) ),
         );
         $value_format = array(
           '%s',
@@ -364,22 +381,6 @@ class CandelaLTI {
       exit();
     }
 
-  }
-
-  /**
-   * Get the last LTI launch info for a given user.
-   */
-  public static function get_lti_info_by_user( $user_id ) {
-    switch_to_blog(1);
-    $lti_info = get_user_meta( $user_id, CANDELA_LTI_USERMETA_LTI_INFO, TRUE);
-    if ( ! empty( $lti_info ) ) {
-      $lti_info = unserialize( $lti_info );
-    }
-    else {
-      $lti_info = array();
-    }
-    restore_current_blog();
-    return $lti_info;
   }
 
   /**
@@ -500,14 +501,15 @@ class CandelaLTI {
       resource_link_id TINYTEXT,
       target_action TINYTEXT,
       user_id mediumint(9),
-      lti_info TEXT,
-      PRIMARY KEY (id),
+      PRIMARY KEY  (id),
       UNIQUE KEY resource_link_id (resource_link_id(32))
     );";
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta( $sql );
 
+    switch_to_blog(1);
     add_option( 'candela_lti_db_version', CANDELA_LTI_DB_VERSION );
+    restore_current_blog();
   }
 
   /**
