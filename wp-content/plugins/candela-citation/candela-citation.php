@@ -76,7 +76,6 @@ class CandelaCitation {
       'back-matter',
       'chapter',
       'front-matter',
-      'part',
     );
   }
 
