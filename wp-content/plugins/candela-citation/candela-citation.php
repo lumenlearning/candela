@@ -136,7 +136,19 @@ class CandelaCitation {
       foreach ($fields as $field => $info) {
 
         if (!empty($citation[$field]) && $field != 'type') {
-          $parts[] = $info['prefix'] . esc_html($citation[$field]) . $info['suffix'];
+          switch ($field) {
+            case 'license':
+              if ( ! empty($license[$citation[$field]]['link'] ) ) {
+                $parts[] = $info['prefix'] . '<a href="' . $license[$citation[$field]]['link'] . '">' .  esc_html($license[$citation[$field]]['label']) . '</a>' .  $info['suffix'];
+              }
+              else {
+                $parts[] = $info['prefix'] . esc_html($license[$citation[$field]]['label']) . $info['suffix'];
+              }
+              break;
+            default:
+              $parts[] = $info['prefix'] . esc_html($citation[$field]) . $info['suffix'];
+              break;
+          }
         }
       }
       $grouped[$citation['type']][] = implode(CANDELA_CITATION_SEPARATOR, $parts);
@@ -268,40 +280,78 @@ class CandelaCitation {
       case 'type':
         // Note that the order here determines order on output. See renderCitation
         $options = array(
-          '' => __('Choose citation type'),
-          'original' => __('Original content'),
-          'cc' => __('CC licensed content'),
-          'copyrighted_video' => __('Copyrighted video content'),
-          'pd' => __('Public domain content'),
-          'cc-attribution' => __('CC with specific attribution'),
-          'lumen' => __('Lumen Learning authored content'),
+          '' => array(
+            'label' => __('Choose citation type'),
+          ),
+          'original' => array(
+            'label' => __('Original content'),
+          ),
+          'cc' => array(
+            'label' => __('CC licensed content'),
+          ),
+          'copyrighted_video' => array(
+            'label' => __('Copyrighted video content'),
+          ),
+          'pd' => array(
+            'label' => __('Public domain content'),
+          ),
+          'cc-attribution' => array(
+            'label' => __('CC with specific attribution'),
+          ),
+          'lumen' => array(
+            'label' => __('Lumen Learning authored content'),
+          ),
         );
         break;
       case 'license':
         $options = array(
-          'pd' =>  __( 'Public Domain' ),
-          'cc0' =>  __( 'CC0 ' ),
-          'cc-by' =>  __( 'CC BY' ),
-          'cc-by-sa' =>  __( 'CC BY-SA' ),
-          'cc-by-nd' =>  __( 'CC BY-ND' ),
-          'cc-by-nc' =>  __( 'CC BY-NC' ),
-          'cc-by-nc-sa' =>  __( 'CC BY-NC-SA' ),
-          'cc-by-nc-nd' =>  __( 'CC BY-NC-ND' ),
-          'arr' =>  __( 'All Rights Reserved' ),
-          'other' =>  __( 'Other' ),
+          'pd' =>  array(
+            'label' => __( 'Public Domain: No Known Copyright' ),
+            'link' => 'https://creativecommons.org/about/pdm',
+          ),
+          'cc0' => array(
+            'label' => __( 'CC0: No Rights Reserved' ),
+            'link' => 'https://creativecommons.org/about/cc0',
+          ),
+          'cc-by' => array(
+            'label' => __( 'CC BY: Attribution' ),
+            'link' => 'https://creativecommons.org/licenses/by/4.0/',
+          ),
+          'cc-by-sa' => array(
+            'label' => __( 'CC BY-SA: Attribution-ShareAlike' ),
+            'link' => 'https://creativecommons.org/licenses/by-sa/4.0/',
+          ),
+          'cc-by-nd' => array(
+            'label' => __( 'CC BY-ND: Attribution-NoDerivs' ),
+            'link' => 'https://creativecommons.org/licenses/by-nd/4.0/',
+          ),
+          'cc-by-nc' => array(
+            'label' => __( 'CC BY-N: Attribution-NonCommercial' ),
+            'link' => 'https://creativecommons.org/licenses/by-nc/4.0/',
+          ),
+          'cc-by-nc-sa' => array(
+            'label' => __( 'CC BY-NC-SA: Attribution-NonCommercial-ShareAlike' ),
+            'link' => 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
+          ),
+          'cc-by-nc-nd' => array(
+            'label' => __( 'CC BY-NC-ND: Attribution-NonCommercial-NoDerivs ' ),
+            'link' => 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
+          ),
+          'arr' => array(
+            'label' =>  __( 'All Rights Reserved' ),
+          ),
+          'other' => array(
+            'label' => __( 'Other' ),
+          ),
         );
         break;
     }
 
-    $result = array();
     foreach ( $options as $option => $label ) {
-      $result[$option] = array(
-        'label' => $label,
-        'selected' => (in_array($option, $selected) ? TRUE : FALSE),
-      );
+      $options[$option]['selected'] = (in_array($option, $selected) ? TRUE : FALSE);
     }
 
-    return $result;
+    return $options;
   }
 
   /**
