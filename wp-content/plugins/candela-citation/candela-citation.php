@@ -144,6 +144,14 @@ class CandelaCitation {
                 $parts[] = $info['prefix'] . esc_html($license[$citation[$field]]['label']) . $info['suffix'];
               }
               break;
+            case 'url':
+              if ( ! empty( $citation[$field] ) ) {
+                $parts[] = $info['prefix'] . '<a href="' . esc_url($citation[$field]) . '">' . esc_url($citation[$field]) . '</a>' . $info['suffix'];
+              }
+              else {
+                $parts[] = $info['prefix'] . esc_url($citation[$field]) . $info['suffix'];
+              }
+              break;
             default:
               $parts[] = $info['prefix'] . esc_html($citation[$field]) . $info['suffix'];
               break;
@@ -198,8 +206,8 @@ class CandelaCitation {
       'url' => array(
         'type' => 'text',
         'label' => __( 'URL' ),
-        'prefix' => '<strong>' . __( 'Located at' ) . '</strong>: (',
-        'suffix' => ')',
+        'prefix' => '<strong>' . __( 'Located at' ) . '</strong>: ',
+        'suffix' => '',
       ),
       'project' => array(
         'type' => 'text',
@@ -494,12 +502,18 @@ class CandelaCitation {
         print '<tbody>';
         foreach ( $grouped as $id => $citations) {
           foreach ( $citations as $type => $parts ) {
-
             foreach ($parts as $row ) {
               print '<tr>';
               foreach ( array_keys($headers) as $field) {
                 if (!empty($row[$field])) {
-                  print '<td>' . $row[$field] . '</td>';
+                  switch ($field) {
+                    case 'url':
+                      print '<td><a href="' . esc_url($row[$field]) . '">' . esc_url($row[$field]) . '</a></td>';
+                      break;
+                    default:
+                      print '<td>' . $row[$field] . '</td>';
+                      break;
+                  }
                 }
                 else {
                   print '<td></td>';
