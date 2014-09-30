@@ -35,6 +35,8 @@ function init() {
 
 	add_filter( 'admin_footer_text', '\Candela\Utility\add_footer_link' );
 	add_action( 'admin_bar_menu', '\Candela\Utility\replace_menu_bar_branding', 11 );
+
+	add_filter( 'embed_oembed_html', '\Candela\Utility\embed_oembed_html', 10, 3 );
 }
 
 function gettext( $translated_text, $text, $domain ) {
@@ -187,5 +189,18 @@ function add_footer_link() {
 		</p>',
 		__( 'Powered by', 'lumen' )
 	);
+
+}
+
+/**
+ * Filter embed_oembed_html.
+ *
+ * Replace all 'http://' links with 'https://
+ */
+function embed_oembed_html($html, $url, $attr) {
+	if ( is_ssl() ) {
+		return str_replace('http://', 'https://', $html);
+	}
+	return $html;
 
 }
