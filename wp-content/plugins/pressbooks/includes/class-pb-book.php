@@ -69,7 +69,7 @@ class Book {
 		// Book Information
 		// ----------------------------------------------------------------------------
 
-		$expected_array = array( 'pb_keywords_tags', 'pb_bisac_subject' );
+		$expected_array = array( 'pb_keywords_tags', 'pb_bisac_subject', 'pb_contributing_authors' );
 		$expected_the_content = array( 'pb_custom_copyright', 'pb_about_unlimited' );
 
 		$book_information = array();
@@ -322,7 +322,28 @@ class Book {
 		wp_cache_delete( "book-cnt-$blog_id", 'pb' );
 		( new Catalog() )->deleteCacheByBookId( $blog_id ); // PHP 5.4+
 	}
-
+	
+	/**
+	 * Returns a hierarchical array of subsections in a chapter.
+	 *
+	 * @param $id
+	 *
+	 */
+	static function getChapterSubsections( $id ) {
+		$chapter = get_post( $id );
+		$output = array();
+		$s = 1;
+		$html = new \DOMDocument();
+		$html->loadHTML( apply_filters( 'the_content', $chapter->post_content ) );
+		$xpath = new \DOMXpath($html);
+		foreach( $xpath->query('/html/body/section/h1') as $node ) {
+			$output['section-' . $s] = $node->nodeValue;
+			$s++;
+		}
+		if ( empty( $output ) )
+			$output = false;
+		return $output;
+	}
 
 	/**
 	 * WP_Ajax hook. Updates the menu_order field associated with a chapter post after reordering it

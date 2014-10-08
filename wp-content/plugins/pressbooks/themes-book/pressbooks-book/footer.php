@@ -44,10 +44,14 @@
 
 				</table>
 				<?php endif; ?>
-				<?php endif; ?>
+			
+			<?php echo pressbooks_copyright_license(); ?>
+
+			<?php endif; ?>
 			<p class="cie-name"><a href="http://pressbooks.com"><?php _e('PressBooks.com: Simple Book Production', 'pressbooks'); ?></a></p>
 	</div><!-- #inner -->
 </div><!-- #footer -->
+</span><!-- schema.org -->
 <?php wp_footer(); ?>
 </body>
 </html>

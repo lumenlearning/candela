@@ -143,7 +143,6 @@ function replace_book_admin_menu() {
 	$front_matter_types = $submenu['edit.php?post_type=front-matter'][15];
 	$back_matter_types = $submenu['edit.php?post_type=back-matter'][15];
 	unset( $submenu['edit.php?post_type=chapter'][10] );
-	unset( $submenu['edit.php?post_type=chapter'][15] );
 	
 	if ( is_super_admin() ) {
 		// If network administrator, give the option to see chapter, front matter and back matter types.
@@ -537,8 +536,6 @@ function init_css_js() {
 	wp_deregister_style( 'pressbooks-book' ); // Theme's CSS
 	wp_register_style( 'pressbooks-admin', PB_PLUGIN_URL . 'assets/css/pressbooks.css', array(), '20140110', 'screen' );
 	wp_enqueue_style( 'pressbooks-admin' );
-	wp_register_style( 'colors-fresh', site_url() . '/wp-admin/css/colors-fresh.css', array(), false, 'screen' );
-	wp_enqueue_style( 'colors-fresh' );
 	wp_register_style( 'bootstrap-admin', PB_PLUGIN_URL . 'symbionts/jquery/bootstrap.min.css', array(), '2.0.1', 'screen' );
 	wp_enqueue_style( 'bootstrap-admin' ); // Used by feedback button
 

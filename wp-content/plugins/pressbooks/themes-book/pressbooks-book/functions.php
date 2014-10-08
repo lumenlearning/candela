@@ -13,7 +13,8 @@ add_filter( 'show_admin_bar', function () { return false; } );
 global $metakeys;
 $metakeys = array(
 	'pb_author' => __( 'Author', 'pressbooks' ),
-	'pb_publisher'  => __( 'Publisher', 'pressbooks' ),
+	'pb_contributing_authors' => __( 'Contributing Author', 'pressbooks' ),
+ 	'pb_publisher'  => __( 'Publisher', 'pressbooks' ),
 	'pb_print_isbn'  => __( 'Print ISBN', 'pressbooks' ),
 	'pb_keywords_tags'  => __( 'Keywords/Tags', 'pressbooks' ),
 	'pb_publication_date'  => __( 'Publication Date', 'pressbooks' ),
@@ -54,14 +55,14 @@ function pb_enqueue_scripts() {
 		$deps = array();
 		if ( ! pb_custom_stylesheet_imports_base() ) {
 			// Use default stylesheet as base (to avoid horribly broken webbook)
-			wp_register_style( 'pressbooks', PB_PLUGIN_URL . 'themes-book/pressbooks-book/style.css', array(), null, 'screen' );
+			wp_register_style( 'pressbooks', PB_PLUGIN_URL . 'themes-book/pressbooks-book/style.css', array(), null, 'screen,print' );
 			wp_enqueue_style( 'pressbooks' );
 			$deps = array( 'pressbooks' );
 		}
 		wp_register_style( 'pressbooks-custom-css', pb_get_custom_stylesheet_url(), $deps, get_option( 'pressbooks_last_custom_css' ), 'screen' );
 		wp_enqueue_style( 'pressbooks-custom-css' );
 	} else {
-		wp_register_style( 'pressbooks', get_bloginfo( 'stylesheet_url' ), array(), null, 'screen' );
+		wp_register_style( 'pressbooks', get_bloginfo( 'stylesheet_url' ), array(), null, 'screen,print' );
 		wp_enqueue_style( 'pressbooks' );
 	}
 	if (! is_front_page() ) {
@@ -72,6 +73,7 @@ function pb_enqueue_scripts() {
 	if ( is_single() ) {
 		wp_enqueue_script( 'pb-pop-out-toc', get_template_directory_uri() . '/js/pop-out.js', array( 'jquery' ), '1.0', false );
 	}
+	
 }
 add_action( 'wp_enqueue_scripts', 'pb_enqueue_scripts' );
 
@@ -188,10 +190,100 @@ function pressbooks_enqueue_styles() {
 }     
 add_action('wp_print_styles', 'pressbooks_enqueue_styles'); 
 
+/* ------------------------------------------------------------------------ *
+ * Copyright License
+ * ------------------------------------------------------------------------ */
 
+function pressbooks_copyright_license() {
+	
+	$option = get_option( 'pressbooks_theme_options_global' );
+	$book_meta = \PressBooks\Book::getBookInformation();
 
+	// if they don't want to see it, return
+	// at minimum we need book copyright information set
+	if ( false == $option['copyright_license'] || ! isset( $book_meta['pb_book_license'] ) ) {
+		return '';
+	}
 
+	global $post;
+	$id = $post->ID;
+	$title = ( is_front_page() ) ? get_bloginfo('name') : $post->post_title ;
+	$post_meta = get_post_meta( $id );
+	$link = get_permalink( $id );
+	$html = $license = $copyright_holder = '';
+	$transient = get_transient("license-inf-$id" ); 
+	$updated = array( $license, $copyright_holder, $title );
+	$changed = false;
+	$lang = $book_meta['pb_language'];
 
+	
+	// Copyright holder, set in order of precedence
+	if ( isset( $post_meta['pb_section_author'] ) ) { 
+		// section author overrides book author, copyrightholder
+		$copyright_holder = $post_meta['pb_section_author'][0] ;
+		
+	} elseif ( isset( $book_meta['pb_copyright_holder'] ) ) { 
+		// book copyright holder overrides book author
+		$copyright_holder =  $book_meta['pb_copyright_holder'];
+		
+	} elseif ( isset( $book_meta['pb_author'] ) ) { 
+		// book author is the fallback, default
+		$copyright_holder =  $book_meta['pb_author'];
+	}
+
+	// Copyright license, set in order of precedence
+	if ( isset( $post_meta['pb_section_license'] ) ) { 
+		// section copyright overrides book 
+		$license = $post_meta['pb_section_license'][0];
+		
+	} elseif ( isset( $book_meta['pb_book_license'] ) ) { 
+		// book is the fallback, default
+		$license = $book_meta['pb_book_license'];
+	}
+	
+	 //delete_transient("license-inf-$id");
+	 // check if the user has changed anything
+	if ( is_array( $transient ) ) {
+		foreach ( $updated as $val ) {
+			if ( ! array_key_exists( $val, $transient ) ) {
+				$changed = true;
+			}
+		}
+	}
+	// if the cache has expired, or the user changed the license
+	if ( false === $transient || true == $changed ) {
+
+		// get xml response from API
+		$response = \PressBooks\Metadata::getLicenseXml( $license, $copyright_holder, $link, $title, $lang );
+
+		try {
+			// convert to object
+			$result = simplexml_load_string( $response );
+
+			// evaluate it for errors
+			if ( ! false === $result || ! isset( $result->html ) ) {
+				throw new \Exception( 'Creative Commons license API not returning expected results at PressBooks\Metadata::getLicenseXml' );
+			} else {
+				// process the response, return html
+				$html = \PressBooks\Metadata::getWebLicenseHtml( $result->html );
+			}
+		} catch ( \Exception $e ) {
+			error_log( $e->getMessage() );
+		}
+		// store it with the license as a key
+		$value = array( 
+		    $license => $html,
+		    $copyright_holder => '',
+		    $title => '',
+		);
+		// expires in 24 hours
+		set_transient( "license-inf-$id", $value, 86400 );
+	} else {
+		$html = $transient[$license] ;
+	}
+
+	return $html;
+}
 
 /* ------------------------------------------------------------------------ *
  * Theme Options Display (Appearance -> Theme Options)
@@ -366,6 +458,28 @@ function pressbooks_theme_options_global_init() {
 		)
 	);
 
+	add_settings_field(
+		'parse_sections',
+		__( 'Parse Sections', 'pressbooks' ),
+		'pressbooks_theme_parse_sections_callback',
+		$_page,
+		$_section,
+		array(
+			 __( 'Enable a two-level TOC', 'pressbooks' )
+		)
+	);
+
+	add_settings_field(
+		'copyright_license',
+		__( 'Copyright License', 'pressbooks' ),
+		'pressbooks_theme_copyright_license_callback',
+		$_page,
+		$_section,
+		array(
+			 __( 'Display the copyright license', 'pressbooks' )
+		)
+	);
+
 	register_setting(
 		$_option,
 		$_option,
@@ -395,6 +509,33 @@ function pressbooks_theme_chapter_numbers_callback( $args ) {
 	echo $html;
 }
 
+// Global Options Field Callback
+function pressbooks_theme_parse_sections_callback( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_global' );
+
+	if ( ! isset( $options['parse_sections'] ) ) {
+		$options['parse_sections'] = 0;
+	}
+
+	$html = '<input type="checkbox" id="parse_sections" name="pressbooks_theme_options_global[parse_sections]" value="1" ' . checked( 1, $options['parse_sections'], false ) . '/>';
+	$html .= '<label for="parse_sections"> ' . $args[0] . '</label>';
+	echo $html;
+}
+
+// Global Options Field Callback
+function pressbooks_theme_copyright_license_callback( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_global' );
+
+	if ( ! isset( $options['copyright_license'] ) ) {
+		$options['copyright_license'] = 0;
+	}
+	
+	$html = '<input type="checkbox" id="copyright_license" name="pressbooks_theme_options_global[copyright_license]" value="1" ' . checked( 1, $options['copyright_license'], false ) . '/>';
+	$html .= '<label for="copyright_license"> ' . $args[0] . '</label>';
+	echo $html;
+}
 
 // Global Options Input Sanitization
 function pressbooks_theme_options_global_sanitize( $input ) {
@@ -405,6 +546,18 @@ function pressbooks_theme_options_global_sanitize( $input ) {
 		$options['chapter_numbers'] = 0;
 	} else {
 		$options['chapter_numbers'] = 1;
+	}
+
+	if ( ! isset( $input['parse_sections'] ) || $input['parse_sections'] != '1' ) {
+		$options['parse_sections'] = 0;
+	} else {
+		$options['parse_sections'] = 1;
+	}
+	
+	if ( ! isset( $input['copyright_license'] ) || $input['copyright_license'] != '1' ) {
+		$options['copyright_license'] = 0;
+	} else {
+		$options['copyright_license'] = 1;
 	}
 
 	return $options;
@@ -996,7 +1149,7 @@ function pressbooks_theme_ebook_css_override( $css ) {
 
 	// Indent paragraphs? 1 = Indent (default), 2 = Skip Lines
 	if ( 2 == @$options['ebook_paragraph_separation'] ) {
-		$css .= "p + p, .indent { text-indent: 0; margin-top: 1em; } \n";
+		$css .= "p + p, .indent, div.ugc p.indent { text-indent: 0; margin-top: 1em; } \n";
 	}
 
 	// --------------------------------------------------------------------

@@ -78,6 +78,11 @@ class Hpub extends Export {
 	 * @var string
 	 */
 	protected $coverImage;
+	
+	/**
+	 * @var bool
+	 */
+	protected $numbered = false;
 
 
 	/**
@@ -565,6 +570,7 @@ class Hpub extends Export {
 			$html .= sprintf( '<h2 class="subtitle">%s</h2>', @$metadata['pb_subtitle'] );
 			$html .= sprintf( '<div class="logo"></div>' );
 			$html .= sprintf( '<h3 class="author">%s</h3>', @$metadata['pb_author'] );
+			$html .= sprintf( '<h4 class="author">%s</h4>', @$metadata['pb_contributing_authors'] );
 			$html .= sprintf( '<h4 class="publisher">%s</h4>', @$metadata['pb_publisher'] );
 			$html .= sprintf( '<h5 class="publisher-city">%s</h5>', @$metadata['pb_publisher_city'] );
 		}
@@ -599,14 +605,20 @@ class Hpub extends Export {
 	 * @param array $metadata
 	 */
 	protected function createCopyright( $book_contents, $metadata ) {
-
+		$options = get_option( 'pressbooks_theme_options_global' );
+		
 		// HTML
-
 		$html = '<div id="copyright-page"><div class="ugc">';
 
 		if ( ! empty( $metadata['pb_custom_copyright'] ) ) {
 			$html .= $this->kneadHtml( $this->tidy( $metadata['pb_custom_copyright'] ), 'custom' );
-		} else {
+		}
+		
+		if( 1 == $options['copyright_license'] ){
+			$html .= $this->kneadHtml( $this->tidy( $this->doCopyrightLicense( $metadata ) ), 'custom' );
+		} 
+		// default, so something is displayed
+		if ( empty( $metadata['pb_custom_copyright'] ) && 0 == $options['copyright_license'] ) {
 			$html .= '<p>';
 			$html .= get_bloginfo( 'name' ) . ' ' . __( 'Copyright', 'pressbooks' ) . ' &#169; ';
 			$html .= ( ! empty( $metadata['pb_copyright_year'] ) ) ? $metadata['pb_copyright_year'] : date( 'Y' );
@@ -854,6 +866,15 @@ class Hpub extends Export {
 				$subtitle = trim( get_post_meta( $id, 'pb_subtitle', true ) );
 				$author = trim( get_post_meta( $id, 'pb_section_author', true ) );
 
+				$sections = \PressBooks\Book::getChapterSubsections( $id );
+				
+				if ( $sections ) {
+					$s = 1;
+					while ( strpos( $content, '<div class="bc-section section">' ) !== false ) {
+					    $content = preg_replace('/<div class="bc-section section">/', '<div class="bc-section section" id="section-' . $s++ . '">', $content, 1);
+					}
+				}
+
 				if ( $author ) {
 					$content = '<h2 class="chapter-author">' . Sanitize\decode( $author ) . '</h2>' . $content;
 				}
@@ -865,7 +886,6 @@ class Hpub extends Export {
 				if ( $short_title ) {
 					$content = '<h6 class="short-title">' . Sanitize\decode( $short_title ) . '</h6>' . $content;
 				}
-
 
 				// Inject introduction class?
 				if ( ! $this->hasIntroduction ) {
@@ -1033,6 +1053,7 @@ class Hpub extends Export {
 			'stylesheet' => $this->stylesheet,
 			'post_content' => '',
 		);
+		$options = get_option( 'pressbooks_theme_options_global' );
 
 		// Start by inserting self into correct manifest position
 		$array_pos = $this->positionOfToc();
@@ -1059,12 +1080,14 @@ class Hpub extends Export {
 
 			$subtitle = '';
 			$author = '';
+			$license = '';
 			$title = Sanitize\strip_br( $v['post_title'] );
 			if ( preg_match( '/^front-matter-/', $k ) ) {
 				$class = 'front-matter ';
 				$class .= \PressBooks\Taxonomy\front_matter_type( $v['ID'] );
 				$subtitle = trim( get_post_meta( $v['ID'], 'pb_subtitle', true ) );
 				$author = trim( get_post_meta( $v['ID'], 'pb_section_author', true ) );
+				$license = ( $options['copyright_license'] ) ? get_post_meta( $v['ID'], 'pb_section_license', true ) : '';
 			} elseif ( preg_match( '/^part-/', $k ) ) {
 				$class = 'part';
 				if ( get_post_meta( $v['ID'], 'pb_part_invisible', true ) == 'on' )
@@ -1074,6 +1097,7 @@ class Hpub extends Export {
 				$class .= \PressBooks\Taxonomy\chapter_type( $v['ID'] );
 				$subtitle = trim( get_post_meta( $v['ID'], 'pb_subtitle', true ) );
 				$author = trim( get_post_meta( $v['ID'], 'pb_section_author', true ) );
+				$license = ( $options['copyright_license'] ) ? get_post_meta( $v['ID'], 'pb_section_license', true ) : '';
 				if ( $this->numbered && \PressBooks\Taxonomy\chapter_type( $v['ID'] ) !== 'numberless' ) {
 					$title = " $i. " . $title;
 				}
@@ -1083,6 +1107,7 @@ class Hpub extends Export {
 				$class .= \PressBooks\Taxonomy\back_matter_type( $v['ID'] );
 				$subtitle = trim( get_post_meta( $v['ID'], 'pb_subtitle', true ) );
 				$author = trim( get_post_meta( $v['ID'], 'pb_section_author', true ) );
+				$license = ( $options['copyright_license'] ) ? get_post_meta( $v['ID'], 'pb_section_license', true ) : '';
 			} else {
 				continue;
 			}
@@ -1094,8 +1119,26 @@ class Hpub extends Export {
 
 			if ( $author )
 				$html .= ' <span class="chapter-author">' . Sanitize\decode( $author ) . '</span>';
-
-			$html .= "</a></li>\n";
+			
+			if ( $license )
+				$html .= ' <span class="chapter-license">' .  $license  . '</span> ';			
+			
+			$html .= "</a>";
+			
+			if ( \PressBooks\Export\Export::shouldParseSections() == true ) {
+				$sections = \PressBooks\Book::getChapterSubsections( $v['ID'] );
+				if ( $sections ) {
+					$s = 1;
+					$html .= '<ul class="sections">';
+					foreach ( $sections as $section ) {
+						$html .= '<li class="section"><a href="' . $v['filename'] . '#section-' . $s . '"><span class="toc-subsection-title">' . $section . '</span></a></li>';
+						 ++$s;
+					}
+					$html .= '</ul>';
+				}
+			}
+			
+			$html .= "</li>\n";
 
 		}
 		$html .= "</ul></div>\n";

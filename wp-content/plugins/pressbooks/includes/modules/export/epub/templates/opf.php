@@ -51,6 +51,16 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 		}
 		echo '</dc:creator>' . "\n";
 		unset( $meta['pb_author_file_as'], $meta['pb_author'] );
+		
+		// Contributing authors
+		if ( ! empty( $meta['pb_contributing_authors'] ) ){
+			$contributors = explode( ',', $meta['pb_contributing_authors'] );
+			
+			foreach ( $contributors as $contributor ){
+				echo '<dc:contributor opf:role="aut">' . trim( $contributor ) . '</dc:contributor>' . "\n";
+			}
+			unset( $meta['pb_contributing_authors'] );
+		}
 
 		// Copyright
 		if ( ! empty( $meta['pb_copyright_year'] ) || ! empty( $meta['pb_copyright_holder'] ) ) {
@@ -58,9 +68,11 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 			echo _( 'Copyright' ) . ' &#169; ';
 			if ( ! empty( $meta['pb_copyright_year'] ) ) echo $meta['pb_copyright_year'] . ' ';
 			if ( ! empty( $meta['pb_copyright_holder'] ) ) echo ' ' . __( 'by', 'pressbooks' ) . ' ' . $meta['pb_copyright_holder'];
+			if ( ! empty( $do_copyright_license ) ) echo '. ' . $do_copyright_license;
 			echo "</dc:rights>\n";
 		}
 		unset( $meta['pb_copyright_year'], $meta['pb_copyright_holder'] );
+		unset( $do_copyright_license );
 
 		// Rest of metadata
 		foreach ( $meta as $key => $val ) {
@@ -112,8 +124,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 		<?php
 		foreach ( $manifest as $k => $v ) {
 
-			if ( 'front-cover' == $k ) $linear = 'no';
-			else $linear = 'yes';
+			$linear = 'yes';
 
 			printf( '<itemref idref="%s" linear="%s" />', $k, $linear );
 			echo "\n";

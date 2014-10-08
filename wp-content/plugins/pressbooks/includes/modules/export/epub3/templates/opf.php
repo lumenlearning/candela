@@ -52,6 +52,16 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 			echo 'Authored by: ' . get_bloginfo( 'url' );
 		}
 		echo '</dc:creator>' . "\n";
+		
+		// Contributing authors
+		if ( ! empty( $meta['pb_contributing_authors'] ) ){
+			$contributors = explode( ',', $meta['pb_contributing_authors'] );
+			
+			foreach ( $contributors as $contributor ){
+				echo '<dc:contributor>' . trim( $contributor ) . '</dc:contributor>' . "\n";
+			}
+			unset( $meta['pb_contributing_authors'] );
+		}
 
 		echo '<meta refines="#author" property="file-as">';
 
@@ -78,9 +88,12 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 					echo $meta['pb_copyright_year'] . ' ';
 			if ( ! empty( $meta['pb_copyright_holder'] ) )
 					echo ' ' . __( 'by', 'pressbooks' ) . ' ' . $meta['pb_copyright_holder'];
+			if ( ! empty( $do_copyright_license ) ) echo '. ' . $do_copyright_license;
+
 			echo "</dc:rights>\n";
 		}
 		unset( $meta['pb_copyright_year'], $meta['pb_copyright_holder'] );
+		unset( $do_copyright_license );
 
 		// Rest of metadata
 		foreach ( $meta as $key => $val ) {
@@ -91,7 +104,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 					break;
 
 				case 'pb_publication_date' :
-					echo '<dc:date opf:event="publication">';
+					echo '<dc:date>';
 					echo date( 'Y-m-d', ( int ) $val );
 					echo "</dc:date>\n";
 					break;
@@ -132,8 +145,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 		<?php
 		foreach ( $manifest as $k => $v ) {
 
-			if ( 'front-cover' == $k ) $linear = 'no';
-			else $linear = 'yes';
+			$linear = 'yes';
 
 			printf( '<itemref idref="%s" linear="%s" />', $k, $linear );
 			echo "\n";
