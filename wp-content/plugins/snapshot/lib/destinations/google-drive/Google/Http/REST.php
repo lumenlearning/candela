@@ -26,19 +26,18 @@ require_once 'Google/Utils/URITemplate.php';
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
  */
-if (!class_exists('Google_Http_REST')) {
-class Google_Http_REST
+class Google_0814_Http_REST
 {
   /**
-   * Executes a Google_Http_Request
+   * Executes a Google_0814_Http_Request
    *
-   * @param Google_Client $client
-   * @param Google_Http_Request $req
+   * @param Google_0814_Client $client
+   * @param Google_0814_Http_Request $req
    * @return array decoded result
-   * @throws Google_Service_Exception on server side error (ie: not authenticated,
+   * @throws Google_0814_Service_Exception on server side error (ie: not authenticated,
    *  invalid or malformed post body, invalid url)
    */
-  public static function execute(Google_Client $client, Google_Http_Request $req)
+  public static function execute(Google_0814_Client $client, Google_0814_Http_Request $req)
   {
     $httpRequest = $client->getIo()->makeRequest($req);
     $httpRequest->setExpectedClass($req->getExpectedClass());
@@ -48,8 +47,8 @@ class Google_Http_REST
   /**
    * Decode an HTTP Response.
    * @static
-   * @throws Google_Service_Exception
-   * @param Google_Http_Request $response The http response to be decoded.
+   * @throws Google_0814_Service_Exception
+   * @param Google_0814_Http_Request $response The http response to be decoded.
    * @return mixed|null
    */
   public static function decodeHttpResponse($response)
@@ -77,14 +76,14 @@ class Google_Http_REST
         $errors = $decoded['error']['errors'];
       }
 
-      throw new Google_Service_Exception($err, $code, null, $errors);
+      throw new Google_0814_Service_Exception($err, $code, null, $errors);
     }
 
     // Only attempt to decode the response, if the response code wasn't (204) 'no content'
     if ($code != '204') {
       $decoded = json_decode($body, true);
       if ($decoded === null || $decoded === "") {
-        throw new Google_Service_Exception("Invalid json in service response: $body");
+        throw new Google_0814_Service_Exception("Invalid json in service response: $body");
       }
 
       if ($response->getExpectedClass()) {
@@ -127,7 +126,7 @@ class Google_Http_REST
     }
 
     if (count($uriTemplateVars)) {
-      $uriTemplateParser = new Google_Utils_URITemplate();
+      $uriTemplateParser = new Google_0814_Utils_URITemplate();
       $requestUrl = $uriTemplateParser->parse($requestUrl, $uriTemplateVars);
     }
 
@@ -137,5 +136,4 @@ class Google_Http_REST
 
     return $requestUrl;
   }
-}
 }

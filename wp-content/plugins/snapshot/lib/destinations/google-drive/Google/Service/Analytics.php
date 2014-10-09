@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_Analytics')) {
-class Google_Service_Analytics extends Google_Service
+class Google_0814_Service_Analytics extends Google_0814_Service
 {
   /** View and manage your Google Analytics data. */
   const ANALYTICS = "https://www.googleapis.com/auth/analytics";
@@ -38,6 +37,8 @@ class Google_Service_Analytics extends Google_Service
   const ANALYTICS_EDIT = "https://www.googleapis.com/auth/analytics.edit";
   /** Manage Google Analytics Account users by email address. */
   const ANALYTICS_MANAGE_USERS = "https://www.googleapis.com/auth/analytics.manage.users";
+  /** Create a new Google Analytics account along with its default property and view. */
+  const ANALYTICS_PROVISION = "https://www.googleapis.com/auth/analytics.provision";
   /** View your Google Analytics data. */
   const ANALYTICS_READONLY = "https://www.googleapis.com/auth/analytics.readonly";
 
@@ -50,29 +51,34 @@ class Google_Service_Analytics extends Google_Service
   public $management_customDataSources;
   public $management_dailyUploads;
   public $management_experiments;
+  public $management_filters;
   public $management_goals;
+  public $management_profileFilterLinks;
   public $management_profileUserLinks;
   public $management_profiles;
   public $management_segments;
+  public $management_unsampledReports;
   public $management_uploads;
+  public $management_webPropertyAdWordsLinks;
   public $management_webproperties;
   public $management_webpropertyUserLinks;
   public $metadata_columns;
+  public $provisioning;
 
 
   /**
    * Constructs the internal representation of the Analytics service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'analytics/v3/';
     $this->version = 'v3';
     $this->serviceName = 'analytics';
 
-    $this->data_ga = new Google_Service_Analytics_DataGa_Resource(
+    $this->data_ga = new Google_0814_Service_Analytics_DataGa_Resource(
         $this,
         $this->serviceName,
         'ga',
@@ -139,7 +145,7 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->data_mcf = new Google_Service_Analytics_DataMcf_Resource(
+    $this->data_mcf = new Google_0814_Service_Analytics_DataMcf_Resource(
         $this,
         $this->serviceName,
         'mcf',
@@ -198,7 +204,7 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->data_realtime = new Google_Service_Analytics_DataRealtime_Resource(
+    $this->data_realtime = new Google_0814_Service_Analytics_DataRealtime_Resource(
         $this,
         $this->serviceName,
         'realtime',
@@ -239,7 +245,7 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_accountSummaries = new Google_Service_Analytics_ManagementAccountSummaries_Resource(
+    $this->management_accountSummaries = new Google_0814_Service_Analytics_ManagementAccountSummaries_Resource(
         $this,
         $this->serviceName,
         'accountSummaries',
@@ -262,7 +268,7 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_accountUserLinks = new Google_Service_Analytics_ManagementAccountUserLinks_Resource(
+    $this->management_accountUserLinks = new Google_0814_Service_Analytics_ManagementAccountUserLinks_Resource(
         $this,
         $this->serviceName,
         'accountUserLinks',
@@ -330,7 +336,7 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_accounts = new Google_Service_Analytics_ManagementAccounts_Resource(
+    $this->management_accounts = new Google_0814_Service_Analytics_ManagementAccounts_Resource(
         $this,
         $this->serviceName,
         'accounts',
@@ -353,7 +359,7 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_customDataSources = new Google_Service_Analytics_ManagementCustomDataSources_Resource(
+    $this->management_customDataSources = new Google_0814_Service_Analytics_ManagementCustomDataSources_Resource(
         $this,
         $this->serviceName,
         'customDataSources',
@@ -386,7 +392,7 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_dailyUploads = new Google_Service_Analytics_ManagementDailyUploads_Resource(
+    $this->management_dailyUploads = new Google_0814_Service_Analytics_ManagementDailyUploads_Resource(
         $this,
         $this->serviceName,
         'dailyUploads',
@@ -503,7 +509,7 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_experiments = new Google_Service_Analytics_ManagementExperiments_Resource(
+    $this->management_experiments = new Google_0814_Service_Analytics_ManagementExperiments_Resource(
         $this,
         $this->serviceName,
         'experiments',
@@ -661,7 +667,105 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_goals = new Google_Service_Analytics_ManagementGoals_Resource(
+    $this->management_filters = new Google_0814_Service_Analytics_ManagementFilters_Resource(
+        $this,
+        $this->serviceName,
+        'filters',
+        array(
+          'methods' => array(
+            'delete' => array(
+              'path' => 'management/accounts/{accountId}/filters/{filterId}',
+              'httpMethod' => 'DELETE',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'filterId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'get' => array(
+              'path' => 'management/accounts/{accountId}/filters/{filterId}',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'filterId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'insert' => array(
+              'path' => 'management/accounts/{accountId}/filters',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'list' => array(
+              'path' => 'management/accounts/{accountId}/filters',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'max-results' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+                'start-index' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+              ),
+            ),'patch' => array(
+              'path' => 'management/accounts/{accountId}/filters/{filterId}',
+              'httpMethod' => 'PATCH',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'filterId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'update' => array(
+              'path' => 'management/accounts/{accountId}/filters/{filterId}',
+              'httpMethod' => 'PUT',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'filterId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->management_goals = new Google_0814_Service_Analytics_ManagementGoals_Resource(
         $this,
         $this->serviceName,
         'goals',
@@ -794,7 +898,165 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_profileUserLinks = new Google_Service_Analytics_ManagementProfileUserLinks_Resource(
+    $this->management_profileFilterLinks = new Google_0814_Service_Analytics_ManagementProfileFilterLinks_Resource(
+        $this,
+        $this->serviceName,
+        'profileFilterLinks',
+        array(
+          'methods' => array(
+            'delete' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks/{linkId}',
+              'httpMethod' => 'DELETE',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'profileId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'linkId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'get' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks/{linkId}',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'profileId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'linkId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'insert' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'profileId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'list' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'profileId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'max-results' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+                'start-index' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+              ),
+            ),'patch' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks/{linkId}',
+              'httpMethod' => 'PATCH',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'profileId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'linkId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'update' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/profileFilterLinks/{linkId}',
+              'httpMethod' => 'PUT',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'profileId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'linkId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->management_profileUserLinks = new Google_0814_Service_Analytics_ManagementProfileUserLinks_Resource(
         $this,
         $this->serviceName,
         'profileUserLinks',
@@ -902,7 +1164,7 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_profiles = new Google_Service_Analytics_ManagementProfiles_Resource(
+    $this->management_profiles = new Google_0814_Service_Analytics_ManagementProfiles_Resource(
         $this,
         $this->serviceName,
         'profiles',
@@ -1030,7 +1292,7 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_segments = new Google_Service_Analytics_ManagementSegments_Resource(
+    $this->management_segments = new Google_0814_Service_Analytics_ManagementSegments_Resource(
         $this,
         $this->serviceName,
         'segments',
@@ -1053,7 +1315,90 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_uploads = new Google_Service_Analytics_ManagementUploads_Resource(
+    $this->management_unsampledReports = new Google_0814_Service_Analytics_ManagementUnsampledReports_Resource(
+        $this,
+        $this->serviceName,
+        'unsampledReports',
+        array(
+          'methods' => array(
+            'get' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/unsampledReports/{unsampledReportId}',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'profileId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'unsampledReportId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'insert' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/unsampledReports',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'profileId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'list' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/unsampledReports',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'profileId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'max-results' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+                'start-index' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->management_uploads = new Google_0814_Service_Analytics_ManagementUploads_Resource(
         $this,
         $this->serviceName,
         'uploads',
@@ -1132,6 +1477,26 @@ class Google_Service_Analytics extends Google_Service
                   'type' => 'integer',
                 ),
               ),
+            ),'migrateDataImport' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/migrateDataImport',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'customDataSourceId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
             ),'uploadData' => array(
               'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/uploads',
               'httpMethod' => 'POST',
@@ -1156,7 +1521,135 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_webproperties = new Google_Service_Analytics_ManagementWebproperties_Resource(
+    $this->management_webPropertyAdWordsLinks = new Google_0814_Service_Analytics_ManagementWebPropertyAdWordsLinks_Resource(
+        $this,
+        $this->serviceName,
+        'webPropertyAdWordsLinks',
+        array(
+          'methods' => array(
+            'delete' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks/{webPropertyAdWordsLinkId}',
+              'httpMethod' => 'DELETE',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyAdWordsLinkId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'get' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks/{webPropertyAdWordsLinkId}',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyAdWordsLinkId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'insert' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'list' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'max-results' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+                'start-index' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+              ),
+            ),'patch' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks/{webPropertyAdWordsLinkId}',
+              'httpMethod' => 'PATCH',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyAdWordsLinkId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'update' => array(
+              'path' => 'management/accounts/{accountId}/webproperties/{webPropertyId}/entityAdWordsLinks/{webPropertyAdWordsLinkId}',
+              'httpMethod' => 'PUT',
+              'parameters' => array(
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'webPropertyAdWordsLinkId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->management_webproperties = new Google_0814_Service_Analytics_ManagementWebproperties_Resource(
         $this,
         $this->serviceName,
         'webproperties',
@@ -1239,7 +1732,7 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->management_webpropertyUserLinks = new Google_Service_Analytics_ManagementWebpropertyUserLinks_Resource(
+    $this->management_webpropertyUserLinks = new Google_0814_Service_Analytics_ManagementWebpropertyUserLinks_Resource(
         $this,
         $this->serviceName,
         'webpropertyUserLinks',
@@ -1327,7 +1820,7 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
-    $this->metadata_columns = new Google_Service_Analytics_MetadataColumns_Resource(
+    $this->metadata_columns = new Google_0814_Service_Analytics_MetadataColumns_Resource(
         $this,
         $this->serviceName,
         'columns',
@@ -1347,35 +1840,46 @@ class Google_Service_Analytics extends Google_Service
           )
         )
     );
+    $this->provisioning = new Google_0814_Service_Analytics_Provisioning_Resource(
+        $this,
+        $this->serviceName,
+        'provisioning',
+        array(
+          'methods' => array(
+            'createAccountTicket' => array(
+              'path' => 'provisioning/createAccountTicket',
+              'httpMethod' => 'POST',
+              'parameters' => array(),
+            ),
+          )
+        )
+    );
   }
 }
-}
+
 
 /**
  * The "data" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $data = $analyticsService->data;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_Data_Resource')) {
-class Google_Service_Analytics_Data_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_Data_Resource extends Google_0814_Service_Resource
 {
 
-}
 }
 
 /**
  * The "ga" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $ga = $analyticsService->ga;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_DataGa_Resource')) {
-class Google_Service_Analytics_DataGa_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_DataGa_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1392,49 +1896,46 @@ class Google_Service_Analytics_DataGa_Resource extends Google_Service_Resource
     * MM-DD, or as a relative date (e.g., today, yesterday, or 7daysAgo). The default value is
     * yesterday.
    * @param string $metrics
-   * A comma-separated list of Analytics metrics. E.g., 'ga:visits,ga:pageviews'. At least one metric
-    * must be specified.
+   * A comma-separated list of Analytics metrics. E.g., 'ga:sessions,ga:pageviews'. At least one
+    * metric must be specified.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of entries to include in this feed.
    * @opt_param string sort
    * A comma-separated list of dimensions or metrics that determine the sort order for Analytics
     * data.
    * @opt_param string dimensions
    * A comma-separated list of Analytics dimensions. E.g., 'ga:browser,ga:city'.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * An index of the first entity to retrieve. Use this parameter as a pagination mechanism along
     * with the max-results parameter.
    * @opt_param string segment
-   * An Analytics advanced segment to be applied to data.
+   * An Analytics segment to be applied to data.
    * @opt_param string samplingLevel
    * The desired sampling level.
    * @opt_param string filters
    * A comma-separated list of dimension or metric filters to be applied to Analytics data.
    * @opt_param string output
    * The selected format for the response. Default format is JSON.
-   * @return Google_Service_Analytics_GaData
+   * @return Google_0814_Service_Analytics_GaData
    */
   public function get($ids, $startDate, $endDate, $metrics, $optParams = array())
   {
     $params = array('ids' => $ids, 'start-date' => $startDate, 'end-date' => $endDate, 'metrics' => $metrics);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Analytics_GaData");
+    return $this->call('get', array($params), "Google_0814_Service_Analytics_GaData");
   }
 }
-}
-
 /**
  * The "mcf" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $mcf = $analyticsService->mcf;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_DataMcf_Resource')) {
-class Google_Service_Analytics_DataMcf_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_DataMcf_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1454,41 +1955,38 @@ class Google_Service_Analytics_DataMcf_Resource extends Google_Service_Resource
     * 'mcf:totalConversions,mcf:totalConversionValue'. At least one metric must be specified.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of entries to include in this feed.
    * @opt_param string sort
    * A comma-separated list of dimensions or metrics that determine the sort order for the Analytics
     * data.
    * @opt_param string dimensions
    * A comma-separated list of Multi-Channel Funnels dimensions. E.g., 'mcf:source,mcf:medium'.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * An index of the first entity to retrieve. Use this parameter as a pagination mechanism along
     * with the max-results parameter.
    * @opt_param string samplingLevel
    * The desired sampling level.
    * @opt_param string filters
    * A comma-separated list of dimension or metric filters to be applied to the Analytics data.
-   * @return Google_Service_Analytics_McfData
+   * @return Google_0814_Service_Analytics_McfData
    */
   public function get($ids, $startDate, $endDate, $metrics, $optParams = array())
   {
     $params = array('ids' => $ids, 'start-date' => $startDate, 'end-date' => $endDate, 'metrics' => $metrics);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Analytics_McfData");
+    return $this->call('get', array($params), "Google_0814_Service_Analytics_McfData");
   }
 }
-}
-
 /**
  * The "realtime" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $realtime = $analyticsService->realtime;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_DataRealtime_Resource')) {
-class Google_Service_Analytics_DataRealtime_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_DataRealtime_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1498,11 +1996,11 @@ class Google_Service_Analytics_DataRealtime_Resource extends Google_Service_Reso
    * Unique table ID for retrieving real time data. Table ID is of the form ga:XXXX, where XXXX is
     * the Analytics view (profile) ID.
    * @param string $metrics
-   * A comma-separated list of real time metrics. E.g., 'rt:activeVisitors'. At least one metric must
-    * be specified.
+   * A comma-separated list of real time metrics. E.g., 'rt:activeUsers'. At least one metric must be
+    * specified.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of entries to include in this feed.
    * @opt_param string sort
    * A comma-separated list of dimensions or metrics that determine the sort order for real time
@@ -1511,42 +2009,38 @@ class Google_Service_Analytics_DataRealtime_Resource extends Google_Service_Reso
    * A comma-separated list of real time dimensions. E.g., 'rt:medium,rt:city'.
    * @opt_param string filters
    * A comma-separated list of dimension or metric filters to be applied to real time data.
-   * @return Google_Service_Analytics_RealtimeData
+   * @return Google_0814_Service_Analytics_RealtimeData
    */
   public function get($ids, $metrics, $optParams = array())
   {
     $params = array('ids' => $ids, 'metrics' => $metrics);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Analytics_RealtimeData");
+    return $this->call('get', array($params), "Google_0814_Service_Analytics_RealtimeData");
   }
-}
 }
 
 /**
  * The "management" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $management = $analyticsService->management;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_Management_Resource')) {
-class Google_Service_Analytics_Management_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_Management_Resource extends Google_0814_Service_Resource
 {
 
-}
 }
 
 /**
  * The "accountSummaries" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $accountSummaries = $analyticsService->accountSummaries;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementAccountSummaries_Resource')) {
-class Google_Service_Analytics_ManagementAccountSummaries_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementAccountSummaries_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1556,32 +2050,29 @@ class Google_Service_Analytics_ManagementAccountSummaries_Resource extends Googl
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of filters to include in this response.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * An index of the first entity to retrieve. Use this parameter as a pagination mechanism along
     * with the max-results parameter.
-   * @return Google_Service_Analytics_AccountSummaries
+   * @return Google_0814_Service_Analytics_AccountSummaries
    */
   public function listManagementAccountSummaries($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_AccountSummaries");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_AccountSummaries");
   }
 }
-}
-
 /**
  * The "accountUserLinks" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $accountUserLinks = $analyticsService->accountUserLinks;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementAccountUserLinks_Resource')) {
-class Google_Service_Analytics_ManagementAccountUserLinks_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementAccountUserLinks_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1604,15 +2095,15 @@ class Google_Service_Analytics_ManagementAccountUserLinks_Resource extends Googl
    *
    * @param string $accountId
    * Account ID to create the user link for.
-   * @param Google_EntityUserLink $postBody
+   * @param Google_0814_EntityUserLink $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_EntityUserLink
+   * @return Google_0814_Service_Analytics_EntityUserLink
    */
-  public function insert($accountId, Google_Service_Analytics_EntityUserLink $postBody, $optParams = array())
+  public function insert($accountId, Google_0814_Service_Analytics_EntityUserLink $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Analytics_EntityUserLink");
+    return $this->call('insert', array($params), "Google_0814_Service_Analytics_EntityUserLink");
   }
   /**
    * Lists account-user links for a given account.
@@ -1622,18 +2113,18 @@ class Google_Service_Analytics_ManagementAccountUserLinks_Resource extends Googl
    * Account ID to retrieve the user links for.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of account-user links to include in this response.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * An index of the first account-user link to retrieve. Use this parameter as a pagination
     * mechanism along with the max-results parameter.
-   * @return Google_Service_Analytics_EntityUserLinks
+   * @return Google_0814_Service_Analytics_EntityUserLinks
    */
   public function listManagementAccountUserLinks($accountId, $optParams = array())
   {
     $params = array('accountId' => $accountId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_EntityUserLinks");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_EntityUserLinks");
   }
   /**
    * Updates permissions for an existing user on the given account.
@@ -1643,29 +2134,26 @@ class Google_Service_Analytics_ManagementAccountUserLinks_Resource extends Googl
    * Account ID to update the account-user link for.
    * @param string $linkId
    * Link ID to update the account-user link for.
-   * @param Google_EntityUserLink $postBody
+   * @param Google_0814_EntityUserLink $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_EntityUserLink
+   * @return Google_0814_Service_Analytics_EntityUserLink
    */
-  public function update($accountId, $linkId, Google_Service_Analytics_EntityUserLink $postBody, $optParams = array())
+  public function update($accountId, $linkId, Google_0814_Service_Analytics_EntityUserLink $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'linkId' => $linkId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Analytics_EntityUserLink");
+    return $this->call('update', array($params), "Google_0814_Service_Analytics_EntityUserLink");
   }
 }
-}
-
 /**
  * The "accounts" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $accounts = $analyticsService->accounts;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementAccounts_Resource')) {
-class Google_Service_Analytics_ManagementAccounts_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementAccounts_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1674,32 +2162,29 @@ class Google_Service_Analytics_ManagementAccounts_Resource extends Google_Servic
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of accounts to include in this response.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * An index of the first account to retrieve. Use this parameter as a pagination mechanism along
     * with the max-results parameter.
-   * @return Google_Service_Analytics_Accounts
+   * @return Google_0814_Service_Analytics_Accounts
    */
   public function listManagementAccounts($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_Accounts");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_Accounts");
   }
 }
-}
-
 /**
  * The "customDataSources" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $customDataSources = $analyticsService->customDataSources;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementCustomDataSources_Resource')) {
-class Google_Service_Analytics_ManagementCustomDataSources_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementCustomDataSources_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1712,32 +2197,29 @@ class Google_Service_Analytics_ManagementCustomDataSources_Resource extends Goog
    * Web property Id for the custom data sources to retrieve.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of custom data sources to include in this response.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * A 1-based index of the first custom data source to retrieve. Use this parameter as a pagination
     * mechanism along with the max-results parameter.
-   * @return Google_Service_Analytics_CustomDataSources
+   * @return Google_0814_Service_Analytics_CustomDataSources
    */
   public function listManagementCustomDataSources($accountId, $webPropertyId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_CustomDataSources");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_CustomDataSources");
   }
 }
-}
-
 /**
  * The "dailyUploads" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $dailyUploads = $analyticsService->dailyUploads;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementDailyUploads_Resource')) {
-class Google_Service_Analytics_ManagementDailyUploads_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementDailyUploads_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1777,18 +2259,18 @@ class Google_Service_Analytics_ManagementDailyUploads_Resource extends Google_Se
    * End date of the form YYYY-MM-DD.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of custom data sources to include in this response.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * A 1-based index of the first daily upload to retrieve. Use this parameter as a pagination
     * mechanism along with the max-results parameter.
-   * @return Google_Service_Analytics_DailyUploads
+   * @return Google_0814_Service_Analytics_DailyUploads
    */
   public function listManagementDailyUploads($accountId, $webPropertyId, $customDataSourceId, $startDate, $endDate, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'customDataSourceId' => $customDataSourceId, 'start-date' => $startDate, 'end-date' => $endDate);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_DailyUploads");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_DailyUploads");
   }
   /**
    * Update/Overwrite data for a custom data source. (dailyUploads.upload)
@@ -1810,27 +2292,24 @@ class Google_Service_Analytics_ManagementDailyUploads_Resource extends Google_Se
    * @opt_param bool reset
    * Reset/Overwrite all previous appends for this date and start over with this file as the first
     * upload.
-   * @return Google_Service_Analytics_DailyUploadAppend
+   * @return Google_0814_Service_Analytics_DailyUploadAppend
    */
   public function upload($accountId, $webPropertyId, $customDataSourceId, $date, $appendNumber, $type, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'customDataSourceId' => $customDataSourceId, 'date' => $date, 'appendNumber' => $appendNumber, 'type' => $type);
     $params = array_merge($params, $optParams);
-    return $this->call('upload', array($params), "Google_Service_Analytics_DailyUploadAppend");
+    return $this->call('upload', array($params), "Google_0814_Service_Analytics_DailyUploadAppend");
   }
 }
-}
-
 /**
  * The "experiments" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $experiments = $analyticsService->experiments;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementExperiments_Resource')) {
-class Google_Service_Analytics_ManagementExperiments_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementExperiments_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1864,13 +2343,13 @@ class Google_Service_Analytics_ManagementExperiments_Resource extends Google_Ser
    * @param string $experimentId
    * Experiment ID to retrieve the experiment for.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Experiment
+   * @return Google_0814_Service_Analytics_Experiment
    */
   public function get($accountId, $webPropertyId, $profileId, $experimentId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'experimentId' => $experimentId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Analytics_Experiment");
+    return $this->call('get', array($params), "Google_0814_Service_Analytics_Experiment");
   }
   /**
    * Create a new experiment. (experiments.insert)
@@ -1881,15 +2360,15 @@ class Google_Service_Analytics_ManagementExperiments_Resource extends Google_Ser
    * Web property ID to create the experiment for.
    * @param string $profileId
    * View (Profile) ID to create the experiment for.
-   * @param Google_Experiment $postBody
+   * @param Google_0814_Experiment $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Experiment
+   * @return Google_0814_Service_Analytics_Experiment
    */
-  public function insert($accountId, $webPropertyId, $profileId, Google_Service_Analytics_Experiment $postBody, $optParams = array())
+  public function insert($accountId, $webPropertyId, $profileId, Google_0814_Service_Analytics_Experiment $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Analytics_Experiment");
+    return $this->call('insert', array($params), "Google_0814_Service_Analytics_Experiment");
   }
   /**
    * Lists experiments to which the user has access.
@@ -1903,18 +2382,18 @@ class Google_Service_Analytics_ManagementExperiments_Resource extends Google_Ser
    * View (Profile) ID to retrieve experiments for.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of experiments to include in this response.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * An index of the first experiment to retrieve. Use this parameter as a pagination mechanism along
     * with the max-results parameter.
-   * @return Google_Service_Analytics_Experiments
+   * @return Google_0814_Service_Analytics_Experiments
    */
   public function listManagementExperiments($accountId, $webPropertyId, $profileId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_Experiments");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_Experiments");
   }
   /**
    * Update an existing experiment. This method supports patch semantics.
@@ -1928,15 +2407,15 @@ class Google_Service_Analytics_ManagementExperiments_Resource extends Google_Ser
    * View (Profile) ID of the experiment to update.
    * @param string $experimentId
    * Experiment ID of the experiment to update.
-   * @param Google_Experiment $postBody
+   * @param Google_0814_Experiment $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Experiment
+   * @return Google_0814_Service_Analytics_Experiment
    */
-  public function patch($accountId, $webPropertyId, $profileId, $experimentId, Google_Service_Analytics_Experiment $postBody, $optParams = array())
+  public function patch($accountId, $webPropertyId, $profileId, $experimentId, Google_0814_Service_Analytics_Experiment $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'experimentId' => $experimentId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Analytics_Experiment");
+    return $this->call('patch', array($params), "Google_0814_Service_Analytics_Experiment");
   }
   /**
    * Update an existing experiment. (experiments.update)
@@ -1949,29 +2428,140 @@ class Google_Service_Analytics_ManagementExperiments_Resource extends Google_Ser
    * View (Profile) ID of the experiment to update.
    * @param string $experimentId
    * Experiment ID of the experiment to update.
-   * @param Google_Experiment $postBody
+   * @param Google_0814_Experiment $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Experiment
+   * @return Google_0814_Service_Analytics_Experiment
    */
-  public function update($accountId, $webPropertyId, $profileId, $experimentId, Google_Service_Analytics_Experiment $postBody, $optParams = array())
+  public function update($accountId, $webPropertyId, $profileId, $experimentId, Google_0814_Service_Analytics_Experiment $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'experimentId' => $experimentId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Analytics_Experiment");
+    return $this->call('update', array($params), "Google_0814_Service_Analytics_Experiment");
   }
 }
-}
+/**
+ * The "filters" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
+ *   $filters = $analyticsService->filters;
+ *  </code>
+ */
+class Google_0814_Service_Analytics_ManagementFilters_Resource extends Google_0814_Service_Resource
+{
 
+  /**
+   * Delete a filter. (filters.delete)
+   *
+   * @param string $accountId
+   * Account ID to delete the filter for.
+   * @param string $filterId
+   * ID of the filter to be deleted.
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_Filter
+   */
+  public function delete($accountId, $filterId, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'filterId' => $filterId);
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', array($params), "Google_0814_Service_Analytics_Filter");
+  }
+  /**
+   * Returns a filters to which the user has access. (filters.get)
+   *
+   * @param string $accountId
+   * Account ID to retrieve filters for.
+   * @param string $filterId
+   * Filter ID to retrieve filters for.
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_Filter
+   */
+  public function get($accountId, $filterId, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'filterId' => $filterId);
+    $params = array_merge($params, $optParams);
+    return $this->call('get', array($params), "Google_0814_Service_Analytics_Filter");
+  }
+  /**
+   * Create a new filter. (filters.insert)
+   *
+   * @param string $accountId
+   * Account ID to create filter for.
+   * @param Google_0814_Filter $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_Filter
+   */
+  public function insert($accountId, Google_0814_Service_Analytics_Filter $postBody, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('insert', array($params), "Google_0814_Service_Analytics_Filter");
+  }
+  /**
+   * Lists all filters for an account (filters.listManagementFilters)
+   *
+   * @param string $accountId
+   * Account ID to retrieve filters for.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int max-results
+   * The maximum number of filters to include in this response.
+   * @opt_param int start-index
+   * An index of the first entity to retrieve. Use this parameter as a pagination mechanism along
+    * with the max-results parameter.
+   * @return Google_0814_Service_Analytics_Filters
+   */
+  public function listManagementFilters($accountId, $optParams = array())
+  {
+    $params = array('accountId' => $accountId);
+    $params = array_merge($params, $optParams);
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_Filters");
+  }
+  /**
+   * Updates an existing filter. This method supports patch semantics.
+   * (filters.patch)
+   *
+   * @param string $accountId
+   * Account ID to which the filter belongs.
+   * @param string $filterId
+   * ID of the filter to be updated.
+   * @param Google_0814_Filter $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_Filter
+   */
+  public function patch($accountId, $filterId, Google_0814_Service_Analytics_Filter $postBody, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'filterId' => $filterId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', array($params), "Google_0814_Service_Analytics_Filter");
+  }
+  /**
+   * Updates an existing filter. (filters.update)
+   *
+   * @param string $accountId
+   * Account ID to which the filter belongs.
+   * @param string $filterId
+   * ID of the filter to be updated.
+   * @param Google_0814_Filter $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_Filter
+   */
+  public function update($accountId, $filterId, Google_0814_Service_Analytics_Filter $postBody, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'filterId' => $filterId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('update', array($params), "Google_0814_Service_Analytics_Filter");
+  }
+}
 /**
  * The "goals" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $goals = $analyticsService->goals;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementGoals_Resource')) {
-class Google_Service_Analytics_ManagementGoals_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementGoals_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1986,13 +2576,13 @@ class Google_Service_Analytics_ManagementGoals_Resource extends Google_Service_R
    * @param string $goalId
    * Goal ID to retrieve the goal for.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Goal
+   * @return Google_0814_Service_Analytics_Goal
    */
   public function get($accountId, $webPropertyId, $profileId, $goalId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'goalId' => $goalId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Analytics_Goal");
+    return $this->call('get', array($params), "Google_0814_Service_Analytics_Goal");
   }
   /**
    * Create a new goal. (goals.insert)
@@ -2003,15 +2593,15 @@ class Google_Service_Analytics_ManagementGoals_Resource extends Google_Service_R
    * Web property ID to create the goal for.
    * @param string $profileId
    * View (Profile) ID to create the goal for.
-   * @param Google_Goal $postBody
+   * @param Google_0814_Goal $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Goal
+   * @return Google_0814_Service_Analytics_Goal
    */
-  public function insert($accountId, $webPropertyId, $profileId, Google_Service_Analytics_Goal $postBody, $optParams = array())
+  public function insert($accountId, $webPropertyId, $profileId, Google_0814_Service_Analytics_Goal $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Analytics_Goal");
+    return $this->call('insert', array($params), "Google_0814_Service_Analytics_Goal");
   }
   /**
    * Lists goals to which the user has access. (goals.listManagementGoals)
@@ -2027,18 +2617,18 @@ class Google_Service_Analytics_ManagementGoals_Resource extends Google_Service_R
     * which refers to all the views (profiles) that user has access to.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of goals to include in this response.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * An index of the first goal to retrieve. Use this parameter as a pagination mechanism along with
     * the max-results parameter.
-   * @return Google_Service_Analytics_Goals
+   * @return Google_0814_Service_Analytics_Goals
    */
   public function listManagementGoals($accountId, $webPropertyId, $profileId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_Goals");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_Goals");
   }
   /**
    * Updates an existing view (profile). This method supports patch semantics.
@@ -2052,15 +2642,15 @@ class Google_Service_Analytics_ManagementGoals_Resource extends Google_Service_R
    * View (Profile) ID to update the goal.
    * @param string $goalId
    * Index of the goal to be updated.
-   * @param Google_Goal $postBody
+   * @param Google_0814_Goal $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Goal
+   * @return Google_0814_Service_Analytics_Goal
    */
-  public function patch($accountId, $webPropertyId, $profileId, $goalId, Google_Service_Analytics_Goal $postBody, $optParams = array())
+  public function patch($accountId, $webPropertyId, $profileId, $goalId, Google_0814_Service_Analytics_Goal $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'goalId' => $goalId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Analytics_Goal");
+    return $this->call('patch', array($params), "Google_0814_Service_Analytics_Goal");
   }
   /**
    * Updates an existing view (profile). (goals.update)
@@ -2073,29 +2663,166 @@ class Google_Service_Analytics_ManagementGoals_Resource extends Google_Service_R
    * View (Profile) ID to update the goal.
    * @param string $goalId
    * Index of the goal to be updated.
-   * @param Google_Goal $postBody
+   * @param Google_0814_Goal $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Goal
+   * @return Google_0814_Service_Analytics_Goal
    */
-  public function update($accountId, $webPropertyId, $profileId, $goalId, Google_Service_Analytics_Goal $postBody, $optParams = array())
+  public function update($accountId, $webPropertyId, $profileId, $goalId, Google_0814_Service_Analytics_Goal $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'goalId' => $goalId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Analytics_Goal");
+    return $this->call('update', array($params), "Google_0814_Service_Analytics_Goal");
   }
 }
-}
+/**
+ * The "profileFilterLinks" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
+ *   $profileFilterLinks = $analyticsService->profileFilterLinks;
+ *  </code>
+ */
+class Google_0814_Service_Analytics_ManagementProfileFilterLinks_Resource extends Google_0814_Service_Resource
+{
 
+  /**
+   * Delete a profile filter link. (profileFilterLinks.delete)
+   *
+   * @param string $accountId
+   * Account ID to which the profile filter link belongs.
+   * @param string $webPropertyId
+   * Web property Id to which the profile filter link belongs.
+   * @param string $profileId
+   * Profile ID to which the filter link belongs.
+   * @param string $linkId
+   * ID of the profile filter link to delete.
+   * @param array $optParams Optional parameters.
+   */
+  public function delete($accountId, $webPropertyId, $profileId, $linkId, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'linkId' => $linkId);
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', array($params));
+  }
+  /**
+   * Returns a single profile filter link. (profileFilterLinks.get)
+   *
+   * @param string $accountId
+   * Account ID to retrieve profile filter link for.
+   * @param string $webPropertyId
+   * Web property Id to retrieve profile filter link for.
+   * @param string $profileId
+   * Profile ID to retrieve filter link for.
+   * @param string $linkId
+   * ID of the profile filter link.
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_ProfileFilterLink
+   */
+  public function get($accountId, $webPropertyId, $profileId, $linkId, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'linkId' => $linkId);
+    $params = array_merge($params, $optParams);
+    return $this->call('get', array($params), "Google_0814_Service_Analytics_ProfileFilterLink");
+  }
+  /**
+   * Create a new profile filter link. (profileFilterLinks.insert)
+   *
+   * @param string $accountId
+   * Account ID to create profile filter link for.
+   * @param string $webPropertyId
+   * Web property Id to create profile filter link for.
+   * @param string $profileId
+   * Profile ID to create filter link for.
+   * @param Google_0814_ProfileFilterLink $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_ProfileFilterLink
+   */
+  public function insert($accountId, $webPropertyId, $profileId, Google_0814_Service_Analytics_ProfileFilterLink $postBody, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('insert', array($params), "Google_0814_Service_Analytics_ProfileFilterLink");
+  }
+  /**
+   * Lists all profile filter links for a profile.
+   * (profileFilterLinks.listManagementProfileFilterLinks)
+   *
+   * @param string $accountId
+   * Account ID to retrieve profile filter links for.
+   * @param string $webPropertyId
+   * Web property Id for profile filter links for. Can either be a specific web property ID or
+    * '~all', which refers to all the web properties that user has access to.
+   * @param string $profileId
+   * Profile ID to retrieve filter links for. Can either be a specific profile ID or '~all', which
+    * refers to all the profiles that user has access to.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int max-results
+   * The maximum number of profile filter links to include in this response.
+   * @opt_param int start-index
+   * An index of the first entity to retrieve. Use this parameter as a pagination mechanism along
+    * with the max-results parameter.
+   * @return Google_0814_Service_Analytics_ProfileFilterLinks
+   */
+  public function listManagementProfileFilterLinks($accountId, $webPropertyId, $profileId, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId);
+    $params = array_merge($params, $optParams);
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_ProfileFilterLinks");
+  }
+  /**
+   * Update an existing profile filter link. This method supports patch semantics.
+   * (profileFilterLinks.patch)
+   *
+   * @param string $accountId
+   * Account ID to which profile filter link belongs.
+   * @param string $webPropertyId
+   * Web property Id to which profile filter link belongs
+   * @param string $profileId
+   * Profile ID to which filter link belongs
+   * @param string $linkId
+   * ID of the profile filter link to be updated.
+   * @param Google_0814_ProfileFilterLink $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_ProfileFilterLink
+   */
+  public function patch($accountId, $webPropertyId, $profileId, $linkId, Google_0814_Service_Analytics_ProfileFilterLink $postBody, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'linkId' => $linkId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', array($params), "Google_0814_Service_Analytics_ProfileFilterLink");
+  }
+  /**
+   * Update an existing profile filter link. (profileFilterLinks.update)
+   *
+   * @param string $accountId
+   * Account ID to which profile filter link belongs.
+   * @param string $webPropertyId
+   * Web property Id to which profile filter link belongs
+   * @param string $profileId
+   * Profile ID to which filter link belongs
+   * @param string $linkId
+   * ID of the profile filter link to be updated.
+   * @param Google_0814_ProfileFilterLink $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_ProfileFilterLink
+   */
+  public function update($accountId, $webPropertyId, $profileId, $linkId, Google_0814_Service_Analytics_ProfileFilterLink $postBody, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'linkId' => $linkId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('update', array($params), "Google_0814_Service_Analytics_ProfileFilterLink");
+  }
+}
 /**
  * The "profileUserLinks" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $profileUserLinks = $analyticsService->profileUserLinks;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementProfileUserLinks_Resource')) {
-class Google_Service_Analytics_ManagementProfileUserLinks_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementProfileUserLinks_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -2126,15 +2853,15 @@ class Google_Service_Analytics_ManagementProfileUserLinks_Resource extends Googl
    * Web Property ID to create the user link for.
    * @param string $profileId
    * View (Profile) ID to create the user link for.
-   * @param Google_EntityUserLink $postBody
+   * @param Google_0814_EntityUserLink $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_EntityUserLink
+   * @return Google_0814_Service_Analytics_EntityUserLink
    */
-  public function insert($accountId, $webPropertyId, $profileId, Google_Service_Analytics_EntityUserLink $postBody, $optParams = array())
+  public function insert($accountId, $webPropertyId, $profileId, Google_0814_Service_Analytics_EntityUserLink $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Analytics_EntityUserLink");
+    return $this->call('insert', array($params), "Google_0814_Service_Analytics_EntityUserLink");
   }
   /**
    * Lists profile-user links for a given view (profile).
@@ -2143,23 +2870,25 @@ class Google_Service_Analytics_ManagementProfileUserLinks_Resource extends Googl
    * @param string $accountId
    * Account ID which the given view (profile) belongs to.
    * @param string $webPropertyId
-   * Web Property ID which the given view (profile) belongs to.
+   * Web Property ID which the given view (profile) belongs to. Can either be a specific web property
+    * ID or '~all', which refers to all the web properties that user has access to.
    * @param string $profileId
-   * View (Profile) ID to retrieve the profile-user links for
+   * View (Profile) ID to retrieve the profile-user links for. Can either be a specific profile ID or
+    * '~all', which refers to all the profiles that user has access to.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of profile-user links to include in this response.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * An index of the first profile-user link to retrieve. Use this parameter as a pagination
     * mechanism along with the max-results parameter.
-   * @return Google_Service_Analytics_EntityUserLinks
+   * @return Google_0814_Service_Analytics_EntityUserLinks
    */
   public function listManagementProfileUserLinks($accountId, $webPropertyId, $profileId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_EntityUserLinks");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_EntityUserLinks");
   }
   /**
    * Updates permissions for an existing user on the given view (profile).
@@ -2173,29 +2902,26 @@ class Google_Service_Analytics_ManagementProfileUserLinks_Resource extends Googl
    * View (Profile ID) to update the user link for.
    * @param string $linkId
    * Link ID to update the user link for.
-   * @param Google_EntityUserLink $postBody
+   * @param Google_0814_EntityUserLink $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_EntityUserLink
+   * @return Google_0814_Service_Analytics_EntityUserLink
    */
-  public function update($accountId, $webPropertyId, $profileId, $linkId, Google_Service_Analytics_EntityUserLink $postBody, $optParams = array())
+  public function update($accountId, $webPropertyId, $profileId, $linkId, Google_0814_Service_Analytics_EntityUserLink $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'linkId' => $linkId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Analytics_EntityUserLink");
+    return $this->call('update', array($params), "Google_0814_Service_Analytics_EntityUserLink");
   }
 }
-}
-
 /**
  * The "profiles" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $profiles = $analyticsService->profiles;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementProfiles_Resource')) {
-class Google_Service_Analytics_ManagementProfiles_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementProfiles_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -2225,13 +2951,13 @@ class Google_Service_Analytics_ManagementProfiles_Resource extends Google_Servic
    * @param string $profileId
    * View (Profile) ID to retrieve the goal for.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Profile
+   * @return Google_0814_Service_Analytics_Profile
    */
   public function get($accountId, $webPropertyId, $profileId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Analytics_Profile");
+    return $this->call('get', array($params), "Google_0814_Service_Analytics_Profile");
   }
   /**
    * Create a new view (profile). (profiles.insert)
@@ -2240,15 +2966,15 @@ class Google_Service_Analytics_ManagementProfiles_Resource extends Google_Servic
    * Account ID to create the view (profile) for.
    * @param string $webPropertyId
    * Web property ID to create the view (profile) for.
-   * @param Google_Profile $postBody
+   * @param Google_0814_Profile $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Profile
+   * @return Google_0814_Service_Analytics_Profile
    */
-  public function insert($accountId, $webPropertyId, Google_Service_Analytics_Profile $postBody, $optParams = array())
+  public function insert($accountId, $webPropertyId, Google_0814_Service_Analytics_Profile $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Analytics_Profile");
+    return $this->call('insert', array($params), "Google_0814_Service_Analytics_Profile");
   }
   /**
    * Lists views (profiles) to which the user has access.
@@ -2262,18 +2988,18 @@ class Google_Service_Analytics_ManagementProfiles_Resource extends Google_Servic
     * or '~all', which refers to all the web properties to which the user has access.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of views (profiles) to include in this response.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * An index of the first entity to retrieve. Use this parameter as a pagination mechanism along
     * with the max-results parameter.
-   * @return Google_Service_Analytics_Profiles
+   * @return Google_0814_Service_Analytics_Profiles
    */
   public function listManagementProfiles($accountId, $webPropertyId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_Profiles");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_Profiles");
   }
   /**
    * Updates an existing view (profile). This method supports patch semantics.
@@ -2285,15 +3011,15 @@ class Google_Service_Analytics_ManagementProfiles_Resource extends Google_Servic
    * Web property ID to which the view (profile) belongs
    * @param string $profileId
    * ID of the view (profile) to be updated.
-   * @param Google_Profile $postBody
+   * @param Google_0814_Profile $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Profile
+   * @return Google_0814_Service_Analytics_Profile
    */
-  public function patch($accountId, $webPropertyId, $profileId, Google_Service_Analytics_Profile $postBody, $optParams = array())
+  public function patch($accountId, $webPropertyId, $profileId, Google_0814_Service_Analytics_Profile $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Analytics_Profile");
+    return $this->call('patch', array($params), "Google_0814_Service_Analytics_Profile");
   }
   /**
    * Updates an existing view (profile). (profiles.update)
@@ -2304,63 +3030,136 @@ class Google_Service_Analytics_ManagementProfiles_Resource extends Google_Servic
    * Web property ID to which the view (profile) belongs
    * @param string $profileId
    * ID of the view (profile) to be updated.
-   * @param Google_Profile $postBody
+   * @param Google_0814_Profile $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Profile
+   * @return Google_0814_Service_Analytics_Profile
    */
-  public function update($accountId, $webPropertyId, $profileId, Google_Service_Analytics_Profile $postBody, $optParams = array())
+  public function update($accountId, $webPropertyId, $profileId, Google_0814_Service_Analytics_Profile $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Analytics_Profile");
+    return $this->call('update', array($params), "Google_0814_Service_Analytics_Profile");
   }
 }
-}
-
 /**
  * The "segments" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $segments = $analyticsService->segments;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementSegments_Resource')) {
-class Google_Service_Analytics_ManagementSegments_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementSegments_Resource extends Google_0814_Service_Resource
 {
 
   /**
-   * Lists advanced segments to which the user has access.
+   * Lists segments to which the user has access.
    * (segments.listManagementSegments)
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
-   * The maximum number of advanced segments to include in this response.
-   * @opt_param int startIndex
-   * An index of the first advanced segment to retrieve. Use this parameter as a pagination mechanism
-    * along with the max-results parameter.
-   * @return Google_Service_Analytics_Segments
+   * @opt_param int max-results
+   * The maximum number of segments to include in this response.
+   * @opt_param int start-index
+   * An index of the first segment to retrieve. Use this parameter as a pagination mechanism along
+    * with the max-results parameter.
+   * @return Google_0814_Service_Analytics_Segments
    */
   public function listManagementSegments($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_Segments");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_Segments");
   }
 }
-}
+/**
+ * The "unsampledReports" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
+ *   $unsampledReports = $analyticsService->unsampledReports;
+ *  </code>
+ */
+class Google_0814_Service_Analytics_ManagementUnsampledReports_Resource extends Google_0814_Service_Resource
+{
 
+  /**
+   * Returns a single unsampled report. (unsampledReports.get)
+   *
+   * @param string $accountId
+   * Account ID to retrieve unsampled report for.
+   * @param string $webPropertyId
+   * Web property ID to retrieve unsampled reports for.
+   * @param string $profileId
+   * View (Profile) ID to retrieve unsampled report for.
+   * @param string $unsampledReportId
+   * ID of the unsampled report to retrieve.
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_UnsampledReport
+   */
+  public function get($accountId, $webPropertyId, $profileId, $unsampledReportId, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'unsampledReportId' => $unsampledReportId);
+    $params = array_merge($params, $optParams);
+    return $this->call('get', array($params), "Google_0814_Service_Analytics_UnsampledReport");
+  }
+  /**
+   * Create a new unsampled report. (unsampledReports.insert)
+   *
+   * @param string $accountId
+   * Account ID to create the unsampled report for.
+   * @param string $webPropertyId
+   * Web property ID to create the unsampled report for.
+   * @param string $profileId
+   * View (Profile) ID to create the unsampled report for.
+   * @param Google_0814_UnsampledReport $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_UnsampledReport
+   */
+  public function insert($accountId, $webPropertyId, $profileId, Google_0814_Service_Analytics_UnsampledReport $postBody, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('insert', array($params), "Google_0814_Service_Analytics_UnsampledReport");
+  }
+  /**
+   * Lists unsampled reports to which the user has access.
+   * (unsampledReports.listManagementUnsampledReports)
+   *
+   * @param string $accountId
+   * Account ID to retrieve unsampled reports for. Must be a specific account ID, ~all is not
+    * supported.
+   * @param string $webPropertyId
+   * Web property ID to retrieve unsampled reports for. Must be a specific web property ID, ~all is
+    * not supported.
+   * @param string $profileId
+   * View (Profile) ID to retrieve unsampled reports for. Must be a specific view (profile) ID, ~all
+    * is not supported.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int max-results
+   * The maximum number of unsampled reports to include in this response.
+   * @opt_param int start-index
+   * An index of the first unsampled report to retrieve. Use this parameter as a pagination mechanism
+    * along with the max-results parameter.
+   * @return Google_0814_Service_Analytics_UnsampledReports
+   */
+  public function listManagementUnsampledReports($accountId, $webPropertyId, $profileId, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId);
+    $params = array_merge($params, $optParams);
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_UnsampledReports");
+  }
+}
 /**
  * The "uploads" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $uploads = $analyticsService->uploads;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementUploads_Resource')) {
-class Google_Service_Analytics_ManagementUploads_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementUploads_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -2372,10 +3171,10 @@ class Google_Service_Analytics_ManagementUploads_Resource extends Google_Service
    * Web property Id for the uploads to be deleted.
    * @param string $customDataSourceId
    * Custom data source Id for the uploads to be deleted.
-   * @param Google_AnalyticsDataimportDeleteUploadDataRequest $postBody
+   * @param Google_0814_AnalyticsDataimportDeleteUploadDataRequest $postBody
    * @param array $optParams Optional parameters.
    */
-  public function deleteUploadData($accountId, $webPropertyId, $customDataSourceId, Google_Service_Analytics_AnalyticsDataimportDeleteUploadDataRequest $postBody, $optParams = array())
+  public function deleteUploadData($accountId, $webPropertyId, $customDataSourceId, Google_0814_Service_Analytics_AnalyticsDataimportDeleteUploadDataRequest $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'customDataSourceId' => $customDataSourceId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
@@ -2393,13 +3192,13 @@ class Google_Service_Analytics_ManagementUploads_Resource extends Google_Service
    * @param string $uploadId
    * Upload Id to retrieve.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Upload
+   * @return Google_0814_Service_Analytics_Upload
    */
   public function get($accountId, $webPropertyId, $customDataSourceId, $uploadId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'customDataSourceId' => $customDataSourceId, 'uploadId' => $uploadId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Analytics_Upload");
+    return $this->call('get', array($params), "Google_0814_Service_Analytics_Upload");
   }
   /**
    * List uploads to which the user has access. (uploads.listManagementUploads)
@@ -2412,18 +3211,36 @@ class Google_Service_Analytics_ManagementUploads_Resource extends Google_Service
    * Custom data source Id for uploads to retrieve.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of uploads to include in this response.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * A 1-based index of the first upload to retrieve. Use this parameter as a pagination mechanism
     * along with the max-results parameter.
-   * @return Google_Service_Analytics_Uploads
+   * @return Google_0814_Service_Analytics_Uploads
    */
   public function listManagementUploads($accountId, $webPropertyId, $customDataSourceId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'customDataSourceId' => $customDataSourceId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_Uploads");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_Uploads");
+  }
+  /**
+   * Migrate custom data source and data imports to latest version.
+   * (uploads.migrateDataImport)
+   *
+   * @param string $accountId
+   * Account Id for migration.
+   * @param string $webPropertyId
+   * Web property Id for migration.
+   * @param string $customDataSourceId
+   * Custom data source Id for migration.
+   * @param array $optParams Optional parameters.
+   */
+  public function migrateDataImport($accountId, $webPropertyId, $customDataSourceId, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'customDataSourceId' => $customDataSourceId);
+    $params = array_merge($params, $optParams);
+    return $this->call('migrateDataImport', array($params));
   }
   /**
    * Upload data for a custom data source. (uploads.uploadData)
@@ -2435,27 +3252,152 @@ class Google_Service_Analytics_ManagementUploads_Resource extends Google_Service
    * @param string $customDataSourceId
    * Custom data source Id to which the data being uploaded belongs.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Upload
+   * @return Google_0814_Service_Analytics_Upload
    */
   public function uploadData($accountId, $webPropertyId, $customDataSourceId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'customDataSourceId' => $customDataSourceId);
     $params = array_merge($params, $optParams);
-    return $this->call('uploadData', array($params), "Google_Service_Analytics_Upload");
+    return $this->call('uploadData', array($params), "Google_0814_Service_Analytics_Upload");
   }
 }
-}
+/**
+ * The "webPropertyAdWordsLinks" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
+ *   $webPropertyAdWordsLinks = $analyticsService->webPropertyAdWordsLinks;
+ *  </code>
+ */
+class Google_0814_Service_Analytics_ManagementWebPropertyAdWordsLinks_Resource extends Google_0814_Service_Resource
+{
 
+  /**
+   * Deletes a web property-AdWords link. (webPropertyAdWordsLinks.delete)
+   *
+   * @param string $accountId
+   * ID of the account which the given web property belongs to.
+   * @param string $webPropertyId
+   * Web property ID to delete the AdWords link for.
+   * @param string $webPropertyAdWordsLinkId
+   * Web property AdWords link ID.
+   * @param array $optParams Optional parameters.
+   */
+  public function delete($accountId, $webPropertyId, $webPropertyAdWordsLinkId, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'webPropertyAdWordsLinkId' => $webPropertyAdWordsLinkId);
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', array($params));
+  }
+  /**
+   * Returns a web property-AdWords link to which the user has access.
+   * (webPropertyAdWordsLinks.get)
+   *
+   * @param string $accountId
+   * ID of the account which the given web property belongs to.
+   * @param string $webPropertyId
+   * Web property ID to retrieve the AdWords link for.
+   * @param string $webPropertyAdWordsLinkId
+   * Web property-AdWords link ID.
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_EntityAdWordsLink
+   */
+  public function get($accountId, $webPropertyId, $webPropertyAdWordsLinkId, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'webPropertyAdWordsLinkId' => $webPropertyAdWordsLinkId);
+    $params = array_merge($params, $optParams);
+    return $this->call('get', array($params), "Google_0814_Service_Analytics_EntityAdWordsLink");
+  }
+  /**
+   * Creates a webProperty-AdWords link. (webPropertyAdWordsLinks.insert)
+   *
+   * @param string $accountId
+   * ID of the Google Analytics account to create the link for.
+   * @param string $webPropertyId
+   * Web property ID to create the link for.
+   * @param Google_0814_EntityAdWordsLink $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_EntityAdWordsLink
+   */
+  public function insert($accountId, $webPropertyId, Google_0814_Service_Analytics_EntityAdWordsLink $postBody, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('insert', array($params), "Google_0814_Service_Analytics_EntityAdWordsLink");
+  }
+  /**
+   * Lists webProperty-AdWords links for a given web property.
+   * (webPropertyAdWordsLinks.listManagementWebPropertyAdWordsLinks)
+   *
+   * @param string $accountId
+   * ID of the account which the given web property belongs to.
+   * @param string $webPropertyId
+   * Web property ID to retrieve the AdWords links for.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int max-results
+   * The maximum number of webProperty-AdWords links to include in this response.
+   * @opt_param int start-index
+   * An index of the first webProperty-AdWords link to retrieve. Use this parameter as a pagination
+    * mechanism along with the max-results parameter.
+   * @return Google_0814_Service_Analytics_EntityAdWordsLinks
+   */
+  public function listManagementWebPropertyAdWordsLinks($accountId, $webPropertyId, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId);
+    $params = array_merge($params, $optParams);
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_EntityAdWordsLinks");
+  }
+  /**
+   * Updates an existing webProperty-AdWords link. This method supports patch
+   * semantics. (webPropertyAdWordsLinks.patch)
+   *
+   * @param string $accountId
+   * ID of the account which the given web property belongs to.
+   * @param string $webPropertyId
+   * Web property ID to retrieve the AdWords link for.
+   * @param string $webPropertyAdWordsLinkId
+   * Web property-AdWords link ID.
+   * @param Google_0814_EntityAdWordsLink $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_EntityAdWordsLink
+   */
+  public function patch($accountId, $webPropertyId, $webPropertyAdWordsLinkId, Google_0814_Service_Analytics_EntityAdWordsLink $postBody, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'webPropertyAdWordsLinkId' => $webPropertyAdWordsLinkId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', array($params), "Google_0814_Service_Analytics_EntityAdWordsLink");
+  }
+  /**
+   * Updates an existing webProperty-AdWords link.
+   * (webPropertyAdWordsLinks.update)
+   *
+   * @param string $accountId
+   * ID of the account which the given web property belongs to.
+   * @param string $webPropertyId
+   * Web property ID to retrieve the AdWords link for.
+   * @param string $webPropertyAdWordsLinkId
+   * Web property-AdWords link ID.
+   * @param Google_0814_EntityAdWordsLink $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_EntityAdWordsLink
+   */
+  public function update($accountId, $webPropertyId, $webPropertyAdWordsLinkId, Google_0814_Service_Analytics_EntityAdWordsLink $postBody, $optParams = array())
+  {
+    $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'webPropertyAdWordsLinkId' => $webPropertyAdWordsLinkId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('update', array($params), "Google_0814_Service_Analytics_EntityAdWordsLink");
+  }
+}
 /**
  * The "webproperties" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $webproperties = $analyticsService->webproperties;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementWebproperties_Resource')) {
-class Google_Service_Analytics_ManagementWebproperties_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementWebproperties_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -2466,13 +3408,13 @@ class Google_Service_Analytics_ManagementWebproperties_Resource extends Google_S
    * @param string $webPropertyId
    * ID to retrieve the web property for.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Webproperty
+   * @return Google_0814_Service_Analytics_Webproperty
    */
   public function get($accountId, $webPropertyId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Analytics_Webproperty");
+    return $this->call('get', array($params), "Google_0814_Service_Analytics_Webproperty");
   }
   /**
    * Create a new property if the account has fewer than 20 properties. Web
@@ -2481,15 +3423,15 @@ class Google_Service_Analytics_ManagementWebproperties_Resource extends Google_S
    *
    * @param string $accountId
    * Account ID to create the web property for.
-   * @param Google_Webproperty $postBody
+   * @param Google_0814_Webproperty $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Webproperty
+   * @return Google_0814_Service_Analytics_Webproperty
    */
-  public function insert($accountId, Google_Service_Analytics_Webproperty $postBody, $optParams = array())
+  public function insert($accountId, Google_0814_Service_Analytics_Webproperty $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Analytics_Webproperty");
+    return $this->call('insert', array($params), "Google_0814_Service_Analytics_Webproperty");
   }
   /**
    * Lists web properties to which the user has access.
@@ -2500,18 +3442,18 @@ class Google_Service_Analytics_ManagementWebproperties_Resource extends Google_S
     * refers to all the accounts that user has access to.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of web properties to include in this response.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * An index of the first entity to retrieve. Use this parameter as a pagination mechanism along
     * with the max-results parameter.
-   * @return Google_Service_Analytics_Webproperties
+   * @return Google_0814_Service_Analytics_Webproperties
    */
   public function listManagementWebproperties($accountId, $optParams = array())
   {
     $params = array('accountId' => $accountId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_Webproperties");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_Webproperties");
   }
   /**
    * Updates an existing web property. This method supports patch semantics.
@@ -2521,15 +3463,15 @@ class Google_Service_Analytics_ManagementWebproperties_Resource extends Google_S
    * Account ID to which the web property belongs
    * @param string $webPropertyId
    * Web property ID
-   * @param Google_Webproperty $postBody
+   * @param Google_0814_Webproperty $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Webproperty
+   * @return Google_0814_Service_Analytics_Webproperty
    */
-  public function patch($accountId, $webPropertyId, Google_Service_Analytics_Webproperty $postBody, $optParams = array())
+  public function patch($accountId, $webPropertyId, Google_0814_Service_Analytics_Webproperty $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Analytics_Webproperty");
+    return $this->call('patch', array($params), "Google_0814_Service_Analytics_Webproperty");
   }
   /**
    * Updates an existing web property. (webproperties.update)
@@ -2538,29 +3480,26 @@ class Google_Service_Analytics_ManagementWebproperties_Resource extends Google_S
    * Account ID to which the web property belongs
    * @param string $webPropertyId
    * Web property ID
-   * @param Google_Webproperty $postBody
+   * @param Google_0814_Webproperty $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Webproperty
+   * @return Google_0814_Service_Analytics_Webproperty
    */
-  public function update($accountId, $webPropertyId, Google_Service_Analytics_Webproperty $postBody, $optParams = array())
+  public function update($accountId, $webPropertyId, Google_0814_Service_Analytics_Webproperty $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Analytics_Webproperty");
+    return $this->call('update', array($params), "Google_0814_Service_Analytics_Webproperty");
   }
 }
-}
-
 /**
  * The "webpropertyUserLinks" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $webpropertyUserLinks = $analyticsService->webpropertyUserLinks;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_ManagementWebpropertyUserLinks_Resource')) {
-class Google_Service_Analytics_ManagementWebpropertyUserLinks_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_ManagementWebpropertyUserLinks_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -2587,15 +3526,15 @@ class Google_Service_Analytics_ManagementWebpropertyUserLinks_Resource extends G
    * Account ID to create the user link for.
    * @param string $webPropertyId
    * Web Property ID to create the user link for.
-   * @param Google_EntityUserLink $postBody
+   * @param Google_0814_EntityUserLink $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_EntityUserLink
+   * @return Google_0814_Service_Analytics_EntityUserLink
    */
-  public function insert($accountId, $webPropertyId, Google_Service_Analytics_EntityUserLink $postBody, $optParams = array())
+  public function insert($accountId, $webPropertyId, Google_0814_Service_Analytics_EntityUserLink $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Analytics_EntityUserLink");
+    return $this->call('insert', array($params), "Google_0814_Service_Analytics_EntityUserLink");
   }
   /**
    * Lists webProperty-user links for a given web property.
@@ -2604,21 +3543,22 @@ class Google_Service_Analytics_ManagementWebpropertyUserLinks_Resource extends G
    * @param string $accountId
    * Account ID which the given web property belongs to.
    * @param string $webPropertyId
-   * Web Property ID for the webProperty-user links to retrieve.
+   * Web Property ID for the webProperty-user links to retrieve. Can either be a specific web
+    * property ID or '~all', which refers to all the web properties that user has access to.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int maxResults
+   * @opt_param int max-results
    * The maximum number of webProperty-user Links to include in this response.
-   * @opt_param int startIndex
+   * @opt_param int start-index
    * An index of the first webProperty-user link to retrieve. Use this parameter as a pagination
     * mechanism along with the max-results parameter.
-   * @return Google_Service_Analytics_EntityUserLinks
+   * @return Google_0814_Service_Analytics_EntityUserLinks
    */
   public function listManagementWebpropertyUserLinks($accountId, $webPropertyId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_EntityUserLinks");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_EntityUserLinks");
   }
   /**
    * Updates permissions for an existing user on the given web property.
@@ -2630,44 +3570,40 @@ class Google_Service_Analytics_ManagementWebpropertyUserLinks_Resource extends G
    * Web property ID to update the account-user link for.
    * @param string $linkId
    * Link ID to update the account-user link for.
-   * @param Google_EntityUserLink $postBody
+   * @param Google_0814_EntityUserLink $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_EntityUserLink
+   * @return Google_0814_Service_Analytics_EntityUserLink
    */
-  public function update($accountId, $webPropertyId, $linkId, Google_Service_Analytics_EntityUserLink $postBody, $optParams = array())
+  public function update($accountId, $webPropertyId, $linkId, Google_0814_Service_Analytics_EntityUserLink $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'linkId' => $linkId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Analytics_EntityUserLink");
+    return $this->call('update', array($params), "Google_0814_Service_Analytics_EntityUserLink");
   }
-}
 }
 
 /**
  * The "metadata" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $metadata = $analyticsService->metadata;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_Metadata_Resource')) {
-class Google_Service_Analytics_Metadata_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_Metadata_Resource extends Google_0814_Service_Resource
 {
 
-}
 }
 
 /**
  * The "columns" collection of methods.
  * Typical usage is:
  *  <code>
- *   $analyticsService = new Google_Service_Analytics(...);
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
  *   $columns = $analyticsService->columns;
  *  </code>
  */
-if (!class_exists('Google_Service_Analytics_MetadataColumns_Resource')) {
-class Google_Service_Analytics_MetadataColumns_Resource extends Google_Service_Resource
+class Google_0814_Service_Analytics_MetadataColumns_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -2676,34 +3612,59 @@ class Google_Service_Analytics_MetadataColumns_Resource extends Google_Service_R
    * @param string $reportType
    * Report type. Allowed Values: 'ga'. Where 'ga' corresponds to the Core Reporting API
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Analytics_Columns
+   * @return Google_0814_Service_Analytics_Columns
    */
   public function listMetadataColumns($reportType, $optParams = array())
   {
     $params = array('reportType' => $reportType);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Analytics_Columns");
+    return $this->call('list', array($params), "Google_0814_Service_Analytics_Columns");
   }
 }
+
+/**
+ * The "provisioning" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $analyticsService = new Google_0814_Service_Analytics(...);
+ *   $provisioning = $analyticsService->provisioning;
+ *  </code>
+ */
+class Google_0814_Service_Analytics_Provisioning_Resource extends Google_0814_Service_Resource
+{
+
+  /**
+   * Creates an account ticket. (provisioning.createAccountTicket)
+   *
+   * @param Google_0814_AccountTicket $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_0814_Service_Analytics_AccountTicket
+   */
+  public function createAccountTicket(Google_0814_Service_Analytics_AccountTicket $postBody, $optParams = array())
+  {
+    $params = array('postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('createAccountTicket', array($params), "Google_0814_Service_Analytics_AccountTicket");
+  }
 }
 
 
 
-if (!class_exists('Google_Service_Analytics_Account')) {
-class Google_Service_Analytics_Account extends Google_Model
+
+class Google_0814_Service_Analytics_Account extends Google_0814_Model
 {
-  protected $childLinkType = 'Google_Service_Analytics_AccountChildLink';
+  protected $childLinkType = 'Google_0814_Service_Analytics_AccountChildLink';
   protected $childLinkDataType = '';
   public $created;
   public $id;
   public $kind;
   public $name;
-  protected $permissionsType = 'Google_Service_Analytics_AccountPermissions';
+  protected $permissionsType = 'Google_0814_Service_Analytics_AccountPermissions';
   protected $permissionsDataType = '';
   public $selfLink;
   public $updated;
 
-  public function setChildLink(Google_Service_Analytics_AccountChildLink $childLink)
+  public function setChildLink(Google_0814_Service_Analytics_AccountChildLink $childLink)
   {
     $this->childLink = $childLink;
   }
@@ -2753,7 +3714,7 @@ class Google_Service_Analytics_Account extends Google_Model
     return $this->name;
   }
 
-  public function setPermissions(Google_Service_Analytics_AccountPermissions $permissions)
+  public function setPermissions(Google_0814_Service_Analytics_AccountPermissions $permissions)
   {
     $this->permissions = $permissions;
   }
@@ -2783,10 +3744,8 @@ class Google_Service_Analytics_Account extends Google_Model
     return $this->updated;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_AccountChildLink')) {
-class Google_Service_Analytics_AccountChildLink extends Google_Model
+class Google_0814_Service_Analytics_AccountChildLink extends Google_0814_Model
 {
   public $href;
   public $type;
@@ -2811,10 +3770,8 @@ class Google_Service_Analytics_AccountChildLink extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_AccountPermissions')) {
-class Google_Service_Analytics_AccountPermissions extends Google_Collection
+class Google_0814_Service_Analytics_AccountPermissions extends Google_0814_Collection
 {
   public $effective;
 
@@ -2828,10 +3785,8 @@ class Google_Service_Analytics_AccountPermissions extends Google_Collection
     return $this->effective;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_AccountRef')) {
-class Google_Service_Analytics_AccountRef extends Google_Model
+class Google_0814_Service_Analytics_AccountRef extends Google_0814_Model
 {
   public $href;
   public $id;
@@ -2878,12 +3833,10 @@ class Google_Service_Analytics_AccountRef extends Google_Model
     return $this->name;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_AccountSummaries')) {
-class Google_Service_Analytics_AccountSummaries extends Google_Collection
+class Google_0814_Service_Analytics_AccountSummaries extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Analytics_AccountSummary';
+  protected $itemsType = 'Google_0814_Service_Analytics_AccountSummary';
   protected $itemsDataType = 'array';
   public $itemsPerPage;
   public $kind;
@@ -2973,15 +3926,13 @@ class Google_Service_Analytics_AccountSummaries extends Google_Collection
     return $this->username;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_AccountSummary')) {
-class Google_Service_Analytics_AccountSummary extends Google_Collection
+class Google_0814_Service_Analytics_AccountSummary extends Google_0814_Collection
 {
   public $id;
   public $kind;
   public $name;
-  protected $webPropertiesType = 'Google_Service_Analytics_WebPropertySummary';
+  protected $webPropertiesType = 'Google_0814_Service_Analytics_WebPropertySummary';
   protected $webPropertiesDataType = 'array';
 
   public function setId($id)
@@ -3024,12 +3975,83 @@ class Google_Service_Analytics_AccountSummary extends Google_Collection
     return $this->webProperties;
   }
 }
+
+class Google_0814_Service_Analytics_AccountTicket extends Google_0814_Model
+{
+  protected $accountType = 'Google_0814_Service_Analytics_Account';
+  protected $accountDataType = '';
+  public $id;
+  public $kind;
+  protected $profileType = 'Google_0814_Service_Analytics_Profile';
+  protected $profileDataType = '';
+  public $redirectUri;
+  protected $webpropertyType = 'Google_0814_Service_Analytics_Webproperty';
+  protected $webpropertyDataType = '';
+
+  public function setAccount(Google_0814_Service_Analytics_Account $account)
+  {
+    $this->account = $account;
+  }
+
+  public function getAccount()
+  {
+    return $this->account;
+  }
+
+  public function setId($id)
+  {
+    $this->id = $id;
+  }
+
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+
+  public function setProfile(Google_0814_Service_Analytics_Profile $profile)
+  {
+    $this->profile = $profile;
+  }
+
+  public function getProfile()
+  {
+    return $this->profile;
+  }
+
+  public function setRedirectUri($redirectUri)
+  {
+    $this->redirectUri = $redirectUri;
+  }
+
+  public function getRedirectUri()
+  {
+    return $this->redirectUri;
+  }
+
+  public function setWebproperty(Google_0814_Service_Analytics_Webproperty $webproperty)
+  {
+    $this->webproperty = $webproperty;
+  }
+
+  public function getWebproperty()
+  {
+    return $this->webproperty;
+  }
 }
 
-if (!class_exists('Google_Service_Analytics_Accounts')) {
-class Google_Service_Analytics_Accounts extends Google_Collection
+class Google_0814_Service_Analytics_Accounts extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Analytics_Account';
+  protected $itemsType = 'Google_0814_Service_Analytics_Account';
   protected $itemsDataType = 'array';
   public $itemsPerPage;
   public $kind;
@@ -3119,10 +4141,45 @@ class Google_Service_Analytics_Accounts extends Google_Collection
     return $this->username;
   }
 }
+
+class Google_0814_Service_Analytics_AdWordsAccount extends Google_0814_Model
+{
+  public $autoTaggingEnabled;
+  public $customerId;
+  public $kind;
+
+  public function setAutoTaggingEnabled($autoTaggingEnabled)
+  {
+    $this->autoTaggingEnabled = $autoTaggingEnabled;
+  }
+
+  public function getAutoTaggingEnabled()
+  {
+    return $this->autoTaggingEnabled;
+  }
+
+  public function setCustomerId($customerId)
+  {
+    $this->customerId = $customerId;
+  }
+
+  public function getCustomerId()
+  {
+    return $this->customerId;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
 }
 
-if (!class_exists('Google_Service_Analytics_AnalyticsDataimportDeleteUploadDataRequest')) {
-class Google_Service_Analytics_AnalyticsDataimportDeleteUploadDataRequest extends Google_Collection
+class Google_0814_Service_Analytics_AnalyticsDataimportDeleteUploadDataRequest extends Google_0814_Collection
 {
   public $customDataImportUids;
 
@@ -3136,10 +4193,8 @@ class Google_Service_Analytics_AnalyticsDataimportDeleteUploadDataRequest extend
     return $this->customDataImportUids;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_Column')) {
-class Google_Service_Analytics_Column extends Google_Model
+class Google_0814_Service_Analytics_Column extends Google_0814_Model
 {
   public $attributes;
   public $id;
@@ -3175,14 +4230,17 @@ class Google_Service_Analytics_Column extends Google_Model
     return $this->kind;
   }
 }
+
+class Google_0814_Service_Analytics_ColumnAttributes extends Google_0814_Model
+{
+
 }
 
-if (!class_exists('Google_Service_Analytics_Columns')) {
-class Google_Service_Analytics_Columns extends Google_Collection
+class Google_0814_Service_Analytics_Columns extends Google_0814_Collection
 {
   public $attributeNames;
   public $etag;
-  protected $itemsType = 'Google_Service_Analytics_Column';
+  protected $itemsType = 'Google_0814_Service_Analytics_Column';
   protected $itemsDataType = 'array';
   public $kind;
   public $totalResults;
@@ -3237,25 +4295,25 @@ class Google_Service_Analytics_Columns extends Google_Collection
     return $this->totalResults;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_CustomDataSource')) {
-class Google_Service_Analytics_CustomDataSource extends Google_Collection
+class Google_0814_Service_Analytics_CustomDataSource extends Google_0814_Collection
 {
   public $accountId;
-  protected $childLinkType = 'Google_Service_Analytics_CustomDataSourceChildLink';
+  protected $childLinkType = 'Google_0814_Service_Analytics_CustomDataSourceChildLink';
   protected $childLinkDataType = '';
   public $created;
   public $description;
   public $id;
+  public $importBehavior;
   public $kind;
   public $name;
-  protected $parentLinkType = 'Google_Service_Analytics_CustomDataSourceParentLink';
+  protected $parentLinkType = 'Google_0814_Service_Analytics_CustomDataSourceParentLink';
   protected $parentLinkDataType = '';
   public $profilesLinked;
   public $selfLink;
   public $type;
   public $updated;
+  public $uploadType;
   public $webPropertyId;
 
   public function setAccountId($accountId)
@@ -3268,7 +4326,7 @@ class Google_Service_Analytics_CustomDataSource extends Google_Collection
     return $this->accountId;
   }
 
-  public function setChildLink(Google_Service_Analytics_CustomDataSourceChildLink $childLink)
+  public function setChildLink(Google_0814_Service_Analytics_CustomDataSourceChildLink $childLink)
   {
     $this->childLink = $childLink;
   }
@@ -3308,6 +4366,16 @@ class Google_Service_Analytics_CustomDataSource extends Google_Collection
     return $this->id;
   }
 
+  public function setImportBehavior($importBehavior)
+  {
+    $this->importBehavior = $importBehavior;
+  }
+
+  public function getImportBehavior()
+  {
+    return $this->importBehavior;
+  }
+
   public function setKind($kind)
   {
     $this->kind = $kind;
@@ -3328,7 +4396,7 @@ class Google_Service_Analytics_CustomDataSource extends Google_Collection
     return $this->name;
   }
 
-  public function setParentLink(Google_Service_Analytics_CustomDataSourceParentLink $parentLink)
+  public function setParentLink(Google_0814_Service_Analytics_CustomDataSourceParentLink $parentLink)
   {
     $this->parentLink = $parentLink;
   }
@@ -3378,6 +4446,16 @@ class Google_Service_Analytics_CustomDataSource extends Google_Collection
     return $this->updated;
   }
 
+  public function setUploadType($uploadType)
+  {
+    $this->uploadType = $uploadType;
+  }
+
+  public function getUploadType()
+  {
+    return $this->uploadType;
+  }
+
   public function setWebPropertyId($webPropertyId)
   {
     $this->webPropertyId = $webPropertyId;
@@ -3388,10 +4466,8 @@ class Google_Service_Analytics_CustomDataSource extends Google_Collection
     return $this->webPropertyId;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_CustomDataSourceChildLink')) {
-class Google_Service_Analytics_CustomDataSourceChildLink extends Google_Model
+class Google_0814_Service_Analytics_CustomDataSourceChildLink extends Google_0814_Model
 {
   public $href;
   public $type;
@@ -3416,10 +4492,8 @@ class Google_Service_Analytics_CustomDataSourceChildLink extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_CustomDataSourceParentLink')) {
-class Google_Service_Analytics_CustomDataSourceParentLink extends Google_Model
+class Google_0814_Service_Analytics_CustomDataSourceParentLink extends Google_0814_Model
 {
   public $href;
   public $type;
@@ -3444,12 +4518,10 @@ class Google_Service_Analytics_CustomDataSourceParentLink extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_CustomDataSources')) {
-class Google_Service_Analytics_CustomDataSources extends Google_Collection
+class Google_0814_Service_Analytics_CustomDataSources extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Analytics_CustomDataSource';
+  protected $itemsType = 'Google_0814_Service_Analytics_CustomDataSource';
   protected $itemsDataType = 'array';
   public $itemsPerPage;
   public $kind;
@@ -3539,10 +4611,8 @@ class Google_Service_Analytics_CustomDataSources extends Google_Collection
     return $this->username;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_DailyUpload')) {
-class Google_Service_Analytics_DailyUpload extends Google_Collection
+class Google_0814_Service_Analytics_DailyUpload extends Google_0814_Collection
 {
   public $accountId;
   public $appendCount;
@@ -3551,9 +4621,9 @@ class Google_Service_Analytics_DailyUpload extends Google_Collection
   public $date;
   public $kind;
   public $modifiedTime;
-  protected $parentLinkType = 'Google_Service_Analytics_DailyUploadParentLink';
+  protected $parentLinkType = 'Google_0814_Service_Analytics_DailyUploadParentLink';
   protected $parentLinkDataType = '';
-  protected $recentChangesType = 'Google_Service_Analytics_DailyUploadRecentChanges';
+  protected $recentChangesType = 'Google_0814_Service_Analytics_DailyUploadRecentChanges';
   protected $recentChangesDataType = 'array';
   public $selfLink;
   public $webPropertyId;
@@ -3628,7 +4698,7 @@ class Google_Service_Analytics_DailyUpload extends Google_Collection
     return $this->modifiedTime;
   }
 
-  public function setParentLink(Google_Service_Analytics_DailyUploadParentLink $parentLink)
+  public function setParentLink(Google_0814_Service_Analytics_DailyUploadParentLink $parentLink)
   {
     $this->parentLink = $parentLink;
   }
@@ -3668,10 +4738,8 @@ class Google_Service_Analytics_DailyUpload extends Google_Collection
     return $this->webPropertyId;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_DailyUploadAppend')) {
-class Google_Service_Analytics_DailyUploadAppend extends Google_Model
+class Google_0814_Service_Analytics_DailyUploadAppend extends Google_0814_Model
 {
   public $accountId;
   public $appendNumber;
@@ -3751,10 +4819,8 @@ class Google_Service_Analytics_DailyUploadAppend extends Google_Model
     return $this->webPropertyId;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_DailyUploadParentLink')) {
-class Google_Service_Analytics_DailyUploadParentLink extends Google_Model
+class Google_0814_Service_Analytics_DailyUploadParentLink extends Google_0814_Model
 {
   public $href;
   public $type;
@@ -3779,10 +4845,8 @@ class Google_Service_Analytics_DailyUploadParentLink extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_DailyUploadRecentChanges')) {
-class Google_Service_Analytics_DailyUploadRecentChanges extends Google_Model
+class Google_0814_Service_Analytics_DailyUploadRecentChanges extends Google_0814_Model
 {
   public $change;
   public $time;
@@ -3807,12 +4871,10 @@ class Google_Service_Analytics_DailyUploadRecentChanges extends Google_Model
     return $this->time;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_DailyUploads')) {
-class Google_Service_Analytics_DailyUploads extends Google_Collection
+class Google_0814_Service_Analytics_DailyUploads extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Analytics_DailyUpload';
+  protected $itemsType = 'Google_0814_Service_Analytics_DailyUpload';
   protected $itemsDataType = 'array';
   public $itemsPerPage;
   public $kind;
@@ -3902,22 +4964,30 @@ class Google_Service_Analytics_DailyUploads extends Google_Collection
     return $this->username;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_EntityUserLink')) {
-class Google_Service_Analytics_EntityUserLink extends Google_Model
+class Google_0814_Service_Analytics_EntityAdWordsLink extends Google_0814_Collection
 {
-  protected $entityType = 'Google_Service_Analytics_EntityUserLinkEntity';
+  protected $adWordsAccountsType = 'Google_0814_Service_Analytics_AdWordsAccount';
+  protected $adWordsAccountsDataType = 'array';
+  protected $entityType = 'Google_0814_Service_Analytics_EntityAdWordsLinkEntity';
   protected $entityDataType = '';
   public $id;
   public $kind;
-  protected $permissionsType = 'Google_Service_Analytics_EntityUserLinkPermissions';
-  protected $permissionsDataType = '';
+  public $name;
+  public $profileIds;
   public $selfLink;
-  protected $userRefType = 'Google_Service_Analytics_UserRef';
-  protected $userRefDataType = '';
 
-  public function setEntity(Google_Service_Analytics_EntityUserLinkEntity $entity)
+  public function setAdWordsAccounts($adWordsAccounts)
+  {
+    $this->adWordsAccounts = $adWordsAccounts;
+  }
+
+  public function getAdWordsAccounts()
+  {
+    return $this->adWordsAccounts;
+  }
+
+  public function setEntity(Google_0814_Service_Analytics_EntityAdWordsLinkEntity $entity)
   {
     $this->entity = $entity;
   }
@@ -3947,14 +5017,24 @@ class Google_Service_Analytics_EntityUserLink extends Google_Model
     return $this->kind;
   }
 
-  public function setPermissions(Google_Service_Analytics_EntityUserLinkPermissions $permissions)
+  public function setName($name)
   {
-    $this->permissions = $permissions;
+    $this->name = $name;
   }
 
-  public function getPermissions()
+  public function getName()
   {
-    return $this->permissions;
+    return $this->name;
+  }
+
+  public function setProfileIds($profileIds)
+  {
+    $this->profileIds = $profileIds;
+  }
+
+  public function getProfileIds()
+  {
+    return $this->profileIds;
   }
 
   public function setSelfLink($selfLink)
@@ -3966,51 +5046,14 @@ class Google_Service_Analytics_EntityUserLink extends Google_Model
   {
     return $this->selfLink;
   }
-
-  public function setUserRef(Google_Service_Analytics_UserRef $userRef)
-  {
-    $this->userRef = $userRef;
-  }
-
-  public function getUserRef()
-  {
-    return $this->userRef;
-  }
-}
 }
 
-
-if (!class_exists('Google_Service_Analytics_EntityUserLinkEntity')) {
-class Google_Service_Analytics_EntityUserLinkEntity extends Google_Model
+class Google_0814_Service_Analytics_EntityAdWordsLinkEntity extends Google_0814_Model
 {
-  protected $accountRefType = 'Google_Service_Analytics_AccountRef';
-  protected $accountRefDataType = '';
-  protected $profileRefType = 'Google_Service_Analytics_ProfileRef';
-  protected $profileRefDataType = '';
-  protected $webPropertyRefType = 'Google_Service_Analytics_WebPropertyRef';
+  protected $webPropertyRefType = 'Google_0814_Service_Analytics_WebPropertyRef';
   protected $webPropertyRefDataType = '';
 
-  public function setAccountRef(Google_Service_Analytics_AccountRef $accountRef)
-  {
-    $this->accountRef = $accountRef;
-  }
-
-  public function getAccountRef()
-  {
-    return $this->accountRef;
-  }
-
-  public function setProfileRef(Google_Service_Analytics_ProfileRef $profileRef)
-  {
-    $this->profileRef = $profileRef;
-  }
-
-  public function getProfileRef()
-  {
-    return $this->profileRef;
-  }
-
-  public function setWebPropertyRef(Google_Service_Analytics_WebPropertyRef $webPropertyRef)
+  public function setWebPropertyRef(Google_0814_Service_Analytics_WebPropertyRef $webPropertyRef)
   {
     $this->webPropertyRef = $webPropertyRef;
   }
@@ -4020,40 +5063,10 @@ class Google_Service_Analytics_EntityUserLinkEntity extends Google_Model
     return $this->webPropertyRef;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_EntityUserLinkPermissions')) {
-class Google_Service_Analytics_EntityUserLinkPermissions extends Google_Collection
+class Google_0814_Service_Analytics_EntityAdWordsLinks extends Google_0814_Collection
 {
-  public $effective;
-  public $local;
-
-  public function setEffective($effective)
-  {
-    $this->effective = $effective;
-  }
-
-  public function getEffective()
-  {
-    return $this->effective;
-  }
-
-  public function setLocal($local)
-  {
-    $this->local = $local;
-  }
-
-  public function getLocal()
-  {
-    return $this->local;
-  }
-}
-}
-
-if (!class_exists('Google_Service_Analytics_EntityUserLinks')) {
-class Google_Service_Analytics_EntityUserLinks extends Google_Collection
-{
-  protected $itemsType = 'Google_Service_Analytics_EntityUserLink';
+  protected $itemsType = 'Google_0814_Service_Analytics_EntityAdWordsLink';
   protected $itemsDataType = 'array';
   public $itemsPerPage;
   public $kind;
@@ -4132,10 +5145,229 @@ class Google_Service_Analytics_EntityUserLinks extends Google_Collection
     return $this->totalResults;
   }
 }
+
+class Google_0814_Service_Analytics_EntityUserLink extends Google_0814_Model
+{
+  protected $entityType = 'Google_0814_Service_Analytics_EntityUserLinkEntity';
+  protected $entityDataType = '';
+  public $id;
+  public $kind;
+  protected $permissionsType = 'Google_0814_Service_Analytics_EntityUserLinkPermissions';
+  protected $permissionsDataType = '';
+  public $selfLink;
+  protected $userRefType = 'Google_0814_Service_Analytics_UserRef';
+  protected $userRefDataType = '';
+
+  public function setEntity(Google_0814_Service_Analytics_EntityUserLinkEntity $entity)
+  {
+    $this->entity = $entity;
+  }
+
+  public function getEntity()
+  {
+    return $this->entity;
+  }
+
+  public function setId($id)
+  {
+    $this->id = $id;
+  }
+
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+
+  public function setPermissions(Google_0814_Service_Analytics_EntityUserLinkPermissions $permissions)
+  {
+    $this->permissions = $permissions;
+  }
+
+  public function getPermissions()
+  {
+    return $this->permissions;
+  }
+
+  public function setSelfLink($selfLink)
+  {
+    $this->selfLink = $selfLink;
+  }
+
+  public function getSelfLink()
+  {
+    return $this->selfLink;
+  }
+
+  public function setUserRef(Google_0814_Service_Analytics_UserRef $userRef)
+  {
+    $this->userRef = $userRef;
+  }
+
+  public function getUserRef()
+  {
+    return $this->userRef;
+  }
 }
 
-if (!class_exists('Google_Service_Analytics_Experiment')) {
-class Google_Service_Analytics_Experiment extends Google_Collection
+class Google_0814_Service_Analytics_EntityUserLinkEntity extends Google_0814_Model
+{
+  protected $accountRefType = 'Google_0814_Service_Analytics_AccountRef';
+  protected $accountRefDataType = '';
+  protected $profileRefType = 'Google_0814_Service_Analytics_ProfileRef';
+  protected $profileRefDataType = '';
+  protected $webPropertyRefType = 'Google_0814_Service_Analytics_WebPropertyRef';
+  protected $webPropertyRefDataType = '';
+
+  public function setAccountRef(Google_0814_Service_Analytics_AccountRef $accountRef)
+  {
+    $this->accountRef = $accountRef;
+  }
+
+  public function getAccountRef()
+  {
+    return $this->accountRef;
+  }
+
+  public function setProfileRef(Google_0814_Service_Analytics_ProfileRef $profileRef)
+  {
+    $this->profileRef = $profileRef;
+  }
+
+  public function getProfileRef()
+  {
+    return $this->profileRef;
+  }
+
+  public function setWebPropertyRef(Google_0814_Service_Analytics_WebPropertyRef $webPropertyRef)
+  {
+    $this->webPropertyRef = $webPropertyRef;
+  }
+
+  public function getWebPropertyRef()
+  {
+    return $this->webPropertyRef;
+  }
+}
+
+class Google_0814_Service_Analytics_EntityUserLinkPermissions extends Google_0814_Collection
+{
+  public $effective;
+  public $local;
+
+  public function setEffective($effective)
+  {
+    $this->effective = $effective;
+  }
+
+  public function getEffective()
+  {
+    return $this->effective;
+  }
+
+  public function setLocal($local)
+  {
+    $this->local = $local;
+  }
+
+  public function getLocal()
+  {
+    return $this->local;
+  }
+}
+
+class Google_0814_Service_Analytics_EntityUserLinks extends Google_0814_Collection
+{
+  protected $itemsType = 'Google_0814_Service_Analytics_EntityUserLink';
+  protected $itemsDataType = 'array';
+  public $itemsPerPage;
+  public $kind;
+  public $nextLink;
+  public $previousLink;
+  public $startIndex;
+  public $totalResults;
+
+  public function setItems($items)
+  {
+    $this->items = $items;
+  }
+
+  public function getItems()
+  {
+    return $this->items;
+  }
+
+  public function setItemsPerPage($itemsPerPage)
+  {
+    $this->itemsPerPage = $itemsPerPage;
+  }
+
+  public function getItemsPerPage()
+  {
+    return $this->itemsPerPage;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+
+  public function setNextLink($nextLink)
+  {
+    $this->nextLink = $nextLink;
+  }
+
+  public function getNextLink()
+  {
+    return $this->nextLink;
+  }
+
+  public function setPreviousLink($previousLink)
+  {
+    $this->previousLink = $previousLink;
+  }
+
+  public function getPreviousLink()
+  {
+    return $this->previousLink;
+  }
+
+  public function setStartIndex($startIndex)
+  {
+    $this->startIndex = $startIndex;
+  }
+
+  public function getStartIndex()
+  {
+    return $this->startIndex;
+  }
+
+  public function setTotalResults($totalResults)
+  {
+    $this->totalResults = $totalResults;
+  }
+
+  public function getTotalResults()
+  {
+    return $this->totalResults;
+  }
+}
+
+class Google_0814_Service_Analytics_Experiment extends Google_0814_Collection
 {
   public $accountId;
   public $created;
@@ -4150,7 +5382,7 @@ class Google_Service_Analytics_Experiment extends Google_Collection
   public $name;
   public $objectiveMetric;
   public $optimizationType;
-  protected $parentLinkType = 'Google_Service_Analytics_ExperimentParentLink';
+  protected $parentLinkType = 'Google_0814_Service_Analytics_ExperimentParentLink';
   protected $parentLinkDataType = '';
   public $profileId;
   public $reasonExperimentEnded;
@@ -4162,7 +5394,7 @@ class Google_Service_Analytics_Experiment extends Google_Collection
   public $status;
   public $trafficCoverage;
   public $updated;
-  protected $variationsType = 'Google_Service_Analytics_ExperimentVariations';
+  protected $variationsType = 'Google_0814_Service_Analytics_ExperimentVariations';
   protected $variationsDataType = 'array';
   public $webPropertyId;
   public $winnerConfidenceLevel;
@@ -4298,7 +5530,7 @@ class Google_Service_Analytics_Experiment extends Google_Collection
     return $this->optimizationType;
   }
 
-  public function setParentLink(Google_Service_Analytics_ExperimentParentLink $parentLink)
+  public function setParentLink(Google_0814_Service_Analytics_ExperimentParentLink $parentLink)
   {
     $this->parentLink = $parentLink;
   }
@@ -4448,10 +5680,8 @@ class Google_Service_Analytics_Experiment extends Google_Collection
     return $this->winnerFound;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_ExperimentParentLink')) {
-class Google_Service_Analytics_ExperimentParentLink extends Google_Model
+class Google_0814_Service_Analytics_ExperimentParentLink extends Google_0814_Model
 {
   public $href;
   public $type;
@@ -4476,10 +5706,8 @@ class Google_Service_Analytics_ExperimentParentLink extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_ExperimentVariations')) {
-class Google_Service_Analytics_ExperimentVariations extends Google_Model
+class Google_0814_Service_Analytics_ExperimentVariations extends Google_0814_Model
 {
   public $name;
   public $status;
@@ -4537,12 +5765,10 @@ class Google_Service_Analytics_ExperimentVariations extends Google_Model
     return $this->won;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_Experiments')) {
-class Google_Service_Analytics_Experiments extends Google_Collection
+class Google_0814_Service_Analytics_Experiments extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Analytics_Experiment';
+  protected $itemsType = 'Google_0814_Service_Analytics_Experiment';
   protected $itemsDataType = 'array';
   public $itemsPerPage;
   public $kind;
@@ -4632,24 +5858,627 @@ class Google_Service_Analytics_Experiments extends Google_Collection
     return $this->username;
   }
 }
+
+class Google_0814_Service_Analytics_Filter extends Google_0814_Model
+{
+  public $accountId;
+  protected $advancedDetailsType = 'Google_0814_Service_Analytics_FilterAdvancedDetails';
+  protected $advancedDetailsDataType = '';
+  public $created;
+  protected $excludeDetailsType = 'Google_0814_Service_Analytics_FilterExpression';
+  protected $excludeDetailsDataType = '';
+  public $id;
+  protected $includeDetailsType = 'Google_0814_Service_Analytics_FilterExpression';
+  protected $includeDetailsDataType = '';
+  public $kind;
+  protected $lowercaseDetailsType = 'Google_0814_Service_Analytics_FilterLowercaseDetails';
+  protected $lowercaseDetailsDataType = '';
+  public $name;
+  protected $parentLinkType = 'Google_0814_Service_Analytics_FilterParentLink';
+  protected $parentLinkDataType = '';
+  protected $searchAndReplaceDetailsType = 'Google_0814_Service_Analytics_FilterSearchAndReplaceDetails';
+  protected $searchAndReplaceDetailsDataType = '';
+  public $selfLink;
+  public $type;
+  public $updated;
+  protected $uppercaseDetailsType = 'Google_0814_Service_Analytics_FilterUppercaseDetails';
+  protected $uppercaseDetailsDataType = '';
+
+  public function setAccountId($accountId)
+  {
+    $this->accountId = $accountId;
+  }
+
+  public function getAccountId()
+  {
+    return $this->accountId;
+  }
+
+  public function setAdvancedDetails(Google_0814_Service_Analytics_FilterAdvancedDetails $advancedDetails)
+  {
+    $this->advancedDetails = $advancedDetails;
+  }
+
+  public function getAdvancedDetails()
+  {
+    return $this->advancedDetails;
+  }
+
+  public function setCreated($created)
+  {
+    $this->created = $created;
+  }
+
+  public function getCreated()
+  {
+    return $this->created;
+  }
+
+  public function setExcludeDetails(Google_0814_Service_Analytics_FilterExpression $excludeDetails)
+  {
+    $this->excludeDetails = $excludeDetails;
+  }
+
+  public function getExcludeDetails()
+  {
+    return $this->excludeDetails;
+  }
+
+  public function setId($id)
+  {
+    $this->id = $id;
+  }
+
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  public function setIncludeDetails(Google_0814_Service_Analytics_FilterExpression $includeDetails)
+  {
+    $this->includeDetails = $includeDetails;
+  }
+
+  public function getIncludeDetails()
+  {
+    return $this->includeDetails;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+
+  public function setLowercaseDetails(Google_0814_Service_Analytics_FilterLowercaseDetails $lowercaseDetails)
+  {
+    $this->lowercaseDetails = $lowercaseDetails;
+  }
+
+  public function getLowercaseDetails()
+  {
+    return $this->lowercaseDetails;
+  }
+
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+
+  public function getName()
+  {
+    return $this->name;
+  }
+
+  public function setParentLink(Google_0814_Service_Analytics_FilterParentLink $parentLink)
+  {
+    $this->parentLink = $parentLink;
+  }
+
+  public function getParentLink()
+  {
+    return $this->parentLink;
+  }
+
+  public function setSearchAndReplaceDetails(Google_0814_Service_Analytics_FilterSearchAndReplaceDetails $searchAndReplaceDetails)
+  {
+    $this->searchAndReplaceDetails = $searchAndReplaceDetails;
+  }
+
+  public function getSearchAndReplaceDetails()
+  {
+    return $this->searchAndReplaceDetails;
+  }
+
+  public function setSelfLink($selfLink)
+  {
+    $this->selfLink = $selfLink;
+  }
+
+  public function getSelfLink()
+  {
+    return $this->selfLink;
+  }
+
+  public function setType($type)
+  {
+    $this->type = $type;
+  }
+
+  public function getType()
+  {
+    return $this->type;
+  }
+
+  public function setUpdated($updated)
+  {
+    $this->updated = $updated;
+  }
+
+  public function getUpdated()
+  {
+    return $this->updated;
+  }
+
+  public function setUppercaseDetails(Google_0814_Service_Analytics_FilterUppercaseDetails $uppercaseDetails)
+  {
+    $this->uppercaseDetails = $uppercaseDetails;
+  }
+
+  public function getUppercaseDetails()
+  {
+    return $this->uppercaseDetails;
+  }
 }
 
-if (!class_exists('Google_Service_Analytics_GaData')) {
-class Google_Service_Analytics_GaData extends Google_Collection
+class Google_0814_Service_Analytics_FilterAdvancedDetails extends Google_0814_Model
 {
-  protected $columnHeadersType = 'Google_Service_Analytics_GaDataColumnHeaders';
+  public $caseSensitive;
+  public $extractA;
+  public $extractB;
+  public $fieldA;
+  public $fieldARequired;
+  public $fieldB;
+  public $fieldBRequired;
+  public $outputConstructor;
+  public $outputToField;
+  public $overrideOutputField;
+
+  public function setCaseSensitive($caseSensitive)
+  {
+    $this->caseSensitive = $caseSensitive;
+  }
+
+  public function getCaseSensitive()
+  {
+    return $this->caseSensitive;
+  }
+
+  public function setExtractA($extractA)
+  {
+    $this->extractA = $extractA;
+  }
+
+  public function getExtractA()
+  {
+    return $this->extractA;
+  }
+
+  public function setExtractB($extractB)
+  {
+    $this->extractB = $extractB;
+  }
+
+  public function getExtractB()
+  {
+    return $this->extractB;
+  }
+
+  public function setFieldA($fieldA)
+  {
+    $this->fieldA = $fieldA;
+  }
+
+  public function getFieldA()
+  {
+    return $this->fieldA;
+  }
+
+  public function setFieldARequired($fieldARequired)
+  {
+    $this->fieldARequired = $fieldARequired;
+  }
+
+  public function getFieldARequired()
+  {
+    return $this->fieldARequired;
+  }
+
+  public function setFieldB($fieldB)
+  {
+    $this->fieldB = $fieldB;
+  }
+
+  public function getFieldB()
+  {
+    return $this->fieldB;
+  }
+
+  public function setFieldBRequired($fieldBRequired)
+  {
+    $this->fieldBRequired = $fieldBRequired;
+  }
+
+  public function getFieldBRequired()
+  {
+    return $this->fieldBRequired;
+  }
+
+  public function setOutputConstructor($outputConstructor)
+  {
+    $this->outputConstructor = $outputConstructor;
+  }
+
+  public function getOutputConstructor()
+  {
+    return $this->outputConstructor;
+  }
+
+  public function setOutputToField($outputToField)
+  {
+    $this->outputToField = $outputToField;
+  }
+
+  public function getOutputToField()
+  {
+    return $this->outputToField;
+  }
+
+  public function setOverrideOutputField($overrideOutputField)
+  {
+    $this->overrideOutputField = $overrideOutputField;
+  }
+
+  public function getOverrideOutputField()
+  {
+    return $this->overrideOutputField;
+  }
+}
+
+class Google_0814_Service_Analytics_FilterExpression extends Google_0814_Model
+{
+  public $caseSensitive;
+  public $expressionValue;
+  public $field;
+  public $kind;
+  public $matchType;
+
+  public function setCaseSensitive($caseSensitive)
+  {
+    $this->caseSensitive = $caseSensitive;
+  }
+
+  public function getCaseSensitive()
+  {
+    return $this->caseSensitive;
+  }
+
+  public function setExpressionValue($expressionValue)
+  {
+    $this->expressionValue = $expressionValue;
+  }
+
+  public function getExpressionValue()
+  {
+    return $this->expressionValue;
+  }
+
+  public function setField($field)
+  {
+    $this->field = $field;
+  }
+
+  public function getField()
+  {
+    return $this->field;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+
+  public function setMatchType($matchType)
+  {
+    $this->matchType = $matchType;
+  }
+
+  public function getMatchType()
+  {
+    return $this->matchType;
+  }
+}
+
+class Google_0814_Service_Analytics_FilterLowercaseDetails extends Google_0814_Model
+{
+  public $field;
+
+  public function setField($field)
+  {
+    $this->field = $field;
+  }
+
+  public function getField()
+  {
+    return $this->field;
+  }
+}
+
+class Google_0814_Service_Analytics_FilterParentLink extends Google_0814_Model
+{
+  public $href;
+  public $type;
+
+  public function setHref($href)
+  {
+    $this->href = $href;
+  }
+
+  public function getHref()
+  {
+    return $this->href;
+  }
+
+  public function setType($type)
+  {
+    $this->type = $type;
+  }
+
+  public function getType()
+  {
+    return $this->type;
+  }
+}
+
+class Google_0814_Service_Analytics_FilterRef extends Google_0814_Model
+{
+  public $accountId;
+  public $href;
+  public $id;
+  public $kind;
+  public $name;
+
+  public function setAccountId($accountId)
+  {
+    $this->accountId = $accountId;
+  }
+
+  public function getAccountId()
+  {
+    return $this->accountId;
+  }
+
+  public function setHref($href)
+  {
+    $this->href = $href;
+  }
+
+  public function getHref()
+  {
+    return $this->href;
+  }
+
+  public function setId($id)
+  {
+    $this->id = $id;
+  }
+
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+
+  public function getName()
+  {
+    return $this->name;
+  }
+}
+
+class Google_0814_Service_Analytics_FilterSearchAndReplaceDetails extends Google_0814_Model
+{
+  public $caseSensitive;
+  public $field;
+  public $replaceString;
+  public $searchString;
+
+  public function setCaseSensitive($caseSensitive)
+  {
+    $this->caseSensitive = $caseSensitive;
+  }
+
+  public function getCaseSensitive()
+  {
+    return $this->caseSensitive;
+  }
+
+  public function setField($field)
+  {
+    $this->field = $field;
+  }
+
+  public function getField()
+  {
+    return $this->field;
+  }
+
+  public function setReplaceString($replaceString)
+  {
+    $this->replaceString = $replaceString;
+  }
+
+  public function getReplaceString()
+  {
+    return $this->replaceString;
+  }
+
+  public function setSearchString($searchString)
+  {
+    $this->searchString = $searchString;
+  }
+
+  public function getSearchString()
+  {
+    return $this->searchString;
+  }
+}
+
+class Google_0814_Service_Analytics_FilterUppercaseDetails extends Google_0814_Model
+{
+  public $field;
+
+  public function setField($field)
+  {
+    $this->field = $field;
+  }
+
+  public function getField()
+  {
+    return $this->field;
+  }
+}
+
+class Google_0814_Service_Analytics_Filters extends Google_0814_Collection
+{
+  protected $itemsType = 'Google_0814_Service_Analytics_Filter';
+  protected $itemsDataType = 'array';
+  public $itemsPerPage;
+  public $kind;
+  public $nextLink;
+  public $previousLink;
+  public $startIndex;
+  public $totalResults;
+  public $username;
+
+  public function setItems($items)
+  {
+    $this->items = $items;
+  }
+
+  public function getItems()
+  {
+    return $this->items;
+  }
+
+  public function setItemsPerPage($itemsPerPage)
+  {
+    $this->itemsPerPage = $itemsPerPage;
+  }
+
+  public function getItemsPerPage()
+  {
+    return $this->itemsPerPage;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+
+  public function setNextLink($nextLink)
+  {
+    $this->nextLink = $nextLink;
+  }
+
+  public function getNextLink()
+  {
+    return $this->nextLink;
+  }
+
+  public function setPreviousLink($previousLink)
+  {
+    $this->previousLink = $previousLink;
+  }
+
+  public function getPreviousLink()
+  {
+    return $this->previousLink;
+  }
+
+  public function setStartIndex($startIndex)
+  {
+    $this->startIndex = $startIndex;
+  }
+
+  public function getStartIndex()
+  {
+    return $this->startIndex;
+  }
+
+  public function setTotalResults($totalResults)
+  {
+    $this->totalResults = $totalResults;
+  }
+
+  public function getTotalResults()
+  {
+    return $this->totalResults;
+  }
+
+  public function setUsername($username)
+  {
+    $this->username = $username;
+  }
+
+  public function getUsername()
+  {
+    return $this->username;
+  }
+}
+
+class Google_0814_Service_Analytics_GaData extends Google_0814_Collection
+{
+  protected $columnHeadersType = 'Google_0814_Service_Analytics_GaDataColumnHeaders';
   protected $columnHeadersDataType = 'array';
   public $containsSampledData;
-  protected $dataTableType = 'Google_Service_Analytics_GaDataDataTable';
+  protected $dataTableType = 'Google_0814_Service_Analytics_GaDataDataTable';
   protected $dataTableDataType = '';
   public $id;
   public $itemsPerPage;
   public $kind;
   public $nextLink;
   public $previousLink;
-  protected $profileInfoType = 'Google_Service_Analytics_GaDataProfileInfo';
+  protected $profileInfoType = 'Google_0814_Service_Analytics_GaDataProfileInfo';
   protected $profileInfoDataType = '';
-  protected $queryType = 'Google_Service_Analytics_GaDataQuery';
+  protected $queryType = 'Google_0814_Service_Analytics_GaDataQuery';
   protected $queryDataType = '';
   public $rows;
   public $sampleSize;
@@ -4678,7 +6507,7 @@ class Google_Service_Analytics_GaData extends Google_Collection
     return $this->containsSampledData;
   }
 
-  public function setDataTable(Google_Service_Analytics_GaDataDataTable $dataTable)
+  public function setDataTable(Google_0814_Service_Analytics_GaDataDataTable $dataTable)
   {
     $this->dataTable = $dataTable;
   }
@@ -4738,7 +6567,7 @@ class Google_Service_Analytics_GaData extends Google_Collection
     return $this->previousLink;
   }
 
-  public function setProfileInfo(Google_Service_Analytics_GaDataProfileInfo $profileInfo)
+  public function setProfileInfo(Google_0814_Service_Analytics_GaDataProfileInfo $profileInfo)
   {
     $this->profileInfo = $profileInfo;
   }
@@ -4748,7 +6577,7 @@ class Google_Service_Analytics_GaData extends Google_Collection
     return $this->profileInfo;
   }
 
-  public function setQuery(Google_Service_Analytics_GaDataQuery $query)
+  public function setQuery(Google_0814_Service_Analytics_GaDataQuery $query)
   {
     $this->query = $query;
   }
@@ -4818,10 +6647,8 @@ class Google_Service_Analytics_GaData extends Google_Collection
     return $this->totalsForAllResults;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GaDataColumnHeaders')) {
-class Google_Service_Analytics_GaDataColumnHeaders extends Google_Model
+class Google_0814_Service_Analytics_GaDataColumnHeaders extends Google_0814_Model
 {
   public $columnType;
   public $dataType;
@@ -4857,14 +6684,12 @@ class Google_Service_Analytics_GaDataColumnHeaders extends Google_Model
     return $this->name;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GaDataDataTable')) {
-class Google_Service_Analytics_GaDataDataTable extends Google_Collection
+class Google_0814_Service_Analytics_GaDataDataTable extends Google_0814_Collection
 {
-  protected $colsType = 'Google_Service_Analytics_GaDataDataTableCols';
+  protected $colsType = 'Google_0814_Service_Analytics_GaDataDataTableCols';
   protected $colsDataType = 'array';
-  protected $rowsType = 'Google_Service_Analytics_GaDataDataTableRows';
+  protected $rowsType = 'Google_0814_Service_Analytics_GaDataDataTableRows';
   protected $rowsDataType = 'array';
 
   public function setCols($cols)
@@ -4887,10 +6712,8 @@ class Google_Service_Analytics_GaDataDataTable extends Google_Collection
     return $this->rows;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GaDataDataTableCols')) {
-class Google_Service_Analytics_GaDataDataTableCols extends Google_Model
+class Google_0814_Service_Analytics_GaDataDataTableCols extends Google_0814_Model
 {
   public $id;
   public $label;
@@ -4926,12 +6749,10 @@ class Google_Service_Analytics_GaDataDataTableCols extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GaDataDataTableRows')) {
-class Google_Service_Analytics_GaDataDataTableRows extends Google_Collection
+class Google_0814_Service_Analytics_GaDataDataTableRows extends Google_0814_Collection
 {
-  protected $cType = 'Google_Service_Analytics_GaDataDataTableRowsC';
+  protected $cType = 'Google_0814_Service_Analytics_GaDataDataTableRowsC';
   protected $cDataType = 'array';
 
   public function setC($c)
@@ -4944,10 +6765,8 @@ class Google_Service_Analytics_GaDataDataTableRows extends Google_Collection
     return $this->c;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GaDataDataTableRowsC')) {
-class Google_Service_Analytics_GaDataDataTableRowsC extends Google_Model
+class Google_0814_Service_Analytics_GaDataDataTableRowsC extends Google_0814_Model
 {
   public $v;
 
@@ -4961,11 +6780,8 @@ class Google_Service_Analytics_GaDataDataTableRowsC extends Google_Model
     return $this->v;
   }
 }
-}
 
-
-if (!class_exists('Google_Service_Analytics_GaDataProfileInfo')) {
-class Google_Service_Analytics_GaDataProfileInfo extends Google_Model
+class Google_0814_Service_Analytics_GaDataProfileInfo extends Google_0814_Model
 {
   public $accountId;
   public $internalWebPropertyId;
@@ -5034,10 +6850,8 @@ class Google_Service_Analytics_GaDataProfileInfo extends Google_Model
     return $this->webPropertyId;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GaDataQuery')) {
-class Google_Service_Analytics_GaDataQuery extends Google_Collection
+class Google_0814_Service_Analytics_GaDataQuery extends Google_0814_Collection
 {
   public $dimensions;
   public $endDate;
@@ -5161,32 +6975,35 @@ class Google_Service_Analytics_GaDataQuery extends Google_Collection
     return $this->startIndex;
   }
 }
+
+class Google_0814_Service_Analytics_GaDataTotalsForAllResults extends Google_0814_Model
+{
+
 }
 
-if (!class_exists('Google_Service_Analytics_Goal')) {
-class Google_Service_Analytics_Goal extends Google_Model
+class Google_0814_Service_Analytics_Goal extends Google_0814_Model
 {
   public $accountId;
   public $active;
   public $created;
-  protected $eventDetailsType = 'Google_Service_Analytics_GoalEventDetails';
+  protected $eventDetailsType = 'Google_0814_Service_Analytics_GoalEventDetails';
   protected $eventDetailsDataType = '';
   public $id;
   public $internalWebPropertyId;
   public $kind;
   public $name;
-  protected $parentLinkType = 'Google_Service_Analytics_GoalParentLink';
+  protected $parentLinkType = 'Google_0814_Service_Analytics_GoalParentLink';
   protected $parentLinkDataType = '';
   public $profileId;
   public $selfLink;
   public $type;
   public $updated;
-  protected $urlDestinationDetailsType = 'Google_Service_Analytics_GoalUrlDestinationDetails';
+  protected $urlDestinationDetailsType = 'Google_0814_Service_Analytics_GoalUrlDestinationDetails';
   protected $urlDestinationDetailsDataType = '';
   public $value;
-  protected $visitNumPagesDetailsType = 'Google_Service_Analytics_GoalVisitNumPagesDetails';
+  protected $visitNumPagesDetailsType = 'Google_0814_Service_Analytics_GoalVisitNumPagesDetails';
   protected $visitNumPagesDetailsDataType = '';
-  protected $visitTimeOnSiteDetailsType = 'Google_Service_Analytics_GoalVisitTimeOnSiteDetails';
+  protected $visitTimeOnSiteDetailsType = 'Google_0814_Service_Analytics_GoalVisitTimeOnSiteDetails';
   protected $visitTimeOnSiteDetailsDataType = '';
   public $webPropertyId;
 
@@ -5220,7 +7037,7 @@ class Google_Service_Analytics_Goal extends Google_Model
     return $this->created;
   }
 
-  public function setEventDetails(Google_Service_Analytics_GoalEventDetails $eventDetails)
+  public function setEventDetails(Google_0814_Service_Analytics_GoalEventDetails $eventDetails)
   {
     $this->eventDetails = $eventDetails;
   }
@@ -5270,7 +7087,7 @@ class Google_Service_Analytics_Goal extends Google_Model
     return $this->name;
   }
 
-  public function setParentLink(Google_Service_Analytics_GoalParentLink $parentLink)
+  public function setParentLink(Google_0814_Service_Analytics_GoalParentLink $parentLink)
   {
     $this->parentLink = $parentLink;
   }
@@ -5320,7 +7137,7 @@ class Google_Service_Analytics_Goal extends Google_Model
     return $this->updated;
   }
 
-  public function setUrlDestinationDetails(Google_Service_Analytics_GoalUrlDestinationDetails $urlDestinationDetails)
+  public function setUrlDestinationDetails(Google_0814_Service_Analytics_GoalUrlDestinationDetails $urlDestinationDetails)
   {
     $this->urlDestinationDetails = $urlDestinationDetails;
   }
@@ -5340,7 +7157,7 @@ class Google_Service_Analytics_Goal extends Google_Model
     return $this->value;
   }
 
-  public function setVisitNumPagesDetails(Google_Service_Analytics_GoalVisitNumPagesDetails $visitNumPagesDetails)
+  public function setVisitNumPagesDetails(Google_0814_Service_Analytics_GoalVisitNumPagesDetails $visitNumPagesDetails)
   {
     $this->visitNumPagesDetails = $visitNumPagesDetails;
   }
@@ -5350,7 +7167,7 @@ class Google_Service_Analytics_Goal extends Google_Model
     return $this->visitNumPagesDetails;
   }
 
-  public function setVisitTimeOnSiteDetails(Google_Service_Analytics_GoalVisitTimeOnSiteDetails $visitTimeOnSiteDetails)
+  public function setVisitTimeOnSiteDetails(Google_0814_Service_Analytics_GoalVisitTimeOnSiteDetails $visitTimeOnSiteDetails)
   {
     $this->visitTimeOnSiteDetails = $visitTimeOnSiteDetails;
   }
@@ -5370,12 +7187,10 @@ class Google_Service_Analytics_Goal extends Google_Model
     return $this->webPropertyId;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GoalEventDetails')) {
-class Google_Service_Analytics_GoalEventDetails extends Google_Collection
+class Google_0814_Service_Analytics_GoalEventDetails extends Google_0814_Collection
 {
-  protected $eventConditionsType = 'Google_Service_Analytics_GoalEventDetailsEventConditions';
+  protected $eventConditionsType = 'Google_0814_Service_Analytics_GoalEventDetailsEventConditions';
   protected $eventConditionsDataType = 'array';
   public $useEventValue;
 
@@ -5399,10 +7214,8 @@ class Google_Service_Analytics_GoalEventDetails extends Google_Collection
     return $this->useEventValue;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GoalEventDetailsEventConditions')) {
-class Google_Service_Analytics_GoalEventDetailsEventConditions extends Google_Model
+class Google_0814_Service_Analytics_GoalEventDetailsEventConditions extends Google_0814_Model
 {
   public $comparisonType;
   public $comparisonValue;
@@ -5460,10 +7273,8 @@ class Google_Service_Analytics_GoalEventDetailsEventConditions extends Google_Mo
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GoalParentLink')) {
-class Google_Service_Analytics_GoalParentLink extends Google_Model
+class Google_0814_Service_Analytics_GoalParentLink extends Google_0814_Model
 {
   public $href;
   public $type;
@@ -5488,15 +7299,13 @@ class Google_Service_Analytics_GoalParentLink extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GoalUrlDestinationDetails')) {
-class Google_Service_Analytics_GoalUrlDestinationDetails extends Google_Collection
+class Google_0814_Service_Analytics_GoalUrlDestinationDetails extends Google_0814_Collection
 {
   public $caseSensitive;
   public $firstStepRequired;
   public $matchType;
-  protected $stepsType = 'Google_Service_Analytics_GoalUrlDestinationDetailsSteps';
+  protected $stepsType = 'Google_0814_Service_Analytics_GoalUrlDestinationDetailsSteps';
   protected $stepsDataType = 'array';
   public $url;
 
@@ -5550,10 +7359,8 @@ class Google_Service_Analytics_GoalUrlDestinationDetails extends Google_Collecti
     return $this->url;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GoalUrlDestinationDetailsSteps')) {
-class Google_Service_Analytics_GoalUrlDestinationDetailsSteps extends Google_Model
+class Google_0814_Service_Analytics_GoalUrlDestinationDetailsSteps extends Google_0814_Model
 {
   public $name;
   public $number;
@@ -5589,10 +7396,8 @@ class Google_Service_Analytics_GoalUrlDestinationDetailsSteps extends Google_Mod
     return $this->url;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GoalVisitNumPagesDetails')) {
-class Google_Service_Analytics_GoalVisitNumPagesDetails extends Google_Model
+class Google_0814_Service_Analytics_GoalVisitNumPagesDetails extends Google_0814_Model
 {
   public $comparisonType;
   public $comparisonValue;
@@ -5617,10 +7422,8 @@ class Google_Service_Analytics_GoalVisitNumPagesDetails extends Google_Model
     return $this->comparisonValue;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_GoalVisitTimeOnSiteDetails')) {
-class Google_Service_Analytics_GoalVisitTimeOnSiteDetails extends Google_Model
+class Google_0814_Service_Analytics_GoalVisitTimeOnSiteDetails extends Google_0814_Model
 {
   public $comparisonType;
   public $comparisonValue;
@@ -5645,12 +7448,10 @@ class Google_Service_Analytics_GoalVisitTimeOnSiteDetails extends Google_Model
     return $this->comparisonValue;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_Goals')) {
-class Google_Service_Analytics_Goals extends Google_Collection
+class Google_0814_Service_Analytics_Goals extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Analytics_Goal';
+  protected $itemsType = 'Google_0814_Service_Analytics_Goal';
   protected $itemsDataType = 'array';
   public $itemsPerPage;
   public $kind;
@@ -5740,12 +7541,10 @@ class Google_Service_Analytics_Goals extends Google_Collection
     return $this->username;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_McfData')) {
-class Google_Service_Analytics_McfData extends Google_Collection
+class Google_0814_Service_Analytics_McfData extends Google_0814_Collection
 {
-  protected $columnHeadersType = 'Google_Service_Analytics_McfDataColumnHeaders';
+  protected $columnHeadersType = 'Google_0814_Service_Analytics_McfDataColumnHeaders';
   protected $columnHeadersDataType = 'array';
   public $containsSampledData;
   public $id;
@@ -5753,11 +7552,11 @@ class Google_Service_Analytics_McfData extends Google_Collection
   public $kind;
   public $nextLink;
   public $previousLink;
-  protected $profileInfoType = 'Google_Service_Analytics_McfDataProfileInfo';
+  protected $profileInfoType = 'Google_0814_Service_Analytics_McfDataProfileInfo';
   protected $profileInfoDataType = '';
-  protected $queryType = 'Google_Service_Analytics_McfDataQuery';
+  protected $queryType = 'Google_0814_Service_Analytics_McfDataQuery';
   protected $queryDataType = '';
-  protected $rowsType = 'Google_Service_Analytics_McfDataRows';
+  protected $rowsType = 'Google_0814_Service_Analytics_McfDataRows';
   protected $rowsDataType = 'array';
   public $sampleSize;
   public $sampleSpace;
@@ -5835,7 +7634,7 @@ class Google_Service_Analytics_McfData extends Google_Collection
     return $this->previousLink;
   }
 
-  public function setProfileInfo(Google_Service_Analytics_McfDataProfileInfo $profileInfo)
+  public function setProfileInfo(Google_0814_Service_Analytics_McfDataProfileInfo $profileInfo)
   {
     $this->profileInfo = $profileInfo;
   }
@@ -5845,7 +7644,7 @@ class Google_Service_Analytics_McfData extends Google_Collection
     return $this->profileInfo;
   }
 
-  public function setQuery(Google_Service_Analytics_McfDataQuery $query)
+  public function setQuery(Google_0814_Service_Analytics_McfDataQuery $query)
   {
     $this->query = $query;
   }
@@ -5915,10 +7714,8 @@ class Google_Service_Analytics_McfData extends Google_Collection
     return $this->totalsForAllResults;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_McfDataColumnHeaders')) {
-class Google_Service_Analytics_McfDataColumnHeaders extends Google_Model
+class Google_0814_Service_Analytics_McfDataColumnHeaders extends Google_0814_Model
 {
   public $columnType;
   public $dataType;
@@ -5954,10 +7751,8 @@ class Google_Service_Analytics_McfDataColumnHeaders extends Google_Model
     return $this->name;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_McfDataProfileInfo')) {
-class Google_Service_Analytics_McfDataProfileInfo extends Google_Model
+class Google_0814_Service_Analytics_McfDataProfileInfo extends Google_0814_Model
 {
   public $accountId;
   public $internalWebPropertyId;
@@ -6026,10 +7821,8 @@ class Google_Service_Analytics_McfDataProfileInfo extends Google_Model
     return $this->webPropertyId;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_McfDataQuery')) {
-class Google_Service_Analytics_McfDataQuery extends Google_Collection
+class Google_0814_Service_Analytics_McfDataQuery extends Google_0814_Collection
 {
   public $dimensions;
   public $endDate;
@@ -6153,12 +7946,10 @@ class Google_Service_Analytics_McfDataQuery extends Google_Collection
     return $this->startIndex;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_McfDataRows')) {
-class Google_Service_Analytics_McfDataRows extends Google_Collection
+class Google_0814_Service_Analytics_McfDataRows extends Google_0814_Collection
 {
-  protected $conversionPathValueType = 'Google_Service_Analytics_McfDataRowsConversionPathValue';
+  protected $conversionPathValueType = 'Google_0814_Service_Analytics_McfDataRowsConversionPathValue';
   protected $conversionPathValueDataType = 'array';
   public $primitiveValue;
 
@@ -6182,10 +7973,8 @@ class Google_Service_Analytics_McfDataRows extends Google_Collection
     return $this->primitiveValue;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_McfDataRowsConversionPathValue')) {
-class Google_Service_Analytics_McfDataRowsConversionPathValue extends Google_Model
+class Google_0814_Service_Analytics_McfDataRowsConversionPathValue extends Google_0814_Model
 {
   public $interactionType;
   public $nodeValue;
@@ -6210,13 +7999,16 @@ class Google_Service_Analytics_McfDataRowsConversionPathValue extends Google_Mod
     return $this->nodeValue;
   }
 }
+
+class Google_0814_Service_Analytics_McfDataTotalsForAllResults extends Google_0814_Model
+{
+
 }
 
-if (!class_exists('Google_Service_Analytics_Profile')) {
-class Google_Service_Analytics_Profile extends Google_Model
+class Google_0814_Service_Analytics_Profile extends Google_0814_Model
 {
   public $accountId;
-  protected $childLinkType = 'Google_Service_Analytics_ProfileChildLink';
+  protected $childLinkType = 'Google_0814_Service_Analytics_ProfileChildLink';
   protected $childLinkDataType = '';
   public $created;
   public $currency;
@@ -6227,9 +8019,9 @@ class Google_Service_Analytics_Profile extends Google_Model
   public $internalWebPropertyId;
   public $kind;
   public $name;
-  protected $parentLinkType = 'Google_Service_Analytics_ProfileParentLink';
+  protected $parentLinkType = 'Google_0814_Service_Analytics_ProfileParentLink';
   protected $parentLinkDataType = '';
-  protected $permissionsType = 'Google_Service_Analytics_ProfilePermissions';
+  protected $permissionsType = 'Google_0814_Service_Analytics_ProfilePermissions';
   protected $permissionsDataType = '';
   public $selfLink;
   public $siteSearchCategoryParameters;
@@ -6252,7 +8044,7 @@ class Google_Service_Analytics_Profile extends Google_Model
     return $this->accountId;
   }
 
-  public function setChildLink(Google_Service_Analytics_ProfileChildLink $childLink)
+  public function setChildLink(Google_0814_Service_Analytics_ProfileChildLink $childLink)
   {
     $this->childLink = $childLink;
   }
@@ -6352,7 +8144,7 @@ class Google_Service_Analytics_Profile extends Google_Model
     return $this->name;
   }
 
-  public function setParentLink(Google_Service_Analytics_ProfileParentLink $parentLink)
+  public function setParentLink(Google_0814_Service_Analytics_ProfileParentLink $parentLink)
   {
     $this->parentLink = $parentLink;
   }
@@ -6362,7 +8154,7 @@ class Google_Service_Analytics_Profile extends Google_Model
     return $this->parentLink;
   }
 
-  public function setPermissions(Google_Service_Analytics_ProfilePermissions $permissions)
+  public function setPermissions(Google_0814_Service_Analytics_ProfilePermissions $permissions)
   {
     $this->permissions = $permissions;
   }
@@ -6472,10 +8264,8 @@ class Google_Service_Analytics_Profile extends Google_Model
     return $this->websiteUrl;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_ProfileChildLink')) {
-class Google_Service_Analytics_ProfileChildLink extends Google_Model
+class Google_0814_Service_Analytics_ProfileChildLink extends Google_0814_Model
 {
   public $href;
   public $type;
@@ -6500,143 +8290,27 @@ class Google_Service_Analytics_ProfileChildLink extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_ProfileParentLink')) {
-class Google_Service_Analytics_ProfileParentLink extends Google_Model
+class Google_0814_Service_Analytics_ProfileFilterLink extends Google_0814_Model
 {
-  public $href;
-  public $type;
-
-  public function setHref($href)
-  {
-    $this->href = $href;
-  }
-
-  public function getHref()
-  {
-    return $this->href;
-  }
-
-  public function setType($type)
-  {
-    $this->type = $type;
-  }
-
-  public function getType()
-  {
-    return $this->type;
-  }
-}
-}
-
-if (!class_exists('Google_Service_Analytics_ProfilePermissions')) {
-class Google_Service_Analytics_ProfilePermissions extends Google_Collection
-{
-  public $effective;
-
-  public function setEffective($effective)
-  {
-    $this->effective = $effective;
-  }
-
-  public function getEffective()
-  {
-    return $this->effective;
-  }
-}
-}
-
-if (!class_exists('Google_Service_Analytics_ProfileRef')) {
-class Google_Service_Analytics_ProfileRef extends Google_Model
-{
-  public $accountId;
-  public $href;
-  public $id;
-  public $internalWebPropertyId;
-  public $kind;
-  public $name;
-  public $webPropertyId;
-
-  public function setAccountId($accountId)
-  {
-    $this->accountId = $accountId;
-  }
-
-  public function getAccountId()
-  {
-    return $this->accountId;
-  }
-
-  public function setHref($href)
-  {
-    $this->href = $href;
-  }
-
-  public function getHref()
-  {
-    return $this->href;
-  }
-
-  public function setId($id)
-  {
-    $this->id = $id;
-  }
-
-  public function getId()
-  {
-    return $this->id;
-  }
-
-  public function setInternalWebPropertyId($internalWebPropertyId)
-  {
-    $this->internalWebPropertyId = $internalWebPropertyId;
-  }
-
-  public function getInternalWebPropertyId()
-  {
-    return $this->internalWebPropertyId;
-  }
-
-  public function setKind($kind)
-  {
-    $this->kind = $kind;
-  }
-
-  public function getKind()
-  {
-    return $this->kind;
-  }
-
-  public function setName($name)
-  {
-    $this->name = $name;
-  }
-
-  public function getName()
-  {
-    return $this->name;
-  }
-
-  public function setWebPropertyId($webPropertyId)
-  {
-    $this->webPropertyId = $webPropertyId;
-  }
-
-  public function getWebPropertyId()
-  {
-    return $this->webPropertyId;
-  }
-}
-}
-
-if (!class_exists('Google_Service_Analytics_ProfileSummary')) {
-class Google_Service_Analytics_ProfileSummary extends Google_Model
-{
+  protected $filterRefType = 'Google_0814_Service_Analytics_FilterRef';
+  protected $filterRefDataType = '';
   public $id;
   public $kind;
-  public $name;
-  public $type;
+  protected $profileRefType = 'Google_0814_Service_Analytics_ProfileRef';
+  protected $profileRefDataType = '';
+  public $rank;
+  public $selfLink;
+
+  public function setFilterRef(Google_0814_Service_Analytics_FilterRef $filterRef)
+  {
+    $this->filterRef = $filterRef;
+  }
+
+  public function getFilterRef()
+  {
+    return $this->filterRef;
+  }
 
   public function setId($id)
   {
@@ -6658,32 +8332,40 @@ class Google_Service_Analytics_ProfileSummary extends Google_Model
     return $this->kind;
   }
 
-  public function setName($name)
+  public function setProfileRef(Google_0814_Service_Analytics_ProfileRef $profileRef)
   {
-    $this->name = $name;
+    $this->profileRef = $profileRef;
   }
 
-  public function getName()
+  public function getProfileRef()
   {
-    return $this->name;
+    return $this->profileRef;
   }
 
-  public function setType($type)
+  public function setRank($rank)
   {
-    $this->type = $type;
+    $this->rank = $rank;
   }
 
-  public function getType()
+  public function getRank()
   {
-    return $this->type;
+    return $this->rank;
+  }
+
+  public function setSelfLink($selfLink)
+  {
+    $this->selfLink = $selfLink;
+  }
+
+  public function getSelfLink()
+  {
+    return $this->selfLink;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_Profiles')) {
-class Google_Service_Analytics_Profiles extends Google_Collection
+class Google_0814_Service_Analytics_ProfileFilterLinks extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Analytics_Profile';
+  protected $itemsType = 'Google_0814_Service_Analytics_ProfileFilterLink';
   protected $itemsDataType = 'array';
   public $itemsPerPage;
   public $kind;
@@ -6773,18 +8455,279 @@ class Google_Service_Analytics_Profiles extends Google_Collection
     return $this->username;
   }
 }
+
+class Google_0814_Service_Analytics_ProfileParentLink extends Google_0814_Model
+{
+  public $href;
+  public $type;
+
+  public function setHref($href)
+  {
+    $this->href = $href;
+  }
+
+  public function getHref()
+  {
+    return $this->href;
+  }
+
+  public function setType($type)
+  {
+    $this->type = $type;
+  }
+
+  public function getType()
+  {
+    return $this->type;
+  }
 }
 
-if (!class_exists('Google_Service_Analytics_RealtimeData')) {
-class Google_Service_Analytics_RealtimeData extends Google_Collection
+class Google_0814_Service_Analytics_ProfilePermissions extends Google_0814_Collection
 {
-  protected $columnHeadersType = 'Google_Service_Analytics_RealtimeDataColumnHeaders';
+  public $effective;
+
+  public function setEffective($effective)
+  {
+    $this->effective = $effective;
+  }
+
+  public function getEffective()
+  {
+    return $this->effective;
+  }
+}
+
+class Google_0814_Service_Analytics_ProfileRef extends Google_0814_Model
+{
+  public $accountId;
+  public $href;
+  public $id;
+  public $internalWebPropertyId;
+  public $kind;
+  public $name;
+  public $webPropertyId;
+
+  public function setAccountId($accountId)
+  {
+    $this->accountId = $accountId;
+  }
+
+  public function getAccountId()
+  {
+    return $this->accountId;
+  }
+
+  public function setHref($href)
+  {
+    $this->href = $href;
+  }
+
+  public function getHref()
+  {
+    return $this->href;
+  }
+
+  public function setId($id)
+  {
+    $this->id = $id;
+  }
+
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  public function setInternalWebPropertyId($internalWebPropertyId)
+  {
+    $this->internalWebPropertyId = $internalWebPropertyId;
+  }
+
+  public function getInternalWebPropertyId()
+  {
+    return $this->internalWebPropertyId;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+
+  public function getName()
+  {
+    return $this->name;
+  }
+
+  public function setWebPropertyId($webPropertyId)
+  {
+    $this->webPropertyId = $webPropertyId;
+  }
+
+  public function getWebPropertyId()
+  {
+    return $this->webPropertyId;
+  }
+}
+
+class Google_0814_Service_Analytics_ProfileSummary extends Google_0814_Model
+{
+  public $id;
+  public $kind;
+  public $name;
+  public $type;
+
+  public function setId($id)
+  {
+    $this->id = $id;
+  }
+
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+
+  public function getName()
+  {
+    return $this->name;
+  }
+
+  public function setType($type)
+  {
+    $this->type = $type;
+  }
+
+  public function getType()
+  {
+    return $this->type;
+  }
+}
+
+class Google_0814_Service_Analytics_Profiles extends Google_0814_Collection
+{
+  protected $itemsType = 'Google_0814_Service_Analytics_Profile';
+  protected $itemsDataType = 'array';
+  public $itemsPerPage;
+  public $kind;
+  public $nextLink;
+  public $previousLink;
+  public $startIndex;
+  public $totalResults;
+  public $username;
+
+  public function setItems($items)
+  {
+    $this->items = $items;
+  }
+
+  public function getItems()
+  {
+    return $this->items;
+  }
+
+  public function setItemsPerPage($itemsPerPage)
+  {
+    $this->itemsPerPage = $itemsPerPage;
+  }
+
+  public function getItemsPerPage()
+  {
+    return $this->itemsPerPage;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+
+  public function setNextLink($nextLink)
+  {
+    $this->nextLink = $nextLink;
+  }
+
+  public function getNextLink()
+  {
+    return $this->nextLink;
+  }
+
+  public function setPreviousLink($previousLink)
+  {
+    $this->previousLink = $previousLink;
+  }
+
+  public function getPreviousLink()
+  {
+    return $this->previousLink;
+  }
+
+  public function setStartIndex($startIndex)
+  {
+    $this->startIndex = $startIndex;
+  }
+
+  public function getStartIndex()
+  {
+    return $this->startIndex;
+  }
+
+  public function setTotalResults($totalResults)
+  {
+    $this->totalResults = $totalResults;
+  }
+
+  public function getTotalResults()
+  {
+    return $this->totalResults;
+  }
+
+  public function setUsername($username)
+  {
+    $this->username = $username;
+  }
+
+  public function getUsername()
+  {
+    return $this->username;
+  }
+}
+
+class Google_0814_Service_Analytics_RealtimeData extends Google_0814_Collection
+{
+  protected $columnHeadersType = 'Google_0814_Service_Analytics_RealtimeDataColumnHeaders';
   protected $columnHeadersDataType = 'array';
   public $id;
   public $kind;
-  protected $profileInfoType = 'Google_Service_Analytics_RealtimeDataProfileInfo';
+  protected $profileInfoType = 'Google_0814_Service_Analytics_RealtimeDataProfileInfo';
   protected $profileInfoDataType = '';
-  protected $queryType = 'Google_Service_Analytics_RealtimeDataQuery';
+  protected $queryType = 'Google_0814_Service_Analytics_RealtimeDataQuery';
   protected $queryDataType = '';
   public $rows;
   public $selfLink;
@@ -6821,7 +8764,7 @@ class Google_Service_Analytics_RealtimeData extends Google_Collection
     return $this->kind;
   }
 
-  public function setProfileInfo(Google_Service_Analytics_RealtimeDataProfileInfo $profileInfo)
+  public function setProfileInfo(Google_0814_Service_Analytics_RealtimeDataProfileInfo $profileInfo)
   {
     $this->profileInfo = $profileInfo;
   }
@@ -6831,7 +8774,7 @@ class Google_Service_Analytics_RealtimeData extends Google_Collection
     return $this->profileInfo;
   }
 
-  public function setQuery(Google_Service_Analytics_RealtimeDataQuery $query)
+  public function setQuery(Google_0814_Service_Analytics_RealtimeDataQuery $query)
   {
     $this->query = $query;
   }
@@ -6881,10 +8824,8 @@ class Google_Service_Analytics_RealtimeData extends Google_Collection
     return $this->totalsForAllResults;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_RealtimeDataColumnHeaders')) {
-class Google_Service_Analytics_RealtimeDataColumnHeaders extends Google_Model
+class Google_0814_Service_Analytics_RealtimeDataColumnHeaders extends Google_0814_Model
 {
   public $columnType;
   public $dataType;
@@ -6920,10 +8861,8 @@ class Google_Service_Analytics_RealtimeDataColumnHeaders extends Google_Model
     return $this->name;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_RealtimeDataProfileInfo')) {
-class Google_Service_Analytics_RealtimeDataProfileInfo extends Google_Model
+class Google_0814_Service_Analytics_RealtimeDataProfileInfo extends Google_0814_Model
 {
   public $accountId;
   public $internalWebPropertyId;
@@ -6992,10 +8931,8 @@ class Google_Service_Analytics_RealtimeDataProfileInfo extends Google_Model
     return $this->webPropertyId;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_RealtimeDataQuery')) {
-class Google_Service_Analytics_RealtimeDataQuery extends Google_Collection
+class Google_0814_Service_Analytics_RealtimeDataQuery extends Google_0814_Collection
 {
   public $dimensions;
   public $filters;
@@ -7064,10 +9001,13 @@ class Google_Service_Analytics_RealtimeDataQuery extends Google_Collection
     return $this->sort;
   }
 }
+
+class Google_0814_Service_Analytics_RealtimeDataTotalsForAllResults extends Google_0814_Model
+{
+
 }
 
-if (!class_exists('Google_Service_Analytics_Segment')) {
-class Google_Service_Analytics_Segment extends Google_Model
+class Google_0814_Service_Analytics_Segment extends Google_0814_Model
 {
   public $created;
   public $definition;
@@ -7169,12 +9109,10 @@ class Google_Service_Analytics_Segment extends Google_Model
     return $this->updated;
   }
 }
-}
 
-if (!class_exists('GGoogle_Service_Analytics_Segments')) {
-class Google_Service_Analytics_Segments extends Google_Collection
+class Google_0814_Service_Analytics_Segments extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Analytics_Segment';
+  protected $itemsType = 'Google_0814_Service_Analytics_Segment';
   protected $itemsDataType = 'array';
   public $itemsPerPage;
   public $kind;
@@ -7264,10 +9202,357 @@ class Google_Service_Analytics_Segments extends Google_Collection
     return $this->username;
   }
 }
+
+class Google_0814_Service_Analytics_UnsampledReport extends Google_0814_Model
+{
+  public $accountId;
+  protected $cloudStorageDownloadDetailsType = 'Google_0814_Service_Analytics_UnsampledReportCloudStorageDownloadDetails';
+  protected $cloudStorageDownloadDetailsDataType = '';
+  public $created;
+  public $dimensions;
+  public $downloadType;
+  protected $driveDownloadDetailsType = 'Google_0814_Service_Analytics_UnsampledReportDriveDownloadDetails';
+  protected $driveDownloadDetailsDataType = '';
+  public $endDate;
+  public $filters;
+  public $id;
+  public $kind;
+  public $metrics;
+  public $profileId;
+  public $segment;
+  public $selfLink;
+  public $startDate;
+  public $status;
+  public $title;
+  public $updated;
+  public $webPropertyId;
+
+  public function setAccountId($accountId)
+  {
+    $this->accountId = $accountId;
+  }
+
+  public function getAccountId()
+  {
+    return $this->accountId;
+  }
+
+  public function setCloudStorageDownloadDetails(Google_0814_Service_Analytics_UnsampledReportCloudStorageDownloadDetails $cloudStorageDownloadDetails)
+  {
+    $this->cloudStorageDownloadDetails = $cloudStorageDownloadDetails;
+  }
+
+  public function getCloudStorageDownloadDetails()
+  {
+    return $this->cloudStorageDownloadDetails;
+  }
+
+  public function setCreated($created)
+  {
+    $this->created = $created;
+  }
+
+  public function getCreated()
+  {
+    return $this->created;
+  }
+
+  public function setDimensions($dimensions)
+  {
+    $this->dimensions = $dimensions;
+  }
+
+  public function getDimensions()
+  {
+    return $this->dimensions;
+  }
+
+  public function setDownloadType($downloadType)
+  {
+    $this->downloadType = $downloadType;
+  }
+
+  public function getDownloadType()
+  {
+    return $this->downloadType;
+  }
+
+  public function setDriveDownloadDetails(Google_0814_Service_Analytics_UnsampledReportDriveDownloadDetails $driveDownloadDetails)
+  {
+    $this->driveDownloadDetails = $driveDownloadDetails;
+  }
+
+  public function getDriveDownloadDetails()
+  {
+    return $this->driveDownloadDetails;
+  }
+
+  public function setEndDate($endDate)
+  {
+    $this->endDate = $endDate;
+  }
+
+  public function getEndDate()
+  {
+    return $this->endDate;
+  }
+
+  public function setFilters($filters)
+  {
+    $this->filters = $filters;
+  }
+
+  public function getFilters()
+  {
+    return $this->filters;
+  }
+
+  public function setId($id)
+  {
+    $this->id = $id;
+  }
+
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+
+  public function setMetrics($metrics)
+  {
+    $this->metrics = $metrics;
+  }
+
+  public function getMetrics()
+  {
+    return $this->metrics;
+  }
+
+  public function setProfileId($profileId)
+  {
+    $this->profileId = $profileId;
+  }
+
+  public function getProfileId()
+  {
+    return $this->profileId;
+  }
+
+  public function setSegment($segment)
+  {
+    $this->segment = $segment;
+  }
+
+  public function getSegment()
+  {
+    return $this->segment;
+  }
+
+  public function setSelfLink($selfLink)
+  {
+    $this->selfLink = $selfLink;
+  }
+
+  public function getSelfLink()
+  {
+    return $this->selfLink;
+  }
+
+  public function setStartDate($startDate)
+  {
+    $this->startDate = $startDate;
+  }
+
+  public function getStartDate()
+  {
+    return $this->startDate;
+  }
+
+  public function setStatus($status)
+  {
+    $this->status = $status;
+  }
+
+  public function getStatus()
+  {
+    return $this->status;
+  }
+
+  public function setTitle($title)
+  {
+    $this->title = $title;
+  }
+
+  public function getTitle()
+  {
+    return $this->title;
+  }
+
+  public function setUpdated($updated)
+  {
+    $this->updated = $updated;
+  }
+
+  public function getUpdated()
+  {
+    return $this->updated;
+  }
+
+  public function setWebPropertyId($webPropertyId)
+  {
+    $this->webPropertyId = $webPropertyId;
+  }
+
+  public function getWebPropertyId()
+  {
+    return $this->webPropertyId;
+  }
 }
 
-if (!class_exists('Google_Service_Analytics_Upload')) {
-class Google_Service_Analytics_Upload extends Google_Collection
+class Google_0814_Service_Analytics_UnsampledReportCloudStorageDownloadDetails extends Google_0814_Model
+{
+  public $bucketId;
+  public $objectId;
+
+  public function setBucketId($bucketId)
+  {
+    $this->bucketId = $bucketId;
+  }
+
+  public function getBucketId()
+  {
+    return $this->bucketId;
+  }
+
+  public function setObjectId($objectId)
+  {
+    $this->objectId = $objectId;
+  }
+
+  public function getObjectId()
+  {
+    return $this->objectId;
+  }
+}
+
+class Google_0814_Service_Analytics_UnsampledReportDriveDownloadDetails extends Google_0814_Model
+{
+  public $documentId;
+
+  public function setDocumentId($documentId)
+  {
+    $this->documentId = $documentId;
+  }
+
+  public function getDocumentId()
+  {
+    return $this->documentId;
+  }
+}
+
+class Google_0814_Service_Analytics_UnsampledReports extends Google_0814_Collection
+{
+  protected $itemsType = 'Google_0814_Service_Analytics_UnsampledReport';
+  protected $itemsDataType = 'array';
+  public $itemsPerPage;
+  public $kind;
+  public $nextLink;
+  public $previousLink;
+  public $startIndex;
+  public $totalResults;
+  public $username;
+
+  public function setItems($items)
+  {
+    $this->items = $items;
+  }
+
+  public function getItems()
+  {
+    return $this->items;
+  }
+
+  public function setItemsPerPage($itemsPerPage)
+  {
+    $this->itemsPerPage = $itemsPerPage;
+  }
+
+  public function getItemsPerPage()
+  {
+    return $this->itemsPerPage;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+
+  public function setNextLink($nextLink)
+  {
+    $this->nextLink = $nextLink;
+  }
+
+  public function getNextLink()
+  {
+    return $this->nextLink;
+  }
+
+  public function setPreviousLink($previousLink)
+  {
+    $this->previousLink = $previousLink;
+  }
+
+  public function getPreviousLink()
+  {
+    return $this->previousLink;
+  }
+
+  public function setStartIndex($startIndex)
+  {
+    $this->startIndex = $startIndex;
+  }
+
+  public function getStartIndex()
+  {
+    return $this->startIndex;
+  }
+
+  public function setTotalResults($totalResults)
+  {
+    $this->totalResults = $totalResults;
+  }
+
+  public function getTotalResults()
+  {
+    return $this->totalResults;
+  }
+
+  public function setUsername($username)
+  {
+    $this->username = $username;
+  }
+
+  public function getUsername()
+  {
+    return $this->username;
+  }
+}
+
+class Google_0814_Service_Analytics_Upload extends Google_0814_Collection
 {
   public $accountId;
   public $customDataSourceId;
@@ -7336,12 +9621,10 @@ class Google_Service_Analytics_Upload extends Google_Collection
     return $this->status;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_Uploads')) {
-class Google_Service_Analytics_Uploads extends Google_Collection
+class Google_0814_Service_Analytics_Uploads extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Analytics_Upload';
+  protected $itemsType = 'Google_0814_Service_Analytics_Upload';
   protected $itemsDataType = 'array';
   public $itemsPerPage;
   public $kind;
@@ -7420,10 +9703,8 @@ class Google_Service_Analytics_Uploads extends Google_Collection
     return $this->totalResults;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_UserRef')) {
-class Google_Service_Analytics_UserRef extends Google_Model
+class Google_0814_Service_Analytics_UserRef extends Google_0814_Model
 {
   public $email;
   public $id;
@@ -7459,10 +9740,8 @@ class Google_Service_Analytics_UserRef extends Google_Model
     return $this->kind;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_WebPropertyRef')) {
-class Google_Service_Analytics_WebPropertyRef extends Google_Model
+class Google_0814_Service_Analytics_WebPropertyRef extends Google_0814_Model
 {
   public $accountId;
   public $href;
@@ -7531,17 +9810,15 @@ class Google_Service_Analytics_WebPropertyRef extends Google_Model
     return $this->name;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_WebPropertySummary')) {
-class Google_Service_Analytics_WebPropertySummary extends Google_Collection
+class Google_0814_Service_Analytics_WebPropertySummary extends Google_0814_Collection
 {
   public $id;
   public $internalWebPropertyId;
   public $kind;
   public $level;
   public $name;
-  protected $profilesType = 'Google_Service_Analytics_ProfileSummary';
+  protected $profilesType = 'Google_0814_Service_Analytics_ProfileSummary';
   protected $profilesDataType = 'array';
   public $websiteUrl;
 
@@ -7615,12 +9892,10 @@ class Google_Service_Analytics_WebPropertySummary extends Google_Collection
     return $this->websiteUrl;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_Webproperties')) {
-class Google_Service_Analytics_Webproperties extends Google_Collection
+class Google_0814_Service_Analytics_Webproperties extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Analytics_Webproperty';
+  protected $itemsType = 'Google_0814_Service_Analytics_Webproperty';
   protected $itemsDataType = 'array';
   public $itemsPerPage;
   public $kind;
@@ -7710,13 +9985,11 @@ class Google_Service_Analytics_Webproperties extends Google_Collection
     return $this->username;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_Webproperty')) {
-class Google_Service_Analytics_Webproperty extends Google_Model
+class Google_0814_Service_Analytics_Webproperty extends Google_0814_Model
 {
   public $accountId;
-  protected $childLinkType = 'Google_Service_Analytics_WebpropertyChildLink';
+  protected $childLinkType = 'Google_0814_Service_Analytics_WebpropertyChildLink';
   protected $childLinkDataType = '';
   public $created;
   public $defaultProfileId;
@@ -7726,9 +9999,9 @@ class Google_Service_Analytics_Webproperty extends Google_Model
   public $kind;
   public $level;
   public $name;
-  protected $parentLinkType = 'Google_Service_Analytics_WebpropertyParentLink';
+  protected $parentLinkType = 'Google_0814_Service_Analytics_WebpropertyParentLink';
   protected $parentLinkDataType = '';
-  protected $permissionsType = 'Google_Service_Analytics_WebpropertyPermissions';
+  protected $permissionsType = 'Google_0814_Service_Analytics_WebpropertyPermissions';
   protected $permissionsDataType = '';
   public $profileCount;
   public $selfLink;
@@ -7745,7 +10018,7 @@ class Google_Service_Analytics_Webproperty extends Google_Model
     return $this->accountId;
   }
 
-  public function setChildLink(Google_Service_Analytics_WebpropertyChildLink $childLink)
+  public function setChildLink(Google_0814_Service_Analytics_WebpropertyChildLink $childLink)
   {
     $this->childLink = $childLink;
   }
@@ -7835,7 +10108,7 @@ class Google_Service_Analytics_Webproperty extends Google_Model
     return $this->name;
   }
 
-  public function setParentLink(Google_Service_Analytics_WebpropertyParentLink $parentLink)
+  public function setParentLink(Google_0814_Service_Analytics_WebpropertyParentLink $parentLink)
   {
     $this->parentLink = $parentLink;
   }
@@ -7845,7 +10118,7 @@ class Google_Service_Analytics_Webproperty extends Google_Model
     return $this->parentLink;
   }
 
-  public function setPermissions(Google_Service_Analytics_WebpropertyPermissions $permissions)
+  public function setPermissions(Google_0814_Service_Analytics_WebpropertyPermissions $permissions)
   {
     $this->permissions = $permissions;
   }
@@ -7895,10 +10168,8 @@ class Google_Service_Analytics_Webproperty extends Google_Model
     return $this->websiteUrl;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_WebpropertyChildLink')) {
-class Google_Service_Analytics_WebpropertyChildLink extends Google_Model
+class Google_0814_Service_Analytics_WebpropertyChildLink extends Google_0814_Model
 {
   public $href;
   public $type;
@@ -7923,10 +10194,8 @@ class Google_Service_Analytics_WebpropertyChildLink extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_WebpropertyParentLink')) {
-class Google_Service_Analytics_WebpropertyParentLink extends Google_Model
+class Google_0814_Service_Analytics_WebpropertyParentLink extends Google_0814_Model
 {
   public $href;
   public $type;
@@ -7951,10 +10220,8 @@ class Google_Service_Analytics_WebpropertyParentLink extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_Analytics_WebpropertyPermissions')) {
-class Google_Service_Analytics_WebpropertyPermissions extends Google_Collection
+class Google_0814_Service_Analytics_WebpropertyPermissions extends Google_0814_Collection
 {
   public $effective;
 
@@ -7967,5 +10234,4 @@ class Google_Service_Analytics_WebpropertyPermissions extends Google_Collection
   {
     return $this->effective;
   }
-}
 }

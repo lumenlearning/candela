@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_Dns')) {
-class Google_Service_Dns extends Google_Service
+class Google_0814_Service_Dns extends Google_0814_Service
 {
   /** View and manage your data across Google Cloud Platform services. */
   const CLOUD_PLATFORM = "https://www.googleapis.com/auth/cloud-platform";
@@ -48,16 +47,16 @@ class Google_Service_Dns extends Google_Service
   /**
    * Constructs the internal representation of the Dns service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'dns/v1beta1/projects/';
     $this->version = 'v1beta1';
     $this->serviceName = 'dns';
 
-    $this->changes = new Google_Service_Dns_Changes_Resource(
+    $this->changes = new Google_0814_Service_Dns_Changes_Resource(
         $this,
         $this->serviceName,
         'changes',
@@ -133,7 +132,7 @@ class Google_Service_Dns extends Google_Service
           )
         )
     );
-    $this->managedZones = new Google_Service_Dns_ManagedZones_Resource(
+    $this->managedZones = new Google_0814_Service_Dns_ManagedZones_Resource(
         $this,
         $this->serviceName,
         'managedZones',
@@ -201,7 +200,7 @@ class Google_Service_Dns extends Google_Service
           )
         )
     );
-    $this->projects = new Google_Service_Dns_Projects_Resource(
+    $this->projects = new Google_0814_Service_Dns_Projects_Resource(
         $this,
         $this->serviceName,
         'projects',
@@ -221,7 +220,7 @@ class Google_Service_Dns extends Google_Service
           )
         )
     );
-    $this->resourceRecordSets = new Google_Service_Dns_ResourceRecordSets_Resource(
+    $this->resourceRecordSets = new Google_0814_Service_Dns_ResourceRecordSets_Resource(
         $this,
         $this->serviceName,
         'resourceRecordSets',
@@ -270,11 +269,11 @@ class Google_Service_Dns extends Google_Service
  * The "changes" collection of methods.
  * Typical usage is:
  *  <code>
- *   $dnsService = new Google_Service_Dns(...);
+ *   $dnsService = new Google_0814_Service_Dns(...);
  *   $changes = $dnsService->changes;
  *  </code>
  */
-class Google_Service_Dns_Changes_Resource extends Google_Service_Resource
+class Google_0814_Service_Dns_Changes_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -284,15 +283,15 @@ class Google_Service_Dns_Changes_Resource extends Google_Service_Resource
    * Identifies the project addressed by this request.
    * @param string $managedZone
    * Identifies the managed zone addressed by this request. Can be the managed zone name or id.
-   * @param Google_Change $postBody
+   * @param Google_0814_Change $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Dns_Change
+   * @return Google_0814_Service_Dns_Change
    */
-  public function create($project, $managedZone, Google_Service_Dns_Change $postBody, $optParams = array())
+  public function create($project, $managedZone, Google_0814_Service_Dns_Change $postBody, $optParams = array())
   {
     $params = array('project' => $project, 'managedZone' => $managedZone, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('create', array($params), "Google_Service_Dns_Change");
+    return $this->call('create', array($params), "Google_0814_Service_Dns_Change");
   }
   /**
    * Fetch the representation of an existing Change. (changes.get)
@@ -304,13 +303,13 @@ class Google_Service_Dns_Changes_Resource extends Google_Service_Resource
    * @param string $changeId
    * The identifier of the requested change, from a previous ResourceRecordSetsChangeResponse.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Dns_Change
+   * @return Google_0814_Service_Dns_Change
    */
   public function get($project, $managedZone, $changeId, $optParams = array())
   {
     $params = array('project' => $project, 'managedZone' => $managedZone, 'changeId' => $changeId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Dns_Change");
+    return $this->call('get', array($params), "Google_0814_Service_Dns_Change");
   }
   /**
    * Enumerate Changes to a ResourceRecordSet collection. (changes.listChanges)
@@ -331,13 +330,13 @@ class Google_Service_Dns_Changes_Resource extends Google_Service_Resource
    * Sorting criterion. The only supported value is change sequence.
    * @opt_param string sortOrder
    * Sorting order direction: 'ascending' or 'descending'.
-   * @return Google_Service_Dns_ChangesListResponse
+   * @return Google_0814_Service_Dns_ChangesListResponse
    */
   public function listChanges($project, $managedZone, $optParams = array())
   {
     $params = array('project' => $project, 'managedZone' => $managedZone);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Dns_ChangesListResponse");
+    return $this->call('list', array($params), "Google_0814_Service_Dns_ChangesListResponse");
   }
 }
 
@@ -345,11 +344,11 @@ class Google_Service_Dns_Changes_Resource extends Google_Service_Resource
  * The "managedZones" collection of methods.
  * Typical usage is:
  *  <code>
- *   $dnsService = new Google_Service_Dns(...);
+ *   $dnsService = new Google_0814_Service_Dns(...);
  *   $managedZones = $dnsService->managedZones;
  *  </code>
  */
-class Google_Service_Dns_ManagedZones_Resource extends Google_Service_Resource
+class Google_0814_Service_Dns_ManagedZones_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -357,15 +356,15 @@ class Google_Service_Dns_ManagedZones_Resource extends Google_Service_Resource
    *
    * @param string $project
    * Identifies the project addressed by this request.
-   * @param Google_ManagedZone $postBody
+   * @param Google_0814_ManagedZone $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Dns_ManagedZone
+   * @return Google_0814_Service_Dns_ManagedZone
    */
-  public function create($project, Google_Service_Dns_ManagedZone $postBody, $optParams = array())
+  public function create($project, Google_0814_Service_Dns_ManagedZone $postBody, $optParams = array())
   {
     $params = array('project' => $project, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('create', array($params), "Google_Service_Dns_ManagedZone");
+    return $this->call('create', array($params), "Google_0814_Service_Dns_ManagedZone");
   }
   /**
    * Delete a previously created ManagedZone. (managedZones.delete)
@@ -390,13 +389,13 @@ class Google_Service_Dns_ManagedZones_Resource extends Google_Service_Resource
    * @param string $managedZone
    * Identifies the managed zone addressed by this request. Can be the managed zone name or id.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Dns_ManagedZone
+   * @return Google_0814_Service_Dns_ManagedZone
    */
   public function get($project, $managedZone, $optParams = array())
   {
     $params = array('project' => $project, 'managedZone' => $managedZone);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Dns_ManagedZone");
+    return $this->call('get', array($params), "Google_0814_Service_Dns_ManagedZone");
   }
   /**
    * Enumerate ManagedZones that have been created but not yet deleted.
@@ -412,13 +411,13 @@ class Google_Service_Dns_ManagedZones_Resource extends Google_Service_Resource
    * @opt_param int maxResults
    * Optional. Maximum number of results to be returned. If unspecified, the server will decide how
     * many results to return.
-   * @return Google_Service_Dns_ManagedZonesListResponse
+   * @return Google_0814_Service_Dns_ManagedZonesListResponse
    */
   public function listManagedZones($project, $optParams = array())
   {
     $params = array('project' => $project);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Dns_ManagedZonesListResponse");
+    return $this->call('list', array($params), "Google_0814_Service_Dns_ManagedZonesListResponse");
   }
 }
 
@@ -426,11 +425,11 @@ class Google_Service_Dns_ManagedZones_Resource extends Google_Service_Resource
  * The "projects" collection of methods.
  * Typical usage is:
  *  <code>
- *   $dnsService = new Google_Service_Dns(...);
+ *   $dnsService = new Google_0814_Service_Dns(...);
  *   $projects = $dnsService->projects;
  *  </code>
  */
-class Google_Service_Dns_Projects_Resource extends Google_Service_Resource
+class Google_0814_Service_Dns_Projects_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -439,13 +438,13 @@ class Google_Service_Dns_Projects_Resource extends Google_Service_Resource
    * @param string $project
    * Identifies the project addressed by this request.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Dns_Project
+   * @return Google_0814_Service_Dns_Project
    */
   public function get($project, $optParams = array())
   {
     $params = array('project' => $project);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Dns_Project");
+    return $this->call('get', array($params), "Google_0814_Service_Dns_Project");
   }
 }
 
@@ -453,11 +452,11 @@ class Google_Service_Dns_Projects_Resource extends Google_Service_Resource
  * The "resourceRecordSets" collection of methods.
  * Typical usage is:
  *  <code>
- *   $dnsService = new Google_Service_Dns(...);
+ *   $dnsService = new Google_0814_Service_Dns(...);
  *   $resourceRecordSets = $dnsService->resourceRecordSets;
  *  </code>
  */
-class Google_Service_Dns_ResourceRecordSets_Resource extends Google_Service_Resource
+class Google_0814_Service_Dns_ResourceRecordSets_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -481,24 +480,24 @@ class Google_Service_Dns_ResourceRecordSets_Resource extends Google_Service_Reso
    * @opt_param string type
    * Restricts the list to return only records of this type. If present, the "name" parameter must
     * also be present.
-   * @return Google_Service_Dns_ResourceRecordSetsListResponse
+   * @return Google_0814_Service_Dns_ResourceRecordSetsListResponse
    */
   public function listResourceRecordSets($project, $managedZone, $optParams = array())
   {
     $params = array('project' => $project, 'managedZone' => $managedZone);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Dns_ResourceRecordSetsListResponse");
+    return $this->call('list', array($params), "Google_0814_Service_Dns_ResourceRecordSetsListResponse");
   }
 }
 
 
 
 
-class Google_Service_Dns_Change extends Google_Collection
+class Google_0814_Service_Dns_Change extends Google_0814_Collection
 {
-  protected $additionsType = 'Google_Service_Dns_ResourceRecordSet';
+  protected $additionsType = 'Google_0814_Service_Dns_ResourceRecordSet';
   protected $additionsDataType = 'array';
-  protected $deletionsType = 'Google_Service_Dns_ResourceRecordSet';
+  protected $deletionsType = 'Google_0814_Service_Dns_ResourceRecordSet';
   protected $deletionsDataType = 'array';
   public $id;
   public $kind;
@@ -566,9 +565,9 @@ class Google_Service_Dns_Change extends Google_Collection
   }
 }
 
-class Google_Service_Dns_ChangesListResponse extends Google_Collection
+class Google_0814_Service_Dns_ChangesListResponse extends Google_0814_Collection
 {
-  protected $changesType = 'Google_Service_Dns_Change';
+  protected $changesType = 'Google_0814_Service_Dns_Change';
   protected $changesDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -604,7 +603,7 @@ class Google_Service_Dns_ChangesListResponse extends Google_Collection
   }
 }
 
-class Google_Service_Dns_ManagedZone extends Google_Collection
+class Google_0814_Service_Dns_ManagedZone extends Google_0814_Collection
 {
   public $creationTime;
   public $description;
@@ -685,10 +684,10 @@ class Google_Service_Dns_ManagedZone extends Google_Collection
   }
 }
 
-class Google_Service_Dns_ManagedZonesListResponse extends Google_Collection
+class Google_0814_Service_Dns_ManagedZonesListResponse extends Google_0814_Collection
 {
   public $kind;
-  protected $managedZonesType = 'Google_Service_Dns_ManagedZone';
+  protected $managedZonesType = 'Google_0814_Service_Dns_ManagedZone';
   protected $managedZonesDataType = 'array';
   public $nextPageToken;
 
@@ -723,12 +722,12 @@ class Google_Service_Dns_ManagedZonesListResponse extends Google_Collection
   }
 }
 
-class Google_Service_Dns_Project extends Google_Model
+class Google_0814_Service_Dns_Project extends Google_0814_Model
 {
   public $id;
   public $kind;
   public $number;
-  protected $quotaType = 'Google_Service_Dns_Quota';
+  protected $quotaType = 'Google_0814_Service_Dns_Quota';
   protected $quotaDataType = '';
 
   public function setId($id)
@@ -761,7 +760,7 @@ class Google_Service_Dns_Project extends Google_Model
     return $this->number;
   }
 
-  public function setQuota(Google_Service_Dns_Quota $quota)
+  public function setQuota(Google_0814_Service_Dns_Quota $quota)
   {
     $this->quota = $quota;
   }
@@ -772,7 +771,7 @@ class Google_Service_Dns_Project extends Google_Model
   }
 }
 
-class Google_Service_Dns_Quota extends Google_Model
+class Google_0814_Service_Dns_Quota extends Google_0814_Model
 {
   public $kind;
   public $managedZones;
@@ -853,7 +852,7 @@ class Google_Service_Dns_Quota extends Google_Model
   }
 }
 
-class Google_Service_Dns_ResourceRecordSet extends Google_Collection
+class Google_0814_Service_Dns_ResourceRecordSet extends Google_0814_Collection
 {
   public $kind;
   public $name;
@@ -912,11 +911,11 @@ class Google_Service_Dns_ResourceRecordSet extends Google_Collection
   }
 }
 
-class Google_Service_Dns_ResourceRecordSetsListResponse extends Google_Collection
+class Google_0814_Service_Dns_ResourceRecordSetsListResponse extends Google_0814_Collection
 {
   public $kind;
   public $nextPageToken;
-  protected $rrsetsType = 'Google_Service_Dns_ResourceRecordSet';
+  protected $rrsetsType = 'Google_0814_Service_Dns_ResourceRecordSet';
   protected $rrsetsDataType = 'array';
 
   public function setKind($kind)
@@ -948,5 +947,4 @@ class Google_Service_Dns_ResourceRecordSetsListResponse extends Google_Collectio
   {
     return $this->rrsets;
   }
-}
 }

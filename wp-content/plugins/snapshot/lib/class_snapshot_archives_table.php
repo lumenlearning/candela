@@ -371,7 +371,8 @@ if (!class_exists('Snapshot_Archives_Data_Items_Table')) {
 	    }
 
 		function display() {
-			extract( $this->_args );
+			$args = $this->_args;
+			extract( $args );
 
 			if ((isset($_GET['snapshot-action-sub'])) && (sanitize_text_field($_GET['snapshot-action-sub']) == "restore")) {
 				?><p><?php _e('Select the snapshot item to restore', SNAPSHOT_I18N_DOMAIN); ?></p><?php

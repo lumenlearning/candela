@@ -16,8 +16,6 @@
  */
 require_once "Google/Exception.php";
 
-if (!class_exists('Google_Cache_Exception')) {
-class Google_Cache_Exception extends Google_Exception
+class Google_0814_Cache_Exception extends Google_0814_Exception
 {
-}
 }

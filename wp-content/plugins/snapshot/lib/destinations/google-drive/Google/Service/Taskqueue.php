@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_Taskqueue')) {
-class Google_Service_Taskqueue extends Google_Service
+class Google_0814_Service_Taskqueue extends Google_0814_Service
 {
   /** Manage your Tasks and Taskqueues. */
   const TASKQUEUE = "https://www.googleapis.com/auth/taskqueue";
@@ -44,16 +43,16 @@ class Google_Service_Taskqueue extends Google_Service
   /**
    * Constructs the internal representation of the Taskqueue service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'taskqueue/v1beta2/projects/';
     $this->version = 'v1beta2';
     $this->serviceName = 'taskqueue';
 
-    $this->taskqueues = new Google_Service_Taskqueue_Taskqueues_Resource(
+    $this->taskqueues = new Google_0814_Service_Taskqueue_Taskqueues_Resource(
         $this,
         $this->serviceName,
         'taskqueues',
@@ -82,7 +81,7 @@ class Google_Service_Taskqueue extends Google_Service
           )
         )
     );
-    $this->tasks = new Google_Service_Taskqueue_Tasks_Resource(
+    $this->tasks = new Google_0814_Service_Taskqueue_Tasks_Resource(
         $this,
         $this->serviceName,
         'tasks',
@@ -253,11 +252,11 @@ class Google_Service_Taskqueue extends Google_Service
  * The "taskqueues" collection of methods.
  * Typical usage is:
  *  <code>
- *   $taskqueueService = new Google_Service_Taskqueue(...);
+ *   $taskqueueService = new Google_0814_Service_Taskqueue(...);
  *   $taskqueues = $taskqueueService->taskqueues;
  *  </code>
  */
-class Google_Service_Taskqueue_Taskqueues_Resource extends Google_Service_Resource
+class Google_0814_Service_Taskqueue_Taskqueues_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -271,13 +270,13 @@ class Google_Service_Taskqueue_Taskqueues_Resource extends Google_Service_Resour
    *
    * @opt_param bool getStats
    * Whether to get stats. Optional.
-   * @return Google_Service_Taskqueue_TaskQueue
+   * @return Google_0814_Service_Taskqueue_TaskQueue
    */
   public function get($project, $taskqueue, $optParams = array())
   {
     $params = array('project' => $project, 'taskqueue' => $taskqueue);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Taskqueue_TaskQueue");
+    return $this->call('get', array($params), "Google_0814_Service_Taskqueue_TaskQueue");
   }
 }
 
@@ -285,11 +284,11 @@ class Google_Service_Taskqueue_Taskqueues_Resource extends Google_Service_Resour
  * The "tasks" collection of methods.
  * Typical usage is:
  *  <code>
- *   $taskqueueService = new Google_Service_Taskqueue(...);
+ *   $taskqueueService = new Google_0814_Service_Taskqueue(...);
  *   $tasks = $taskqueueService->tasks;
  *  </code>
  */
-class Google_Service_Taskqueue_Tasks_Resource extends Google_Service_Resource
+class Google_0814_Service_Taskqueue_Tasks_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -319,13 +318,13 @@ class Google_Service_Taskqueue_Tasks_Resource extends Google_Service_Resource
    * @param string $task
    * The task to get properties of.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Taskqueue_Task
+   * @return Google_0814_Service_Taskqueue_Task
    */
   public function get($project, $taskqueue, $task, $optParams = array())
   {
     $params = array('project' => $project, 'taskqueue' => $taskqueue, 'task' => $task);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Taskqueue_Task");
+    return $this->call('get', array($params), "Google_0814_Service_Taskqueue_Task");
   }
   /**
    * Insert a new task in a TaskQueue (tasks.insert)
@@ -334,15 +333,15 @@ class Google_Service_Taskqueue_Tasks_Resource extends Google_Service_Resource
    * The project under which the queue lies
    * @param string $taskqueue
    * The taskqueue to insert the task into
-   * @param Google_Task $postBody
+   * @param Google_0814_Task $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Taskqueue_Task
+   * @return Google_0814_Service_Taskqueue_Task
    */
-  public function insert($project, $taskqueue, Google_Service_Taskqueue_Task $postBody, $optParams = array())
+  public function insert($project, $taskqueue, Google_0814_Service_Taskqueue_Task $postBody, $optParams = array())
   {
     $params = array('project' => $project, 'taskqueue' => $taskqueue, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Taskqueue_Task");
+    return $this->call('insert', array($params), "Google_0814_Service_Taskqueue_Task");
   }
   /**
    * Lease 1 or more tasks from a TaskQueue. (tasks.lease)
@@ -363,13 +362,13 @@ class Google_Service_Taskqueue_Tasks_Resource extends Google_Service_Resource
    * The tag allowed for tasks in the response. Must only be specified if group_by_tag is true. If
     * group_by_tag is true and tag is not specified the tag will be that of the oldest task by eta,
     * i.e. the first available tag
-   * @return Google_Service_Taskqueue_Tasks
+   * @return Google_0814_Service_Taskqueue_Tasks
    */
   public function lease($project, $taskqueue, $numTasks, $leaseSecs, $optParams = array())
   {
     $params = array('project' => $project, 'taskqueue' => $taskqueue, 'numTasks' => $numTasks, 'leaseSecs' => $leaseSecs);
     $params = array_merge($params, $optParams);
-    return $this->call('lease', array($params), "Google_Service_Taskqueue_Tasks");
+    return $this->call('lease', array($params), "Google_0814_Service_Taskqueue_Tasks");
   }
   /**
    * List Tasks in a TaskQueue (tasks.listTasks)
@@ -379,13 +378,13 @@ class Google_Service_Taskqueue_Tasks_Resource extends Google_Service_Resource
    * @param string $taskqueue
    * The id of the taskqueue to list tasks from.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Taskqueue_Tasks2
+   * @return Google_0814_Service_Taskqueue_Tasks2
    */
   public function listTasks($project, $taskqueue, $optParams = array())
   {
     $params = array('project' => $project, 'taskqueue' => $taskqueue);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Taskqueue_Tasks2");
+    return $this->call('list', array($params), "Google_0814_Service_Taskqueue_Tasks2");
   }
   /**
    * Update tasks that are leased out of a TaskQueue. This method supports patch
@@ -399,15 +398,15 @@ class Google_Service_Taskqueue_Tasks_Resource extends Google_Service_Resource
    *
    * @param int $newLeaseSeconds
    * The new lease in seconds.
-   * @param Google_Task $postBody
+   * @param Google_0814_Task $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Taskqueue_Task
+   * @return Google_0814_Service_Taskqueue_Task
    */
-  public function patch($project, $taskqueue, $task, $newLeaseSeconds, Google_Service_Taskqueue_Task $postBody, $optParams = array())
+  public function patch($project, $taskqueue, $task, $newLeaseSeconds, Google_0814_Service_Taskqueue_Task $postBody, $optParams = array())
   {
     $params = array('project' => $project, 'taskqueue' => $taskqueue, 'task' => $task, 'newLeaseSeconds' => $newLeaseSeconds, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Taskqueue_Task");
+    return $this->call('patch', array($params), "Google_0814_Service_Taskqueue_Task");
   }
   /**
    * Update tasks that are leased out of a TaskQueue. (tasks.update)
@@ -420,22 +419,22 @@ class Google_Service_Taskqueue_Tasks_Resource extends Google_Service_Resource
    *
    * @param int $newLeaseSeconds
    * The new lease in seconds.
-   * @param Google_Task $postBody
+   * @param Google_0814_Task $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Taskqueue_Task
+   * @return Google_0814_Service_Taskqueue_Task
    */
-  public function update($project, $taskqueue, $task, $newLeaseSeconds, Google_Service_Taskqueue_Task $postBody, $optParams = array())
+  public function update($project, $taskqueue, $task, $newLeaseSeconds, Google_0814_Service_Taskqueue_Task $postBody, $optParams = array())
   {
     $params = array('project' => $project, 'taskqueue' => $taskqueue, 'task' => $task, 'newLeaseSeconds' => $newLeaseSeconds, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Taskqueue_Task");
+    return $this->call('update', array($params), "Google_0814_Service_Taskqueue_Task");
   }
 }
 
 
 
 
-class Google_Service_Taskqueue_Task extends Google_Model
+class Google_0814_Service_Taskqueue_Task extends Google_0814_Model
 {
   public $enqueueTimestamp;
   public $id;
@@ -527,17 +526,17 @@ class Google_Service_Taskqueue_Task extends Google_Model
   }
 }
 
-class Google_Service_Taskqueue_TaskQueue extends Google_Model
+class Google_0814_Service_Taskqueue_TaskQueue extends Google_0814_Model
 {
-  protected $aclType = 'Google_Service_Taskqueue_TaskQueueAcl';
+  protected $aclType = 'Google_0814_Service_Taskqueue_TaskQueueAcl';
   protected $aclDataType = '';
   public $id;
   public $kind;
   public $maxLeases;
-  protected $statsType = 'Google_Service_Taskqueue_TaskQueueStats';
+  protected $statsType = 'Google_0814_Service_Taskqueue_TaskQueueStats';
   protected $statsDataType = '';
 
-  public function setAcl(Google_Service_Taskqueue_TaskQueueAcl $acl)
+  public function setAcl(Google_0814_Service_Taskqueue_TaskQueueAcl $acl)
   {
     $this->acl = $acl;
   }
@@ -577,7 +576,7 @@ class Google_Service_Taskqueue_TaskQueue extends Google_Model
     return $this->maxLeases;
   }
 
-  public function setStats(Google_Service_Taskqueue_TaskQueueStats $stats)
+  public function setStats(Google_0814_Service_Taskqueue_TaskQueueStats $stats)
   {
     $this->stats = $stats;
   }
@@ -588,7 +587,7 @@ class Google_Service_Taskqueue_TaskQueue extends Google_Model
   }
 }
 
-class Google_Service_Taskqueue_TaskQueueAcl extends Google_Collection
+class Google_0814_Service_Taskqueue_TaskQueueAcl extends Google_0814_Collection
 {
   public $adminEmails;
   public $consumerEmails;
@@ -625,7 +624,7 @@ class Google_Service_Taskqueue_TaskQueueAcl extends Google_Collection
   }
 }
 
-class Google_Service_Taskqueue_TaskQueueStats extends Google_Model
+class Google_0814_Service_Taskqueue_TaskQueueStats extends Google_0814_Model
 {
   public $leasedLastHour;
   public $leasedLastMinute;
@@ -673,9 +672,9 @@ class Google_Service_Taskqueue_TaskQueueStats extends Google_Model
   }
 }
 
-class Google_Service_Taskqueue_Tasks extends Google_Collection
+class Google_0814_Service_Taskqueue_Tasks extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Taskqueue_Task';
+  protected $itemsType = 'Google_0814_Service_Taskqueue_Task';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -700,9 +699,9 @@ class Google_Service_Taskqueue_Tasks extends Google_Collection
   }
 }
 
-class Google_Service_Taskqueue_Tasks2 extends Google_Collection
+class Google_0814_Service_Taskqueue_Tasks2 extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Taskqueue_Task';
+  protected $itemsType = 'Google_0814_Service_Taskqueue_Task';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -725,5 +724,4 @@ class Google_Service_Taskqueue_Tasks2 extends Google_Collection
   {
     return $this->kind;
   }
-}
 }

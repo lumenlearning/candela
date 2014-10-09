@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_Customsearch')) {
-class Google_Service_Customsearch extends Google_Service
+class Google_0814_Service_Customsearch extends Google_0814_Service
 {
 
 
@@ -40,16 +39,16 @@ class Google_Service_Customsearch extends Google_Service
   /**
    * Constructs the internal representation of the Customsearch service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'customsearch/';
     $this->version = 'v1';
     $this->serviceName = 'customsearch';
 
-    $this->cse = new Google_Service_Customsearch_Cse_Resource(
+    $this->cse = new Google_0814_Service_Customsearch_Cse_Resource(
         $this,
         $this->serviceName,
         'cse',
@@ -201,11 +200,11 @@ class Google_Service_Customsearch extends Google_Service
  * The "cse" collection of methods.
  * Typical usage is:
  *  <code>
- *   $customsearchService = new Google_Service_Customsearch(...);
+ *   $customsearchService = new Google_0814_Service_Customsearch(...);
  *   $cse = $customsearchService->cse;
  *  </code>
  */
-class Google_Service_Customsearch_Cse_Resource extends Google_Service_Resource
+class Google_0814_Service_Customsearch_Cse_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -284,22 +283,22 @@ class Google_Service_Customsearch_Cse_Resource extends Google_Service_Resource
    * @opt_param string siteSearchFilter
    * Controls whether to include or exclude results from the site named in the as_sitesearch
     * parameter
-   * @return Google_Service_Customsearch_Search
+   * @return Google_0814_Service_Customsearch_Search
    */
   public function listCse($q, $optParams = array())
   {
     $params = array('q' => $q);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Customsearch_Search");
+    return $this->call('list', array($params), "Google_0814_Service_Customsearch_Search");
   }
 }
 
 
 
 
-class Google_Service_Customsearch_Context extends Google_Collection
+class Google_0814_Service_Customsearch_Context extends Google_0814_Collection
 {
-  protected $facetsType = 'Google_Service_Customsearch_ContextFacets';
+  protected $facetsType = 'Google_0814_Service_Customsearch_ContextFacets';
   protected $facetsDataType = 'array';
   public $title;
 
@@ -324,7 +323,7 @@ class Google_Service_Customsearch_Context extends Google_Collection
   }
 }
 
-class Google_Service_Customsearch_ContextFacets extends Google_Model
+class Google_0814_Service_Customsearch_ContextFacets extends Google_0814_Model
 {
   public $anchor;
   public $label;
@@ -361,13 +360,13 @@ class Google_Service_Customsearch_ContextFacets extends Google_Model
   }
 }
 
-class Google_Service_Customsearch_Promotion extends Google_Collection
+class Google_0814_Service_Customsearch_Promotion extends Google_0814_Collection
 {
-  protected $bodyLinesType = 'Google_Service_Customsearch_PromotionBodyLines';
+  protected $bodyLinesType = 'Google_0814_Service_Customsearch_PromotionBodyLines';
   protected $bodyLinesDataType = 'array';
   public $displayLink;
   public $htmlTitle;
-  protected $imageType = 'Google_Service_Customsearch_PromotionImage';
+  protected $imageType = 'Google_0814_Service_Customsearch_PromotionImage';
   protected $imageDataType = '';
   public $link;
   public $title;
@@ -402,7 +401,7 @@ class Google_Service_Customsearch_Promotion extends Google_Collection
     return $this->htmlTitle;
   }
 
-  public function setImage(Google_Service_Customsearch_PromotionImage $image)
+  public function setImage(Google_0814_Service_Customsearch_PromotionImage $image)
   {
     $this->image = $image;
   }
@@ -433,7 +432,7 @@ class Google_Service_Customsearch_Promotion extends Google_Collection
   }
 }
 
-class Google_Service_Customsearch_PromotionBodyLines extends Google_Model
+class Google_0814_Service_Customsearch_PromotionBodyLines extends Google_0814_Model
 {
   public $htmlTitle;
   public $link;
@@ -481,7 +480,7 @@ class Google_Service_Customsearch_PromotionBodyLines extends Google_Model
   }
 }
 
-class Google_Service_Customsearch_PromotionImage extends Google_Model
+class Google_0814_Service_Customsearch_PromotionImage extends Google_0814_Model
 {
   public $height;
   public $source;
@@ -518,7 +517,7 @@ class Google_Service_Customsearch_PromotionImage extends Google_Model
   }
 }
 
-class Google_Service_Customsearch_Query extends Google_Model
+class Google_0814_Service_Customsearch_Query extends Google_0814_Model
 {
   public $count;
   public $cr;
@@ -929,7 +928,7 @@ class Google_Service_Customsearch_Query extends Google_Model
   }
 }
 
-class Google_Service_Customsearch_Result extends Google_Collection
+class Google_0814_Service_Customsearch_Result extends Google_0814_Collection
 {
   public $cacheId;
   public $displayLink;
@@ -938,10 +937,10 @@ class Google_Service_Customsearch_Result extends Google_Collection
   public $htmlFormattedUrl;
   public $htmlSnippet;
   public $htmlTitle;
-  protected $imageType = 'Google_Service_Customsearch_ResultImage';
+  protected $imageType = 'Google_0814_Service_Customsearch_ResultImage';
   protected $imageDataType = '';
   public $kind;
-  protected $labelsType = 'Google_Service_Customsearch_ResultLabels';
+  protected $labelsType = 'Google_0814_Service_Customsearch_ResultLabels';
   protected $labelsDataType = 'array';
   public $link;
   public $mime;
@@ -1019,7 +1018,7 @@ class Google_Service_Customsearch_Result extends Google_Collection
     return $this->htmlTitle;
   }
 
-  public function setImage(Google_Service_Customsearch_ResultImage $image)
+  public function setImage(Google_0814_Service_Customsearch_ResultImage $image)
   {
     $this->image = $image;
   }
@@ -1100,7 +1099,7 @@ class Google_Service_Customsearch_Result extends Google_Collection
   }
 }
 
-class Google_Service_Customsearch_ResultImage extends Google_Model
+class Google_0814_Service_Customsearch_ResultImage extends Google_0814_Model
 {
   public $byteSize;
   public $contextLink;
@@ -1181,7 +1180,7 @@ class Google_Service_Customsearch_ResultImage extends Google_Model
   }
 }
 
-class Google_Service_Customsearch_ResultLabels extends Google_Model
+class Google_0814_Service_Customsearch_ResultLabels extends Google_0814_Model
 {
   public $displayName;
   public $labelWithOp;
@@ -1218,25 +1217,35 @@ class Google_Service_Customsearch_ResultLabels extends Google_Model
   }
 }
 
-class Google_Service_Customsearch_Search extends Google_Collection
+class Google_0814_Service_Customsearch_ResultPagemap extends Google_0814_Model
 {
-  protected $contextType = 'Google_Service_Customsearch_Context';
+
+}
+
+class Google_0814_Service_Customsearch_ResultPagemapItemElement extends Google_0814_Model
+{
+
+}
+
+class Google_0814_Service_Customsearch_Search extends Google_0814_Collection
+{
+  protected $contextType = 'Google_0814_Service_Customsearch_Context';
   protected $contextDataType = '';
-  protected $itemsType = 'Google_Service_Customsearch_Result';
+  protected $itemsType = 'Google_0814_Service_Customsearch_Result';
   protected $itemsDataType = 'array';
   public $kind;
-  protected $promotionsType = 'Google_Service_Customsearch_Promotion';
+  protected $promotionsType = 'Google_0814_Service_Customsearch_Promotion';
   protected $promotionsDataType = 'array';
-  protected $queriesType = 'Google_Service_Customsearch_Query';
+  protected $queriesType = 'Google_0814_Service_Customsearch_Query';
   protected $queriesDataType = 'map';
-  protected $searchInformationType = 'Google_Service_Customsearch_SearchSearchInformation';
+  protected $searchInformationType = 'Google_0814_Service_Customsearch_SearchSearchInformation';
   protected $searchInformationDataType = '';
-  protected $spellingType = 'Google_Service_Customsearch_SearchSpelling';
+  protected $spellingType = 'Google_0814_Service_Customsearch_SearchSpelling';
   protected $spellingDataType = '';
-  protected $urlType = 'Google_Service_Customsearch_SearchUrl';
+  protected $urlType = 'Google_0814_Service_Customsearch_SearchUrl';
   protected $urlDataType = '';
 
-  public function setContext(Google_Service_Customsearch_Context $context)
+  public function setContext(Google_0814_Service_Customsearch_Context $context)
   {
     $this->context = $context;
   }
@@ -1286,7 +1295,7 @@ class Google_Service_Customsearch_Search extends Google_Collection
     return $this->queries;
   }
 
-  public function setSearchInformation(Google_Service_Customsearch_SearchSearchInformation $searchInformation)
+  public function setSearchInformation(Google_0814_Service_Customsearch_SearchSearchInformation $searchInformation)
   {
     $this->searchInformation = $searchInformation;
   }
@@ -1296,7 +1305,7 @@ class Google_Service_Customsearch_Search extends Google_Collection
     return $this->searchInformation;
   }
 
-  public function setSpelling(Google_Service_Customsearch_SearchSpelling $spelling)
+  public function setSpelling(Google_0814_Service_Customsearch_SearchSpelling $spelling)
   {
     $this->spelling = $spelling;
   }
@@ -1306,7 +1315,7 @@ class Google_Service_Customsearch_Search extends Google_Collection
     return $this->spelling;
   }
 
-  public function setUrl(Google_Service_Customsearch_SearchUrl $url)
+  public function setUrl(Google_0814_Service_Customsearch_SearchUrl $url)
   {
     $this->url = $url;
   }
@@ -1317,7 +1326,12 @@ class Google_Service_Customsearch_Search extends Google_Collection
   }
 }
 
-class Google_Service_Customsearch_SearchSearchInformation extends Google_Model
+class Google_0814_Service_Customsearch_SearchQueries extends Google_0814_Model
+{
+
+}
+
+class Google_0814_Service_Customsearch_SearchSearchInformation extends Google_0814_Model
 {
   public $formattedSearchTime;
   public $formattedTotalResults;
@@ -1365,7 +1379,7 @@ class Google_Service_Customsearch_SearchSearchInformation extends Google_Model
   }
 }
 
-class Google_Service_Customsearch_SearchSpelling extends Google_Model
+class Google_0814_Service_Customsearch_SearchSpelling extends Google_0814_Model
 {
   public $correctedQuery;
   public $htmlCorrectedQuery;
@@ -1391,7 +1405,7 @@ class Google_Service_Customsearch_SearchSpelling extends Google_Model
   }
 }
 
-class Google_Service_Customsearch_SearchUrl extends Google_Model
+class Google_0814_Service_Customsearch_SearchUrl extends Google_0814_Model
 {
   public $template;
   public $type;
@@ -1415,5 +1429,4 @@ class Google_Service_Customsearch_SearchUrl extends Google_Model
   {
     return $this->type;
   }
-}
 }

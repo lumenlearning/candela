@@ -28,18 +28,17 @@ require_once "Google/Cache/Exception.php";
  *
  * @author Chris Chabot <chabotc@google.com>
  */
-if (!class_exists('Google_Cache_Memcache')) {
-class Google_Cache_Memcache extends Google_Cache_Abstract
+class Google_0814_Cache_Memcache extends Google_0814_Cache_Abstract
 {
   private $connection = false;
   private $mc = false;
   private $host;
   private $port;
 
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     if (!function_exists('memcache_connect') && !class_exists("Memcached")) {
-      throw new Google_Cache_Exception("Memcache functions not available");
+      throw new Google_0814_Cache_Exception("Memcache functions not available");
     }
     if ($client->isAppEngine()) {
       // No credentials needed for GAE.
@@ -49,7 +48,7 @@ class Google_Cache_Memcache extends Google_Cache_Abstract
       $this->host = $client->getClassConfig($this, 'host');
       $this->port = $client->getClassConfig($this, 'port');
       if (empty($this->host) || empty($this->port)) {
-        throw new Google_Cache_Exception("You need to supply a valid memcache host and port");
+        throw new Google_0814_Cache_Exception("You need to supply a valid memcache host and port");
       }
     }
   }
@@ -80,7 +79,7 @@ class Google_Cache_Memcache extends Google_Cache_Abstract
    * @inheritDoc
    * @param string $key
    * @param string $value
-   * @throws Google_Cache_Exception
+   * @throws Google_0814_Cache_Exception
    */
   public function set($key, $value)
   {
@@ -95,7 +94,7 @@ class Google_Cache_Memcache extends Google_Cache_Abstract
       $rc = memcache_set($this->connection, $key, $data, false);
     }
     if ($rc == false) {
-      throw new Google_Cache_Exception("Couldn't store data in cache");
+      throw new Google_0814_Cache_Exception("Couldn't store data in cache");
     }
   }
 
@@ -132,8 +131,7 @@ class Google_Cache_Memcache extends Google_Cache_Abstract
     }
 
     if (! $this->connection) {
-      throw new Google_Cache_Exception("Couldn't connect to memcache server");
+      throw new Google_0814_Cache_Exception("Couldn't connect to memcache server");
     }
   }
-}
 }

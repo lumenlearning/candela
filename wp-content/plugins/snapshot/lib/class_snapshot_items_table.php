@@ -668,7 +668,9 @@ if (!class_exists('Snapshot_Items_Table')) {
 	    }
 
 		function display() {
-			extract( $this->_args );
+
+			$args = $this->_args;
+			extract( $args );
 	//		echo "_args<pre>"; print_r($this->_args); echo "</pre>";
 			$this->display_tablenav( 'top' );
 			?>

@@ -4,7 +4,7 @@ Plugin Name: Snapshot
 Plugin URI: http://premium.wpmudev.org/project/snapshot
 Description: This plugin allows you to take quick on-demand backup snapshots of your working WordPress database. You can select from the default WordPress tables as well as custom plugin tables within the database structure. All snapshots are logged, and you can restore the snapshot as needed.
 Author: WPMU DEV
-Version: 2.4.2.7
+Version: 2.4.3.0
 Author URI: http://premium.wpmudev.org/
 Network: true
 WDP ID: 257
@@ -33,6 +33,9 @@ if (!defined('SNAPSHOT_I18N_DOMAIN'))
 
 /* Load important file functions (and everything that goes with it). */
 require_once( ABSPATH . 'wp-admin/includes/admin.php' );
+
+/* Load Snapshot debug library */
+require_once( dirname(__FILE__) . '/lib/class_snapshot_debug.php');
 
 /* Load the Database library. This contains all the logic to export/import the tables */
 require_once( dirname(__FILE__) . '/lib/class_database_tools.php');
@@ -70,7 +73,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 		function __construct() {
 
 			$this->DEBUG									= false;
-			$this->_settings['SNAPSHOT_VERSION'] 			= '2.4.2.7';
+			$this->_settings['SNAPSHOT_VERSION'] 			= '2.4.3.0';
 
 			if (is_multisite())
 				$this->_settings['SNAPSHOT_MENU_URL'] 		= network_admin_url() . 'admin.php?page=';
@@ -156,6 +159,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			// Load our Admin Panels object to handle all Admin screens
 			require( 'lib/snapshot_admin_panels.php' );
 			$this->_snapshot_admin_panels = new wpmudev_snapshot_admin_panels();
+
 		}
 
 		/**
@@ -1085,7 +1089,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			<p>' . __( '<strong>When to Archive</strong> - This section shows a dropdown where you can select how often to create a backup of the selected tables. The default is "Manual". If selected will create a one time on demand backup. You can also select to schedule the backup by selecting one of the many options available.', SNAPSHOT_I18N_DOMAIN ) . '</p>
 			<p>' . __( '<strong>Tables in Archive</strong> - This sections lists the tables included in the snapshot archives. The table selection is set when you create a new snapshot configuration.', SNAPSHOT_I18N_DOMAIN ) . '</p>
 			<p>' . __('<strong>Where to save the Archive</strong> - The only available option at this time is local. This means the files will be stored on the local server. Future options will be remote systems like Dropbox, Amazon S3, FTP, etc.', SNAPSHOT_I18N_DOMAIN ) .'</p>
-			<p>' . __('<strong>All Archives</strong> - This section lists the various archive files creates from this snapshot configuration. Here you can click the archive filename to download. On the same row you will also see a link to view the log entries related to the creation of this archive instance. At the bottom is a link to download the full snapshot log file.', SNAPSHOT_I18N_DOMAIN ) .'</p>';	 			   		 	 				
+			<p>' . __('<strong>All Archives</strong> - This section lists the various archive files creates from this snapshot configuration. Here you can click the archive filename to download. On the same row you will also see a link to view the log entries related to the creation of this archive instance. At the bottom is a link to download the full snapshot log file.', SNAPSHOT_I18N_DOMAIN ) .'</p>';
 
 
 
@@ -2617,6 +2621,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 
 					$item = $this->config_data['items'][$item_key];
 
+					$blog_id = 0;
 					if (is_multisite()) {
 						if (isset($item['blog-id'])) {
 							$blog_id = intval($item['blog-id']);
@@ -2671,6 +2676,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 
 					$item = $this->config_data['items'][$item_key];
 
+					$blog_id = 0;
 					if (is_multisite()) {
 						if (isset($_POST['snapshot-blog-id'])) {
 							$blog_id = intval($_POST['snapshot-blog-id']);
@@ -3140,7 +3146,6 @@ if (!class_exists('WPMUDEVSnapshot')) {
 		 */
 
 		function snapshot_ajax_backup_table($item, $_post_array) {
-
 			$error_status 					= array();
 			$error_status['errorStatus'] 	= false;
 			$error_status['errorText'] 		= "";
@@ -3774,6 +3779,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			if (isset($_POST['snapshot_blog_id_search'])) {
 				$snapshot_blog_id_search = esc_attr($_POST['snapshot_blog_id_search']);
 				$PHP_URL_SCHEME = parse_url($snapshot_blog_id_search, PHP_URL_SCHEME);
+
 				if (!empty($PHP_URL_SCHEME)) {
 					$snapshot_blog_id_search = str_replace($PHP_URL_SCHEME."://", '', $snapshot_blog_id_search);
 				}
@@ -3785,14 +3791,19 @@ if (!class_exists('WPMUDEVSnapshot')) {
 
 					if (is_subdomain_install()) {
 						if (!empty($snapshot_blog_id_search))
-							$full_domain = $snapshot_blog_id_search .".". DOMAIN_CURRENT_SITE;
+							$full_domain = $snapshot_blog_id_search .".". DOMAIN_CURRENT_SITE.PATH_CURRENT_SITE;
 						else
-							$full_domain = DOMAIN_CURRENT_SITE;
+							$full_domain = DOMAIN_CURRENT_SITE.PATH_CURRENT_SITE;
 						$sql_str = $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s LIMIT 1", $full_domain);
 					} else {
-						$snapshot_blog_id_search_path 		= untrailingslashit($snapshot_blog_id_search);
+						$snapshot_blog_id_search_path = trailingslashit($snapshot_blog_id_search);
+						if( '/' == $snapshot_blog_id_search_path ) {
+							$snapshot_blog_id_search_path = '';
+						}
+
 						$sql_str = $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s LIMIT 1",
-							DOMAIN_CURRENT_SITE, "/".$snapshot_blog_id_search_path."/");
+							DOMAIN_CURRENT_SITE, PATH_CURRENT_SITE . $snapshot_blog_id_search_path );
+
 					}
 					//echo "sql_str=[". $sql_str ."]<br />";
 					$blog = $wpdb->get_row( $sql_str );
@@ -3889,15 +3900,18 @@ if (!class_exists('WPMUDEVSnapshot')) {
 
 					if (is_subdomain_install()) {
 						if (!empty($snapshot_blog_id_search))
-							$full_domain = $snapshot_blog_id_search .".". DOMAIN_CURRENT_SITE;
+							$full_domain = $snapshot_blog_id_search .".". DOMAIN_CURRENT_SITE.PATH_CURRENT_SITE;
 						else
-							$full_domain = DOMAIN_CURRENT_SITE;
+							$full_domain = DOMAIN_CURRENT_SITE.PATH_CURRENT_SITE;
 
 						$sql_str = $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s LIMIT 1", $full_domain);
 					} else {
-						$snapshot_blog_id_search_path 		= untrailingslashit($snapshot_blog_id_search);
+						$snapshot_blog_id_search_path = trailingslashit($snapshot_blog_id_search);
+						if( '/' == $snapshot_blog_id_search_path ) {
+							$snapshot_blog_id_search_path = '';
+						}
 						$sql_str = $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s LIMIT 1",
-							DOMAIN_CURRENT_SITE, "/". $snapshot_blog_id_search_path ."/");
+							DOMAIN_CURRENT_SITE, PATH_CURRENT_SITE . $snapshot_blog_id_search_path );
 					}
 					//echo "sql_str=[". $sql_str ."]<br />";
 					$blog = $wpdb->get_row( $sql_str );
@@ -3960,7 +3974,6 @@ if (!class_exists('WPMUDEVSnapshot')) {
 		 */
 
 		function snapshot_ajax_restore_proc() {
-
 			// When zlib compression is turned on we get errors from this shutdown action setup by WordPress. So we disabled.
 			$zlib_compression = ini_get('zlib.output_compression');
 			if ($zlib_compression)
@@ -4000,7 +4013,6 @@ if (!class_exists('WPMUDEVSnapshot')) {
 					switch(sanitize_text_field($_REQUEST['snapshot_action']))
 					{
 						case 'init':
-
 							$this->snapshot_logger->log_message('restore: init');
 
 							// Start/load our sessions file
@@ -4037,7 +4049,8 @@ if (!class_exists('WPMUDEVSnapshot')) {
 							$this->_session = new SnapshotSessions(trailingslashit($this->_settings['backupSessionFolderFull']), $item_key);
 
 							ob_start();
-							$error_array = $this->snapshot_ajax_restore_table($item);
+							$result = $this->snapshot_ajax_restore_table($item);
+							$error_array = $result;
 							$function_output = ob_get_contents();
 							ob_end_clean();
 							if ((isset($error_array['errorStatus'])) && ($error_array['errorStatus'] == true)) {
@@ -4283,7 +4296,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 				$error_status['MANIFEST']['RESTORE']['DEST']['WP_BLOG_ID'] 				= $_POST['snapshot-blog-id'];
 				$error_status['MANIFEST']['RESTORE']['DEST']['WP_DB_PREFIX'] 			= $wpdb->get_blog_prefix( $_POST['snapshot-blog-id'] );
 				$error_status['MANIFEST']['RESTORE']['DEST']['WP_DB_BASE_PREFIX'] 		= $wpdb->base_prefix;
-				$error_status['MANIFEST']['RESTORE']['DEST']['WP_SITEURL'] 				= get_option('siteurl');
+				$error_status['MANIFEST']['RESTORE']['DEST']['WP_SITEURL'] 				= network_site_url();
 
 				$wp_upload_dir = wp_upload_dir();
 				//echo "wp_upload_dir<pre>"; print_r($wp_upload_dir); echo "</pre>";
@@ -4311,7 +4324,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 				$error_status['MANIFEST']['RESTORE']['DEST']['WP_BLOG_ID'] 				= $error_status['MANIFEST']['WP_BLOG_ID'];
 				$error_status['MANIFEST']['RESTORE']['DEST']['WP_DB_PREFIX'] 			= $wpdb->prefix;
 				$error_status['MANIFEST']['RESTORE']['DEST']['WP_DB_BASE_PREFIX'] 		= $wpdb->base_prefix;
-				$error_status['MANIFEST']['RESTORE']['DEST']['WP_SITEURL'] 				= get_option('siteurl');
+				$error_status['MANIFEST']['RESTORE']['DEST']['WP_SITEURL'] 				= network_site_url();
 
 				$error_status['MANIFEST']['RESTORE']['DEST']['UPLOAD_DIR']				= $error_status['MANIFEST']['RESTORE']['SOURCE']['UPLOAD_DIR'];
 
@@ -4722,7 +4735,6 @@ if (!class_exists('WPMUDEVSnapshot')) {
 		 */
 
 		function snapshot_ajax_restore_finish($item) {
-
 			$this->snapshot_ajax_restore_rename_restored_tables($item);
 
 			if (is_multisite())
@@ -4886,7 +4898,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			}
 
 			// Now add our base old/new domains as a final check.
-			$replacement_strs[$_old_siteurl] = $_new_siteurl;
+			// $replacement_strs[$_old_siteurl] = $_new_siteurl;
 			//echo "replacement_strs<pre>"; print_r($replacement_strs); echo "</pre>";
 			//error_log(__FUNCTION__ .": replacement_strs<pre>". print_r($replacement_strs, true) ."</pre>");
 
@@ -4979,6 +4991,40 @@ if (!class_exists('WPMUDEVSnapshot')) {
 							$sql_str = $wpdb->prepare("UPDATE `". $table_set['table_name_restore'] ."` SET option_value=%s WHERE option_id=%d",
 								$new_value, $db_row->option_id);
 
+							$wpdb->query($sql_str);
+						}
+					}
+
+					// Options - siteurl
+					$sql_str = $wpdb->prepare("SELECT * FROM `". $table_set['table_name_restore'] ."` WHERE option_name=%s LIMIT 1", 'siteurl');
+					//echo "sql_str=[". $sql_str ."]<br />";
+					$db_row = $wpdb->get_row($sql_str);
+					//echo "db_row<pre>"; print_r($db_row); echo "</pre>";
+					if (!empty($db_row)) {
+						$new_value = snapshot_utility_replace_value ( $db_row->option_value,
+										$this->_session->data['MANIFEST']['RESTORE']['SOURCE']['WP_SITEURL'],
+										$this->_session->data['MANIFEST']['RESTORE']['DEST']['WP_SITEURL']);
+
+						if ($new_value != $db_row->option_value) {
+							$sql_str = $wpdb->prepare("UPDATE `". $table_set['table_name_restore'] ."` SET option_value=%s WHERE option_id=%d",
+								$new_value, $db_row->option_id);
+							$wpdb->query($sql_str);
+						}
+					}
+
+					// Options - home
+					$sql_str = $wpdb->prepare("SELECT * FROM `". $table_set['table_name_restore'] ."` WHERE option_name=%s LIMIT 1", 'home');
+					//echo "sql_str=[". $sql_str ."]<br />";
+					$db_row = $wpdb->get_row($sql_str);
+					//echo "db_row<pre>"; print_r($db_row); echo "</pre>";
+					if (!empty($db_row)) {
+						$new_value = snapshot_utility_replace_value ( $db_row->option_value,
+										$this->_session->data['MANIFEST']['WP_HOME'],
+										network_home_url() );
+
+						if ($new_value != $db_row->option_value) {
+							$sql_str = $wpdb->prepare("UPDATE `". $table_set['table_name_restore'] ."` SET option_value=%s WHERE option_id=%d",
+								$new_value, $db_row->option_id);
 							$wpdb->query($sql_str);
 						}
 					}
@@ -5291,11 +5337,22 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			$blog_prefix 		= $wpdb->get_blog_prefix( $_POST['snapshot-blog-id'] );
 			//echo "blog_prefix[". $blog_prefix ."]<br />";
 
-			$sql_str = "SELECT * FROM ". $blog_prefix ."users";
-			//echo "sql_str=[". $sql_str ."]<br />";
-			//die();
+			$tables = array();
+			$table_results = $wpdb->get_results( 'SHOW TABLES' );
+			foreach( $table_results as $table){
+				$obj = 'Tables_in_' . DOMAIN_CURRENT_SITE;
+				$tables[] = $table->$obj;
+			}
 
-			$users_restore = $wpdb->get_results($sql_str);
+			$users_restore = false;
+			$users_table = $blog_prefix . 'users';
+
+			// Avoid PHP Notice when prefix_[ID]_users don't exist.
+			if( in_array( $users_table, $tables ) ) {
+				$sql_str = "SELECT * FROM ". $users_table;
+				$users_restore = $wpdb->get_results($sql_str);
+			}
+
 			if ($users_restore) {
 				//echo "users_restore<pre>"; print_r($users_restore); echo "</pre>";
 				foreach($users_restore as $user_restore) {
@@ -5333,6 +5390,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 							$sql_usermeta_str = "SELECT * FROM ". $blog_prefix ."usermeta WHERE user_id=". $user_restore->ID;
 							//echo "sql_usermeta_str=[". $sql_usermeta_str ."]<br />";
 							$usermeta_restore = $wpdb->get_results($sql_usermeta_str);
+
 							if (($usermeta_restore) && (count($usermeta_restore))) {
 								//$meta_sql_str = '';
 								foreach($usermeta_restore as $meta) {

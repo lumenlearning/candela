@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_Directory')) {
-class Google_Service_Directory extends Google_Service
+class Google_0814_Service_Directory extends Google_0814_Service
 {
   /** View and manage your Chrome OS devices' metadata. */
   const ADMIN_DIRECTORY_DEVICE_CHROMEOS = "https://www.googleapis.com/auth/admin.directory.device.chromeos";
@@ -86,16 +85,16 @@ class Google_Service_Directory extends Google_Service
   /**
    * Constructs the internal representation of the Directory service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'admin/directory/v1/';
     $this->version = 'directory_v1';
     $this->serviceName = 'admin';
 
-    $this->asps = new Google_Service_Directory_Asps_Resource(
+    $this->asps = new Google_0814_Service_Directory_Asps_Resource(
         $this,
         $this->serviceName,
         'asps',
@@ -145,7 +144,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->channels = new Google_Service_Directory_Channels_Resource(
+    $this->channels = new Google_0814_Service_Directory_Channels_Resource(
         $this,
         $this->serviceName,
         'channels',
@@ -159,7 +158,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->chromeosdevices = new Google_Service_Directory_Chromeosdevices_Resource(
+    $this->chromeosdevices = new Google_0814_Service_Directory_Chromeosdevices_Resource(
         $this,
         $this->serviceName,
         'chromeosdevices',
@@ -260,7 +259,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->groups = new Google_Service_Directory_Groups_Resource(
+    $this->groups = new Google_0814_Service_Directory_Groups_Resource(
         $this,
         $this->serviceName,
         'groups',
@@ -339,7 +338,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->groups_aliases = new Google_Service_Directory_GroupsAliases_Resource(
+    $this->groups_aliases = new Google_0814_Service_Directory_GroupsAliases_Resource(
         $this,
         $this->serviceName,
         'aliases',
@@ -384,7 +383,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->members = new Google_Service_Directory_Members_Resource(
+    $this->members = new Google_0814_Service_Directory_Members_Resource(
         $this,
         $this->serviceName,
         'members',
@@ -486,7 +485,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->mobiledevices = new Google_Service_Directory_Mobiledevices_Resource(
+    $this->mobiledevices = new Google_0814_Service_Directory_Mobiledevices_Resource(
         $this,
         $this->serviceName,
         'mobiledevices',
@@ -579,7 +578,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->notifications = new Google_Service_Directory_Notifications_Resource(
+    $this->notifications = new Google_0814_Service_Directory_Notifications_Resource(
         $this,
         $this->serviceName,
         'notifications',
@@ -671,7 +670,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->orgunits = new Google_Service_Directory_Orgunits_Resource(
+    $this->orgunits = new Google_0814_Service_Directory_Orgunits_Resource(
         $this,
         $this->serviceName,
         'orgunits',
@@ -773,7 +772,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->tokens = new Google_Service_Directory_Tokens_Resource(
+    $this->tokens = new Google_0814_Service_Directory_Tokens_Resource(
         $this,
         $this->serviceName,
         'tokens',
@@ -823,7 +822,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->users = new Google_Service_Directory_Users_Resource(
+    $this->users = new Google_0814_Service_Directory_Users_Resource(
         $this,
         $this->serviceName,
         'users',
@@ -979,7 +978,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->users_aliases = new Google_Service_Directory_UsersAliases_Resource(
+    $this->users_aliases = new Google_0814_Service_Directory_UsersAliases_Resource(
         $this,
         $this->serviceName,
         'aliases',
@@ -1042,7 +1041,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->users_photos = new Google_Service_Directory_UsersPhotos_Resource(
+    $this->users_photos = new Google_0814_Service_Directory_UsersPhotos_Resource(
         $this,
         $this->serviceName,
         'photos',
@@ -1092,7 +1091,7 @@ class Google_Service_Directory extends Google_Service
           )
         )
     );
-    $this->verificationCodes = new Google_Service_Directory_VerificationCodes_Resource(
+    $this->verificationCodes = new Google_0814_Service_Directory_VerificationCodes_Resource(
         $this,
         $this->serviceName,
         'verificationCodes',
@@ -1140,11 +1139,11 @@ class Google_Service_Directory extends Google_Service
  * The "asps" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $asps = $adminService->asps;
  *  </code>
  */
-class Google_Service_Directory_Asps_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_Asps_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1172,13 +1171,13 @@ class Google_Service_Directory_Asps_Resource extends Google_Service_Resource
    * @param int $codeId
    * The unique ID of the ASP.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Asp
+   * @return Google_0814_Service_Directory_Asp
    */
   public function get($userKey, $codeId, $optParams = array())
   {
     $params = array('userKey' => $userKey, 'codeId' => $codeId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Directory_Asp");
+    return $this->call('get', array($params), "Google_0814_Service_Directory_Asp");
   }
   /**
    * List the ASPs issued by a user. (asps.listAsps)
@@ -1187,13 +1186,13 @@ class Google_Service_Directory_Asps_Resource extends Google_Service_Resource
    * Identifies the user in the API request. The value can be the user's primary email address, alias
     * email address, or unique user ID.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Asps
+   * @return Google_0814_Service_Directory_Asps
    */
   public function listAsps($userKey, $optParams = array())
   {
     $params = array('userKey' => $userKey);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Directory_Asps");
+    return $this->call('list', array($params), "Google_0814_Service_Directory_Asps");
   }
 }
 
@@ -1201,20 +1200,20 @@ class Google_Service_Directory_Asps_Resource extends Google_Service_Resource
  * The "channels" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $channels = $adminService->channels;
  *  </code>
  */
-class Google_Service_Directory_Channels_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_Channels_Resource extends Google_0814_Service_Resource
 {
 
   /**
    * Stop watching resources through this channel (channels.stop)
    *
-   * @param Google_Channel $postBody
+   * @param Google_0814_Channel $postBody
    * @param array $optParams Optional parameters.
    */
-  public function stop(Google_Service_Directory_Channel $postBody, $optParams = array())
+  public function stop(Google_0814_Service_Directory_Channel $postBody, $optParams = array())
   {
     $params = array('postBody' => $postBody);
     $params = array_merge($params, $optParams);
@@ -1226,11 +1225,11 @@ class Google_Service_Directory_Channels_Resource extends Google_Service_Resource
  * The "chromeosdevices" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $chromeosdevices = $adminService->chromeosdevices;
  *  </code>
  */
-class Google_Service_Directory_Chromeosdevices_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_Chromeosdevices_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1244,13 +1243,13 @@ class Google_Service_Directory_Chromeosdevices_Resource extends Google_Service_R
    *
    * @opt_param string projection
    * Restrict information returned to a set of selected fields.
-   * @return Google_Service_Directory_ChromeOsDevice
+   * @return Google_0814_Service_Directory_ChromeOsDevice
    */
   public function get($customerId, $deviceId, $optParams = array())
   {
     $params = array('customerId' => $customerId, 'deviceId' => $deviceId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Directory_ChromeOsDevice");
+    return $this->call('get', array($params), "Google_0814_Service_Directory_ChromeOsDevice");
   }
   /**
    * Retrieve all Chrome OS Devices of a customer (paginated)
@@ -1274,13 +1273,13 @@ class Google_Service_Directory_Chromeosdevices_Resource extends Google_Service_R
    * @opt_param string query
    * Search string in the format given at
     * http://support.google.com/chromeos/a/bin/answer.py?hl=en=1698333
-   * @return Google_Service_Directory_ChromeOsDevices
+   * @return Google_0814_Service_Directory_ChromeOsDevices
    */
   public function listChromeosdevices($customerId, $optParams = array())
   {
     $params = array('customerId' => $customerId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Directory_ChromeOsDevices");
+    return $this->call('list', array($params), "Google_0814_Service_Directory_ChromeOsDevices");
   }
   /**
    * Update Chrome OS Device. This method supports patch semantics.
@@ -1290,18 +1289,18 @@ class Google_Service_Directory_Chromeosdevices_Resource extends Google_Service_R
    * Immutable id of the Google Apps account
    * @param string $deviceId
    * Immutable id of Chrome OS Device
-   * @param Google_ChromeOsDevice $postBody
+   * @param Google_0814_ChromeOsDevice $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string projection
    * Restrict information returned to a set of selected fields.
-   * @return Google_Service_Directory_ChromeOsDevice
+   * @return Google_0814_Service_Directory_ChromeOsDevice
    */
-  public function patch($customerId, $deviceId, Google_Service_Directory_ChromeOsDevice $postBody, $optParams = array())
+  public function patch($customerId, $deviceId, Google_0814_Service_Directory_ChromeOsDevice $postBody, $optParams = array())
   {
     $params = array('customerId' => $customerId, 'deviceId' => $deviceId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Directory_ChromeOsDevice");
+    return $this->call('patch', array($params), "Google_0814_Service_Directory_ChromeOsDevice");
   }
   /**
    * Update Chrome OS Device (chromeosdevices.update)
@@ -1310,18 +1309,18 @@ class Google_Service_Directory_Chromeosdevices_Resource extends Google_Service_R
    * Immutable id of the Google Apps account
    * @param string $deviceId
    * Immutable id of Chrome OS Device
-   * @param Google_ChromeOsDevice $postBody
+   * @param Google_0814_ChromeOsDevice $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string projection
    * Restrict information returned to a set of selected fields.
-   * @return Google_Service_Directory_ChromeOsDevice
+   * @return Google_0814_Service_Directory_ChromeOsDevice
    */
-  public function update($customerId, $deviceId, Google_Service_Directory_ChromeOsDevice $postBody, $optParams = array())
+  public function update($customerId, $deviceId, Google_0814_Service_Directory_ChromeOsDevice $postBody, $optParams = array())
   {
     $params = array('customerId' => $customerId, 'deviceId' => $deviceId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Directory_ChromeOsDevice");
+    return $this->call('update', array($params), "Google_0814_Service_Directory_ChromeOsDevice");
   }
 }
 
@@ -1329,11 +1328,11 @@ class Google_Service_Directory_Chromeosdevices_Resource extends Google_Service_R
  * The "groups" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $groups = $adminService->groups;
  *  </code>
  */
-class Google_Service_Directory_Groups_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_Groups_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1355,26 +1354,26 @@ class Google_Service_Directory_Groups_Resource extends Google_Service_Resource
    * @param string $groupKey
    * Email or immutable Id of the group
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Group
+   * @return Google_0814_Service_Directory_Group
    */
   public function get($groupKey, $optParams = array())
   {
     $params = array('groupKey' => $groupKey);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Directory_Group");
+    return $this->call('get', array($params), "Google_0814_Service_Directory_Group");
   }
   /**
    * Create Group (groups.insert)
    *
-   * @param Google_Group $postBody
+   * @param Google_0814_Group $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Group
+   * @return Google_0814_Service_Directory_Group
    */
-  public function insert(Google_Service_Directory_Group $postBody, $optParams = array())
+  public function insert(Google_0814_Service_Directory_Group $postBody, $optParams = array())
   {
     $params = array('postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Directory_Group");
+    return $this->call('insert', array($params), "Google_0814_Service_Directory_Group");
   }
   /**
    * Retrieve all groups in a domain (paginated) (groups.listGroups)
@@ -1394,43 +1393,43 @@ class Google_Service_Directory_Groups_Resource extends Google_Service_Resource
    * @opt_param string userKey
    * Email or immutable Id of the user if only those groups are to be listed, the given user is a
     * member of. If Id, it should match with id of user object
-   * @return Google_Service_Directory_Groups
+   * @return Google_0814_Service_Directory_Groups
    */
   public function listGroups($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Directory_Groups");
+    return $this->call('list', array($params), "Google_0814_Service_Directory_Groups");
   }
   /**
    * Update Group. This method supports patch semantics. (groups.patch)
    *
    * @param string $groupKey
    * Email or immutable Id of the group. If Id, it should match with id of group object
-   * @param Google_Group $postBody
+   * @param Google_0814_Group $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Group
+   * @return Google_0814_Service_Directory_Group
    */
-  public function patch($groupKey, Google_Service_Directory_Group $postBody, $optParams = array())
+  public function patch($groupKey, Google_0814_Service_Directory_Group $postBody, $optParams = array())
   {
     $params = array('groupKey' => $groupKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Directory_Group");
+    return $this->call('patch', array($params), "Google_0814_Service_Directory_Group");
   }
   /**
    * Update Group (groups.update)
    *
    * @param string $groupKey
    * Email or immutable Id of the group. If Id, it should match with id of group object
-   * @param Google_Group $postBody
+   * @param Google_0814_Group $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Group
+   * @return Google_0814_Service_Directory_Group
    */
-  public function update($groupKey, Google_Service_Directory_Group $postBody, $optParams = array())
+  public function update($groupKey, Google_0814_Service_Directory_Group $postBody, $optParams = array())
   {
     $params = array('groupKey' => $groupKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Directory_Group");
+    return $this->call('update', array($params), "Google_0814_Service_Directory_Group");
   }
 }
 
@@ -1438,11 +1437,11 @@ class Google_Service_Directory_Groups_Resource extends Google_Service_Resource
  * The "aliases" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $aliases = $adminService->aliases;
  *  </code>
  */
-class Google_Service_Directory_GroupsAliases_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_GroupsAliases_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1465,15 +1464,15 @@ class Google_Service_Directory_GroupsAliases_Resource extends Google_Service_Res
    *
    * @param string $groupKey
    * Email or immutable Id of the group
-   * @param Google_Alias $postBody
+   * @param Google_0814_Alias $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Alias
+   * @return Google_0814_Service_Directory_Alias
    */
-  public function insert($groupKey, Google_Service_Directory_Alias $postBody, $optParams = array())
+  public function insert($groupKey, Google_0814_Service_Directory_Alias $postBody, $optParams = array())
   {
     $params = array('groupKey' => $groupKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Directory_Alias");
+    return $this->call('insert', array($params), "Google_0814_Service_Directory_Alias");
   }
   /**
    * List all aliases for a group (aliases.listGroupsAliases)
@@ -1481,13 +1480,13 @@ class Google_Service_Directory_GroupsAliases_Resource extends Google_Service_Res
    * @param string $groupKey
    * Email or immutable Id of the group
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Aliases
+   * @return Google_0814_Service_Directory_Aliases
    */
   public function listGroupsAliases($groupKey, $optParams = array())
   {
     $params = array('groupKey' => $groupKey);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Directory_Aliases");
+    return $this->call('list', array($params), "Google_0814_Service_Directory_Aliases");
   }
 }
 
@@ -1495,11 +1494,11 @@ class Google_Service_Directory_GroupsAliases_Resource extends Google_Service_Res
  * The "members" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $members = $adminService->members;
  *  </code>
  */
-class Google_Service_Directory_Members_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_Members_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1525,28 +1524,28 @@ class Google_Service_Directory_Members_Resource extends Google_Service_Resource
    * @param string $memberKey
    * Email or immutable Id of the member
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Member
+   * @return Google_0814_Service_Directory_Member
    */
   public function get($groupKey, $memberKey, $optParams = array())
   {
     $params = array('groupKey' => $groupKey, 'memberKey' => $memberKey);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Directory_Member");
+    return $this->call('get', array($params), "Google_0814_Service_Directory_Member");
   }
   /**
    * Add user to the specified group. (members.insert)
    *
    * @param string $groupKey
    * Email or immutable Id of the group
-   * @param Google_Member $postBody
+   * @param Google_0814_Member $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Member
+   * @return Google_0814_Service_Directory_Member
    */
-  public function insert($groupKey, Google_Service_Directory_Member $postBody, $optParams = array())
+  public function insert($groupKey, Google_0814_Service_Directory_Member $postBody, $optParams = array())
   {
     $params = array('groupKey' => $groupKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Directory_Member");
+    return $this->call('insert', array($params), "Google_0814_Service_Directory_Member");
   }
   /**
    * Retrieve all members in a group (paginated) (members.listMembers)
@@ -1561,13 +1560,13 @@ class Google_Service_Directory_Members_Resource extends Google_Service_Resource
    * Comma separated role values to filter list results on.
    * @opt_param int maxResults
    * Maximum number of results to return. Default is 200
-   * @return Google_Service_Directory_Members
+   * @return Google_0814_Service_Directory_Members
    */
   public function listMembers($groupKey, $optParams = array())
   {
     $params = array('groupKey' => $groupKey);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Directory_Members");
+    return $this->call('list', array($params), "Google_0814_Service_Directory_Members");
   }
   /**
    * Update membership of a user in the specified group. This method supports
@@ -1577,15 +1576,15 @@ class Google_Service_Directory_Members_Resource extends Google_Service_Resource
    * Email or immutable Id of the group. If Id, it should match with id of group object
    * @param string $memberKey
    * Email or immutable Id of the user. If Id, it should match with id of member object
-   * @param Google_Member $postBody
+   * @param Google_0814_Member $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Member
+   * @return Google_0814_Service_Directory_Member
    */
-  public function patch($groupKey, $memberKey, Google_Service_Directory_Member $postBody, $optParams = array())
+  public function patch($groupKey, $memberKey, Google_0814_Service_Directory_Member $postBody, $optParams = array())
   {
     $params = array('groupKey' => $groupKey, 'memberKey' => $memberKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Directory_Member");
+    return $this->call('patch', array($params), "Google_0814_Service_Directory_Member");
   }
   /**
    * Update membership of a user in the specified group. (members.update)
@@ -1594,15 +1593,15 @@ class Google_Service_Directory_Members_Resource extends Google_Service_Resource
    * Email or immutable Id of the group. If Id, it should match with id of group object
    * @param string $memberKey
    * Email or immutable Id of the user. If Id, it should match with id of member object
-   * @param Google_Member $postBody
+   * @param Google_0814_Member $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Member
+   * @return Google_0814_Service_Directory_Member
    */
-  public function update($groupKey, $memberKey, Google_Service_Directory_Member $postBody, $optParams = array())
+  public function update($groupKey, $memberKey, Google_0814_Service_Directory_Member $postBody, $optParams = array())
   {
     $params = array('groupKey' => $groupKey, 'memberKey' => $memberKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Directory_Member");
+    return $this->call('update', array($params), "Google_0814_Service_Directory_Member");
   }
 }
 
@@ -1610,11 +1609,11 @@ class Google_Service_Directory_Members_Resource extends Google_Service_Resource
  * The "mobiledevices" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $mobiledevices = $adminService->mobiledevices;
  *  </code>
  */
-class Google_Service_Directory_Mobiledevices_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_Mobiledevices_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1624,10 +1623,10 @@ class Google_Service_Directory_Mobiledevices_Resource extends Google_Service_Res
    * Immutable id of the Google Apps account
    * @param string $resourceId
    * Immutable id of Mobile Device
-   * @param Google_MobileDeviceAction $postBody
+   * @param Google_0814_MobileDeviceAction $postBody
    * @param array $optParams Optional parameters.
    */
-  public function action($customerId, $resourceId, Google_Service_Directory_MobileDeviceAction $postBody, $optParams = array())
+  public function action($customerId, $resourceId, Google_0814_Service_Directory_MobileDeviceAction $postBody, $optParams = array())
   {
     $params = array('customerId' => $customerId, 'resourceId' => $resourceId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
@@ -1659,13 +1658,13 @@ class Google_Service_Directory_Mobiledevices_Resource extends Google_Service_Res
    *
    * @opt_param string projection
    * Restrict information returned to a set of selected fields.
-   * @return Google_Service_Directory_MobileDevice
+   * @return Google_0814_Service_Directory_MobileDevice
    */
   public function get($customerId, $resourceId, $optParams = array())
   {
     $params = array('customerId' => $customerId, 'resourceId' => $resourceId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Directory_MobileDevice");
+    return $this->call('get', array($params), "Google_0814_Service_Directory_MobileDevice");
   }
   /**
    * Retrieve all Mobile Devices of a customer (paginated)
@@ -1689,13 +1688,13 @@ class Google_Service_Directory_Mobiledevices_Resource extends Google_Service_Res
    * @opt_param string query
    * Search string in the format given at
     * http://support.google.com/a/bin/answer.py?hl=en=1408863#search
-   * @return Google_Service_Directory_MobileDevices
+   * @return Google_0814_Service_Directory_MobileDevices
    */
   public function listMobiledevices($customerId, $optParams = array())
   {
     $params = array('customerId' => $customerId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Directory_MobileDevices");
+    return $this->call('list', array($params), "Google_0814_Service_Directory_MobileDevices");
   }
 }
 
@@ -1703,11 +1702,11 @@ class Google_Service_Directory_Mobiledevices_Resource extends Google_Service_Res
  * The "notifications" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $notifications = $adminService->notifications;
  *  </code>
  */
-class Google_Service_Directory_Notifications_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_Notifications_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1735,13 +1734,13 @@ class Google_Service_Directory_Notifications_Resource extends Google_Service_Res
    * @param string $notificationId
    * The unique ID of the notification.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Notification
+   * @return Google_0814_Service_Directory_Notification
    */
   public function get($customer, $notificationId, $optParams = array())
   {
     $params = array('customer' => $customer, 'notificationId' => $notificationId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Directory_Notification");
+    return $this->call('get', array($params), "Google_0814_Service_Directory_Notification");
   }
   /**
    * Retrieves a list of notifications. (notifications.listNotifications)
@@ -1756,13 +1755,13 @@ class Google_Service_Directory_Notifications_Resource extends Google_Service_Res
    * Maximum number of notifications to return per page. The default is 100.
    * @opt_param string language
    * The ISO 639-1 code of the language notifications are returned in. The default is English (en).
-   * @return Google_Service_Directory_Notifications
+   * @return Google_0814_Service_Directory_Notifications
    */
   public function listNotifications($customer, $optParams = array())
   {
     $params = array('customer' => $customer);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Directory_Notifications");
+    return $this->call('list', array($params), "Google_0814_Service_Directory_Notifications");
   }
   /**
    * Updates a notification. This method supports patch semantics.
@@ -1772,15 +1771,15 @@ class Google_Service_Directory_Notifications_Resource extends Google_Service_Res
    * The unique ID for the customer's Google account.
    * @param string $notificationId
    * The unique ID of the notification.
-   * @param Google_Notification $postBody
+   * @param Google_0814_Notification $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Notification
+   * @return Google_0814_Service_Directory_Notification
    */
-  public function patch($customer, $notificationId, Google_Service_Directory_Notification $postBody, $optParams = array())
+  public function patch($customer, $notificationId, Google_0814_Service_Directory_Notification $postBody, $optParams = array())
   {
     $params = array('customer' => $customer, 'notificationId' => $notificationId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Directory_Notification");
+    return $this->call('patch', array($params), "Google_0814_Service_Directory_Notification");
   }
   /**
    * Updates a notification. (notifications.update)
@@ -1789,15 +1788,15 @@ class Google_Service_Directory_Notifications_Resource extends Google_Service_Res
    * The unique ID for the customer's Google account.
    * @param string $notificationId
    * The unique ID of the notification.
-   * @param Google_Notification $postBody
+   * @param Google_0814_Notification $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Notification
+   * @return Google_0814_Service_Directory_Notification
    */
-  public function update($customer, $notificationId, Google_Service_Directory_Notification $postBody, $optParams = array())
+  public function update($customer, $notificationId, Google_0814_Service_Directory_Notification $postBody, $optParams = array())
   {
     $params = array('customer' => $customer, 'notificationId' => $notificationId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Directory_Notification");
+    return $this->call('update', array($params), "Google_0814_Service_Directory_Notification");
   }
 }
 
@@ -1805,11 +1804,11 @@ class Google_Service_Directory_Notifications_Resource extends Google_Service_Res
  * The "orgunits" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $orgunits = $adminService->orgunits;
  *  </code>
  */
-class Google_Service_Directory_Orgunits_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_Orgunits_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1835,28 +1834,28 @@ class Google_Service_Directory_Orgunits_Resource extends Google_Service_Resource
    * @param string $orgUnitPath
    * Full path of the organization unit
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_OrgUnit
+   * @return Google_0814_Service_Directory_OrgUnit
    */
   public function get($customerId, $orgUnitPath, $optParams = array())
   {
     $params = array('customerId' => $customerId, 'orgUnitPath' => $orgUnitPath);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Directory_OrgUnit");
+    return $this->call('get', array($params), "Google_0814_Service_Directory_OrgUnit");
   }
   /**
    * Add Organization Unit (orgunits.insert)
    *
    * @param string $customerId
    * Immutable id of the Google Apps account
-   * @param Google_OrgUnit $postBody
+   * @param Google_0814_OrgUnit $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_OrgUnit
+   * @return Google_0814_Service_Directory_OrgUnit
    */
-  public function insert($customerId, Google_Service_Directory_OrgUnit $postBody, $optParams = array())
+  public function insert($customerId, Google_0814_Service_Directory_OrgUnit $postBody, $optParams = array())
   {
     $params = array('customerId' => $customerId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Directory_OrgUnit");
+    return $this->call('insert', array($params), "Google_0814_Service_Directory_OrgUnit");
   }
   /**
    * Retrieve all Organization Units (orgunits.listOrgunits)
@@ -1869,13 +1868,13 @@ class Google_Service_Directory_Orgunits_Resource extends Google_Service_Resource
    * Whether to return all sub-organizations or just immediate children
    * @opt_param string orgUnitPath
    * the URL-encoded organization unit
-   * @return Google_Service_Directory_OrgUnits
+   * @return Google_0814_Service_Directory_OrgUnits
    */
   public function listOrgunits($customerId, $optParams = array())
   {
     $params = array('customerId' => $customerId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Directory_OrgUnits");
+    return $this->call('list', array($params), "Google_0814_Service_Directory_OrgUnits");
   }
   /**
    * Update Organization Unit. This method supports patch semantics.
@@ -1885,15 +1884,15 @@ class Google_Service_Directory_Orgunits_Resource extends Google_Service_Resource
    * Immutable id of the Google Apps account
    * @param string $orgUnitPath
    * Full path of the organization unit
-   * @param Google_OrgUnit $postBody
+   * @param Google_0814_OrgUnit $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_OrgUnit
+   * @return Google_0814_Service_Directory_OrgUnit
    */
-  public function patch($customerId, $orgUnitPath, Google_Service_Directory_OrgUnit $postBody, $optParams = array())
+  public function patch($customerId, $orgUnitPath, Google_0814_Service_Directory_OrgUnit $postBody, $optParams = array())
   {
     $params = array('customerId' => $customerId, 'orgUnitPath' => $orgUnitPath, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Directory_OrgUnit");
+    return $this->call('patch', array($params), "Google_0814_Service_Directory_OrgUnit");
   }
   /**
    * Update Organization Unit (orgunits.update)
@@ -1902,15 +1901,15 @@ class Google_Service_Directory_Orgunits_Resource extends Google_Service_Resource
    * Immutable id of the Google Apps account
    * @param string $orgUnitPath
    * Full path of the organization unit
-   * @param Google_OrgUnit $postBody
+   * @param Google_0814_OrgUnit $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_OrgUnit
+   * @return Google_0814_Service_Directory_OrgUnit
    */
-  public function update($customerId, $orgUnitPath, Google_Service_Directory_OrgUnit $postBody, $optParams = array())
+  public function update($customerId, $orgUnitPath, Google_0814_Service_Directory_OrgUnit $postBody, $optParams = array())
   {
     $params = array('customerId' => $customerId, 'orgUnitPath' => $orgUnitPath, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Directory_OrgUnit");
+    return $this->call('update', array($params), "Google_0814_Service_Directory_OrgUnit");
   }
 }
 
@@ -1918,11 +1917,11 @@ class Google_Service_Directory_Orgunits_Resource extends Google_Service_Resource
  * The "tokens" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $tokens = $adminService->tokens;
  *  </code>
  */
-class Google_Service_Directory_Tokens_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_Tokens_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1950,29 +1949,29 @@ class Google_Service_Directory_Tokens_Resource extends Google_Service_Resource
    * @param string $clientId
    * The Client ID of the application the token is issued to.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Token
+   * @return Google_0814_Service_Directory_Token
    */
   public function get($userKey, $clientId, $optParams = array())
   {
     $params = array('userKey' => $userKey, 'clientId' => $clientId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Directory_Token");
+    return $this->call('get', array($params), "Google_0814_Service_Directory_Token");
   }
   /**
-   * Returns the set of current, valid verification codes for the specified user.
-   * (tokens.listTokens)
+   * Returns the set of tokens specified user has issued to 3rd party
+   * applications. (tokens.listTokens)
    *
    * @param string $userKey
    * Identifies the user in the API request. The value can be the user's primary email address, alias
     * email address, or unique user ID.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Tokens
+   * @return Google_0814_Service_Directory_Tokens
    */
   public function listTokens($userKey, $optParams = array())
   {
     $params = array('userKey' => $userKey);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Directory_Tokens");
+    return $this->call('list', array($params), "Google_0814_Service_Directory_Tokens");
   }
 }
 
@@ -1980,11 +1979,11 @@ class Google_Service_Directory_Tokens_Resource extends Google_Service_Resource
  * The "users" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $users = $adminService->users;
  *  </code>
  */
-class Google_Service_Directory_Users_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_Users_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -2006,26 +2005,26 @@ class Google_Service_Directory_Users_Resource extends Google_Service_Resource
    * @param string $userKey
    * Email or immutable Id of the user
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_User
+   * @return Google_0814_Service_Directory_User
    */
   public function get($userKey, $optParams = array())
   {
     $params = array('userKey' => $userKey);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Directory_User");
+    return $this->call('get', array($params), "Google_0814_Service_Directory_User");
   }
   /**
    * create user. (users.insert)
    *
-   * @param Google_User $postBody
+   * @param Google_0814_User $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_User
+   * @return Google_0814_Service_Directory_User
    */
-  public function insert(Google_Service_Directory_User $postBody, $optParams = array())
+  public function insert(Google_0814_Service_Directory_User $postBody, $optParams = array())
   {
     $params = array('postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Directory_User");
+    return $this->call('insert', array($params), "Google_0814_Service_Directory_User");
   }
   /**
    * Retrieve either deleted users or all users in a domain (paginated)
@@ -2055,23 +2054,23 @@ class Google_Service_Directory_Users_Resource extends Google_Service_Resource
     * should always be followed by a *.
    * @opt_param string event
    * Event on which subscription is intended (if subscribing)
-   * @return Google_Service_Directory_Users
+   * @return Google_0814_Service_Directory_Users
    */
   public function listUsers($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Directory_Users");
+    return $this->call('list', array($params), "Google_0814_Service_Directory_Users");
   }
   /**
    * change admin status of a user (users.makeAdmin)
    *
    * @param string $userKey
    * Email or immutable Id of the user as admin
-   * @param Google_UserMakeAdmin $postBody
+   * @param Google_0814_UserMakeAdmin $postBody
    * @param array $optParams Optional parameters.
    */
-  public function makeAdmin($userKey, Google_Service_Directory_UserMakeAdmin $postBody, $optParams = array())
+  public function makeAdmin($userKey, Google_0814_Service_Directory_UserMakeAdmin $postBody, $optParams = array())
   {
     $params = array('userKey' => $userKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
@@ -2082,25 +2081,25 @@ class Google_Service_Directory_Users_Resource extends Google_Service_Resource
    *
    * @param string $userKey
    * Email or immutable Id of the user. If Id, it should match with id of user object
-   * @param Google_User $postBody
+   * @param Google_0814_User $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_User
+   * @return Google_0814_Service_Directory_User
    */
-  public function patch($userKey, Google_Service_Directory_User $postBody, $optParams = array())
+  public function patch($userKey, Google_0814_Service_Directory_User $postBody, $optParams = array())
   {
     $params = array('userKey' => $userKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Directory_User");
+    return $this->call('patch', array($params), "Google_0814_Service_Directory_User");
   }
   /**
    * Undelete a deleted user (users.undelete)
    *
    * @param string $userKey
    * The immutable id of the user
-   * @param Google_UserUndelete $postBody
+   * @param Google_0814_UserUndelete $postBody
    * @param array $optParams Optional parameters.
    */
-  public function undelete($userKey, Google_Service_Directory_UserUndelete $postBody, $optParams = array())
+  public function undelete($userKey, Google_0814_Service_Directory_UserUndelete $postBody, $optParams = array())
   {
     $params = array('userKey' => $userKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
@@ -2111,20 +2110,20 @@ class Google_Service_Directory_Users_Resource extends Google_Service_Resource
    *
    * @param string $userKey
    * Email or immutable Id of the user. If Id, it should match with id of user object
-   * @param Google_User $postBody
+   * @param Google_0814_User $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_User
+   * @return Google_0814_Service_Directory_User
    */
-  public function update($userKey, Google_Service_Directory_User $postBody, $optParams = array())
+  public function update($userKey, Google_0814_Service_Directory_User $postBody, $optParams = array())
   {
     $params = array('userKey' => $userKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Directory_User");
+    return $this->call('update', array($params), "Google_0814_Service_Directory_User");
   }
   /**
    * Watch for changes in users list (users.watch)
    *
-   * @param Google_Channel $postBody
+   * @param Google_0814_Channel $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string customer
@@ -2149,13 +2148,13 @@ class Google_Service_Directory_Users_Resource extends Google_Service_Resource
     * should always be followed by a *.
    * @opt_param string event
    * Event on which subscription is intended (if subscribing)
-   * @return Google_Service_Directory_Channel
+   * @return Google_0814_Service_Directory_Channel
    */
-  public function watch(Google_Service_Directory_Channel $postBody, $optParams = array())
+  public function watch(Google_0814_Service_Directory_Channel $postBody, $optParams = array())
   {
     $params = array('postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('watch', array($params), "Google_Service_Directory_Channel");
+    return $this->call('watch', array($params), "Google_0814_Service_Directory_Channel");
   }
 }
 
@@ -2163,11 +2162,11 @@ class Google_Service_Directory_Users_Resource extends Google_Service_Resource
  * The "aliases" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $aliases = $adminService->aliases;
  *  </code>
  */
-class Google_Service_Directory_UsersAliases_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_UsersAliases_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -2190,15 +2189,15 @@ class Google_Service_Directory_UsersAliases_Resource extends Google_Service_Reso
    *
    * @param string $userKey
    * Email or immutable Id of the user
-   * @param Google_Alias $postBody
+   * @param Google_0814_Alias $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_Alias
+   * @return Google_0814_Service_Directory_Alias
    */
-  public function insert($userKey, Google_Service_Directory_Alias $postBody, $optParams = array())
+  public function insert($userKey, Google_0814_Service_Directory_Alias $postBody, $optParams = array())
   {
     $params = array('userKey' => $userKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Directory_Alias");
+    return $this->call('insert', array($params), "Google_0814_Service_Directory_Alias");
   }
   /**
    * List all aliases for a user (aliases.listUsersAliases)
@@ -2209,42 +2208,42 @@ class Google_Service_Directory_UsersAliases_Resource extends Google_Service_Reso
    *
    * @opt_param string event
    * Event on which subscription is intended (if subscribing)
-   * @return Google_Service_Directory_Aliases
+   * @return Google_0814_Service_Directory_Aliases
    */
   public function listUsersAliases($userKey, $optParams = array())
   {
     $params = array('userKey' => $userKey);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Directory_Aliases");
+    return $this->call('list', array($params), "Google_0814_Service_Directory_Aliases");
   }
   /**
    * Watch for changes in user aliases list (aliases.watch)
    *
    * @param string $userKey
    * Email or immutable Id of the user
-   * @param Google_Channel $postBody
+   * @param Google_0814_Channel $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string event
    * Event on which subscription is intended (if subscribing)
-   * @return Google_Service_Directory_Channel
+   * @return Google_0814_Service_Directory_Channel
    */
-  public function watch($userKey, Google_Service_Directory_Channel $postBody, $optParams = array())
+  public function watch($userKey, Google_0814_Service_Directory_Channel $postBody, $optParams = array())
   {
     $params = array('userKey' => $userKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('watch', array($params), "Google_Service_Directory_Channel");
+    return $this->call('watch', array($params), "Google_0814_Service_Directory_Channel");
   }
 }
 /**
  * The "photos" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $photos = $adminService->photos;
  *  </code>
  */
-class Google_Service_Directory_UsersPhotos_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_UsersPhotos_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -2266,13 +2265,13 @@ class Google_Service_Directory_UsersPhotos_Resource extends Google_Service_Resou
    * @param string $userKey
    * Email or immutable Id of the user
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_UserPhoto
+   * @return Google_0814_Service_Directory_UserPhoto
    */
   public function get($userKey, $optParams = array())
   {
     $params = array('userKey' => $userKey);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Directory_UserPhoto");
+    return $this->call('get', array($params), "Google_0814_Service_Directory_UserPhoto");
   }
   /**
    * Add a photo for the user. This method supports patch semantics.
@@ -2280,30 +2279,30 @@ class Google_Service_Directory_UsersPhotos_Resource extends Google_Service_Resou
    *
    * @param string $userKey
    * Email or immutable Id of the user
-   * @param Google_UserPhoto $postBody
+   * @param Google_0814_UserPhoto $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_UserPhoto
+   * @return Google_0814_Service_Directory_UserPhoto
    */
-  public function patch($userKey, Google_Service_Directory_UserPhoto $postBody, $optParams = array())
+  public function patch($userKey, Google_0814_Service_Directory_UserPhoto $postBody, $optParams = array())
   {
     $params = array('userKey' => $userKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Directory_UserPhoto");
+    return $this->call('patch', array($params), "Google_0814_Service_Directory_UserPhoto");
   }
   /**
    * Add a photo for the user (photos.update)
    *
    * @param string $userKey
    * Email or immutable Id of the user
-   * @param Google_UserPhoto $postBody
+   * @param Google_0814_UserPhoto $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_UserPhoto
+   * @return Google_0814_Service_Directory_UserPhoto
    */
-  public function update($userKey, Google_Service_Directory_UserPhoto $postBody, $optParams = array())
+  public function update($userKey, Google_0814_Service_Directory_UserPhoto $postBody, $optParams = array())
   {
     $params = array('userKey' => $userKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Directory_UserPhoto");
+    return $this->call('update', array($params), "Google_0814_Service_Directory_UserPhoto");
   }
 }
 
@@ -2311,11 +2310,11 @@ class Google_Service_Directory_UsersPhotos_Resource extends Google_Service_Resou
  * The "verificationCodes" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Directory(...);
+ *   $adminService = new Google_0814_Service_Directory(...);
  *   $verificationCodes = $adminService->verificationCodes;
  *  </code>
  */
-class Google_Service_Directory_VerificationCodes_Resource extends Google_Service_Resource
+class Google_0814_Service_Directory_VerificationCodes_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -2354,20 +2353,20 @@ class Google_Service_Directory_VerificationCodes_Resource extends Google_Service
    * Identifies the user in the API request. The value can be the user's primary email address, alias
     * email address, or unique user ID.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Directory_VerificationCodes
+   * @return Google_0814_Service_Directory_VerificationCodes
    */
   public function listVerificationCodes($userKey, $optParams = array())
   {
     $params = array('userKey' => $userKey);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Directory_VerificationCodes");
+    return $this->call('list', array($params), "Google_0814_Service_Directory_VerificationCodes");
   }
 }
 
 
 
 
-class Google_Service_Directory_Alias extends Google_Model
+class Google_0814_Service_Directory_Alias extends Google_0814_Model
 {
   public $alias;
   public $etag;
@@ -2426,9 +2425,9 @@ class Google_Service_Directory_Alias extends Google_Model
   }
 }
 
-class Google_Service_Directory_Aliases extends Google_Collection
+class Google_0814_Service_Directory_Aliases extends Google_0814_Collection
 {
-  protected $aliasesType = 'Google_Service_Directory_Alias';
+  protected $aliasesType = 'Google_0814_Service_Directory_Alias';
   protected $aliasesDataType = 'array';
   public $etag;
   public $kind;
@@ -2464,7 +2463,7 @@ class Google_Service_Directory_Aliases extends Google_Collection
   }
 }
 
-class Google_Service_Directory_Asp extends Google_Model
+class Google_0814_Service_Directory_Asp extends Google_0814_Model
 {
   public $codeId;
   public $creationTime;
@@ -2545,10 +2544,10 @@ class Google_Service_Directory_Asp extends Google_Model
   }
 }
 
-class Google_Service_Directory_Asps extends Google_Collection
+class Google_0814_Service_Directory_Asps extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_Directory_Asp';
+  protected $itemsType = 'Google_0814_Service_Directory_Asp';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -2583,7 +2582,7 @@ class Google_Service_Directory_Asps extends Google_Collection
   }
 }
 
-class Google_Service_Directory_Channel extends Google_Model
+class Google_0814_Service_Directory_Channel extends Google_0814_Model
 {
   public $address;
   public $expiration;
@@ -2697,13 +2696,19 @@ class Google_Service_Directory_Channel extends Google_Model
   }
 }
 
-class Google_Service_Directory_ChromeOsDevice extends Google_Model
+class Google_0814_Service_Directory_ChannelParams extends Google_0814_Model
+{
+
+}
+
+class Google_0814_Service_Directory_ChromeOsDevice extends Google_0814_Collection
 {
   public $annotatedLocation;
   public $annotatedUser;
   public $bootMode;
   public $deviceId;
   public $etag;
+  public $ethernetMacAddress;
   public $firmwareVersion;
   public $kind;
   public $lastEnrollmentTime;
@@ -2716,6 +2721,8 @@ class Google_Service_Directory_ChromeOsDevice extends Google_Model
   public $orgUnitPath;
   public $osVersion;
   public $platformVersion;
+  protected $recentUsersType = 'Google_0814_Service_Directory_ChromeOsDeviceRecentUsers';
+  protected $recentUsersDataType = 'array';
   public $serialNumber;
   public $status;
   public $supportEndDate;
@@ -2769,6 +2776,16 @@ class Google_Service_Directory_ChromeOsDevice extends Google_Model
   public function getEtag()
   {
     return $this->etag;
+  }
+
+  public function setEthernetMacAddress($ethernetMacAddress)
+  {
+    $this->ethernetMacAddress = $ethernetMacAddress;
+  }
+
+  public function getEthernetMacAddress()
+  {
+    return $this->ethernetMacAddress;
   }
 
   public function setFirmwareVersion($firmwareVersion)
@@ -2891,6 +2908,16 @@ class Google_Service_Directory_ChromeOsDevice extends Google_Model
     return $this->platformVersion;
   }
 
+  public function setRecentUsers($recentUsers)
+  {
+    $this->recentUsers = $recentUsers;
+  }
+
+  public function getRecentUsers()
+  {
+    return $this->recentUsers;
+  }
+
   public function setSerialNumber($serialNumber)
   {
     $this->serialNumber = $serialNumber;
@@ -2932,9 +2959,35 @@ class Google_Service_Directory_ChromeOsDevice extends Google_Model
   }
 }
 
-class Google_Service_Directory_ChromeOsDevices extends Google_Collection
+class Google_0814_Service_Directory_ChromeOsDeviceRecentUsers extends Google_0814_Model
 {
-  protected $chromeosdevicesType = 'Google_Service_Directory_ChromeOsDevice';
+  public $email;
+  public $type;
+
+  public function setEmail($email)
+  {
+    $this->email = $email;
+  }
+
+  public function getEmail()
+  {
+    return $this->email;
+  }
+
+  public function setType($type)
+  {
+    $this->type = $type;
+  }
+
+  public function getType()
+  {
+    return $this->type;
+  }
+}
+
+class Google_0814_Service_Directory_ChromeOsDevices extends Google_0814_Collection
+{
+  protected $chromeosdevicesType = 'Google_0814_Service_Directory_ChromeOsDevice';
   protected $chromeosdevicesDataType = 'array';
   public $etag;
   public $kind;
@@ -2981,7 +3034,7 @@ class Google_Service_Directory_ChromeOsDevices extends Google_Collection
   }
 }
 
-class Google_Service_Directory_Group extends Google_Collection
+class Google_0814_Service_Directory_Group extends Google_0814_Collection
 {
   public $adminCreated;
   public $aliases;
@@ -3095,10 +3148,10 @@ class Google_Service_Directory_Group extends Google_Collection
   }
 }
 
-class Google_Service_Directory_Groups extends Google_Collection
+class Google_0814_Service_Directory_Groups extends Google_0814_Collection
 {
   public $etag;
-  protected $groupsType = 'Google_Service_Directory_Group';
+  protected $groupsType = 'Google_0814_Service_Directory_Group';
   protected $groupsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -3144,7 +3197,7 @@ class Google_Service_Directory_Groups extends Google_Collection
   }
 }
 
-class Google_Service_Directory_Member extends Google_Model
+class Google_0814_Service_Directory_Member extends Google_0814_Model
 {
   public $email;
   public $etag;
@@ -3214,11 +3267,11 @@ class Google_Service_Directory_Member extends Google_Model
   }
 }
 
-class Google_Service_Directory_Members extends Google_Collection
+class Google_0814_Service_Directory_Members extends Google_0814_Collection
 {
   public $etag;
   public $kind;
-  protected $membersType = 'Google_Service_Directory_Member';
+  protected $membersType = 'Google_0814_Service_Directory_Member';
   protected $membersDataType = 'array';
   public $nextPageToken;
 
@@ -3263,24 +3316,35 @@ class Google_Service_Directory_Members extends Google_Collection
   }
 }
 
-class Google_Service_Directory_MobileDevice extends Google_Collection
+class Google_0814_Service_Directory_MobileDevice extends Google_0814_Collection
 {
-  protected $applicationsType = 'Google_Service_Directory_MobileDeviceApplications';
+  protected $applicationsType = 'Google_0814_Service_Directory_MobileDeviceApplications';
   protected $applicationsDataType = 'array';
+  public $basebandVersion;
+  public $buildNumber;
+  public $defaultLanguage;
+  public $deviceCompromisedStatus;
   public $deviceId;
   public $email;
   public $etag;
   public $firstSync;
   public $hardwareId;
+  public $imei;
+  public $kernelVersion;
   public $kind;
   public $lastSync;
+  public $managedAccountIsOnOwnerProfile;
+  public $meid;
   public $model;
   public $name;
+  public $networkOperator;
   public $os;
   public $resourceId;
+  public $serialNumber;
   public $status;
   public $type;
   public $userAgent;
+  public $wifiMacAddress;
 
   public function setApplications($applications)
   {
@@ -3290,6 +3354,46 @@ class Google_Service_Directory_MobileDevice extends Google_Collection
   public function getApplications()
   {
     return $this->applications;
+  }
+
+  public function setBasebandVersion($basebandVersion)
+  {
+    $this->basebandVersion = $basebandVersion;
+  }
+
+  public function getBasebandVersion()
+  {
+    return $this->basebandVersion;
+  }
+
+  public function setBuildNumber($buildNumber)
+  {
+    $this->buildNumber = $buildNumber;
+  }
+
+  public function getBuildNumber()
+  {
+    return $this->buildNumber;
+  }
+
+  public function setDefaultLanguage($defaultLanguage)
+  {
+    $this->defaultLanguage = $defaultLanguage;
+  }
+
+  public function getDefaultLanguage()
+  {
+    return $this->defaultLanguage;
+  }
+
+  public function setDeviceCompromisedStatus($deviceCompromisedStatus)
+  {
+    $this->deviceCompromisedStatus = $deviceCompromisedStatus;
+  }
+
+  public function getDeviceCompromisedStatus()
+  {
+    return $this->deviceCompromisedStatus;
   }
 
   public function setDeviceId($deviceId)
@@ -3342,6 +3446,26 @@ class Google_Service_Directory_MobileDevice extends Google_Collection
     return $this->hardwareId;
   }
 
+  public function setImei($imei)
+  {
+    $this->imei = $imei;
+  }
+
+  public function getImei()
+  {
+    return $this->imei;
+  }
+
+  public function setKernelVersion($kernelVersion)
+  {
+    $this->kernelVersion = $kernelVersion;
+  }
+
+  public function getKernelVersion()
+  {
+    return $this->kernelVersion;
+  }
+
   public function setKind($kind)
   {
     $this->kind = $kind;
@@ -3360,6 +3484,26 @@ class Google_Service_Directory_MobileDevice extends Google_Collection
   public function getLastSync()
   {
     return $this->lastSync;
+  }
+
+  public function setManagedAccountIsOnOwnerProfile($managedAccountIsOnOwnerProfile)
+  {
+    $this->managedAccountIsOnOwnerProfile = $managedAccountIsOnOwnerProfile;
+  }
+
+  public function getManagedAccountIsOnOwnerProfile()
+  {
+    return $this->managedAccountIsOnOwnerProfile;
+  }
+
+  public function setMeid($meid)
+  {
+    $this->meid = $meid;
+  }
+
+  public function getMeid()
+  {
+    return $this->meid;
   }
 
   public function setModel($model)
@@ -3382,6 +3526,16 @@ class Google_Service_Directory_MobileDevice extends Google_Collection
     return $this->name;
   }
 
+  public function setNetworkOperator($networkOperator)
+  {
+    $this->networkOperator = $networkOperator;
+  }
+
+  public function getNetworkOperator()
+  {
+    return $this->networkOperator;
+  }
+
   public function setOs($os)
   {
     $this->os = $os;
@@ -3400,6 +3554,16 @@ class Google_Service_Directory_MobileDevice extends Google_Collection
   public function getResourceId()
   {
     return $this->resourceId;
+  }
+
+  public function setSerialNumber($serialNumber)
+  {
+    $this->serialNumber = $serialNumber;
+  }
+
+  public function getSerialNumber()
+  {
+    return $this->serialNumber;
   }
 
   public function setStatus($status)
@@ -3431,9 +3595,19 @@ class Google_Service_Directory_MobileDevice extends Google_Collection
   {
     return $this->userAgent;
   }
+
+  public function setWifiMacAddress($wifiMacAddress)
+  {
+    $this->wifiMacAddress = $wifiMacAddress;
+  }
+
+  public function getWifiMacAddress()
+  {
+    return $this->wifiMacAddress;
+  }
 }
 
-class Google_Service_Directory_MobileDeviceAction extends Google_Model
+class Google_0814_Service_Directory_MobileDeviceAction extends Google_0814_Model
 {
   public $action;
 
@@ -3448,7 +3622,7 @@ class Google_Service_Directory_MobileDeviceAction extends Google_Model
   }
 }
 
-class Google_Service_Directory_MobileDeviceApplications extends Google_Collection
+class Google_0814_Service_Directory_MobileDeviceApplications extends Google_0814_Collection
 {
   public $displayName;
   public $packageName;
@@ -3507,11 +3681,11 @@ class Google_Service_Directory_MobileDeviceApplications extends Google_Collectio
   }
 }
 
-class Google_Service_Directory_MobileDevices extends Google_Collection
+class Google_0814_Service_Directory_MobileDevices extends Google_0814_Collection
 {
   public $etag;
   public $kind;
-  protected $mobiledevicesType = 'Google_Service_Directory_MobileDevice';
+  protected $mobiledevicesType = 'Google_0814_Service_Directory_MobileDevice';
   protected $mobiledevicesDataType = 'array';
   public $nextPageToken;
 
@@ -3556,7 +3730,7 @@ class Google_Service_Directory_MobileDevices extends Google_Collection
   }
 }
 
-class Google_Service_Directory_Notification extends Google_Model
+class Google_0814_Service_Directory_Notification extends Google_0814_Model
 {
   public $body;
   public $etag;
@@ -3648,10 +3822,10 @@ class Google_Service_Directory_Notification extends Google_Model
   }
 }
 
-class Google_Service_Directory_Notifications extends Google_Collection
+class Google_0814_Service_Directory_Notifications extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_Directory_Notification';
+  protected $itemsType = 'Google_0814_Service_Directory_Notification';
   protected $itemsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -3708,7 +3882,7 @@ class Google_Service_Directory_Notifications extends Google_Collection
   }
 }
 
-class Google_Service_Directory_OrgUnit extends Google_Model
+class Google_0814_Service_Directory_OrgUnit extends Google_0814_Model
 {
   public $blockInheritance;
   public $description;
@@ -3789,11 +3963,11 @@ class Google_Service_Directory_OrgUnit extends Google_Model
   }
 }
 
-class Google_Service_Directory_OrgUnits extends Google_Collection
+class Google_0814_Service_Directory_OrgUnits extends Google_0814_Collection
 {
   public $etag;
   public $kind;
-  protected $organizationUnitsType = 'Google_Service_Directory_OrgUnit';
+  protected $organizationUnitsType = 'Google_0814_Service_Directory_OrgUnit';
   protected $organizationUnitsDataType = 'array';
 
   public function setEtag($etag)
@@ -3827,7 +4001,7 @@ class Google_Service_Directory_OrgUnits extends Google_Collection
   }
 }
 
-class Google_Service_Directory_Token extends Google_Collection
+class Google_0814_Service_Directory_Token extends Google_0814_Collection
 {
   public $anonymous;
   public $clientId;
@@ -3919,10 +4093,10 @@ class Google_Service_Directory_Token extends Google_Collection
   }
 }
 
-class Google_Service_Directory_Tokens extends Google_Collection
+class Google_0814_Service_Directory_Tokens extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_Directory_Token';
+  protected $itemsType = 'Google_0814_Service_Directory_Token';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -3957,25 +4131,21 @@ class Google_Service_Directory_Tokens extends Google_Collection
   }
 }
 
-class Google_Service_Directory_User extends Google_Collection
+class Google_0814_Service_Directory_User extends Google_0814_Collection
 {
-  protected $addressesType = 'Google_Service_Directory_UserAddress';
-  protected $addressesDataType = 'array';
+  public $addresses;
   public $agreedToTerms;
   public $aliases;
   public $changePasswordAtNextLogin;
   public $creationTime;
   public $customerId;
   public $deletionTime;
-  protected $emailsType = 'Google_Service_Directory_UserEmail';
-  protected $emailsDataType = 'array';
+  public $emails;
   public $etag;
-  protected $externalIdsType = 'Google_Service_Directory_UserExternalId';
-  protected $externalIdsDataType = 'array';
+  public $externalIds;
   public $hashFunction;
   public $id;
-  protected $imsType = 'Google_Service_Directory_UserIm';
-  protected $imsDataType = 'array';
+  public $ims;
   public $includeInGlobalAddressList;
   public $ipWhitelisted;
   public $isAdmin;
@@ -3983,18 +4153,15 @@ class Google_Service_Directory_User extends Google_Collection
   public $isMailboxSetup;
   public $kind;
   public $lastLoginTime;
-  protected $nameType = 'Google_Service_Directory_UserName';
+  protected $nameType = 'Google_0814_Service_Directory_UserName';
   protected $nameDataType = '';
   public $nonEditableAliases;
   public $orgUnitPath;
-  protected $organizationsType = 'Google_Service_Directory_UserOrganization';
-  protected $organizationsDataType = 'array';
+  public $organizations;
   public $password;
-  protected $phonesType = 'Google_Service_Directory_UserPhone';
-  protected $phonesDataType = 'array';
+  public $phones;
   public $primaryEmail;
-  protected $relationsType = 'Google_Service_Directory_UserRelation';
-  protected $relationsDataType = 'array';
+  public $relations;
   public $suspended;
   public $suspensionReason;
   public $thumbnailPhotoUrl;
@@ -4199,7 +4366,7 @@ class Google_Service_Directory_User extends Google_Collection
     return $this->lastLoginTime;
   }
 
-  public function setName(Google_Service_Directory_UserName $name)
+  public function setName(Google_0814_Service_Directory_UserName $name)
   {
     $this->name = $name;
   }
@@ -4310,7 +4477,7 @@ class Google_Service_Directory_User extends Google_Collection
   }
 }
 
-class Google_Service_Directory_UserAddress extends Google_Model
+class Google_0814_Service_Directory_UserAddress extends Google_0814_Model
 {
   public $country;
   public $countryCode;
@@ -4457,7 +4624,7 @@ class Google_Service_Directory_UserAddress extends Google_Model
   }
 }
 
-class Google_Service_Directory_UserEmail extends Google_Model
+class Google_0814_Service_Directory_UserEmail extends Google_0814_Model
 {
   public $address;
   public $customType;
@@ -4505,7 +4672,7 @@ class Google_Service_Directory_UserEmail extends Google_Model
   }
 }
 
-class Google_Service_Directory_UserExternalId extends Google_Model
+class Google_0814_Service_Directory_UserExternalId extends Google_0814_Model
 {
   public $customType;
   public $type;
@@ -4542,7 +4709,7 @@ class Google_Service_Directory_UserExternalId extends Google_Model
   }
 }
 
-class Google_Service_Directory_UserIm extends Google_Model
+class Google_0814_Service_Directory_UserIm extends Google_0814_Model
 {
   public $customProtocol;
   public $customType;
@@ -4612,7 +4779,7 @@ class Google_Service_Directory_UserIm extends Google_Model
   }
 }
 
-class Google_Service_Directory_UserMakeAdmin extends Google_Model
+class Google_0814_Service_Directory_UserMakeAdmin extends Google_0814_Model
 {
   public $status;
 
@@ -4627,7 +4794,7 @@ class Google_Service_Directory_UserMakeAdmin extends Google_Model
   }
 }
 
-class Google_Service_Directory_UserName extends Google_Model
+class Google_0814_Service_Directory_UserName extends Google_0814_Model
 {
   public $familyName;
   public $fullName;
@@ -4664,7 +4831,7 @@ class Google_Service_Directory_UserName extends Google_Model
   }
 }
 
-class Google_Service_Directory_UserOrganization extends Google_Model
+class Google_0814_Service_Directory_UserOrganization extends Google_0814_Model
 {
   public $costCenter;
   public $customType;
@@ -4789,7 +4956,7 @@ class Google_Service_Directory_UserOrganization extends Google_Model
   }
 }
 
-class Google_Service_Directory_UserPhone extends Google_Model
+class Google_0814_Service_Directory_UserPhone extends Google_0814_Model
 {
   public $customType;
   public $primary;
@@ -4837,7 +5004,7 @@ class Google_Service_Directory_UserPhone extends Google_Model
   }
 }
 
-class Google_Service_Directory_UserPhoto extends Google_Model
+class Google_0814_Service_Directory_UserPhoto extends Google_0814_Model
 {
   public $etag;
   public $height;
@@ -4929,7 +5096,7 @@ class Google_Service_Directory_UserPhoto extends Google_Model
   }
 }
 
-class Google_Service_Directory_UserRelation extends Google_Model
+class Google_0814_Service_Directory_UserRelation extends Google_0814_Model
 {
   public $customType;
   public $type;
@@ -4966,7 +5133,7 @@ class Google_Service_Directory_UserRelation extends Google_Model
   }
 }
 
-class Google_Service_Directory_UserUndelete extends Google_Model
+class Google_0814_Service_Directory_UserUndelete extends Google_0814_Model
 {
   public $orgUnitPath;
 
@@ -4981,13 +5148,13 @@ class Google_Service_Directory_UserUndelete extends Google_Model
   }
 }
 
-class Google_Service_Directory_Users extends Google_Collection
+class Google_0814_Service_Directory_Users extends Google_0814_Collection
 {
   public $etag;
   public $kind;
   public $nextPageToken;
   public $triggerEvent;
-  protected $usersType = 'Google_Service_Directory_User';
+  protected $usersType = 'Google_0814_Service_Directory_User';
   protected $usersDataType = 'array';
 
   public function setEtag($etag)
@@ -5041,7 +5208,7 @@ class Google_Service_Directory_Users extends Google_Collection
   }
 }
 
-class Google_Service_Directory_VerificationCode extends Google_Model
+class Google_0814_Service_Directory_VerificationCode extends Google_0814_Model
 {
   public $etag;
   public $kind;
@@ -5089,10 +5256,10 @@ class Google_Service_Directory_VerificationCode extends Google_Model
   }
 }
 
-class Google_Service_Directory_VerificationCodes extends Google_Collection
+class Google_0814_Service_Directory_VerificationCodes extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_Directory_VerificationCode';
+  protected $itemsType = 'Google_0814_Service_Directory_VerificationCode';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -5125,5 +5292,4 @@ class Google_Service_Directory_VerificationCodes extends Google_Collection
   {
     return $this->kind;
   }
-}
 }

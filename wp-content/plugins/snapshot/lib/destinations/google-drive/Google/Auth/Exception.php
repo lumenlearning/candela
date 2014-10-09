@@ -17,8 +17,6 @@
 
 require_once "Google/Exception.php";
 
-if (!class_exists('Google_Auth_Exception')) {
-class Google_Auth_Exception extends Google_Exception
+class Google_0814_Auth_Exception extends Google_0814_Exception
 {
-}
 }

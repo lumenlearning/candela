@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_Audit')) {
-class Google_Service_Audit extends Google_Service
+class Google_0814_Service_Audit extends Google_0814_Service
 {
 
 
@@ -40,16 +39,16 @@ class Google_Service_Audit extends Google_Service
   /**
    * Constructs the internal representation of the Audit service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'apps/reporting/audit/v1/';
     $this->version = 'v1';
     $this->serviceName = 'audit';
 
-    $this->activities = new Google_Service_Audit_Activities_Resource(
+    $this->activities = new Google_0814_Service_Audit_Activities_Resource(
         $this,
         $this->serviceName,
         'activities',
@@ -112,19 +111,17 @@ class Google_Service_Audit extends Google_Service
     );
   }
 }
-}
 
 
 /**
  * The "activities" collection of methods.
  * Typical usage is:
  *  <code>
- *   $auditService = new Google_Service_Audit(...);
+ *   $auditService = new Google_0814_Service_Audit(...);
  *   $activities = $auditService->activities;
  *  </code>
  */
-if (!class_exists('Google_Service_Audit_Activities_Resource')) {
-class Google_Service_Audit_Activities_Resource extends Google_Service_Resource
+class Google_0814_Service_Audit_Activities_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -156,23 +153,22 @@ class Google_Service_Audit_Activities_Resource extends Google_Service_Resource
    * Return events which occured at or before this time.
    * @opt_param string continuationToken
    * Next page URL.
-   * @return Google_Service_Audit_Activities
+   * @return Google_0814_Service_Audit_Activities
    */
   public function listActivities($customerId, $applicationId, $optParams = array())
   {
     $params = array('customerId' => $customerId, 'applicationId' => $applicationId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Audit_Activities");
+    return $this->call('list', array($params), "Google_0814_Service_Audit_Activities");
   }
 }
-}
 
 
 
-if (!class_exists('Google_Service_Audit_Activities')) {
-class Google_Service_Audit_Activities extends Google_Collection
+
+class Google_0814_Service_Audit_Activities extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Audit_Activity';
+  protected $itemsType = 'Google_0814_Service_Audit_Activity';
   protected $itemsDataType = 'array';
   public $kind;
   public $next;
@@ -207,22 +203,20 @@ class Google_Service_Audit_Activities extends Google_Collection
     return $this->next;
   }
 }
-}
 
-if (!class_exists('Google_Service_Audit_Activity')) {
-class Google_Service_Audit_Activity extends Google_Collection
+class Google_0814_Service_Audit_Activity extends Google_0814_Collection
 {
-  protected $actorType = 'Google_Service_Audit_ActivityActor';
+  protected $actorType = 'Google_0814_Service_Audit_ActivityActor';
   protected $actorDataType = '';
-  protected $eventsType = 'Google_Service_Audit_ActivityEvents';
+  protected $eventsType = 'Google_0814_Service_Audit_ActivityEvents';
   protected $eventsDataType = 'array';
-  protected $idType = 'Google_Service_Audit_ActivityId';
+  protected $idType = 'Google_0814_Service_Audit_ActivityId';
   protected $idDataType = '';
   public $ipAddress;
   public $kind;
   public $ownerDomain;
 
-  public function setActor(Google_Service_Audit_ActivityActor $actor)
+  public function setActor(Google_0814_Service_Audit_ActivityActor $actor)
   {
     $this->actor = $actor;
   }
@@ -242,7 +236,7 @@ class Google_Service_Audit_Activity extends Google_Collection
     return $this->events;
   }
 
-  public function setId(Google_Service_Audit_ActivityId $id)
+  public function setId(Google_0814_Service_Audit_ActivityId $id)
   {
     $this->id = $id;
   }
@@ -282,10 +276,8 @@ class Google_Service_Audit_Activity extends Google_Collection
     return $this->ownerDomain;
   }
 }
-}
 
-if (!class_exists('Google_Service_Audit_ActivityActor')) {
-class Google_Service_Audit_ActivityActor extends Google_Model
+class Google_0814_Service_Audit_ActivityActor extends Google_0814_Model
 {
   public $applicationId;
   public $callerType;
@@ -332,14 +324,12 @@ class Google_Service_Audit_ActivityActor extends Google_Model
     return $this->key;
   }
 }
-}
 
-if (!class_exists('Google_Service_Audit_ActivityEvents')) {
-class Google_Service_Audit_ActivityEvents extends Google_Collection
+class Google_0814_Service_Audit_ActivityEvents extends Google_0814_Collection
 {
   public $eventType;
   public $name;
-  protected $parametersType = 'Google_Service_Audit_ActivityEventsParameters';
+  protected $parametersType = 'Google_0814_Service_Audit_ActivityEventsParameters';
   protected $parametersDataType = 'array';
 
   public function setEventType($eventType)
@@ -372,10 +362,8 @@ class Google_Service_Audit_ActivityEvents extends Google_Collection
     return $this->parameters;
   }
 }
-}
 
-if (!class_exists('Google_Service_Audit_ActivityEventsParameters')) {
-class Google_Service_Audit_ActivityEventsParameters extends Google_Model
+class Google_0814_Service_Audit_ActivityEventsParameters extends Google_0814_Model
 {
   public $name;
   public $value;
@@ -400,10 +388,8 @@ class Google_Service_Audit_ActivityEventsParameters extends Google_Model
     return $this->value;
   }
 }
-}
 
-if (!class_exists('Google_Service_Audit_ActivityId')) {
-class Google_Service_Audit_ActivityId extends Google_Model
+class Google_0814_Service_Audit_ActivityId extends Google_0814_Model
 {
   public $applicationId;
   public $customerId;
@@ -449,5 +435,4 @@ class Google_Service_Audit_ActivityId extends Google_Model
   {
     return $this->uniqQualifier;
   }
-}
 }

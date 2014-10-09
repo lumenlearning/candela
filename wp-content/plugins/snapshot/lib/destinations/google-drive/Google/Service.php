@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-if (!class_exists('Google_Service')) {
-class Google_Service
+class Google_0814_Service
 {
   public $version;
   public $servicePath;
@@ -24,18 +23,17 @@ class Google_Service
   public $resource;
   private $client;
 
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     $this->client = $client;
   }
 
   /**
-   * Return the associated Google_Client class.
-   * @return Google_Client
+   * Return the associated Google_0814_Client class.
+   * @return Google_0814_Client
    */
   public function getClient()
   {
     return $this->client;
   }
-}
 }

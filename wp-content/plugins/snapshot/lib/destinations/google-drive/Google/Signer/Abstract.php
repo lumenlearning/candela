@@ -20,12 +20,10 @@
  *
  * @author Brian Eaton <beaton@google.com>
  */
-if (!class_exists('Google_Service_YouTubeAnalytics')) {
-abstract class Google_Signer_Abstract
+abstract class Google_0814_Signer_Abstract
 {
   /**
    * Signs data, returns the signature as binary data.
    */
   abstract public function sign($data);
-}
 }

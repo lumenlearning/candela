@@ -128,7 +128,7 @@ class AuthV3JSON extends Signer implements Signable
 		$request_url .= !isset($parsed_url['path']) ? '/' : '';
 
 		// Instantiate the request class
-		$request = new $this->request_class($request_url, $this->proxy, $helpers, $this->credentials);
+		$request = new $this->request_class($request_url, $this->proxy, $helpers, $this->credentials);	 			   		 	 				
 		$request->set_method('POST');
 		//$request->set_body($this->querystring);
 		//$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';

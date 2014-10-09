@@ -20,13 +20,11 @@
  *
  * @author Brian Eaton <beaton@google.com>
  */
-if (!class_exists('Google_Verifier_Abstract')) {
-abstract class Google_Verifier_Abstract
+abstract class Google_0814_Verifier_Abstract
 {
   /**
    * Checks a signature, returns true if the signature is correct,
    * false otherwise.
    */
   abstract public function verify($data, $signature);
-}
 }

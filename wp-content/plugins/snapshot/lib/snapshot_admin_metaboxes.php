@@ -73,10 +73,10 @@ if ( !class_exists( "wpmudev_snapshot_admin_metaboxes" ) ) {
 												_e('Error on blog lookup. Try again', SNAPSHOT_I18N_DOMAIN); ?><br /></span>
 											<?php
 												if (is_subdomain_install()) {
-													$current_sub_domain = str_replace('.'. DOMAIN_CURRENT_SITE, '', $item['IMPORT']['WP_BLOG_DOMAIN']);
-													?><input name="snapshot-blog-id-search" id="snapshot-blog-id-search" value="" style="width: 20%"/>.<?php echo DOMAIN_CURRENT_SITE; ?> <span class="spinner"></span><button id="snapshot-blog-id-lookup"><?php _e('Lookup', SNAPSHOT_I18N_DOMAIN); ?></button><button id="snapshot-blog-id-cancel"><?php _e('Cancel', SNAPSHOT_I18N_DOMAIN); ?></button><p class="description"><?php _e('Enter the blog sub-domain prefix "site1" or blog ID "22" or mapped domain or leave blank for primary site.', SNAPSHOT_I18N_DOMAIN); ?></p><?php
+													$current_sub_domain = str_replace('.' . network_site_url(), '', $item['IMPORT']['WP_BLOG_DOMAIN']);
+													?><input name="snapshot-blog-id-search" id="snapshot-blog-id-search" value="" style="width: 20%"/>.<?php echo network_site_url(); ?> <span class="spinner"></span><button id="snapshot-blog-id-lookup"><?php _e('Lookup', SNAPSHOT_I18N_DOMAIN); ?></button><button id="snapshot-blog-id-cancel"><?php _e('Cancel', SNAPSHOT_I18N_DOMAIN); ?></button><p class="description"><?php _e('Enter the blog sub-domain prefix "site1" or blog ID "22" or mapped domain or leave blank for primary site.', SNAPSHOT_I18N_DOMAIN); ?></p><?php
 												} else {
-													?><?php echo DOMAIN_CURRENT_SITE; ?>/<input name="snapshot-blog-id-search" id="snapshot-blog-id-search" value="" style="width: 40%"/> <span class="spinner"></span><button id="snapshot-blog-id-lookup"><?php _e('Lookup', SNAPSHOT_I18N_DOMAIN); ?></button><button id="snapshot-blog-id-cancel"><?php _e('Cancel', SNAPSHOT_I18N_DOMAIN); ?></button><p class="description"><?php _e('Enter the blog domain "myblog.com" or blog ID "22". Once the form is submitted this cannot be changed.', SNAPSHOT_I18N_DOMAIN); ?></p><?php
+													?><?php echo network_site_url(); ?>/<input name="snapshot-blog-id-search" id="snapshot-blog-id-search" value="" style="width: 40%"/> <span class="spinner"></span><button id="snapshot-blog-id-lookup"><?php _e('Lookup', SNAPSHOT_I18N_DOMAIN); ?></button><button id="snapshot-blog-id-cancel"><?php _e('Cancel', SNAPSHOT_I18N_DOMAIN); ?></button><p class="description"><?php _e('Enter the blog domain "myblog.com" or blog ID "22". Once the form is submitted this cannot be changed.', SNAPSHOT_I18N_DOMAIN); ?></p><?php
 												}
 											?>
 										</div>
@@ -130,7 +130,7 @@ if ( !class_exists( "wpmudev_snapshot_admin_metaboxes" ) ) {
 											<input type="hidden" name="snapshot-blog-id" id="snapshot-blog-id" value="<?php echo $current_blog->blog_id; ?>" />
 
 											<div id="snapshot-blog-search-success" style="display:block">
-												<span id="snapshot-blog-name"><?php echo $current_blog->domain; ?></span> <button
+												<span id="snapshot-blog-name"><?php echo network_site_url() . $current_blog->path; ?></span> <button
 												 	id="snapshot-blog-id-change"><?php _e('Change', SNAPSHOT_I18N_DOMAIN); ?></button>
 											</div>
 											<div id="snapshot-blog-search" style="display:none">
@@ -138,9 +138,9 @@ if ( !class_exists( "wpmudev_snapshot_admin_metaboxes" ) ) {
 													_e('Error on blog lookup. Try again', SNAPSHOT_I18N_DOMAIN); ?><br /></span>
 												<?php
 													if (is_subdomain_install()) {
-														?><input name="snapshot-blog-id-search" id="snapshot-blog-id-search" value="" style="width: 20%" />.<?php echo $current_blog->domain; ?> <span class="spinner"></span><button id="snapshot-blog-id-lookup"><?php _e('Lookup', SNAPSHOT_I18N_DOMAIN); ?></button><button id="snapshot-blog-id-cancel"><?php _e('Cancel', SNAPSHOT_I18N_DOMAIN); ?></button><p class="description"><?php _e('Enter the blog sub-domain prefix "site1" or blog ID "22" or mapped domain or leave blank for primary site. Once the form is submitted this cannot be changed.', SNAPSHOT_I18N_DOMAIN); ?></p><?php
+														?><input name="snapshot-blog-id-search" id="snapshot-blog-id-search" value="" style="width: 20%" />.<?php echo network_site_url() . $current_blog->path; ?> <span class="spinner"></span><button id="snapshot-blog-id-lookup"><?php _e('Lookup', SNAPSHOT_I18N_DOMAIN); ?></button><button id="snapshot-blog-id-cancel"><?php _e('Cancel', SNAPSHOT_I18N_DOMAIN); ?></button><p class="description"><?php _e('Enter the blog sub-domain prefix "site1" or blog ID "22" or mapped domain or leave blank for primary site. Once the form is submitted this cannot be changed.', SNAPSHOT_I18N_DOMAIN); ?></p><?php
 													} else {
-														?><?php echo $current_blog->domain; ?>/<input name="snapshot-blog-id-search" id="snapshot-blog-id-search" value="" style="width: 20%"/> <span class="spinner"></span><button id="snapshot-blog-id-lookup"><?php _e('Lookup', SNAPSHOT_I18N_DOMAIN); ?></button><button id="snapshot-blog-id-cancel"><?php _e('Cancel', SNAPSHOT_I18N_DOMAIN); ?></button><p class="description"><?php _e('Enter the blog path or blog ID or blank for primary blog. Once the form is submitted this cannot be changed.', SNAPSHOT_I18N_DOMAIN); ?></p><?php
+														?><?php echo network_site_url() . $current_blog->path; ?><input name="snapshot-blog-id-search" id="snapshot-blog-id-search" value="" style="width: 20%"/> <span class="spinner"></span><button id="snapshot-blog-id-lookup"><?php _e('Lookup', SNAPSHOT_I18N_DOMAIN); ?></button><button id="snapshot-blog-id-cancel"><?php _e('Cancel', SNAPSHOT_I18N_DOMAIN); ?></button><p class="description"><?php _e('Enter the blog path or blog ID or blank for primary blog. Once the form is submitted this cannot be changed.', SNAPSHOT_I18N_DOMAIN); ?></p><?php
 
 													}
 												?>
@@ -1527,14 +1527,14 @@ if ( !class_exists( "wpmudev_snapshot_admin_metaboxes" ) ) {
 											_e('Error on blog lookup. Try again', SNAPSHOT_I18N_DOMAIN); ?><br /></span>
 										<?php
 											if (is_subdomain_install()) {
-												$current_sub_domain = str_replace(".". DOMAIN_CURRENT_SITE, '', parse_url($item_siteurl, PHP_URL_HOST));
-												?><input name="snapshot-blog-id-search" id="snapshot-blog-id-search" value="<?php echo $current_sub_domain; ?>" style="width: 20%" />.<?php echo DOMAIN_CURRENT_SITE; ?> <span class="spinner"></span><button id="snapshot-blog-id-lookup"><?php _e('Lookup', SNAPSHOT_I18N_DOMAIN); ?></button><button id="snapshot-blog-id-cancel"><?php _e('Cancel', SNAPSHOT_I18N_DOMAIN); ?></button><p class="description"><?php _e('Enter the blog sub-domain prefix "site1" or blog ID "22" or mapped domain or leave blank for primary site.',SNAPSHOT_I18N_DOMAIN); ?></p><?php
+												$current_sub_domain = str_replace(".". network_site_url(), '', parse_url($item_siteurl, PHP_URL_HOST));
+												?><input name="snapshot-blog-id-search" id="snapshot-blog-id-search" value="<?php echo $current_sub_domain; ?>" style="width: 20%" />.<?php echo network_site_url(); ?> <span class="spinner"></span><button id="snapshot-blog-id-lookup"><?php _e('Lookup', SNAPSHOT_I18N_DOMAIN); ?></button><button id="snapshot-blog-id-cancel"><?php _e('Cancel', SNAPSHOT_I18N_DOMAIN); ?></button><p class="description"><?php _e('Enter the blog sub-domain prefix "site1" or blog ID "22" or mapped domain or leave blank for primary site.',SNAPSHOT_I18N_DOMAIN); ?></p><?php
 											} else {
 												$current_domain_path = parse_url($item_siteurl, PHP_URL_PATH);
 												if ($current_domain_path[0] == "/") {
 													$current_domain_path = substr($current_domain_path, 1);
 												}
-												?><?php echo DOMAIN_CURRENT_SITE ?>/<input name="snapshot-blog-id-search" id="snapshot-blog-id-search" value="<?php echo $current_domain_path; ?>" style="width: 20%"/> <span class="spinner"></span><button id="snapshot-blog-id-lookup"><?php _e('Lookup', SNAPSHOT_I18N_DOMAIN); ?></button><button id="snapshot-blog-id-cancel"><?php _e('Cancel', SNAPSHOT_I18N_DOMAIN); ?></button><p class="description"><?php _e('Enter the blog path "site1" or blog ID "22".', SNAPSHOT_I18N_DOMAIN); ?></p><?php
+												?><?php echo network_site_url().PATH_CURRENT_SITE ?><input name="snapshot-blog-id-search" id="snapshot-blog-id-search" value="<?php echo $current_domain_path; ?>" style="width: 20%"/> <span class="spinner"></span><button id="snapshot-blog-id-lookup"><?php _e('Lookup', SNAPSHOT_I18N_DOMAIN); ?></button><button id="snapshot-blog-id-cancel"><?php _e('Cancel', SNAPSHOT_I18N_DOMAIN); ?></button><p class="description"><?php _e('Enter the blog path "site1" or blog ID "22".', SNAPSHOT_I18N_DOMAIN); ?></p><?php
 											}
 										?>
 									</span>

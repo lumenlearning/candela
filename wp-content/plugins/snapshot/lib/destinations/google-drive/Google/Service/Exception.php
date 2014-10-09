@@ -1,8 +1,8 @@
 <?php
 
 require_once 'Google/Exception.php';
-if (!class_exists('Google_Service_Exception')) {
-class Google_Service_Exception extends Google_Exception
+
+class Google_0814_Service_Exception extends Google_0814_Exception
 {
   /**
    * Optional list of errors returned in a JSON body of an HTTP error response.
@@ -50,5 +50,4 @@ class Google_Service_Exception extends Google_Exception
   {
     return $this->errors;
   }
-}
 }

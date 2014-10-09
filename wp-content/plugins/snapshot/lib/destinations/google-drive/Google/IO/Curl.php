@@ -16,29 +16,28 @@
  */
 
 /**
- * Curl based implementation of Google_IO.
+ * Curl based implementation of Google_0814_IO.
  *
  * @author Stuart Langley <slangley@google.com>
  */
 
 require_once 'Google/IO/Abstract.php';
 
-if (!class_exists('Google_IO_Curl')) {
-class Google_IO_Curl extends Google_IO_Abstract
+class Google_0814_IO_Curl extends Google_0814_IO_Abstract
 {
-  // hex for version 7.31.0
-  const NO_QUIRK_VERSION = 0x071F00;
+  // cURL hex representation of version 7.30.0
+  const NO_QUIRK_VERSION = 0x071E00;
 
   private $options = array();
   /**
    * Execute an HTTP Request
    *
-   * @param Google_HttpRequest $request the http request to be executed
-   * @return Google_HttpRequest http request with the response http code,
+   * @param Google_0814_HttpRequest $request the http request to be executed
+   * @return Google_0814_HttpRequest http request with the response http code,
    * response headers and response body filled in
-   * @throws Google_IO_Exception on curl or IO error
+   * @throws Google_0814_IO_Exception on curl or IO error
    */
-  public function executeRequest(Google_Http_Request $request)
+  public function executeRequest(Google_0814_Http_Request $request)
   {
     $curl = curl_init();
 
@@ -55,6 +54,8 @@ class Google_IO_Curl extends Google_IO_Abstract
       curl_setopt($curl, CURLOPT_HTTPHEADER, $curlHeaders);
     }
 
+    curl_setopt($curl, CURLOPT_URL, $request->getUrl());
+
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->getRequestMethod());
     curl_setopt($curl, CURLOPT_USERAGENT, $request->getUserAgent());
 
@@ -62,8 +63,6 @@ class Google_IO_Curl extends Google_IO_Abstract
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($curl, CURLOPT_HEADER, true);
-
-    curl_setopt($curl, CURLOPT_URL, $request->getUrl());
 
     if ($request->canGzip()) {
       curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
@@ -79,13 +78,12 @@ class Google_IO_Curl extends Google_IO_Abstract
 
     $response = curl_exec($curl);
     if ($response === false) {
-      throw new Google_IO_Exception(curl_error($curl));
+      throw new Google_0814_IO_Exception(curl_error($curl));
     }
     $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
 
-    $responseBody = substr($response, $headerSize);
-    $responseHeaderString = substr($response, 0, $headerSize);
-    $responseHeaders = $this->getHttpResponseHeaders($responseHeaderString);
+    list($responseHeaders, $responseBody) = $this->parseHttpResponse($response, $headerSize);
+
     $responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
     return array($responseBody, $responseHeaders, $responseCode);
@@ -124,14 +122,16 @@ class Google_IO_Curl extends Google_IO_Abstract
   }
 
   /**
-   * Determine whether "Connection Established" quirk is needed
+   * Test for the presence of a cURL header processing bug
+   *
+   * {@inheritDoc}
+   *
    * @return boolean
    */
   protected function needsQuirk()
   {
     $ver = curl_version();
     $versionNum = $ver['version_number'];
-    return $versionNum < Google_IO_Curl::NO_QUIRK_VERSION;
+    return $versionNum < Google_0814_IO_Curl::NO_QUIRK_VERSION;
   }
-}
 }

@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_Admin')) {
-class Google_Service_Admin extends Google_Service
+class Google_0814_Service_Admin extends Google_0814_Service
 {
   /** Manage email messages of users on your domain. */
   const EMAIL_MIGRATION = "https://www.googleapis.com/auth/email.migration";
@@ -41,16 +40,16 @@ class Google_Service_Admin extends Google_Service
   /**
    * Constructs the internal representation of the Admin service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'email/v2/users/';
     $this->version = 'email_migration_v2';
     $this->serviceName = 'admin';
 
-    $this->mail = new Google_Service_Admin_Mail_Resource(
+    $this->mail = new Google_0814_Service_Admin_Mail_Resource(
         $this,
         $this->serviceName,
         'mail',
@@ -72,18 +71,17 @@ class Google_Service_Admin extends Google_Service
     );
   }
 }
-}
+
 
 /**
  * The "mail" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adminService = new Google_Service_Admin(...);
+ *   $adminService = new Google_0814_Service_Admin(...);
  *   $mail = $adminService->mail;
  *  </code>
  */
-if (!class_exists('Google_Service_Admin_Mail_Resource')) {
-class Google_Service_Admin_Mail_Resource extends Google_Service_Resource
+class Google_0814_Service_Admin_Mail_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -91,22 +89,21 @@ class Google_Service_Admin_Mail_Resource extends Google_Service_Resource
    *
    * @param string $userKey
    * The email or immutable id of the user
-   * @param Google_MailItem $postBody
+   * @param Google_0814_MailItem $postBody
    * @param array $optParams Optional parameters.
    */
-  public function insert($userKey, Google_Service_Admin_MailItem $postBody, $optParams = array())
+  public function insert($userKey, Google_0814_Service_Admin_MailItem $postBody, $optParams = array())
   {
     $params = array('userKey' => $userKey, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
     return $this->call('insert', array($params));
   }
 }
-}
 
 
 
-if (!class_exists('Google_Service_Admin_MailItem')) {
-class Google_Service_Admin_MailItem extends Google_Collection
+
+class Google_0814_Service_Admin_MailItem extends Google_0814_Collection
 {
   public $isDeleted;
   public $isDraft;
@@ -207,5 +204,4 @@ class Google_Service_Admin_MailItem extends Google_Collection
   {
     return $this->labels;
   }
-}
 }

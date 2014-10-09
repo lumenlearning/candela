@@ -25,13 +25,12 @@ require_once "Google/Http/Request.php";
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
  */
-if (!class_exists('Google_Auth_Simple')) {
-class Google_Auth_Simple extends Google_Auth_Abstract
+class Google_0814_Auth_Simple extends Google_0814_Auth_Abstract
 {
   private $key = null;
   private $client;
 
-  public function __construct(Google_Client $client, $config = null)
+  public function __construct(Google_0814_Client $client, $config = null)
   {
     $this->client = $client;
   }
@@ -42,47 +41,17 @@ class Google_Auth_Simple extends Google_Auth_Abstract
    * (which can modify the request in what ever way fits the auth mechanism)
    * and then calls apiCurlIO::makeRequest on the signed request
    *
-   * @param Google_Http_Request $request
-   * @return Google_Http_Request The resulting HTTP response including the
+   * @param Google_0814_Http_Request $request
+   * @return Google_0814_Http_Request The resulting HTTP response including the
    * responseHttpCode, responseHeaders and responseBody.
    */
-  public function authenticatedRequest(Google_Http_Request $request)
+  public function authenticatedRequest(Google_0814_Http_Request $request)
   {
     $request = $this->sign($request);
     return $this->io->makeRequest($request);
   }
 
-  public function authenticate($code)
-  {
-    throw new Google_Auth_Exception("Simple auth does not exchange tokens.");
-  }
-
-  public function setAccessToken($accessToken)
-  {
-    /* noop*/
-  }
-
-  public function getAccessToken()
-  {
-    return null;
-  }
-
-  public function createAuthUrl($scope)
-  {
-    return null;
-  }
-
-  public function refreshToken($refreshToken)
-  {
-    /* noop*/
-  }
-
-  public function revokeToken()
-  {
-    /* noop*/
-  }
-
-  public function sign(Google_Http_Request $request)
+  public function sign(Google_0814_Http_Request $request)
   {
     $key = $this->client->getClassConfig($this, 'developer_key');
     if ($key) {
@@ -90,5 +59,4 @@ class Google_Auth_Simple extends Google_Auth_Abstract
     }
     return $request;
   }
-}
 }

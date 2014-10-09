@@ -1246,7 +1246,11 @@ function snapshot_utility_consume_archive_manifest($manifestFile) {
 					$value = $table_values;
 				}
 			} else if (($key == "TABLES-DATA") || ($key == "ITEM") || ($key == "FILES-DATA") || ($key == 'WP_UPLOAD_URLS')) {
-				$value = maybe_unserialize($value);
+                if ( is_serialized( $value ) ){
+                    $value = maybe_unserialize($value);
+                } else {
+                    $value = trim($value);
+                }
 			} else {
 				$value = trim($value);
 			}

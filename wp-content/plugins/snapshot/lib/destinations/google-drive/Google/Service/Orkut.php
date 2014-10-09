@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_Orkut')) {
-class Google_Service_Orkut extends Google_Service
+class Google_0814_Service_Orkut extends Google_0814_Service
 {
   /** Manage your Orkut activity. */
   const ORKUT = "https://www.googleapis.com/auth/orkut";
@@ -58,16 +57,16 @@ class Google_Service_Orkut extends Google_Service
   /**
    * Constructs the internal representation of the Orkut service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'orkut/v2/';
     $this->version = 'v2';
     $this->serviceName = 'orkut';
 
-    $this->acl = new Google_Service_Orkut_Acl_Resource(
+    $this->acl = new Google_0814_Service_Orkut_Acl_Resource(
         $this,
         $this->serviceName,
         'acl',
@@ -92,7 +91,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->activities = new Google_Service_Orkut_Activities_Resource(
+    $this->activities = new Google_0814_Service_Orkut_Activities_Resource(
         $this,
         $this->serviceName,
         'activities',
@@ -139,7 +138,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->activityVisibility = new Google_Service_Orkut_ActivityVisibility_Resource(
+    $this->activityVisibility = new Google_0814_Service_Orkut_ActivityVisibility_Resource(
         $this,
         $this->serviceName,
         'activityVisibility',
@@ -179,7 +178,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->badges = new Google_Service_Orkut_Badges_Resource(
+    $this->badges = new Google_0814_Service_Orkut_Badges_Resource(
         $this,
         $this->serviceName,
         'badges',
@@ -214,7 +213,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->comments = new Google_Service_Orkut_Comments_Resource(
+    $this->comments = new Google_0814_Service_Orkut_Comments_Resource(
         $this,
         $this->serviceName,
         'comments',
@@ -284,7 +283,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->communities = new Google_Service_Orkut_Communities_Resource(
+    $this->communities = new Google_0814_Service_Orkut_Communities_Resource(
         $this,
         $this->serviceName,
         'communities',
@@ -330,7 +329,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->communityFollow = new Google_Service_Orkut_CommunityFollow_Resource(
+    $this->communityFollow = new Google_0814_Service_Orkut_CommunityFollow_Resource(
         $this,
         $this->serviceName,
         'communityFollow',
@@ -370,7 +369,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->communityMembers = new Google_Service_Orkut_CommunityMembers_Resource(
+    $this->communityMembers = new Google_0814_Service_Orkut_CommunityMembers_Resource(
         $this,
         $this->serviceName,
         'communityMembers',
@@ -455,7 +454,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->communityMessages = new Google_Service_Orkut_CommunityMessages_Resource(
+    $this->communityMessages = new Google_0814_Service_Orkut_CommunityMessages_Resource(
         $this,
         $this->serviceName,
         'communityMessages',
@@ -527,7 +526,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->communityPollComments = new Google_Service_Orkut_CommunityPollComments_Resource(
+    $this->communityPollComments = new Google_0814_Service_Orkut_CommunityPollComments_Resource(
         $this,
         $this->serviceName,
         'communityPollComments',
@@ -579,7 +578,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->communityPollVotes = new Google_Service_Orkut_CommunityPollVotes_Resource(
+    $this->communityPollVotes = new Google_0814_Service_Orkut_CommunityPollVotes_Resource(
         $this,
         $this->serviceName,
         'communityPollVotes',
@@ -604,7 +603,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->communityPolls = new Google_Service_Orkut_CommunityPolls_Resource(
+    $this->communityPolls = new Google_0814_Service_Orkut_CommunityPolls_Resource(
         $this,
         $this->serviceName,
         'communityPolls',
@@ -655,7 +654,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->communityRelated = new Google_Service_Orkut_CommunityRelated_Resource(
+    $this->communityRelated = new Google_0814_Service_Orkut_CommunityRelated_Resource(
         $this,
         $this->serviceName,
         'communityRelated',
@@ -679,7 +678,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->communityTopics = new Google_Service_Orkut_CommunityTopics_Resource(
+    $this->communityTopics = new Google_0814_Service_Orkut_CommunityTopics_Resource(
         $this,
         $this->serviceName,
         'communityTopics',
@@ -759,7 +758,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->counters = new Google_Service_Orkut_Counters_Resource(
+    $this->counters = new Google_0814_Service_Orkut_Counters_Resource(
         $this,
         $this->serviceName,
         'counters',
@@ -779,7 +778,7 @@ class Google_Service_Orkut extends Google_Service
           )
         )
     );
-    $this->scraps = new Google_Service_Orkut_Scraps_Resource(
+    $this->scraps = new Google_0814_Service_Orkut_Scraps_Resource(
         $this,
         $this->serviceName,
         'scraps',
@@ -801,11 +800,11 @@ class Google_Service_Orkut extends Google_Service
  * The "acl" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $acl = $orkutService->acl;
  *  </code>
  */
-class Google_Service_Orkut_Acl_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_Acl_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -829,11 +828,11 @@ class Google_Service_Orkut_Acl_Resource extends Google_Service_Resource
  * The "activities" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $activities = $orkutService->activities;
  *  </code>
  */
-class Google_Service_Orkut_Activities_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_Activities_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -866,13 +865,13 @@ class Google_Service_Orkut_Activities_Resource extends Google_Service_Resource
    * The maximum number of activities to include in the response.
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_ActivityList
+   * @return Google_0814_Service_Orkut_ActivityList
    */
   public function listActivities($userId, $collection, $optParams = array())
   {
     $params = array('userId' => $userId, 'collection' => $collection);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Orkut_ActivityList");
+    return $this->call('list', array($params), "Google_0814_Service_Orkut_ActivityList");
   }
 }
 
@@ -880,11 +879,11 @@ class Google_Service_Orkut_Activities_Resource extends Google_Service_Resource
  * The "activityVisibility" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $activityVisibility = $orkutService->activityVisibility;
  *  </code>
  */
-class Google_Service_Orkut_ActivityVisibility_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_ActivityVisibility_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -893,13 +892,13 @@ class Google_Service_Orkut_ActivityVisibility_Resource extends Google_Service_Re
    * @param string $activityId
    * ID of the activity to get the visibility.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_Visibility
+   * @return Google_0814_Service_Orkut_Visibility
    */
   public function get($activityId, $optParams = array())
   {
     $params = array('activityId' => $activityId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Orkut_Visibility");
+    return $this->call('get', array($params), "Google_0814_Service_Orkut_Visibility");
   }
   /**
    * Updates the visibility of an existing activity. This method supports patch
@@ -907,30 +906,30 @@ class Google_Service_Orkut_ActivityVisibility_Resource extends Google_Service_Re
    *
    * @param string $activityId
    * ID of the activity.
-   * @param Google_Visibility $postBody
+   * @param Google_0814_Visibility $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_Visibility
+   * @return Google_0814_Service_Orkut_Visibility
    */
-  public function patch($activityId, Google_Service_Orkut_Visibility $postBody, $optParams = array())
+  public function patch($activityId, Google_0814_Service_Orkut_Visibility $postBody, $optParams = array())
   {
     $params = array('activityId' => $activityId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Orkut_Visibility");
+    return $this->call('patch', array($params), "Google_0814_Service_Orkut_Visibility");
   }
   /**
    * Updates the visibility of an existing activity. (activityVisibility.update)
    *
    * @param string $activityId
    * ID of the activity.
-   * @param Google_Visibility $postBody
+   * @param Google_0814_Visibility $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_Visibility
+   * @return Google_0814_Service_Orkut_Visibility
    */
-  public function update($activityId, Google_Service_Orkut_Visibility $postBody, $optParams = array())
+  public function update($activityId, Google_0814_Service_Orkut_Visibility $postBody, $optParams = array())
   {
     $params = array('activityId' => $activityId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Orkut_Visibility");
+    return $this->call('update', array($params), "Google_0814_Service_Orkut_Visibility");
   }
 }
 
@@ -938,11 +937,11 @@ class Google_Service_Orkut_ActivityVisibility_Resource extends Google_Service_Re
  * The "badges" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $badges = $orkutService->badges;
  *  </code>
  */
-class Google_Service_Orkut_Badges_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_Badges_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -953,13 +952,13 @@ class Google_Service_Orkut_Badges_Resource extends Google_Service_Resource
    * @param string $badgeId
    * The ID of the badge that will be retrieved.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_Badge
+   * @return Google_0814_Service_Orkut_Badge
    */
   public function get($userId, $badgeId, $optParams = array())
   {
     $params = array('userId' => $userId, 'badgeId' => $badgeId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Orkut_Badge");
+    return $this->call('get', array($params), "Google_0814_Service_Orkut_Badge");
   }
   /**
    * Retrieves the list of visible badges of a user. (badges.listBadges)
@@ -967,13 +966,13 @@ class Google_Service_Orkut_Badges_Resource extends Google_Service_Resource
    * @param string $userId
    * The id of the user whose badges will be listed. Can be me to refer to caller.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_BadgeList
+   * @return Google_0814_Service_Orkut_BadgeList
    */
   public function listBadges($userId, $optParams = array())
   {
     $params = array('userId' => $userId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Orkut_BadgeList");
+    return $this->call('list', array($params), "Google_0814_Service_Orkut_BadgeList");
   }
 }
 
@@ -981,11 +980,11 @@ class Google_Service_Orkut_Badges_Resource extends Google_Service_Resource
  * The "comments" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $comments = $orkutService->comments;
  *  </code>
  */
-class Google_Service_Orkut_Comments_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_Comments_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1010,28 +1009,28 @@ class Google_Service_Orkut_Comments_Resource extends Google_Service_Resource
    *
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_Comment
+   * @return Google_0814_Service_Orkut_Comment
    */
   public function get($commentId, $optParams = array())
   {
     $params = array('commentId' => $commentId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Orkut_Comment");
+    return $this->call('get', array($params), "Google_0814_Service_Orkut_Comment");
   }
   /**
    * Inserts a new comment to an activity. (comments.insert)
    *
    * @param string $activityId
    * The ID of the activity to contain the new comment.
-   * @param Google_Comment $postBody
+   * @param Google_0814_Comment $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_Comment
+   * @return Google_0814_Service_Orkut_Comment
    */
-  public function insert($activityId, Google_Service_Orkut_Comment $postBody, $optParams = array())
+  public function insert($activityId, Google_0814_Service_Orkut_Comment $postBody, $optParams = array())
   {
     $params = array('activityId' => $activityId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Orkut_Comment");
+    return $this->call('insert', array($params), "Google_0814_Service_Orkut_Comment");
   }
   /**
    * Retrieves a list of comments, possibly filtered. (comments.listComments)
@@ -1048,13 +1047,13 @@ class Google_Service_Orkut_Comments_Resource extends Google_Service_Resource
    * The maximum number of activities to include in the response.
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_CommentList
+   * @return Google_0814_Service_Orkut_CommentList
    */
   public function listComments($activityId, $optParams = array())
   {
     $params = array('activityId' => $activityId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Orkut_CommentList");
+    return $this->call('list', array($params), "Google_0814_Service_Orkut_CommentList");
   }
 }
 
@@ -1062,11 +1061,11 @@ class Google_Service_Orkut_Comments_Resource extends Google_Service_Resource
  * The "communities" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $communities = $orkutService->communities;
  *  </code>
  */
-class Google_Service_Orkut_Communities_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_Communities_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1079,13 +1078,13 @@ class Google_Service_Orkut_Communities_Resource extends Google_Service_Resource
    *
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_Community
+   * @return Google_0814_Service_Orkut_Community
    */
   public function get($communityId, $optParams = array())
   {
     $params = array('communityId' => $communityId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Orkut_Community");
+    return $this->call('get', array($params), "Google_0814_Service_Orkut_Community");
   }
   /**
    * Retrieves the list of communities the current user is a member of.
@@ -1101,13 +1100,13 @@ class Google_Service_Orkut_Communities_Resource extends Google_Service_Resource
    * The maximum number of communities to include in the response.
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_CommunityList
+   * @return Google_0814_Service_Orkut_CommunityList
    */
   public function listCommunities($userId, $optParams = array())
   {
     $params = array('userId' => $userId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Orkut_CommunityList");
+    return $this->call('list', array($params), "Google_0814_Service_Orkut_CommunityList");
   }
 }
 
@@ -1115,11 +1114,11 @@ class Google_Service_Orkut_Communities_Resource extends Google_Service_Resource
  * The "communityFollow" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $communityFollow = $orkutService->communityFollow;
  *  </code>
  */
-class Google_Service_Orkut_CommunityFollow_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_CommunityFollow_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1145,13 +1144,13 @@ class Google_Service_Orkut_CommunityFollow_Resource extends Google_Service_Resou
    * @param string $userId
    * ID of the user.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_CommunityMembers
+   * @return Google_0814_Service_Orkut_CommunityMembers
    */
   public function insert($communityId, $userId, $optParams = array())
   {
     $params = array('communityId' => $communityId, 'userId' => $userId);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Orkut_CommunityMembers");
+    return $this->call('insert', array($params), "Google_0814_Service_Orkut_CommunityMembers");
   }
 }
 
@@ -1159,11 +1158,11 @@ class Google_Service_Orkut_CommunityFollow_Resource extends Google_Service_Resou
  * The "communityMembers" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $communityMembers = $orkutService->communityMembers;
  *  </code>
  */
-class Google_Service_Orkut_CommunityMembers_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_CommunityMembers_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1193,13 +1192,13 @@ class Google_Service_Orkut_CommunityMembers_Resource extends Google_Service_Reso
    *
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_CommunityMembers
+   * @return Google_0814_Service_Orkut_CommunityMembers
    */
   public function get($communityId, $userId, $optParams = array())
   {
     $params = array('communityId' => $communityId, 'userId' => $userId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Orkut_CommunityMembers");
+    return $this->call('get', array($params), "Google_0814_Service_Orkut_CommunityMembers");
   }
   /**
    * Makes the user join a community. (communityMembers.insert)
@@ -1209,13 +1208,13 @@ class Google_Service_Orkut_CommunityMembers_Resource extends Google_Service_Reso
    * @param string $userId
    * ID of the user.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_CommunityMembers
+   * @return Google_0814_Service_Orkut_CommunityMembers
    */
   public function insert($communityId, $userId, $optParams = array())
   {
     $params = array('communityId' => $communityId, 'userId' => $userId);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Orkut_CommunityMembers");
+    return $this->call('insert', array($params), "Google_0814_Service_Orkut_CommunityMembers");
   }
   /**
    * Lists members of a community. Use the pagination tokens to retrieve the full
@@ -1235,13 +1234,13 @@ class Google_Service_Orkut_CommunityMembers_Resource extends Google_Service_Reso
    * The maximum number of members to include in the response.
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_CommunityMembersList
+   * @return Google_0814_Service_Orkut_CommunityMembersList
    */
   public function listCommunityMembers($communityId, $optParams = array())
   {
     $params = array('communityId' => $communityId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Orkut_CommunityMembersList");
+    return $this->call('list', array($params), "Google_0814_Service_Orkut_CommunityMembersList");
   }
 }
 
@@ -1249,11 +1248,11 @@ class Google_Service_Orkut_CommunityMembers_Resource extends Google_Service_Reso
  * The "communityMessages" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $communityMessages = $orkutService->communityMessages;
  *  </code>
  */
-class Google_Service_Orkut_CommunityMessages_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_CommunityMessages_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1281,15 +1280,15 @@ class Google_Service_Orkut_CommunityMessages_Resource extends Google_Service_Res
    * The ID of the community the message should be added to.
    * @param string $topicId
    * The ID of the topic the message should be added to.
-   * @param Google_CommunityMessage $postBody
+   * @param Google_0814_CommunityMessage $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_CommunityMessage
+   * @return Google_0814_Service_Orkut_CommunityMessage
    */
-  public function insert($communityId, $topicId, Google_Service_Orkut_CommunityMessage $postBody, $optParams = array())
+  public function insert($communityId, $topicId, Google_0814_Service_Orkut_CommunityMessage $postBody, $optParams = array())
   {
     $params = array('communityId' => $communityId, 'topicId' => $topicId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Orkut_CommunityMessage");
+    return $this->call('insert', array($params), "Google_0814_Service_Orkut_CommunityMessage");
   }
   /**
    * Retrieves the messages of a topic of a community.
@@ -1307,13 +1306,13 @@ class Google_Service_Orkut_CommunityMessages_Resource extends Google_Service_Res
    * The maximum number of messages to include in the response.
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_CommunityMessageList
+   * @return Google_0814_Service_Orkut_CommunityMessageList
    */
   public function listCommunityMessages($communityId, $topicId, $optParams = array())
   {
     $params = array('communityId' => $communityId, 'topicId' => $topicId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Orkut_CommunityMessageList");
+    return $this->call('list', array($params), "Google_0814_Service_Orkut_CommunityMessageList");
   }
 }
 
@@ -1321,11 +1320,11 @@ class Google_Service_Orkut_CommunityMessages_Resource extends Google_Service_Res
  * The "communityPollComments" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $communityPollComments = $orkutService->communityPollComments;
  *  </code>
  */
-class Google_Service_Orkut_CommunityPollComments_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_CommunityPollComments_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1335,15 +1334,15 @@ class Google_Service_Orkut_CommunityPollComments_Resource extends Google_Service
    * The ID of the community whose poll is being commented.
    * @param string $pollId
    * The ID of the poll being commented.
-   * @param Google_CommunityPollComment $postBody
+   * @param Google_0814_CommunityPollComment $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_CommunityPollComment
+   * @return Google_0814_Service_Orkut_CommunityPollComment
    */
-  public function insert($communityId, $pollId, Google_Service_Orkut_CommunityPollComment $postBody, $optParams = array())
+  public function insert($communityId, $pollId, Google_0814_Service_Orkut_CommunityPollComment $postBody, $optParams = array())
   {
     $params = array('communityId' => $communityId, 'pollId' => $pollId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Orkut_CommunityPollComment");
+    return $this->call('insert', array($params), "Google_0814_Service_Orkut_CommunityPollComment");
   }
   /**
    * Retrieves the comments of a community poll.
@@ -1361,13 +1360,13 @@ class Google_Service_Orkut_CommunityPollComments_Resource extends Google_Service
    * The maximum number of comments to include in the response.
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_CommunityPollCommentList
+   * @return Google_0814_Service_Orkut_CommunityPollCommentList
    */
   public function listCommunityPollComments($communityId, $pollId, $optParams = array())
   {
     $params = array('communityId' => $communityId, 'pollId' => $pollId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Orkut_CommunityPollCommentList");
+    return $this->call('list', array($params), "Google_0814_Service_Orkut_CommunityPollCommentList");
   }
 }
 
@@ -1375,11 +1374,11 @@ class Google_Service_Orkut_CommunityPollComments_Resource extends Google_Service
  * The "communityPollVotes" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $communityPollVotes = $orkutService->communityPollVotes;
  *  </code>
  */
-class Google_Service_Orkut_CommunityPollVotes_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_CommunityPollVotes_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1389,15 +1388,15 @@ class Google_Service_Orkut_CommunityPollVotes_Resource extends Google_Service_Re
    * The ID of the community whose poll is being voted.
    * @param string $pollId
    * The ID of the poll being voted.
-   * @param Google_CommunityPollVote $postBody
+   * @param Google_0814_CommunityPollVote $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_CommunityPollVote
+   * @return Google_0814_Service_Orkut_CommunityPollVote
    */
-  public function insert($communityId, $pollId, Google_Service_Orkut_CommunityPollVote $postBody, $optParams = array())
+  public function insert($communityId, $pollId, Google_0814_Service_Orkut_CommunityPollVote $postBody, $optParams = array())
   {
     $params = array('communityId' => $communityId, 'pollId' => $pollId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Orkut_CommunityPollVote");
+    return $this->call('insert', array($params), "Google_0814_Service_Orkut_CommunityPollVote");
   }
 }
 
@@ -1405,11 +1404,11 @@ class Google_Service_Orkut_CommunityPollVotes_Resource extends Google_Service_Re
  * The "communityPolls" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $communityPolls = $orkutService->communityPolls;
  *  </code>
  */
-class Google_Service_Orkut_CommunityPolls_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_CommunityPolls_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1423,13 +1422,13 @@ class Google_Service_Orkut_CommunityPolls_Resource extends Google_Service_Resour
    *
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_CommunityPoll
+   * @return Google_0814_Service_Orkut_CommunityPoll
    */
   public function get($communityId, $pollId, $optParams = array())
   {
     $params = array('communityId' => $communityId, 'pollId' => $pollId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Orkut_CommunityPoll");
+    return $this->call('get', array($params), "Google_0814_Service_Orkut_CommunityPoll");
   }
   /**
    * Retrieves the polls of a community. (communityPolls.listCommunityPolls)
@@ -1444,13 +1443,13 @@ class Google_Service_Orkut_CommunityPolls_Resource extends Google_Service_Resour
    * The maximum number of polls to include in the response.
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_CommunityPollList
+   * @return Google_0814_Service_Orkut_CommunityPollList
    */
   public function listCommunityPolls($communityId, $optParams = array())
   {
     $params = array('communityId' => $communityId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Orkut_CommunityPollList");
+    return $this->call('list', array($params), "Google_0814_Service_Orkut_CommunityPollList");
   }
 }
 
@@ -1458,11 +1457,11 @@ class Google_Service_Orkut_CommunityPolls_Resource extends Google_Service_Resour
  * The "communityRelated" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $communityRelated = $orkutService->communityRelated;
  *  </code>
  */
-class Google_Service_Orkut_CommunityRelated_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_CommunityRelated_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1475,13 +1474,13 @@ class Google_Service_Orkut_CommunityRelated_Resource extends Google_Service_Reso
    *
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_CommunityList
+   * @return Google_0814_Service_Orkut_CommunityList
    */
   public function listCommunityRelated($communityId, $optParams = array())
   {
     $params = array('communityId' => $communityId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Orkut_CommunityList");
+    return $this->call('list', array($params), "Google_0814_Service_Orkut_CommunityList");
   }
 }
 
@@ -1489,11 +1488,11 @@ class Google_Service_Orkut_CommunityRelated_Resource extends Google_Service_Reso
  * The "communityTopics" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $communityTopics = $orkutService->communityTopics;
  *  </code>
  */
-class Google_Service_Orkut_CommunityTopics_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_CommunityTopics_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1522,31 +1521,31 @@ class Google_Service_Orkut_CommunityTopics_Resource extends Google_Service_Resou
    *
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_CommunityTopic
+   * @return Google_0814_Service_Orkut_CommunityTopic
    */
   public function get($communityId, $topicId, $optParams = array())
   {
     $params = array('communityId' => $communityId, 'topicId' => $topicId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Orkut_CommunityTopic");
+    return $this->call('get', array($params), "Google_0814_Service_Orkut_CommunityTopic");
   }
   /**
    * Adds a topic to a given community. (communityTopics.insert)
    *
    * @param int $communityId
    * The ID of the community the topic should be added to.
-   * @param Google_CommunityTopic $postBody
+   * @param Google_0814_CommunityTopic $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool isShout
    * Whether this topic is a shout.
-   * @return Google_Service_Orkut_CommunityTopic
+   * @return Google_0814_Service_Orkut_CommunityTopic
    */
-  public function insert($communityId, Google_Service_Orkut_CommunityTopic $postBody, $optParams = array())
+  public function insert($communityId, Google_0814_Service_Orkut_CommunityTopic $postBody, $optParams = array())
   {
     $params = array('communityId' => $communityId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Orkut_CommunityTopic");
+    return $this->call('insert', array($params), "Google_0814_Service_Orkut_CommunityTopic");
   }
   /**
    * Retrieves the topics of a community. (communityTopics.listCommunityTopics)
@@ -1561,13 +1560,13 @@ class Google_Service_Orkut_CommunityTopics_Resource extends Google_Service_Resou
    * The maximum number of topics to include in the response.
    * @opt_param string hl
    * Specifies the interface language (host language) of your user interface.
-   * @return Google_Service_Orkut_CommunityTopicList
+   * @return Google_0814_Service_Orkut_CommunityTopicList
    */
   public function listCommunityTopics($communityId, $optParams = array())
   {
     $params = array('communityId' => $communityId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Orkut_CommunityTopicList");
+    return $this->call('list', array($params), "Google_0814_Service_Orkut_CommunityTopicList");
   }
 }
 
@@ -1575,11 +1574,11 @@ class Google_Service_Orkut_CommunityTopics_Resource extends Google_Service_Resou
  * The "counters" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $counters = $orkutService->counters;
  *  </code>
  */
-class Google_Service_Orkut_Counters_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_Counters_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1588,13 +1587,13 @@ class Google_Service_Orkut_Counters_Resource extends Google_Service_Resource
    * @param string $userId
    * The ID of the user whose counters will be listed. Can be me to refer to caller.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_Counters
+   * @return Google_0814_Service_Orkut_Counters
    */
   public function listCounters($userId, $optParams = array())
   {
     $params = array('userId' => $userId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Orkut_Counters");
+    return $this->call('list', array($params), "Google_0814_Service_Orkut_Counters");
   }
 }
 
@@ -1602,35 +1601,35 @@ class Google_Service_Orkut_Counters_Resource extends Google_Service_Resource
  * The "scraps" collection of methods.
  * Typical usage is:
  *  <code>
- *   $orkutService = new Google_Service_Orkut(...);
+ *   $orkutService = new Google_0814_Service_Orkut(...);
  *   $scraps = $orkutService->scraps;
  *  </code>
  */
-class Google_Service_Orkut_Scraps_Resource extends Google_Service_Resource
+class Google_0814_Service_Orkut_Scraps_Resource extends Google_0814_Service_Resource
 {
 
   /**
    * Creates a new scrap. (scraps.insert)
    *
-   * @param Google_Activity $postBody
+   * @param Google_0814_Activity $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Orkut_Activity
+   * @return Google_0814_Service_Orkut_Activity
    */
-  public function insert(Google_Service_Orkut_Activity $postBody, $optParams = array())
+  public function insert(Google_0814_Service_Orkut_Activity $postBody, $optParams = array())
   {
     $params = array('postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_Orkut_Activity");
+    return $this->call('insert', array($params), "Google_0814_Service_Orkut_Activity");
   }
 }
 
 
 
 
-class Google_Service_Orkut_Acl extends Google_Collection
+class Google_0814_Service_Orkut_Acl extends Google_0814_Collection
 {
   public $description;
-  protected $itemsType = 'Google_Service_Orkut_AclItems';
+  protected $itemsType = 'Google_0814_Service_Orkut_AclItems';
   protected $itemsDataType = 'array';
   public $kind;
   public $totalParticipants;
@@ -1676,7 +1675,7 @@ class Google_Service_Orkut_Acl extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_AclItems extends Google_Model
+class Google_0814_Service_Orkut_AclItems extends Google_0814_Model
 {
   public $id;
   public $type;
@@ -1702,24 +1701,24 @@ class Google_Service_Orkut_AclItems extends Google_Model
   }
 }
 
-class Google_Service_Orkut_Activity extends Google_Collection
+class Google_0814_Service_Orkut_Activity extends Google_0814_Collection
 {
-  protected $accessType = 'Google_Service_Orkut_Acl';
+  protected $accessType = 'Google_0814_Service_Orkut_Acl';
   protected $accessDataType = '';
-  protected $actorType = 'Google_Service_Orkut_OrkutAuthorResource';
+  protected $actorType = 'Google_0814_Service_Orkut_OrkutAuthorResource';
   protected $actorDataType = '';
   public $id;
   public $kind;
-  protected $linksType = 'Google_Service_Orkut_OrkutLinkResource';
+  protected $linksType = 'Google_0814_Service_Orkut_OrkutLinkResource';
   protected $linksDataType = 'array';
-  protected $objectType = 'Google_Service_Orkut_ActivityObject';
+  protected $objectType = 'Google_0814_Service_Orkut_ActivityObject';
   protected $objectDataType = '';
   public $published;
   public $title;
   public $updated;
   public $verb;
 
-  public function setAccess(Google_Service_Orkut_Acl $access)
+  public function setAccess(Google_0814_Service_Orkut_Acl $access)
   {
     $this->access = $access;
   }
@@ -1729,7 +1728,7 @@ class Google_Service_Orkut_Activity extends Google_Collection
     return $this->access;
   }
 
-  public function setActor(Google_Service_Orkut_OrkutAuthorResource $actor)
+  public function setActor(Google_0814_Service_Orkut_OrkutAuthorResource $actor)
   {
     $this->actor = $actor;
   }
@@ -1769,7 +1768,7 @@ class Google_Service_Orkut_Activity extends Google_Collection
     return $this->links;
   }
 
-  public function setObject(Google_Service_Orkut_ActivityObject $object)
+  public function setObject(Google_0814_Service_Orkut_ActivityObject $object)
   {
     $this->object = $object;
   }
@@ -1820,9 +1819,9 @@ class Google_Service_Orkut_Activity extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_ActivityList extends Google_Collection
+class Google_0814_Service_Orkut_ActivityList extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Orkut_Activity';
+  protected $itemsType = 'Google_0814_Service_Orkut_Activity';
   protected $itemsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -1858,13 +1857,13 @@ class Google_Service_Orkut_ActivityList extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_ActivityObject extends Google_Collection
+class Google_0814_Service_Orkut_ActivityObject extends Google_0814_Collection
 {
   public $content;
-  protected $itemsType = 'Google_Service_Orkut_OrkutActivityobjectsResource';
+  protected $itemsType = 'Google_0814_Service_Orkut_OrkutActivityobjectsResource';
   protected $itemsDataType = 'array';
   public $objectType;
-  protected $repliesType = 'Google_Service_Orkut_ActivityObjectReplies';
+  protected $repliesType = 'Google_0814_Service_Orkut_ActivityObjectReplies';
   protected $repliesDataType = '';
 
   public function setContent($content)
@@ -1897,7 +1896,7 @@ class Google_Service_Orkut_ActivityObject extends Google_Collection
     return $this->objectType;
   }
 
-  public function setReplies(Google_Service_Orkut_ActivityObjectReplies $replies)
+  public function setReplies(Google_0814_Service_Orkut_ActivityObjectReplies $replies)
   {
     $this->replies = $replies;
   }
@@ -1908,9 +1907,9 @@ class Google_Service_Orkut_ActivityObject extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_ActivityObjectReplies extends Google_Collection
+class Google_0814_Service_Orkut_ActivityObjectReplies extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Orkut_Comment';
+  protected $itemsType = 'Google_0814_Service_Orkut_Comment';
   protected $itemsDataType = 'array';
   public $totalItems;
   public $url;
@@ -1946,7 +1945,7 @@ class Google_Service_Orkut_ActivityObjectReplies extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_Badge extends Google_Model
+class Google_0814_Service_Orkut_Badge extends Google_0814_Model
 {
   public $badgeLargeLogo;
   public $badgeSmallLogo;
@@ -2049,9 +2048,9 @@ class Google_Service_Orkut_Badge extends Google_Model
   }
 }
 
-class Google_Service_Orkut_BadgeList extends Google_Collection
+class Google_0814_Service_Orkut_BadgeList extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Orkut_Badge';
+  protected $itemsType = 'Google_0814_Service_Orkut_Badge';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -2076,20 +2075,20 @@ class Google_Service_Orkut_BadgeList extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_Comment extends Google_Collection
+class Google_0814_Service_Orkut_Comment extends Google_0814_Collection
 {
-  protected $actorType = 'Google_Service_Orkut_OrkutAuthorResource';
+  protected $actorType = 'Google_0814_Service_Orkut_OrkutAuthorResource';
   protected $actorDataType = '';
   public $content;
   public $id;
-  protected $inReplyToType = 'Google_Service_Orkut_CommentInReplyTo';
+  protected $inReplyToType = 'Google_0814_Service_Orkut_CommentInReplyTo';
   protected $inReplyToDataType = '';
   public $kind;
-  protected $linksType = 'Google_Service_Orkut_OrkutLinkResource';
+  protected $linksType = 'Google_0814_Service_Orkut_OrkutLinkResource';
   protected $linksDataType = 'array';
   public $published;
 
-  public function setActor(Google_Service_Orkut_OrkutAuthorResource $actor)
+  public function setActor(Google_0814_Service_Orkut_OrkutAuthorResource $actor)
   {
     $this->actor = $actor;
   }
@@ -2119,7 +2118,7 @@ class Google_Service_Orkut_Comment extends Google_Collection
     return $this->id;
   }
 
-  public function setInReplyTo(Google_Service_Orkut_CommentInReplyTo $inReplyTo)
+  public function setInReplyTo(Google_0814_Service_Orkut_CommentInReplyTo $inReplyTo)
   {
     $this->inReplyTo = $inReplyTo;
   }
@@ -2160,7 +2159,7 @@ class Google_Service_Orkut_Comment extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_CommentInReplyTo extends Google_Model
+class Google_0814_Service_Orkut_CommentInReplyTo extends Google_0814_Model
 {
   public $href;
   public $ref;
@@ -2208,9 +2207,9 @@ class Google_Service_Orkut_CommentInReplyTo extends Google_Model
   }
 }
 
-class Google_Service_Orkut_CommentList extends Google_Collection
+class Google_0814_Service_Orkut_CommentList extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Orkut_Comment';
+  protected $itemsType = 'Google_0814_Service_Orkut_Comment';
   protected $itemsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -2257,24 +2256,24 @@ class Google_Service_Orkut_CommentList extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_Community extends Google_Collection
+class Google_0814_Service_Orkut_Community extends Google_0814_Collection
 {
   public $category;
-  protected $coOwnersType = 'Google_Service_Orkut_OrkutAuthorResource';
+  protected $coOwnersType = 'Google_0814_Service_Orkut_OrkutAuthorResource';
   protected $coOwnersDataType = 'array';
   public $creationDate;
   public $description;
   public $id;
   public $kind;
   public $language;
-  protected $linksType = 'Google_Service_Orkut_OrkutLinkResource';
+  protected $linksType = 'Google_0814_Service_Orkut_OrkutLinkResource';
   protected $linksDataType = 'array';
   public $location;
   public $memberCount;
-  protected $moderatorsType = 'Google_Service_Orkut_OrkutAuthorResource';
+  protected $moderatorsType = 'Google_0814_Service_Orkut_OrkutAuthorResource';
   protected $moderatorsDataType = 'array';
   public $name;
-  protected $ownerType = 'Google_Service_Orkut_OrkutAuthorResource';
+  protected $ownerType = 'Google_0814_Service_Orkut_OrkutAuthorResource';
   protected $ownerDataType = '';
   public $photoUrl;
 
@@ -2398,7 +2397,7 @@ class Google_Service_Orkut_Community extends Google_Collection
     return $this->name;
   }
 
-  public function setOwner(Google_Service_Orkut_OrkutAuthorResource $owner)
+  public function setOwner(Google_0814_Service_Orkut_OrkutAuthorResource $owner)
   {
     $this->owner = $owner;
   }
@@ -2419,9 +2418,9 @@ class Google_Service_Orkut_Community extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_CommunityList extends Google_Collection
+class Google_0814_Service_Orkut_CommunityList extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Orkut_Community';
+  protected $itemsType = 'Google_0814_Service_Orkut_Community';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -2446,15 +2445,15 @@ class Google_Service_Orkut_CommunityList extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_CommunityMembers extends Google_Model
+class Google_0814_Service_Orkut_CommunityMembers extends Google_0814_Model
 {
-  protected $communityMembershipStatusType = 'Google_Service_Orkut_CommunityMembershipStatus';
+  protected $communityMembershipStatusType = 'Google_0814_Service_Orkut_CommunityMembershipStatus';
   protected $communityMembershipStatusDataType = '';
   public $kind;
-  protected $personType = 'Google_Service_Orkut_OrkutActivitypersonResource';
+  protected $personType = 'Google_0814_Service_Orkut_OrkutActivitypersonResource';
   protected $personDataType = '';
 
-  public function setCommunityMembershipStatus(Google_Service_Orkut_CommunityMembershipStatus $communityMembershipStatus)
+  public function setCommunityMembershipStatus(Google_0814_Service_Orkut_CommunityMembershipStatus $communityMembershipStatus)
   {
     $this->communityMembershipStatus = $communityMembershipStatus;
   }
@@ -2474,7 +2473,7 @@ class Google_Service_Orkut_CommunityMembers extends Google_Model
     return $this->kind;
   }
 
-  public function setPerson(Google_Service_Orkut_OrkutActivitypersonResource $person)
+  public function setPerson(Google_0814_Service_Orkut_OrkutActivitypersonResource $person)
   {
     $this->person = $person;
   }
@@ -2485,10 +2484,10 @@ class Google_Service_Orkut_CommunityMembers extends Google_Model
   }
 }
 
-class Google_Service_Orkut_CommunityMembersList extends Google_Collection
+class Google_0814_Service_Orkut_CommunityMembersList extends Google_0814_Collection
 {
   public $firstPageToken;
-  protected $itemsType = 'Google_Service_Orkut_CommunityMembers';
+  protected $itemsType = 'Google_0814_Service_Orkut_CommunityMembers';
   protected $itemsDataType = 'array';
   public $kind;
   public $lastPageToken;
@@ -2556,7 +2555,7 @@ class Google_Service_Orkut_CommunityMembersList extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_CommunityMembershipStatus extends Google_Model
+class Google_0814_Service_Orkut_CommunityMembershipStatus extends Google_0814_Model
 {
   public $canCreatePoll;
   public $canCreateTopic;
@@ -2681,16 +2680,16 @@ class Google_Service_Orkut_CommunityMembershipStatus extends Google_Model
   }
 }
 
-class Google_Service_Orkut_CommunityMessage extends Google_Collection
+class Google_0814_Service_Orkut_CommunityMessage extends Google_0814_Collection
 {
   public $addedDate;
-  protected $authorType = 'Google_Service_Orkut_OrkutAuthorResource';
+  protected $authorType = 'Google_0814_Service_Orkut_OrkutAuthorResource';
   protected $authorDataType = '';
   public $body;
   public $id;
   public $isSpam;
   public $kind;
-  protected $linksType = 'Google_Service_Orkut_OrkutLinkResource';
+  protected $linksType = 'Google_0814_Service_Orkut_OrkutLinkResource';
   protected $linksDataType = 'array';
   public $subject;
 
@@ -2704,7 +2703,7 @@ class Google_Service_Orkut_CommunityMessage extends Google_Collection
     return $this->addedDate;
   }
 
-  public function setAuthor(Google_Service_Orkut_OrkutAuthorResource $author)
+  public function setAuthor(Google_0814_Service_Orkut_OrkutAuthorResource $author)
   {
     $this->author = $author;
   }
@@ -2775,10 +2774,10 @@ class Google_Service_Orkut_CommunityMessage extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_CommunityMessageList extends Google_Collection
+class Google_0814_Service_Orkut_CommunityMessageList extends Google_0814_Collection
 {
   public $firstPageToken;
-  protected $itemsType = 'Google_Service_Orkut_CommunityMessage';
+  protected $itemsType = 'Google_0814_Service_Orkut_CommunityMessage';
   protected $itemsDataType = 'array';
   public $kind;
   public $lastPageToken;
@@ -2846,9 +2845,9 @@ class Google_Service_Orkut_CommunityMessageList extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_CommunityPoll extends Google_Collection
+class Google_0814_Service_Orkut_CommunityPoll extends Google_0814_Collection
 {
-  protected $authorType = 'Google_Service_Orkut_OrkutAuthorResource';
+  protected $authorType = 'Google_0814_Service_Orkut_OrkutAuthorResource';
   protected $authorDataType = '';
   public $communityId;
   public $creationTime;
@@ -2856,7 +2855,7 @@ class Google_Service_Orkut_CommunityPoll extends Google_Collection
   public $endingTime;
   public $hasVoted;
   public $id;
-  protected $imageType = 'Google_Service_Orkut_CommunityPollImage';
+  protected $imageType = 'Google_0814_Service_Orkut_CommunityPollImage';
   protected $imageDataType = '';
   public $isClosed;
   public $isMultipleAnswers;
@@ -2867,15 +2866,15 @@ class Google_Service_Orkut_CommunityPoll extends Google_Collection
   public $isVotingAllowedForNonMembers;
   public $kind;
   public $lastUpdate;
-  protected $linksType = 'Google_Service_Orkut_OrkutLinkResource';
+  protected $linksType = 'Google_0814_Service_Orkut_OrkutLinkResource';
   protected $linksDataType = 'array';
-  protected $optionsType = 'Google_Service_Orkut_OrkutCommunitypolloptionResource';
+  protected $optionsType = 'Google_0814_Service_Orkut_OrkutCommunitypolloptionResource';
   protected $optionsDataType = 'array';
   public $question;
   public $totalNumberOfVotes;
   public $votedOptions;
 
-  public function setAuthor(Google_Service_Orkut_OrkutAuthorResource $author)
+  public function setAuthor(Google_0814_Service_Orkut_OrkutAuthorResource $author)
   {
     $this->author = $author;
   }
@@ -2945,7 +2944,7 @@ class Google_Service_Orkut_CommunityPoll extends Google_Collection
     return $this->id;
   }
 
-  public function setImage(Google_Service_Orkut_CommunityPollImage $image)
+  public function setImage(Google_0814_Service_Orkut_CommunityPollImage $image)
   {
     $this->image = $image;
   }
@@ -3096,10 +3095,10 @@ class Google_Service_Orkut_CommunityPoll extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_CommunityPollComment extends Google_Model
+class Google_0814_Service_Orkut_CommunityPollComment extends Google_0814_Model
 {
   public $addedDate;
-  protected $authorType = 'Google_Service_Orkut_OrkutAuthorResource';
+  protected $authorType = 'Google_0814_Service_Orkut_OrkutAuthorResource';
   protected $authorDataType = '';
   public $body;
   public $id;
@@ -3115,7 +3114,7 @@ class Google_Service_Orkut_CommunityPollComment extends Google_Model
     return $this->addedDate;
   }
 
-  public function setAuthor(Google_Service_Orkut_OrkutAuthorResource $author)
+  public function setAuthor(Google_0814_Service_Orkut_OrkutAuthorResource $author)
   {
     $this->author = $author;
   }
@@ -3156,10 +3155,10 @@ class Google_Service_Orkut_CommunityPollComment extends Google_Model
   }
 }
 
-class Google_Service_Orkut_CommunityPollCommentList extends Google_Collection
+class Google_0814_Service_Orkut_CommunityPollCommentList extends Google_0814_Collection
 {
   public $firstPageToken;
-  protected $itemsType = 'Google_Service_Orkut_CommunityPollComment';
+  protected $itemsType = 'Google_0814_Service_Orkut_CommunityPollComment';
   protected $itemsDataType = 'array';
   public $kind;
   public $lastPageToken;
@@ -3227,7 +3226,7 @@ class Google_Service_Orkut_CommunityPollCommentList extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_CommunityPollImage extends Google_Model
+class Google_0814_Service_Orkut_CommunityPollImage extends Google_0814_Model
 {
   public $url;
 
@@ -3242,10 +3241,10 @@ class Google_Service_Orkut_CommunityPollImage extends Google_Model
   }
 }
 
-class Google_Service_Orkut_CommunityPollList extends Google_Collection
+class Google_0814_Service_Orkut_CommunityPollList extends Google_0814_Collection
 {
   public $firstPageToken;
-  protected $itemsType = 'Google_Service_Orkut_CommunityPoll';
+  protected $itemsType = 'Google_0814_Service_Orkut_CommunityPoll';
   protected $itemsDataType = 'array';
   public $kind;
   public $lastPageToken;
@@ -3313,7 +3312,7 @@ class Google_Service_Orkut_CommunityPollList extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_CommunityPollVote extends Google_Collection
+class Google_0814_Service_Orkut_CommunityPollVote extends Google_0814_Collection
 {
   public $isVotevisible;
   public $kind;
@@ -3350,9 +3349,9 @@ class Google_Service_Orkut_CommunityPollVote extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_CommunityTopic extends Google_Collection
+class Google_0814_Service_Orkut_CommunityTopic extends Google_0814_Collection
 {
-  protected $authorType = 'Google_Service_Orkut_OrkutAuthorResource';
+  protected $authorType = 'Google_0814_Service_Orkut_OrkutAuthorResource';
   protected $authorDataType = '';
   public $body;
   public $id;
@@ -3360,14 +3359,14 @@ class Google_Service_Orkut_CommunityTopic extends Google_Collection
   public $kind;
   public $lastUpdate;
   public $latestMessageSnippet;
-  protected $linksType = 'Google_Service_Orkut_OrkutLinkResource';
+  protected $linksType = 'Google_0814_Service_Orkut_OrkutLinkResource';
   protected $linksDataType = 'array';
-  protected $messagesType = 'Google_Service_Orkut_CommunityMessage';
+  protected $messagesType = 'Google_0814_Service_Orkut_CommunityMessage';
   protected $messagesDataType = 'array';
   public $numberOfReplies;
   public $title;
 
-  public function setAuthor(Google_Service_Orkut_OrkutAuthorResource $author)
+  public function setAuthor(Google_0814_Service_Orkut_OrkutAuthorResource $author)
   {
     $this->author = $author;
   }
@@ -3478,10 +3477,10 @@ class Google_Service_Orkut_CommunityTopic extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_CommunityTopicList extends Google_Collection
+class Google_0814_Service_Orkut_CommunityTopicList extends Google_0814_Collection
 {
   public $firstPageToken;
-  protected $itemsType = 'Google_Service_Orkut_CommunityTopic';
+  protected $itemsType = 'Google_0814_Service_Orkut_CommunityTopic';
   protected $itemsDataType = 'array';
   public $kind;
   public $lastPageToken;
@@ -3549,9 +3548,9 @@ class Google_Service_Orkut_CommunityTopicList extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_Counters extends Google_Collection
+class Google_0814_Service_Orkut_Counters extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_Orkut_OrkutCounterResource';
+  protected $itemsType = 'Google_0814_Service_Orkut_OrkutCounterResource';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -3576,20 +3575,20 @@ class Google_Service_Orkut_Counters extends Google_Collection
   }
 }
 
-class Google_Service_Orkut_OrkutActivityobjectsResource extends Google_Collection
+class Google_0814_Service_Orkut_OrkutActivityobjectsResource extends Google_0814_Collection
 {
-  protected $communityType = 'Google_Service_Orkut_Community';
+  protected $communityType = 'Google_0814_Service_Orkut_Community';
   protected $communityDataType = '';
   public $content;
   public $displayName;
   public $id;
-  protected $linksType = 'Google_Service_Orkut_OrkutLinkResource';
+  protected $linksType = 'Google_0814_Service_Orkut_OrkutLinkResource';
   protected $linksDataType = 'array';
   public $objectType;
-  protected $personType = 'Google_Service_Orkut_OrkutActivitypersonResource';
+  protected $personType = 'Google_0814_Service_Orkut_OrkutActivitypersonResource';
   protected $personDataType = '';
 
-  public function setCommunity(Google_Service_Orkut_Community $community)
+  public function setCommunity(Google_0814_Service_Orkut_Community $community)
   {
     $this->community = $community;
   }
@@ -3649,7 +3648,7 @@ class Google_Service_Orkut_OrkutActivityobjectsResource extends Google_Collectio
     return $this->objectType;
   }
 
-  public function setPerson(Google_Service_Orkut_OrkutActivitypersonResource $person)
+  public function setPerson(Google_0814_Service_Orkut_OrkutActivitypersonResource $person)
   {
     $this->person = $person;
   }
@@ -3660,14 +3659,14 @@ class Google_Service_Orkut_OrkutActivityobjectsResource extends Google_Collectio
   }
 }
 
-class Google_Service_Orkut_OrkutActivitypersonResource extends Google_Model
+class Google_0814_Service_Orkut_OrkutActivitypersonResource extends Google_0814_Model
 {
   public $birthday;
   public $gender;
   public $id;
-  protected $imageType = 'Google_Service_Orkut_OrkutActivitypersonResourceImage';
+  protected $imageType = 'Google_0814_Service_Orkut_OrkutActivitypersonResourceImage';
   protected $imageDataType = '';
-  protected $nameType = 'Google_Service_Orkut_OrkutActivitypersonResourceName';
+  protected $nameType = 'Google_0814_Service_Orkut_OrkutActivitypersonResourceName';
   protected $nameDataType = '';
   public $url;
 
@@ -3701,7 +3700,7 @@ class Google_Service_Orkut_OrkutActivitypersonResource extends Google_Model
     return $this->id;
   }
 
-  public function setImage(Google_Service_Orkut_OrkutActivitypersonResourceImage $image)
+  public function setImage(Google_0814_Service_Orkut_OrkutActivitypersonResourceImage $image)
   {
     $this->image = $image;
   }
@@ -3711,7 +3710,7 @@ class Google_Service_Orkut_OrkutActivitypersonResource extends Google_Model
     return $this->image;
   }
 
-  public function setName(Google_Service_Orkut_OrkutActivitypersonResourceName $name)
+  public function setName(Google_0814_Service_Orkut_OrkutActivitypersonResourceName $name)
   {
     $this->name = $name;
   }
@@ -3732,7 +3731,7 @@ class Google_Service_Orkut_OrkutActivitypersonResource extends Google_Model
   }
 }
 
-class Google_Service_Orkut_OrkutActivitypersonResourceImage extends Google_Model
+class Google_0814_Service_Orkut_OrkutActivitypersonResourceImage extends Google_0814_Model
 {
   public $url;
 
@@ -3747,7 +3746,7 @@ class Google_Service_Orkut_OrkutActivitypersonResourceImage extends Google_Model
   }
 }
 
-class Google_Service_Orkut_OrkutActivitypersonResourceName extends Google_Model
+class Google_0814_Service_Orkut_OrkutActivitypersonResourceName extends Google_0814_Model
 {
   public $familyName;
   public $givenName;
@@ -3773,11 +3772,11 @@ class Google_Service_Orkut_OrkutActivitypersonResourceName extends Google_Model
   }
 }
 
-class Google_Service_Orkut_OrkutAuthorResource extends Google_Model
+class Google_0814_Service_Orkut_OrkutAuthorResource extends Google_0814_Model
 {
   public $displayName;
   public $id;
-  protected $imageType = 'Google_Service_Orkut_OrkutAuthorResourceImage';
+  protected $imageType = 'Google_0814_Service_Orkut_OrkutAuthorResourceImage';
   protected $imageDataType = '';
   public $url;
 
@@ -3801,7 +3800,7 @@ class Google_Service_Orkut_OrkutAuthorResource extends Google_Model
     return $this->id;
   }
 
-  public function setImage(Google_Service_Orkut_OrkutAuthorResourceImage $image)
+  public function setImage(Google_0814_Service_Orkut_OrkutAuthorResourceImage $image)
   {
     $this->image = $image;
   }
@@ -3822,7 +3821,7 @@ class Google_Service_Orkut_OrkutAuthorResource extends Google_Model
   }
 }
 
-class Google_Service_Orkut_OrkutAuthorResourceImage extends Google_Model
+class Google_0814_Service_Orkut_OrkutAuthorResourceImage extends Google_0814_Model
 {
   public $url;
 
@@ -3837,10 +3836,10 @@ class Google_Service_Orkut_OrkutAuthorResourceImage extends Google_Model
   }
 }
 
-class Google_Service_Orkut_OrkutCommunitypolloptionResource extends Google_Model
+class Google_0814_Service_Orkut_OrkutCommunitypolloptionResource extends Google_0814_Model
 {
   public $description;
-  protected $imageType = 'Google_Service_Orkut_OrkutCommunitypolloptionResourceImage';
+  protected $imageType = 'Google_0814_Service_Orkut_OrkutCommunitypolloptionResourceImage';
   protected $imageDataType = '';
   public $numberOfVotes;
   public $optionId;
@@ -3855,7 +3854,7 @@ class Google_Service_Orkut_OrkutCommunitypolloptionResource extends Google_Model
     return $this->description;
   }
 
-  public function setImage(Google_Service_Orkut_OrkutCommunitypolloptionResourceImage $image)
+  public function setImage(Google_0814_Service_Orkut_OrkutCommunitypolloptionResourceImage $image)
   {
     $this->image = $image;
   }
@@ -3886,7 +3885,7 @@ class Google_Service_Orkut_OrkutCommunitypolloptionResource extends Google_Model
   }
 }
 
-class Google_Service_Orkut_OrkutCommunitypolloptionResourceImage extends Google_Model
+class Google_0814_Service_Orkut_OrkutCommunitypolloptionResourceImage extends Google_0814_Model
 {
   public $url;
 
@@ -3901,14 +3900,14 @@ class Google_Service_Orkut_OrkutCommunitypolloptionResourceImage extends Google_
   }
 }
 
-class Google_Service_Orkut_OrkutCounterResource extends Google_Model
+class Google_0814_Service_Orkut_OrkutCounterResource extends Google_0814_Model
 {
-  protected $linkType = 'Google_Service_Orkut_OrkutLinkResource';
+  protected $linkType = 'Google_0814_Service_Orkut_OrkutLinkResource';
   protected $linkDataType = '';
   public $name;
   public $total;
 
-  public function setLink(Google_Service_Orkut_OrkutLinkResource $link)
+  public function setLink(Google_0814_Service_Orkut_OrkutLinkResource $link)
   {
     $this->link = $link;
   }
@@ -3939,7 +3938,7 @@ class Google_Service_Orkut_OrkutCounterResource extends Google_Model
   }
 }
 
-class Google_Service_Orkut_OrkutLinkResource extends Google_Model
+class Google_0814_Service_Orkut_OrkutLinkResource extends Google_0814_Model
 {
   public $href;
   public $rel;
@@ -3987,10 +3986,10 @@ class Google_Service_Orkut_OrkutLinkResource extends Google_Model
   }
 }
 
-class Google_Service_Orkut_Visibility extends Google_Collection
+class Google_0814_Service_Orkut_Visibility extends Google_0814_Collection
 {
   public $kind;
-  protected $linksType = 'Google_Service_Orkut_OrkutLinkResource';
+  protected $linksType = 'Google_0814_Service_Orkut_OrkutLinkResource';
   protected $linksDataType = 'array';
   public $visibility;
 
@@ -4023,5 +4022,4 @@ class Google_Service_Orkut_Visibility extends Google_Collection
   {
     return $this->visibility;
   }
-}
 }

@@ -22,8 +22,7 @@ require_once 'Google/Http/REST.php';
 /**
  * @author Chirag Shah <chirags@google.com>
  */
-if (!class_exists('Google_Http_Batch')) {
-class Google_Http_Batch
+class Google_0814_Http_Batch
 {
   /** @var string Multipart Boundary. */
   private $boundary;
@@ -31,14 +30,14 @@ class Google_Http_Batch
   /** @var array service requests to be executed. */
   private $requests = array();
 
-  /** @var Google_Client */
+  /** @var Google_0814_Client */
   private $client;
 
   private $expected_classes = array();
 
   private $base_path;
 
-  public function __construct(Google_Client $client, $boundary = false)
+  public function __construct(Google_0814_Client $client, $boundary = false)
   {
     $this->client = $client;
     $this->base_path = $this->client->getBasePath();
@@ -47,7 +46,7 @@ class Google_Http_Batch
     $this->boundary = str_replace('"', '', $boundary);
   }
 
-  public function add(Google_Http_Request $request, $key = false)
+  public function add(Google_0814_Http_Request $request, $key = false)
   {
     if (false == $key) {
       $key = mt_rand();
@@ -60,7 +59,7 @@ class Google_Http_Batch
   {
     $body = '';
 
-    /** @var Google_Http_Request $req */
+    /** @var Google_0814_Http_Request $req */
     foreach ($this->requests as $key => $req) {
       $body .= "--{$this->boundary}\n";
       $body .= $req->toBatchString($key) . "\n";
@@ -71,7 +70,7 @@ class Google_Http_Batch
     $body .= "\n--{$this->boundary}--";
 
     $url = $this->base_path . '/batch';
-    $httpRequest = new Google_Http_Request($url, 'POST');
+    $httpRequest = new Google_0814_Http_Request($url, 'POST');
     $httpRequest->setRequestHeaders(
         array('Content-Type' => 'multipart/mixed; boundary=' . $this->boundary)
     );
@@ -82,7 +81,7 @@ class Google_Http_Batch
     return $this->parseResponse($response);
   }
 
-  public function parseResponse(Google_Http_Request $response)
+  public function parseResponse(Google_0814_Http_Request $response)
   {
     $contentType = $response->getResponseHeader('content-type');
     $contentType = explode(';', $contentType);
@@ -111,7 +110,7 @@ class Google_Http_Batch
           $status = $status[1];
 
           list($partHeaders, $partBody) = $this->client->getIo()->ParseHttpResponse($part, false);
-          $response = new Google_Http_Request("");
+          $response = new Google_0814_Http_Request("");
           $response->setResponseHttpCode($status);
           $response->setResponseHeaders($partHeaders);
           $response->setResponseBody($partBody);
@@ -126,9 +125,9 @@ class Google_Http_Batch
           }
 
           try {
-            $response = Google_Http_REST::decodeHttpResponse($response);
+            $response = Google_0814_Http_REST::decodeHttpResponse($response);
             $responses[$key] = $response;
-          } catch (Google_Service_Exception $e) {
+          } catch (Google_0814_Service_Exception $e) {
             // Store the exception as the response, so succesful responses
             // can be processed.
             $responses[$key] = $e;
@@ -141,5 +140,4 @@ class Google_Http_Batch
 
     return null;
   }
-}
 }

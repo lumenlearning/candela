@@ -24,8 +24,7 @@ require_once "Google/Utils.php";
  *
  * @author Chirag Shah <chirags@google.com>
  */
-if (!class_exists('Google_Auth_AssertionCredentials')) {
-class Google_Auth_AssertionCredentials
+class Google_0814_Auth_AssertionCredentials
 {
   const MAX_TOKEN_LIFETIME_SECS = 3600;
 
@@ -94,7 +93,7 @@ class Google_Auth_AssertionCredentials
     $now = time();
 
     $jwtParams = array(
-          'aud' => Google_Auth_OAuth2::OAUTH2_TOKEN_URI,
+          'aud' => Google_0814_Auth_OAuth2::OAUTH2_TOKEN_URI,
           'scope' => $this->scopes,
           'iat' => $now,
           'exp' => $now + self::MAX_TOKEN_LIFETIME_SECS,
@@ -119,17 +118,21 @@ class Google_Auth_AssertionCredentials
   {
     $header = array('typ' => 'JWT', 'alg' => 'RS256');
 
+    $payload = json_encode($payload);
+    // Handle some overzealous escaping in PHP json that seemed to cause some errors
+    // with claimsets.
+    $payload = str_replace('\/', '/', $payload);
+
     $segments = array(
-      Google_Utils::urlSafeB64Encode(json_encode($header)),
-      Google_Utils::urlSafeB64Encode(json_encode($payload))
+      Google_0814_Utils::urlSafeB64Encode(json_encode($header)),
+      Google_0814_Utils::urlSafeB64Encode($payload)
     );
 
     $signingInput = implode('.', $segments);
-    $signer = new Google_Signer_P12($this->privateKey, $this->privateKeyPassword);
+    $signer = new Google_0814_Signer_P12($this->privateKey, $this->privateKeyPassword);
     $signature = $signer->sign($signingInput);
-    $segments[] = Google_Utils::urlSafeB64Encode($signature);
+    $segments[] = Google_0814_Utils::urlSafeB64Encode($signature);
 
     return implode(".", $segments);
   }
-}
 }

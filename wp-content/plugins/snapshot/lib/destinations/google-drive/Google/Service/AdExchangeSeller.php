@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_AdExchangeSeller')) {
-class Google_Service_AdExchangeSeller extends Google_Service
+class Google_0814_Service_AdExchangeSeller extends Google_0814_Service
 {
   /** View and manage your Ad Exchange data. */
   const ADEXCHANGE_SELLER = "https://www.googleapis.com/auth/adexchange.seller";
@@ -55,16 +54,16 @@ class Google_Service_AdExchangeSeller extends Google_Service
   /**
    * Constructs the internal representation of the AdExchangeSeller service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'adexchangeseller/v1.1/';
     $this->version = 'v1.1';
     $this->serviceName = 'adexchangeseller';
 
-    $this->accounts = new Google_Service_AdExchangeSeller_Accounts_Resource(
+    $this->accounts = new Google_0814_Service_AdExchangeSeller_Accounts_Resource(
         $this,
         $this->serviceName,
         'accounts',
@@ -84,7 +83,7 @@ class Google_Service_AdExchangeSeller extends Google_Service
           )
         )
     );
-    $this->adclients = new Google_Service_AdExchangeSeller_Adclients_Resource(
+    $this->adclients = new Google_0814_Service_AdExchangeSeller_Adclients_Resource(
         $this,
         $this->serviceName,
         'adclients',
@@ -107,7 +106,7 @@ class Google_Service_AdExchangeSeller extends Google_Service
           )
         )
     );
-    $this->adunits = new Google_Service_AdExchangeSeller_Adunits_Resource(
+    $this->adunits = new Google_0814_Service_AdExchangeSeller_Adunits_Resource(
         $this,
         $this->serviceName,
         'adunits',
@@ -154,7 +153,7 @@ class Google_Service_AdExchangeSeller extends Google_Service
           )
         )
     );
-    $this->adunits_customchannels = new Google_Service_AdExchangeSeller_AdunitsCustomchannels_Resource(
+    $this->adunits_customchannels = new Google_0814_Service_AdExchangeSeller_AdunitsCustomchannels_Resource(
         $this,
         $this->serviceName,
         'customchannels',
@@ -187,7 +186,7 @@ class Google_Service_AdExchangeSeller extends Google_Service
           )
         )
     );
-    $this->alerts = new Google_Service_AdExchangeSeller_Alerts_Resource(
+    $this->alerts = new Google_0814_Service_AdExchangeSeller_Alerts_Resource(
         $this,
         $this->serviceName,
         'alerts',
@@ -206,7 +205,7 @@ class Google_Service_AdExchangeSeller extends Google_Service
           )
         )
     );
-    $this->customchannels = new Google_Service_AdExchangeSeller_Customchannels_Resource(
+    $this->customchannels = new Google_0814_Service_AdExchangeSeller_Customchannels_Resource(
         $this,
         $this->serviceName,
         'customchannels',
@@ -249,7 +248,7 @@ class Google_Service_AdExchangeSeller extends Google_Service
           )
         )
     );
-    $this->customchannels_adunits = new Google_Service_AdExchangeSeller_CustomchannelsAdunits_Resource(
+    $this->customchannels_adunits = new Google_0814_Service_AdExchangeSeller_CustomchannelsAdunits_Resource(
         $this,
         $this->serviceName,
         'adunits',
@@ -286,7 +285,7 @@ class Google_Service_AdExchangeSeller extends Google_Service
           )
         )
     );
-    $this->metadata_dimensions = new Google_Service_AdExchangeSeller_MetadataDimensions_Resource(
+    $this->metadata_dimensions = new Google_0814_Service_AdExchangeSeller_MetadataDimensions_Resource(
         $this,
         $this->serviceName,
         'dimensions',
@@ -300,7 +299,7 @@ class Google_Service_AdExchangeSeller extends Google_Service
           )
         )
     );
-    $this->metadata_metrics = new Google_Service_AdExchangeSeller_MetadataMetrics_Resource(
+    $this->metadata_metrics = new Google_0814_Service_AdExchangeSeller_MetadataMetrics_Resource(
         $this,
         $this->serviceName,
         'metrics',
@@ -314,7 +313,7 @@ class Google_Service_AdExchangeSeller extends Google_Service
           )
         )
     );
-    $this->preferreddeals = new Google_Service_AdExchangeSeller_Preferreddeals_Resource(
+    $this->preferreddeals = new Google_0814_Service_AdExchangeSeller_Preferreddeals_Resource(
         $this,
         $this->serviceName,
         'preferreddeals',
@@ -338,7 +337,7 @@ class Google_Service_AdExchangeSeller extends Google_Service
           )
         )
     );
-    $this->reports = new Google_Service_AdExchangeSeller_Reports_Resource(
+    $this->reports = new Google_0814_Service_AdExchangeSeller_Reports_Resource(
         $this,
         $this->serviceName,
         'reports',
@@ -395,7 +394,7 @@ class Google_Service_AdExchangeSeller extends Google_Service
           )
         )
     );
-    $this->reports_saved = new Google_Service_AdExchangeSeller_ReportsSaved_Resource(
+    $this->reports_saved = new Google_0814_Service_AdExchangeSeller_ReportsSaved_Resource(
         $this,
         $this->serviceName,
         'saved',
@@ -440,7 +439,7 @@ class Google_Service_AdExchangeSeller extends Google_Service
           )
         )
     );
-    $this->urlchannels = new Google_Service_AdExchangeSeller_Urlchannels_Resource(
+    $this->urlchannels = new Google_0814_Service_AdExchangeSeller_Urlchannels_Resource(
         $this,
         $this->serviceName,
         'urlchannels',
@@ -470,18 +469,17 @@ class Google_Service_AdExchangeSeller extends Google_Service
     );
   }
 }
-}
+
 
 /**
  * The "accounts" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $accounts = $adexchangesellerService->accounts;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_Accounts_Resource')) {
-class Google_Service_AdExchangeSeller_Accounts_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_Accounts_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -490,27 +488,25 @@ class Google_Service_AdExchangeSeller_Accounts_Resource extends Google_Service_R
    * @param string $accountId
    * Account to get information about. Tip: 'myaccount' is a valid ID.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdExchangeSeller_Account
+   * @return Google_0814_Service_AdExchangeSeller_Account
    */
   public function get($accountId, $optParams = array())
   {
     $params = array('accountId' => $accountId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_AdExchangeSeller_Account");
+    return $this->call('get', array($params), "Google_0814_Service_AdExchangeSeller_Account");
   }
-}
 }
 
 /**
  * The "adclients" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $adclients = $adexchangesellerService->adclients;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_Adclients_Resource')) {
-class Google_Service_AdExchangeSeller_Adclients_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_Adclients_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -523,27 +519,25 @@ class Google_Service_AdExchangeSeller_Adclients_Resource extends Google_Service_
     * parameter to the value of "nextPageToken" from the previous response.
    * @opt_param string maxResults
    * The maximum number of ad clients to include in the response, used for paging.
-   * @return Google_Service_AdExchangeSeller_AdClients
+   * @return Google_0814_Service_AdExchangeSeller_AdClients
    */
   public function listAdclients($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdExchangeSeller_AdClients");
+    return $this->call('list', array($params), "Google_0814_Service_AdExchangeSeller_AdClients");
   }
-}
 }
 
 /**
  * The "adunits" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $adunits = $adexchangesellerService->adunits;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_Adunits_Resource')) {
-class Google_Service_AdExchangeSeller_Adunits_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_Adunits_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -554,13 +548,13 @@ class Google_Service_AdExchangeSeller_Adunits_Resource extends Google_Service_Re
    * @param string $adUnitId
    * Ad unit to retrieve.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdExchangeSeller_AdUnit
+   * @return Google_0814_Service_AdExchangeSeller_AdUnit
    */
   public function get($adClientId, $adUnitId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId, 'adUnitId' => $adUnitId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_AdExchangeSeller_AdUnit");
+    return $this->call('get', array($params), "Google_0814_Service_AdExchangeSeller_AdUnit");
   }
   /**
    * List all ad units in the specified ad client for this Ad Exchange account.
@@ -577,27 +571,25 @@ class Google_Service_AdExchangeSeller_Adunits_Resource extends Google_Service_Re
     * parameter to the value of "nextPageToken" from the previous response.
    * @opt_param string maxResults
    * The maximum number of ad units to include in the response, used for paging.
-   * @return Google_Service_AdExchangeSeller_AdUnits
+   * @return Google_0814_Service_AdExchangeSeller_AdUnits
    */
   public function listAdunits($adClientId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdExchangeSeller_AdUnits");
+    return $this->call('list', array($params), "Google_0814_Service_AdExchangeSeller_AdUnits");
   }
-}
 }
 
 /**
  * The "customchannels" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $customchannels = $adexchangesellerService->customchannels;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_AdunitsCustomchannels_Resource')) {
-class Google_Service_AdExchangeSeller_AdunitsCustomchannels_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_AdunitsCustomchannels_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -615,27 +607,25 @@ class Google_Service_AdExchangeSeller_AdunitsCustomchannels_Resource extends Goo
     * parameter to the value of "nextPageToken" from the previous response.
    * @opt_param string maxResults
    * The maximum number of custom channels to include in the response, used for paging.
-   * @return Google_Service_AdExchangeSeller_CustomChannels
+   * @return Google_0814_Service_AdExchangeSeller_CustomChannels
    */
   public function listAdunitsCustomchannels($adClientId, $adUnitId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId, 'adUnitId' => $adUnitId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdExchangeSeller_CustomChannels");
+    return $this->call('list', array($params), "Google_0814_Service_AdExchangeSeller_CustomChannels");
   }
-}
 }
 
 /**
  * The "alerts" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $alerts = $adexchangesellerService->alerts;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_Alerts_Resource')) {
-class Google_Service_AdExchangeSeller_Alerts_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_Alerts_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -647,27 +637,25 @@ class Google_Service_AdExchangeSeller_Alerts_Resource extends Google_Service_Res
    * The locale to use for translating alert messages. The account locale will be used if this is not
     * supplied. The AdSense default (English) will be used if the supplied locale is invalid or
     * unsupported.
-   * @return Google_Service_AdExchangeSeller_Alerts
+   * @return Google_0814_Service_AdExchangeSeller_Alerts
    */
   public function listAlerts($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdExchangeSeller_Alerts");
+    return $this->call('list', array($params), "Google_0814_Service_AdExchangeSeller_Alerts");
   }
-}
 }
 
 /**
  * The "customchannels" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $customchannels = $adexchangesellerService->customchannels;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_Customchannels_Resource')) {
-class Google_Service_AdExchangeSeller_Customchannels_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_Customchannels_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -679,13 +667,13 @@ class Google_Service_AdExchangeSeller_Customchannels_Resource extends Google_Ser
    * @param string $customChannelId
    * Custom channel to retrieve.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdExchangeSeller_CustomChannel
+   * @return Google_0814_Service_AdExchangeSeller_CustomChannel
    */
   public function get($adClientId, $customChannelId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId, 'customChannelId' => $customChannelId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_AdExchangeSeller_CustomChannel");
+    return $this->call('get', array($params), "Google_0814_Service_AdExchangeSeller_CustomChannel");
   }
   /**
    * List all custom channels in the specified ad client for this Ad Exchange
@@ -700,27 +688,25 @@ class Google_Service_AdExchangeSeller_Customchannels_Resource extends Google_Ser
     * parameter to the value of "nextPageToken" from the previous response.
    * @opt_param string maxResults
    * The maximum number of custom channels to include in the response, used for paging.
-   * @return Google_Service_AdExchangeSeller_CustomChannels
+   * @return Google_0814_Service_AdExchangeSeller_CustomChannels
    */
   public function listCustomchannels($adClientId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdExchangeSeller_CustomChannels");
+    return $this->call('list', array($params), "Google_0814_Service_AdExchangeSeller_CustomChannels");
   }
-}
 }
 
 /**
  * The "adunits" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $adunits = $adexchangesellerService->adunits;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_CustomchannelsAdunits_Resource')) {
-class Google_Service_AdExchangeSeller_CustomchannelsAdunits_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_CustomchannelsAdunits_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -740,42 +726,38 @@ class Google_Service_AdExchangeSeller_CustomchannelsAdunits_Resource extends Goo
     * parameter to the value of "nextPageToken" from the previous response.
    * @opt_param string maxResults
    * The maximum number of ad units to include in the response, used for paging.
-   * @return Google_Service_AdExchangeSeller_AdUnits
+   * @return Google_0814_Service_AdExchangeSeller_AdUnits
    */
   public function listCustomchannelsAdunits($adClientId, $customChannelId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId, 'customChannelId' => $customChannelId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdExchangeSeller_AdUnits");
+    return $this->call('list', array($params), "Google_0814_Service_AdExchangeSeller_AdUnits");
   }
-}
 }
 
 /**
  * The "metadata" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $metadata = $adexchangesellerService->metadata;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_Metadata_Resource')) {
-class Google_Service_AdExchangeSeller_Metadata_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_Metadata_Resource extends Google_0814_Service_Resource
 {
 
-}
 }
 
 /**
  * The "dimensions" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $dimensions = $adexchangesellerService->dimensions;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_MetadataDimensions_Resource')) {
-class Google_Service_AdExchangeSeller_MetadataDimensions_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_MetadataDimensions_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -783,27 +765,24 @@ class Google_Service_AdExchangeSeller_MetadataDimensions_Resource extends Google
    * (dimensions.listMetadataDimensions)
    *
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdExchangeSeller_Metadata
+   * @return Google_0814_Service_AdExchangeSeller_Metadata
    */
   public function listMetadataDimensions($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdExchangeSeller_Metadata");
+    return $this->call('list', array($params), "Google_0814_Service_AdExchangeSeller_Metadata");
   }
-}
 }
 /**
  * The "metrics" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $metrics = $adexchangesellerService->metrics;
  *  </code>
  */
-
-if (!class_exists('Google_Service_AdExchangeSeller_MetadataMetrics_Resource')) {
-class Google_Service_AdExchangeSeller_MetadataMetrics_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_MetadataMetrics_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -811,27 +790,25 @@ class Google_Service_AdExchangeSeller_MetadataMetrics_Resource extends Google_Se
    * (metrics.listMetadataMetrics)
    *
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdExchangeSeller_Metadata
+   * @return Google_0814_Service_AdExchangeSeller_Metadata
    */
   public function listMetadataMetrics($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdExchangeSeller_Metadata");
+    return $this->call('list', array($params), "Google_0814_Service_AdExchangeSeller_Metadata");
   }
-}
 }
 
 /**
  * The "preferreddeals" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $preferreddeals = $adexchangesellerService->preferreddeals;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_Preferreddeals_Resource')) {
-class Google_Service_AdExchangeSeller_Preferreddeals_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_Preferreddeals_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -841,40 +818,38 @@ class Google_Service_AdExchangeSeller_Preferreddeals_Resource extends Google_Ser
    * @param string $dealId
    * Preferred deal to get information about.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdExchangeSeller_PreferredDeal
+   * @return Google_0814_Service_AdExchangeSeller_PreferredDeal
    */
   public function get($dealId, $optParams = array())
   {
     $params = array('dealId' => $dealId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_AdExchangeSeller_PreferredDeal");
+    return $this->call('get', array($params), "Google_0814_Service_AdExchangeSeller_PreferredDeal");
   }
   /**
    * List the preferred deals for this Ad Exchange account.
    * (preferreddeals.listPreferreddeals)
    *
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdExchangeSeller_PreferredDeals
+   * @return Google_0814_Service_AdExchangeSeller_PreferredDeals
    */
   public function listPreferreddeals($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdExchangeSeller_PreferredDeals");
+    return $this->call('list', array($params), "Google_0814_Service_AdExchangeSeller_PreferredDeals");
   }
-}
 }
 
 /**
  * The "reports" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $reports = $adexchangesellerService->reports;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_Reports_Resource')) {
-class Google_Service_AdExchangeSeller_Reports_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_Reports_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -905,27 +880,25 @@ class Google_Service_AdExchangeSeller_Reports_Resource extends Google_Service_Re
    * Index of the first row of report data to return.
    * @opt_param string dimension
    * Dimensions to base the report on.
-   * @return Google_Service_AdExchangeSeller_Report
+   * @return Google_0814_Service_AdExchangeSeller_Report
    */
   public function generate($startDate, $endDate, $optParams = array())
   {
     $params = array('startDate' => $startDate, 'endDate' => $endDate);
     $params = array_merge($params, $optParams);
-    return $this->call('generate', array($params), "Google_Service_AdExchangeSeller_Report");
+    return $this->call('generate', array($params), "Google_0814_Service_AdExchangeSeller_Report");
   }
-}
 }
 
 /**
  * The "saved" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $saved = $adexchangesellerService->saved;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_ReportsSaved_Resource')) {
-class Google_Service_AdExchangeSeller_ReportsSaved_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_ReportsSaved_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -943,13 +916,13 @@ class Google_Service_AdExchangeSeller_ReportsSaved_Resource extends Google_Servi
    * Index of the first row of report data to return.
    * @opt_param int maxResults
    * The maximum number of rows of report data to return.
-   * @return Google_Service_AdExchangeSeller_Report
+   * @return Google_0814_Service_AdExchangeSeller_Report
    */
   public function generate($savedReportId, $optParams = array())
   {
     $params = array('savedReportId' => $savedReportId);
     $params = array_merge($params, $optParams);
-    return $this->call('generate', array($params), "Google_Service_AdExchangeSeller_Report");
+    return $this->call('generate', array($params), "Google_0814_Service_AdExchangeSeller_Report");
   }
   /**
    * List all saved reports in this Ad Exchange account. (saved.listReportsSaved)
@@ -961,27 +934,25 @@ class Google_Service_AdExchangeSeller_ReportsSaved_Resource extends Google_Servi
     * parameter to the value of "nextPageToken" from the previous response.
    * @opt_param int maxResults
    * The maximum number of saved reports to include in the response, used for paging.
-   * @return Google_Service_AdExchangeSeller_SavedReports
+   * @return Google_0814_Service_AdExchangeSeller_SavedReports
    */
   public function listReportsSaved($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdExchangeSeller_SavedReports");
+    return $this->call('list', array($params), "Google_0814_Service_AdExchangeSeller_SavedReports");
   }
-}
 }
 
 /**
  * The "urlchannels" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adexchangesellerService = new Google_Service_AdExchangeSeller(...);
+ *   $adexchangesellerService = new Google_0814_Service_AdExchangeSeller(...);
  *   $urlchannels = $adexchangesellerService->urlchannels;
  *  </code>
  */
-if (!class_exists('Google_Service_AdExchangeSeller_Urlchannels_Resource')) {
-class Google_Service_AdExchangeSeller_Urlchannels_Resource extends Google_Service_Resource
+class Google_0814_Service_AdExchangeSeller_Urlchannels_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -997,20 +968,20 @@ class Google_Service_AdExchangeSeller_Urlchannels_Resource extends Google_Servic
     * parameter to the value of "nextPageToken" from the previous response.
    * @opt_param string maxResults
    * The maximum number of URL channels to include in the response, used for paging.
-   * @return Google_Service_AdExchangeSeller_UrlChannels
+   * @return Google_0814_Service_AdExchangeSeller_UrlChannels
    */
   public function listUrlchannels($adClientId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdExchangeSeller_UrlChannels");
+    return $this->call('list', array($params), "Google_0814_Service_AdExchangeSeller_UrlChannels");
   }
 }
-}
 
 
-if (!class_exists('Google_Service_AdExchangeSeller_Account')) {
-class Google_Service_AdExchangeSeller_Account extends Google_Model
+
+
+class Google_0814_Service_AdExchangeSeller_Account extends Google_0814_Model
 {
   public $id;
   public $kind;
@@ -1046,10 +1017,8 @@ class Google_Service_AdExchangeSeller_Account extends Google_Model
     return $this->name;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_AdClient')) {
-class Google_Service_AdExchangeSeller_AdClient extends Google_Model
+class Google_0814_Service_AdExchangeSeller_AdClient extends Google_0814_Model
 {
   public $arcOptIn;
   public $id;
@@ -1107,13 +1076,11 @@ class Google_Service_AdExchangeSeller_AdClient extends Google_Model
     return $this->supportsReporting;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_AdClients')) {
-class Google_Service_AdExchangeSeller_AdClients extends Google_Collection
+class Google_0814_Service_AdExchangeSeller_AdClients extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_AdExchangeSeller_AdClient';
+  protected $itemsType = 'Google_0814_Service_AdExchangeSeller_AdClient';
   protected $itemsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -1158,10 +1125,8 @@ class Google_Service_AdExchangeSeller_AdClients extends Google_Collection
     return $this->nextPageToken;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_AdUnit')) {
-class Google_Service_AdExchangeSeller_AdUnit extends Google_Model
+class Google_0814_Service_AdExchangeSeller_AdUnit extends Google_0814_Model
 {
   public $code;
   public $id;
@@ -1219,13 +1184,11 @@ class Google_Service_AdExchangeSeller_AdUnit extends Google_Model
     return $this->status;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_AdUnits')) {
-class Google_Service_AdExchangeSeller_AdUnits extends Google_Collection
+class Google_0814_Service_AdExchangeSeller_AdUnits extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_AdExchangeSeller_AdUnit';
+  protected $itemsType = 'Google_0814_Service_AdExchangeSeller_AdUnit';
   protected $itemsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -1270,10 +1233,8 @@ class Google_Service_AdExchangeSeller_AdUnits extends Google_Collection
     return $this->nextPageToken;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_Alert')) {
-class Google_Service_AdExchangeSeller_Alert extends Google_Model
+class Google_0814_Service_AdExchangeSeller_Alert extends Google_0814_Model
 {
   public $id;
   public $kind;
@@ -1331,12 +1292,10 @@ class Google_Service_AdExchangeSeller_Alert extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_Alerts')) {
-class Google_Service_AdExchangeSeller_Alerts extends Google_Collection
+class Google_0814_Service_AdExchangeSeller_Alerts extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_AdExchangeSeller_Alert';
+  protected $itemsType = 'Google_0814_Service_AdExchangeSeller_Alert';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -1360,16 +1319,14 @@ class Google_Service_AdExchangeSeller_Alerts extends Google_Collection
     return $this->kind;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_CustomChannel')) {
-class Google_Service_AdExchangeSeller_CustomChannel extends Google_Model
+class Google_0814_Service_AdExchangeSeller_CustomChannel extends Google_0814_Model
 {
   public $code;
   public $id;
   public $kind;
   public $name;
-  protected $targetingInfoType = 'Google_Service_AdExchangeSeller_CustomChannelTargetingInfo';
+  protected $targetingInfoType = 'Google_0814_Service_AdExchangeSeller_CustomChannelTargetingInfo';
   protected $targetingInfoDataType = '';
 
   public function setCode($code)
@@ -1412,7 +1369,7 @@ class Google_Service_AdExchangeSeller_CustomChannel extends Google_Model
     return $this->name;
   }
 
-  public function setTargetingInfo(Google_Service_AdExchangeSeller_CustomChannelTargetingInfo $targetingInfo)
+  public function setTargetingInfo(Google_0814_Service_AdExchangeSeller_CustomChannelTargetingInfo $targetingInfo)
   {
     $this->targetingInfo = $targetingInfo;
   }
@@ -1422,10 +1379,8 @@ class Google_Service_AdExchangeSeller_CustomChannel extends Google_Model
     return $this->targetingInfo;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_CustomChannelTargetingInfo')) {
-class Google_Service_AdExchangeSeller_CustomChannelTargetingInfo extends Google_Model
+class Google_0814_Service_AdExchangeSeller_CustomChannelTargetingInfo extends Google_0814_Model
 {
   public $adsAppearOn;
   public $description;
@@ -1472,13 +1427,11 @@ class Google_Service_AdExchangeSeller_CustomChannelTargetingInfo extends Google_
     return $this->siteLanguage;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_CustomChannels')) {
-class Google_Service_AdExchangeSeller_CustomChannels extends Google_Collection
+class Google_0814_Service_AdExchangeSeller_CustomChannels extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_AdExchangeSeller_CustomChannel';
+  protected $itemsType = 'Google_0814_Service_AdExchangeSeller_CustomChannel';
   protected $itemsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -1523,12 +1476,10 @@ class Google_Service_AdExchangeSeller_CustomChannels extends Google_Collection
     return $this->nextPageToken;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_Metadata')) {
-class Google_Service_AdExchangeSeller_Metadata extends Google_Collection
+class Google_0814_Service_AdExchangeSeller_Metadata extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_AdExchangeSeller_ReportingMetadataEntry';
+  protected $itemsType = 'Google_0814_Service_AdExchangeSeller_ReportingMetadataEntry';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -1552,10 +1503,8 @@ class Google_Service_AdExchangeSeller_Metadata extends Google_Collection
     return $this->kind;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_PreferredDeal')) {
-class Google_Service_AdExchangeSeller_PreferredDeal extends Google_Model
+class Google_0814_Service_AdExchangeSeller_PreferredDeal extends Google_0814_Model
 {
   public $advertiserName;
   public $buyerNetworkName;
@@ -1646,12 +1595,10 @@ class Google_Service_AdExchangeSeller_PreferredDeal extends Google_Model
     return $this->startTime;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_PreferredDeals')) {
-class Google_Service_AdExchangeSeller_PreferredDeals extends Google_Collection
+class Google_0814_Service_AdExchangeSeller_PreferredDeals extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_AdExchangeSeller_PreferredDeal';
+  protected $itemsType = 'Google_0814_Service_AdExchangeSeller_PreferredDeal';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -1675,13 +1622,11 @@ class Google_Service_AdExchangeSeller_PreferredDeals extends Google_Collection
     return $this->kind;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_Report')) {
-class Google_Service_AdExchangeSeller_Report extends Google_Collection
+class Google_0814_Service_AdExchangeSeller_Report extends Google_0814_Collection
 {
   public $averages;
-  protected $headersType = 'Google_Service_AdExchangeSeller_ReportHeaders';
+  protected $headersType = 'Google_0814_Service_AdExchangeSeller_ReportHeaders';
   protected $headersDataType = 'array';
   public $kind;
   public $rows;
@@ -1759,10 +1704,8 @@ class Google_Service_AdExchangeSeller_Report extends Google_Collection
     return $this->warnings;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_ReportHeaders')) {
-class Google_Service_AdExchangeSeller_ReportHeaders extends Google_Model
+class Google_0814_Service_AdExchangeSeller_ReportHeaders extends Google_0814_Model
 {
   public $currency;
   public $name;
@@ -1798,10 +1741,8 @@ class Google_Service_AdExchangeSeller_ReportHeaders extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_ReportingMetadataEntry')) {
-class Google_Service_AdExchangeSeller_ReportingMetadataEntry extends Google_Collection
+class Google_0814_Service_AdExchangeSeller_ReportingMetadataEntry extends Google_0814_Collection
 {
   public $compatibleDimensions;
   public $compatibleMetrics;
@@ -1881,10 +1822,8 @@ class Google_Service_AdExchangeSeller_ReportingMetadataEntry extends Google_Coll
     return $this->supportedProducts;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_SavedReport')) {
-class Google_Service_AdExchangeSeller_SavedReport extends Google_Model
+class Google_0814_Service_AdExchangeSeller_SavedReport extends Google_0814_Model
 {
   public $id;
   public $kind;
@@ -1920,13 +1859,11 @@ class Google_Service_AdExchangeSeller_SavedReport extends Google_Model
     return $this->name;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_SavedReports')) {
-class Google_Service_AdExchangeSeller_SavedReports extends Google_Collection
+class Google_0814_Service_AdExchangeSeller_SavedReports extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_AdExchangeSeller_SavedReport';
+  protected $itemsType = 'Google_0814_Service_AdExchangeSeller_SavedReport';
   protected $itemsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -1971,10 +1908,8 @@ class Google_Service_AdExchangeSeller_SavedReports extends Google_Collection
     return $this->nextPageToken;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_UrlChannel')) {
-class Google_Service_AdExchangeSeller_UrlChannel extends Google_Model
+class Google_0814_Service_AdExchangeSeller_UrlChannel extends Google_0814_Model
 {
   public $id;
   public $kind;
@@ -2010,13 +1945,11 @@ class Google_Service_AdExchangeSeller_UrlChannel extends Google_Model
     return $this->urlPattern;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdExchangeSeller_UrlChannels')) {
-class Google_Service_AdExchangeSeller_UrlChannels extends Google_Collection
+class Google_0814_Service_AdExchangeSeller_UrlChannels extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_AdExchangeSeller_UrlChannel';
+  protected $itemsType = 'Google_0814_Service_AdExchangeSeller_UrlChannel';
   protected $itemsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -2060,5 +1993,4 @@ class Google_Service_AdExchangeSeller_UrlChannels extends Google_Collection
   {
     return $this->nextPageToken;
   }
-}
 }

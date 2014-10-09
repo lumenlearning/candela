@@ -3,18 +3,18 @@
 require_once "Google/Model.php";
 
 /**
- * Extension to the regular Google_Model that automatically
+ * Extension to the regular Google_0814_Model that automatically
  * exposes the items array for iteration, so you can just
  * iterate over the object rather than a reference inside.
  */
-if (!class_exists('Google_Collection')) {
-class Google_Collection extends Google_Model implements Iterator, Countable
+class Google_0814_Collection extends Google_0814_Model implements Iterator, Countable
 {
   protected $collection_key = 'items';
 
   public function rewind()
   {
-    if (is_array($this->modelData[$this->collection_key])) {
+    if (isset($this->modelData[$this->collection_key])
+        && is_array($this->modelData[$this->collection_key])) {
       reset($this->modelData[$this->collection_key]);
     }
   }
@@ -29,7 +29,8 @@ class Google_Collection extends Google_Model implements Iterator, Countable
 
   public function key()
   {
-    if (is_array($this->modelData[$this->collection_key])) {
+    if (isset($this->modelData[$this->collection_key])
+        && is_array($this->modelData[$this->collection_key])) {
       return key($this->modelData[$this->collection_key]);
     }
   }
@@ -92,5 +93,4 @@ class Google_Collection extends Google_Model implements Iterator, Countable
           new $type($this->modelData[$this->collection_key][$offset]);
     }
   }
-}
 }

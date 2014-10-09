@@ -17,8 +17,6 @@
 
 require_once 'Google/Exception.php';
 
-if (!class_exists('Google_IO_Exception')) {
-class Google_IO_Exception extends Google_Exception
+class Google_0814_IO_Exception extends Google_0814_Exception
 {
-}
 }

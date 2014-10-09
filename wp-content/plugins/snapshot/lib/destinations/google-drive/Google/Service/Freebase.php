@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_Freebase')) {
-class Google_Service_Freebase extends Google_Service
+class Google_0814_Service_Freebase extends Google_0814_Service
 {
 
 
@@ -40,16 +39,16 @@ class Google_Service_Freebase extends Google_Service
   /**
    * Constructs the internal representation of the Freebase service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'freebase/v1/';
     $this->version = 'v1';
     $this->serviceName = 'freebase';
 
-    $this->base_methods = new Google_Service_Resource(
+    $this->base_methods = new Google_0814_Service_Resource(
         $this,
         $this->serviceName,
         '',
@@ -214,13 +213,13 @@ class Google_Service_Freebase extends Google_Service
   :
    * @opt_param int limit
    * Maximum number of candidates to return.
-   * @return Google_Service_Freebase_ReconcileGet
+   * @return Google_0814_Service_Freebase_ReconcileGet
    */
   public function reconcile($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->base_methods->call('reconcile', array($params), "Google_Service_Freebase_ReconcileGet");
+    return $this->base_methods->call('reconcile', array($params), "Google_0814_Service_Freebase_ReconcileGet");
   }
   /**
    * Search Freebase open data. (search)
@@ -247,7 +246,7 @@ class Google_Service_Freebase extends Google_Service
    * The encoding of the response. You can use this parameter to enable html encoding.
    * @opt_param string type
    * Restrict to topics with this Freebase type id.
-   * @opt_param string asOfTime
+   * @opt_param string as_of_time
    * A mql as_of_time value to use with mql_output queries.
    * @opt_param bool stemmed
    * Query on stemmed names and aliases. May not be used with prefixed.
@@ -271,7 +270,7 @@ class Google_Service_Freebase extends Google_Service
    * Maximum number of results to return.
    * @opt_param string output
    * An output expression to request data from matches.
-   * @opt_param string mqlOutput
+   * @opt_param string mql_output
    * The MQL query to run againist the results to extract more data.
    */
   public function search($optParams = array())
@@ -286,13 +285,13 @@ class Google_Service_Freebase extends Google_Service
 
 
 
-class Google_Service_Freebase_ReconcileCandidate extends Google_Model
+class Google_0814_Service_Freebase_ReconcileCandidate extends Google_0814_Model
 {
   public $confidence;
   public $lang;
   public $mid;
   public $name;
-  protected $notableType = 'Google_Service_Freebase_ReconcileCandidateNotable';
+  protected $notableType = 'Google_0814_Service_Freebase_ReconcileCandidateNotable';
   protected $notableDataType = '';
 
   public function setConfidence($confidence)
@@ -335,7 +334,7 @@ class Google_Service_Freebase_ReconcileCandidate extends Google_Model
     return $this->name;
   }
 
-  public function setNotable(Google_Service_Freebase_ReconcileCandidateNotable $notable)
+  public function setNotable(Google_0814_Service_Freebase_ReconcileCandidateNotable $notable)
   {
     $this->notable = $notable;
   }
@@ -346,7 +345,7 @@ class Google_Service_Freebase_ReconcileCandidate extends Google_Model
   }
 }
 
-class Google_Service_Freebase_ReconcileCandidateNotable extends Google_Model
+class Google_0814_Service_Freebase_ReconcileCandidateNotable extends Google_0814_Model
 {
   public $id;
   public $name;
@@ -372,15 +371,15 @@ class Google_Service_Freebase_ReconcileCandidateNotable extends Google_Model
   }
 }
 
-class Google_Service_Freebase_ReconcileGet extends Google_Collection
+class Google_0814_Service_Freebase_ReconcileGet extends Google_0814_Collection
 {
-  protected $candidateType = 'Google_Service_Freebase_ReconcileCandidate';
+  protected $candidateType = 'Google_0814_Service_Freebase_ReconcileCandidate';
   protected $candidateDataType = 'array';
-  protected $costsType = 'Google_Service_Freebase_ReconcileGetCosts';
+  protected $costsType = 'Google_0814_Service_Freebase_ReconcileGetCosts';
   protected $costsDataType = '';
-  protected $matchType = 'Google_Service_Freebase_ReconcileCandidate';
+  protected $matchType = 'Google_0814_Service_Freebase_ReconcileCandidate';
   protected $matchDataType = '';
-  protected $warningType = 'Google_Service_Freebase_ReconcileGetWarning';
+  protected $warningType = 'Google_0814_Service_Freebase_ReconcileGetWarning';
   protected $warningDataType = 'array';
 
   public function setCandidate($candidate)
@@ -393,7 +392,7 @@ class Google_Service_Freebase_ReconcileGet extends Google_Collection
     return $this->candidate;
   }
 
-  public function setCosts(Google_Service_Freebase_ReconcileGetCosts $costs)
+  public function setCosts(Google_0814_Service_Freebase_ReconcileGetCosts $costs)
   {
     $this->costs = $costs;
   }
@@ -403,7 +402,7 @@ class Google_Service_Freebase_ReconcileGet extends Google_Collection
     return $this->costs;
   }
 
-  public function setMatch(Google_Service_Freebase_ReconcileCandidate $match)
+  public function setMatch(Google_0814_Service_Freebase_ReconcileCandidate $match)
   {
     $this->match = $match;
   }
@@ -424,7 +423,7 @@ class Google_Service_Freebase_ReconcileGet extends Google_Collection
   }
 }
 
-class Google_Service_Freebase_ReconcileGetCosts extends Google_Model
+class Google_0814_Service_Freebase_ReconcileGetCosts extends Google_0814_Model
 {
   public $hits;
   public $ms;
@@ -450,7 +449,7 @@ class Google_Service_Freebase_ReconcileGetCosts extends Google_Model
   }
 }
 
-class Google_Service_Freebase_ReconcileGetWarning extends Google_Model
+class Google_0814_Service_Freebase_ReconcileGetWarning extends Google_0814_Model
 {
   public $location;
   public $message;
@@ -485,5 +484,4 @@ class Google_Service_Freebase_ReconcileGetWarning extends Google_Model
   {
     return $this->reason;
   }
-}
 }

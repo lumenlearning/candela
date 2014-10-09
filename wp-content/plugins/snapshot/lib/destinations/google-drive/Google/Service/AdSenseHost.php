@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_AdSenseHost')) {
-class Google_Service_AdSenseHost extends Google_Service
+class Google_0814_Service_AdSenseHost extends Google_0814_Service
 {
   /** View and manage your AdSense host data and associated accounts. */
   const ADSENSEHOST = "https://www.googleapis.com/auth/adsensehost";
@@ -49,16 +48,16 @@ class Google_Service_AdSenseHost extends Google_Service
   /**
    * Constructs the internal representation of the AdSenseHost service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'adsensehost/v4.1/';
     $this->version = 'v4.1';
     $this->serviceName = 'adsensehost';
 
-    $this->accounts = new Google_Service_AdSenseHost_Accounts_Resource(
+    $this->accounts = new Google_0814_Service_AdSenseHost_Accounts_Resource(
         $this,
         $this->serviceName,
         'accounts',
@@ -89,7 +88,7 @@ class Google_Service_AdSenseHost extends Google_Service
           )
         )
     );
-    $this->accounts_adclients = new Google_Service_AdSenseHost_AccountsAdclients_Resource(
+    $this->accounts_adclients = new Google_0814_Service_AdSenseHost_AccountsAdclients_Resource(
         $this,
         $this->serviceName,
         'adclients',
@@ -132,7 +131,7 @@ class Google_Service_AdSenseHost extends Google_Service
           )
         )
     );
-    $this->accounts_adunits = new Google_Service_AdSenseHost_AccountsAdunits_Resource(
+    $this->accounts_adunits = new Google_0814_Service_AdSenseHost_AccountsAdunits_Resource(
         $this,
         $this->serviceName,
         'adunits',
@@ -284,7 +283,7 @@ class Google_Service_AdSenseHost extends Google_Service
           )
         )
     );
-    $this->accounts_reports = new Google_Service_AdSenseHost_AccountsReports_Resource(
+    $this->accounts_reports = new Google_0814_Service_AdSenseHost_AccountsReports_Resource(
         $this,
         $this->serviceName,
         'reports',
@@ -346,7 +345,7 @@ class Google_Service_AdSenseHost extends Google_Service
           )
         )
     );
-    $this->adclients = new Google_Service_AdSenseHost_Adclients_Resource(
+    $this->adclients = new Google_0814_Service_AdSenseHost_Adclients_Resource(
         $this,
         $this->serviceName,
         'adclients',
@@ -379,7 +378,7 @@ class Google_Service_AdSenseHost extends Google_Service
           )
         )
     );
-    $this->associationsessions = new Google_Service_AdSenseHost_Associationsessions_Resource(
+    $this->associationsessions = new Google_0814_Service_AdSenseHost_Associationsessions_Resource(
         $this,
         $this->serviceName,
         'associationsessions',
@@ -423,7 +422,7 @@ class Google_Service_AdSenseHost extends Google_Service
           )
         )
     );
-    $this->customchannels = new Google_Service_AdSenseHost_Customchannels_Resource(
+    $this->customchannels = new Google_0814_Service_AdSenseHost_Customchannels_Resource(
         $this,
         $this->serviceName,
         'customchannels',
@@ -516,7 +515,7 @@ class Google_Service_AdSenseHost extends Google_Service
           )
         )
     );
-    $this->reports = new Google_Service_AdSenseHost_Reports_Resource(
+    $this->reports = new Google_0814_Service_AdSenseHost_Reports_Resource(
         $this,
         $this->serviceName,
         'reports',
@@ -573,7 +572,7 @@ class Google_Service_AdSenseHost extends Google_Service
           )
         )
     );
-    $this->urlchannels = new Google_Service_AdSenseHost_Urlchannels_Resource(
+    $this->urlchannels = new Google_0814_Service_AdSenseHost_Urlchannels_Resource(
         $this,
         $this->serviceName,
         'urlchannels',
@@ -628,18 +627,17 @@ class Google_Service_AdSenseHost extends Google_Service
     );
   }
 }
-}
+
 
 /**
  * The "accounts" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adsensehostService = new Google_Service_AdSenseHost(...);
+ *   $adsensehostService = new Google_0814_Service_AdSenseHost(...);
  *   $accounts = $adsensehostService->accounts;
  *  </code>
  */
-if (!class_exists('Google_Service_AdSenseHost_Accounts_Resource')) {
-class Google_Service_AdSenseHost_Accounts_Resource extends Google_Service_Resource
+class Google_0814_Service_AdSenseHost_Accounts_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -648,13 +646,13 @@ class Google_Service_AdSenseHost_Accounts_Resource extends Google_Service_Resour
    * @param string $accountId
    * Account to get information about.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_Account
+   * @return Google_0814_Service_AdSenseHost_Account
    */
   public function get($accountId, $optParams = array())
   {
     $params = array('accountId' => $accountId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_AdSenseHost_Account");
+    return $this->call('get', array($params), "Google_0814_Service_AdSenseHost_Account");
   }
   /**
    * List hosted accounts associated with this AdSense account by ad client id.
@@ -663,27 +661,25 @@ class Google_Service_AdSenseHost_Accounts_Resource extends Google_Service_Resour
    * @param string $filterAdClientId
    * Ad clients to list accounts for.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_Accounts
+   * @return Google_0814_Service_AdSenseHost_Accounts
    */
   public function listAccounts($filterAdClientId, $optParams = array())
   {
     $params = array('filterAdClientId' => $filterAdClientId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdSenseHost_Accounts");
+    return $this->call('list', array($params), "Google_0814_Service_AdSenseHost_Accounts");
   }
-}
 }
 
 /**
  * The "adclients" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adsensehostService = new Google_Service_AdSenseHost(...);
+ *   $adsensehostService = new Google_0814_Service_AdSenseHost(...);
  *   $adclients = $adsensehostService->adclients;
  *  </code>
  */
-if (!class_exists('Google_Service_AdSenseHost_AccountsAdclients_Resource')) {
-class Google_Service_AdSenseHost_AccountsAdclients_Resource extends Google_Service_Resource
+class Google_0814_Service_AdSenseHost_AccountsAdclients_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -695,13 +691,13 @@ class Google_Service_AdSenseHost_AccountsAdclients_Resource extends Google_Servi
    * @param string $adClientId
    * Ad client to get.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_AdClient
+   * @return Google_0814_Service_AdSenseHost_AdClient
    */
   public function get($accountId, $adClientId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'adClientId' => $adClientId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_AdSenseHost_AdClient");
+    return $this->call('get', array($params), "Google_0814_Service_AdSenseHost_AdClient");
   }
   /**
    * List all hosted ad clients in the specified hosted account.
@@ -716,27 +712,24 @@ class Google_Service_AdSenseHost_AccountsAdclients_Resource extends Google_Servi
     * parameter to the value of "nextPageToken" from the previous response.
    * @opt_param string maxResults
    * The maximum number of ad clients to include in the response, used for paging.
-   * @return Google_Service_AdSenseHost_AdClients
+   * @return Google_0814_Service_AdSenseHost_AdClients
    */
   public function listAccountsAdclients($accountId, $optParams = array())
   {
     $params = array('accountId' => $accountId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdSenseHost_AdClients");
+    return $this->call('list', array($params), "Google_0814_Service_AdSenseHost_AdClients");
   }
 }
-}
-
 /**
  * The "adunits" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adsensehostService = new Google_Service_AdSenseHost(...);
+ *   $adsensehostService = new Google_0814_Service_AdSenseHost(...);
  *   $adunits = $adsensehostService->adunits;
  *  </code>
  */
-if (!class_exists('Google_Service_AdSenseHost_AccountsAdunits_Resource')) {
-class Google_Service_AdSenseHost_AccountsAdunits_Resource extends Google_Service_Resource
+class Google_0814_Service_AdSenseHost_AccountsAdunits_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -750,13 +743,13 @@ class Google_Service_AdSenseHost_AccountsAdunits_Resource extends Google_Service
    * @param string $adUnitId
    * Ad unit to delete.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_AdUnit
+   * @return Google_0814_Service_AdSenseHost_AdUnit
    */
   public function delete($accountId, $adClientId, $adUnitId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'adClientId' => $adClientId, 'adUnitId' => $adUnitId);
     $params = array_merge($params, $optParams);
-    return $this->call('delete', array($params), "Google_Service_AdSenseHost_AdUnit");
+    return $this->call('delete', array($params), "Google_0814_Service_AdSenseHost_AdUnit");
   }
   /**
    * Get the specified host ad unit in this AdSense account. (adunits.get)
@@ -768,13 +761,13 @@ class Google_Service_AdSenseHost_AccountsAdunits_Resource extends Google_Service
    * @param string $adUnitId
    * Ad unit to get.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_AdUnit
+   * @return Google_0814_Service_AdSenseHost_AdUnit
    */
   public function get($accountId, $adClientId, $adUnitId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'adClientId' => $adClientId, 'adUnitId' => $adUnitId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_AdSenseHost_AdUnit");
+    return $this->call('get', array($params), "Google_0814_Service_AdSenseHost_AdUnit");
   }
   /**
    * Get ad code for the specified ad unit, attaching the specified host custom
@@ -790,13 +783,13 @@ class Google_Service_AdSenseHost_AccountsAdunits_Resource extends Google_Service
    *
    * @opt_param string hostCustomChannelId
    * Host custom channel to attach to the ad code.
-   * @return Google_Service_AdSenseHost_AdCode
+   * @return Google_0814_Service_AdSenseHost_AdCode
    */
   public function getAdCode($accountId, $adClientId, $adUnitId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'adClientId' => $adClientId, 'adUnitId' => $adUnitId);
     $params = array_merge($params, $optParams);
-    return $this->call('getAdCode', array($params), "Google_Service_AdSenseHost_AdCode");
+    return $this->call('getAdCode', array($params), "Google_0814_Service_AdSenseHost_AdCode");
   }
   /**
    * Insert the supplied ad unit into the specified publisher AdSense account.
@@ -806,15 +799,15 @@ class Google_Service_AdSenseHost_AccountsAdunits_Resource extends Google_Service
    * Account which will contain the ad unit.
    * @param string $adClientId
    * Ad client into which to insert the ad unit.
-   * @param Google_AdUnit $postBody
+   * @param Google_0814_AdUnit $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_AdUnit
+   * @return Google_0814_Service_AdSenseHost_AdUnit
    */
-  public function insert($accountId, $adClientId, Google_Service_AdSenseHost_AdUnit $postBody, $optParams = array())
+  public function insert($accountId, $adClientId, Google_0814_Service_AdSenseHost_AdUnit $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'adClientId' => $adClientId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_AdSenseHost_AdUnit");
+    return $this->call('insert', array($params), "Google_0814_Service_AdSenseHost_AdUnit");
   }
   /**
    * List all ad units in the specified publisher's AdSense account.
@@ -833,13 +826,13 @@ class Google_Service_AdSenseHost_AccountsAdunits_Resource extends Google_Service
     * parameter to the value of "nextPageToken" from the previous response.
    * @opt_param string maxResults
    * The maximum number of ad units to include in the response, used for paging.
-   * @return Google_Service_AdSenseHost_AdUnits
+   * @return Google_0814_Service_AdSenseHost_AdUnits
    */
   public function listAccountsAdunits($accountId, $adClientId, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'adClientId' => $adClientId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdSenseHost_AdUnits");
+    return $this->call('list', array($params), "Google_0814_Service_AdSenseHost_AdUnits");
   }
   /**
    * Update the supplied ad unit in the specified publisher AdSense account. This
@@ -851,15 +844,15 @@ class Google_Service_AdSenseHost_AccountsAdunits_Resource extends Google_Service
    * Ad client which contains the ad unit.
    * @param string $adUnitId
    * Ad unit to get.
-   * @param Google_AdUnit $postBody
+   * @param Google_0814_AdUnit $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_AdUnit
+   * @return Google_0814_Service_AdSenseHost_AdUnit
    */
-  public function patch($accountId, $adClientId, $adUnitId, Google_Service_AdSenseHost_AdUnit $postBody, $optParams = array())
+  public function patch($accountId, $adClientId, $adUnitId, Google_0814_Service_AdSenseHost_AdUnit $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'adClientId' => $adClientId, 'adUnitId' => $adUnitId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_AdSenseHost_AdUnit");
+    return $this->call('patch', array($params), "Google_0814_Service_AdSenseHost_AdUnit");
   }
   /**
    * Update the supplied ad unit in the specified publisher AdSense account.
@@ -869,29 +862,26 @@ class Google_Service_AdSenseHost_AccountsAdunits_Resource extends Google_Service
    * Account which contains the ad client.
    * @param string $adClientId
    * Ad client which contains the ad unit.
-   * @param Google_AdUnit $postBody
+   * @param Google_0814_AdUnit $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_AdUnit
+   * @return Google_0814_Service_AdSenseHost_AdUnit
    */
-  public function update($accountId, $adClientId, Google_Service_AdSenseHost_AdUnit $postBody, $optParams = array())
+  public function update($accountId, $adClientId, Google_0814_Service_AdSenseHost_AdUnit $postBody, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'adClientId' => $adClientId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_AdSenseHost_AdUnit");
+    return $this->call('update', array($params), "Google_0814_Service_AdSenseHost_AdUnit");
   }
 }
-}
-
 /**
  * The "reports" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adsensehostService = new Google_Service_AdSenseHost(...);
+ *   $adsensehostService = new Google_0814_Service_AdSenseHost(...);
  *   $reports = $adsensehostService->reports;
  *  </code>
  */
-if (!class_exists('Google_Service_AdSenseHost_AccountsReports_Resource')) {
-class Google_Service_AdSenseHost_AccountsReports_Resource extends Google_Service_Resource
+class Google_0814_Service_AdSenseHost_AccountsReports_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -924,27 +914,25 @@ class Google_Service_AdSenseHost_AccountsReports_Resource extends Google_Service
    * Index of the first row of report data to return.
    * @opt_param string dimension
    * Dimensions to base the report on.
-   * @return Google_Service_AdSenseHost_Report
+   * @return Google_0814_Service_AdSenseHost_Report
    */
   public function generate($accountId, $startDate, $endDate, $optParams = array())
   {
     $params = array('accountId' => $accountId, 'startDate' => $startDate, 'endDate' => $endDate);
     $params = array_merge($params, $optParams);
-    return $this->call('generate', array($params), "Google_Service_AdSenseHost_Report");
+    return $this->call('generate', array($params), "Google_0814_Service_AdSenseHost_Report");
   }
-}
 }
 
 /**
  * The "adclients" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adsensehostService = new Google_Service_AdSenseHost(...);
+ *   $adsensehostService = new Google_0814_Service_AdSenseHost(...);
  *   $adclients = $adsensehostService->adclients;
  *  </code>
  */
-if (!class_exists('Google_Service_AdSenseHost_Adclients_Resource')) {
-class Google_Service_AdSenseHost_Adclients_Resource extends Google_Service_Resource
+class Google_0814_Service_AdSenseHost_Adclients_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -954,13 +942,13 @@ class Google_Service_AdSenseHost_Adclients_Resource extends Google_Service_Resou
    * @param string $adClientId
    * Ad client to get.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_AdClient
+   * @return Google_0814_Service_AdSenseHost_AdClient
    */
   public function get($adClientId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_AdSenseHost_AdClient");
+    return $this->call('get', array($params), "Google_0814_Service_AdSenseHost_AdClient");
   }
   /**
    * List all host ad clients in this AdSense account. (adclients.listAdclients)
@@ -972,27 +960,25 @@ class Google_Service_AdSenseHost_Adclients_Resource extends Google_Service_Resou
     * parameter to the value of "nextPageToken" from the previous response.
    * @opt_param string maxResults
    * The maximum number of ad clients to include in the response, used for paging.
-   * @return Google_Service_AdSenseHost_AdClients
+   * @return Google_0814_Service_AdSenseHost_AdClients
    */
   public function listAdclients($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdSenseHost_AdClients");
+    return $this->call('list', array($params), "Google_0814_Service_AdSenseHost_AdClients");
   }
-}
 }
 
 /**
  * The "associationsessions" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adsensehostService = new Google_Service_AdSenseHost(...);
+ *   $adsensehostService = new Google_0814_Service_AdSenseHost(...);
  *   $associationsessions = $adsensehostService->associationsessions;
  *  </code>
  */
-if (!class_exists('Google_Service_AdSenseHost_Associationsessions_Resource')) {
-class Google_Service_AdSenseHost_Associationsessions_Resource extends Google_Service_Resource
+class Google_0814_Service_AdSenseHost_Associationsessions_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1009,13 +995,13 @@ class Google_Service_AdSenseHost_Associationsessions_Resource extends Google_Ser
    * The locale of the user's hosted website.
    * @opt_param string userLocale
    * The preferred locale of the user.
-   * @return Google_Service_AdSenseHost_AssociationSession
+   * @return Google_0814_Service_AdSenseHost_AssociationSession
    */
   public function start($productCode, $websiteUrl, $optParams = array())
   {
     $params = array('productCode' => $productCode, 'websiteUrl' => $websiteUrl);
     $params = array_merge($params, $optParams);
-    return $this->call('start', array($params), "Google_Service_AdSenseHost_AssociationSession");
+    return $this->call('start', array($params), "Google_0814_Service_AdSenseHost_AssociationSession");
   }
   /**
    * Verify an association session after the association callback returns from
@@ -1024,27 +1010,25 @@ class Google_Service_AdSenseHost_Associationsessions_Resource extends Google_Ser
    * @param string $token
    * The token returned to the association callback URL.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_AssociationSession
+   * @return Google_0814_Service_AdSenseHost_AssociationSession
    */
   public function verify($token, $optParams = array())
   {
     $params = array('token' => $token);
     $params = array_merge($params, $optParams);
-    return $this->call('verify', array($params), "Google_Service_AdSenseHost_AssociationSession");
+    return $this->call('verify', array($params), "Google_0814_Service_AdSenseHost_AssociationSession");
   }
-}
 }
 
 /**
  * The "customchannels" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adsensehostService = new Google_Service_AdSenseHost(...);
+ *   $adsensehostService = new Google_0814_Service_AdSenseHost(...);
  *   $customchannels = $adsensehostService->customchannels;
  *  </code>
  */
-if (!class_exists('Google_Service_AdSenseHost_Customchannels_Resource')) {
-class Google_Service_AdSenseHost_Customchannels_Resource extends Google_Service_Resource
+class Google_0814_Service_AdSenseHost_Customchannels_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1056,13 +1040,13 @@ class Google_Service_AdSenseHost_Customchannels_Resource extends Google_Service_
    * @param string $customChannelId
    * Custom channel to delete.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_CustomChannel
+   * @return Google_0814_Service_AdSenseHost_CustomChannel
    */
   public function delete($adClientId, $customChannelId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId, 'customChannelId' => $customChannelId);
     $params = array_merge($params, $optParams);
-    return $this->call('delete', array($params), "Google_Service_AdSenseHost_CustomChannel");
+    return $this->call('delete', array($params), "Google_0814_Service_AdSenseHost_CustomChannel");
   }
   /**
    * Get a specific custom channel from the host AdSense account.
@@ -1073,28 +1057,28 @@ class Google_Service_AdSenseHost_Customchannels_Resource extends Google_Service_
    * @param string $customChannelId
    * Custom channel to get.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_CustomChannel
+   * @return Google_0814_Service_AdSenseHost_CustomChannel
    */
   public function get($adClientId, $customChannelId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId, 'customChannelId' => $customChannelId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_AdSenseHost_CustomChannel");
+    return $this->call('get', array($params), "Google_0814_Service_AdSenseHost_CustomChannel");
   }
   /**
    * Add a new custom channel to the host AdSense account. (customchannels.insert)
    *
    * @param string $adClientId
    * Ad client to which the new custom channel will be added.
-   * @param Google_CustomChannel $postBody
+   * @param Google_0814_CustomChannel $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_CustomChannel
+   * @return Google_0814_Service_AdSenseHost_CustomChannel
    */
-  public function insert($adClientId, Google_Service_AdSenseHost_CustomChannel $postBody, $optParams = array())
+  public function insert($adClientId, Google_0814_Service_AdSenseHost_CustomChannel $postBody, $optParams = array())
   {
     $params = array('adClientId' => $adClientId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_AdSenseHost_CustomChannel");
+    return $this->call('insert', array($params), "Google_0814_Service_AdSenseHost_CustomChannel");
   }
   /**
    * List all host custom channels in this AdSense account.
@@ -1109,13 +1093,13 @@ class Google_Service_AdSenseHost_Customchannels_Resource extends Google_Service_
     * parameter to the value of "nextPageToken" from the previous response.
    * @opt_param string maxResults
    * The maximum number of custom channels to include in the response, used for paging.
-   * @return Google_Service_AdSenseHost_CustomChannels
+   * @return Google_0814_Service_AdSenseHost_CustomChannels
    */
   public function listCustomchannels($adClientId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdSenseHost_CustomChannels");
+    return $this->call('list', array($params), "Google_0814_Service_AdSenseHost_CustomChannels");
   }
   /**
    * Update a custom channel in the host AdSense account. This method supports
@@ -1125,44 +1109,42 @@ class Google_Service_AdSenseHost_Customchannels_Resource extends Google_Service_
    * Ad client in which the custom channel will be updated.
    * @param string $customChannelId
    * Custom channel to get.
-   * @param Google_CustomChannel $postBody
+   * @param Google_0814_CustomChannel $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_CustomChannel
+   * @return Google_0814_Service_AdSenseHost_CustomChannel
    */
-  public function patch($adClientId, $customChannelId, Google_Service_AdSenseHost_CustomChannel $postBody, $optParams = array())
+  public function patch($adClientId, $customChannelId, Google_0814_Service_AdSenseHost_CustomChannel $postBody, $optParams = array())
   {
     $params = array('adClientId' => $adClientId, 'customChannelId' => $customChannelId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_AdSenseHost_CustomChannel");
+    return $this->call('patch', array($params), "Google_0814_Service_AdSenseHost_CustomChannel");
   }
   /**
    * Update a custom channel in the host AdSense account. (customchannels.update)
    *
    * @param string $adClientId
    * Ad client in which the custom channel will be updated.
-   * @param Google_CustomChannel $postBody
+   * @param Google_0814_CustomChannel $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_CustomChannel
+   * @return Google_0814_Service_AdSenseHost_CustomChannel
    */
-  public function update($adClientId, Google_Service_AdSenseHost_CustomChannel $postBody, $optParams = array())
+  public function update($adClientId, Google_0814_Service_AdSenseHost_CustomChannel $postBody, $optParams = array())
   {
     $params = array('adClientId' => $adClientId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_AdSenseHost_CustomChannel");
+    return $this->call('update', array($params), "Google_0814_Service_AdSenseHost_CustomChannel");
   }
-}
 }
 
 /**
  * The "reports" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adsensehostService = new Google_Service_AdSenseHost(...);
+ *   $adsensehostService = new Google_0814_Service_AdSenseHost(...);
  *   $reports = $adsensehostService->reports;
  *  </code>
  */
-if (!class_exists('Google_Service_AdSenseHost_Reports_Resource')) {
-class Google_Service_AdSenseHost_Reports_Resource extends Google_Service_Resource
+class Google_0814_Service_AdSenseHost_Reports_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1193,27 +1175,25 @@ class Google_Service_AdSenseHost_Reports_Resource extends Google_Service_Resourc
    * Index of the first row of report data to return.
    * @opt_param string dimension
    * Dimensions to base the report on.
-   * @return Google_Service_AdSenseHost_Report
+   * @return Google_0814_Service_AdSenseHost_Report
    */
   public function generate($startDate, $endDate, $optParams = array())
   {
     $params = array('startDate' => $startDate, 'endDate' => $endDate);
     $params = array_merge($params, $optParams);
-    return $this->call('generate', array($params), "Google_Service_AdSenseHost_Report");
+    return $this->call('generate', array($params), "Google_0814_Service_AdSenseHost_Report");
   }
-}
 }
 
 /**
  * The "urlchannels" collection of methods.
  * Typical usage is:
  *  <code>
- *   $adsensehostService = new Google_Service_AdSenseHost(...);
+ *   $adsensehostService = new Google_0814_Service_AdSenseHost(...);
  *   $urlchannels = $adsensehostService->urlchannels;
  *  </code>
  */
-if (!class_exists('Google_Service_AdSenseHost_Urlchannels_Resource')) {
-class Google_Service_AdSenseHost_Urlchannels_Resource extends Google_Service_Resource
+class Google_0814_Service_AdSenseHost_Urlchannels_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -1224,28 +1204,28 @@ class Google_Service_AdSenseHost_Urlchannels_Resource extends Google_Service_Res
    * @param string $urlChannelId
    * URL channel to delete.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_UrlChannel
+   * @return Google_0814_Service_AdSenseHost_UrlChannel
    */
   public function delete($adClientId, $urlChannelId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId, 'urlChannelId' => $urlChannelId);
     $params = array_merge($params, $optParams);
-    return $this->call('delete', array($params), "Google_Service_AdSenseHost_UrlChannel");
+    return $this->call('delete', array($params), "Google_0814_Service_AdSenseHost_UrlChannel");
   }
   /**
    * Add a new URL channel to the host AdSense account. (urlchannels.insert)
    *
    * @param string $adClientId
    * Ad client to which the new URL channel will be added.
-   * @param Google_UrlChannel $postBody
+   * @param Google_0814_UrlChannel $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AdSenseHost_UrlChannel
+   * @return Google_0814_Service_AdSenseHost_UrlChannel
    */
-  public function insert($adClientId, Google_Service_AdSenseHost_UrlChannel $postBody, $optParams = array())
+  public function insert($adClientId, Google_0814_Service_AdSenseHost_UrlChannel $postBody, $optParams = array())
   {
     $params = array('adClientId' => $adClientId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_AdSenseHost_UrlChannel");
+    return $this->call('insert', array($params), "Google_0814_Service_AdSenseHost_UrlChannel");
   }
   /**
    * List all host URL channels in the host AdSense account.
@@ -1260,20 +1240,20 @@ class Google_Service_AdSenseHost_Urlchannels_Resource extends Google_Service_Res
     * parameter to the value of "nextPageToken" from the previous response.
    * @opt_param string maxResults
    * The maximum number of URL channels to include in the response, used for paging.
-   * @return Google_Service_AdSenseHost_UrlChannels
+   * @return Google_0814_Service_AdSenseHost_UrlChannels
    */
   public function listUrlchannels($adClientId, $optParams = array())
   {
     $params = array('adClientId' => $adClientId);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_AdSenseHost_UrlChannels");
+    return $this->call('list', array($params), "Google_0814_Service_AdSenseHost_UrlChannels");
   }
 }
-}
 
 
-if (!class_exists('Google_Service_AdSenseHost_Account')) {
-class Google_Service_AdSenseHost_Account extends Google_Model
+
+
+class Google_0814_Service_AdSenseHost_Account extends Google_0814_Model
 {
   public $id;
   public $kind;
@@ -1320,13 +1300,11 @@ class Google_Service_AdSenseHost_Account extends Google_Model
     return $this->status;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_Accounts')) {
-class Google_Service_AdSenseHost_Accounts extends Google_Collection
+class Google_0814_Service_AdSenseHost_Accounts extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_AdSenseHost_Account';
+  protected $itemsType = 'Google_0814_Service_AdSenseHost_Account';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -1360,10 +1338,8 @@ class Google_Service_AdSenseHost_Accounts extends Google_Collection
     return $this->kind;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_AdClient')) {
-class Google_Service_AdSenseHost_AdClient extends Google_Model
+class Google_0814_Service_AdSenseHost_AdClient extends Google_0814_Model
 {
   public $arcOptIn;
   public $id;
@@ -1421,13 +1397,11 @@ class Google_Service_AdSenseHost_AdClient extends Google_Model
     return $this->supportsReporting;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_AdClients')) {
-class Google_Service_AdSenseHost_AdClients extends Google_Collection
+class Google_0814_Service_AdSenseHost_AdClients extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_AdSenseHost_AdClient';
+  protected $itemsType = 'Google_0814_Service_AdSenseHost_AdClient';
   protected $itemsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -1472,10 +1446,8 @@ class Google_Service_AdSenseHost_AdClients extends Google_Collection
     return $this->nextPageToken;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_AdCode')) {
-class Google_Service_AdSenseHost_AdCode extends Google_Model
+class Google_0814_Service_AdSenseHost_AdCode extends Google_0814_Model
 {
   public $adCode;
   public $kind;
@@ -1500,19 +1472,17 @@ class Google_Service_AdSenseHost_AdCode extends Google_Model
     return $this->kind;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_AdStyle')) {
-class Google_Service_AdSenseHost_AdStyle extends Google_Model
+class Google_0814_Service_AdSenseHost_AdStyle extends Google_0814_Model
 {
-  protected $colorsType = 'Google_Service_AdSenseHost_AdStyleColors';
+  protected $colorsType = 'Google_0814_Service_AdSenseHost_AdStyleColors';
   protected $colorsDataType = '';
   public $corners;
-  protected $fontType = 'Google_Service_AdSenseHost_AdStyleFont';
+  protected $fontType = 'Google_0814_Service_AdSenseHost_AdStyleFont';
   protected $fontDataType = '';
   public $kind;
 
-  public function setColors(Google_Service_AdSenseHost_AdStyleColors $colors)
+  public function setColors(Google_0814_Service_AdSenseHost_AdStyleColors $colors)
   {
     $this->colors = $colors;
   }
@@ -1532,7 +1502,7 @@ class Google_Service_AdSenseHost_AdStyle extends Google_Model
     return $this->corners;
   }
 
-  public function setFont(Google_Service_AdSenseHost_AdStyleFont $font)
+  public function setFont(Google_0814_Service_AdSenseHost_AdStyleFont $font)
   {
     $this->font = $font;
   }
@@ -1552,10 +1522,8 @@ class Google_Service_AdSenseHost_AdStyle extends Google_Model
     return $this->kind;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_AdStyleColors')) {
-class Google_Service_AdSenseHost_AdStyleColors extends Google_Model
+class Google_0814_Service_AdSenseHost_AdStyleColors extends Google_0814_Model
 {
   public $background;
   public $border;
@@ -1613,10 +1581,8 @@ class Google_Service_AdSenseHost_AdStyleColors extends Google_Model
     return $this->url;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_AdStyleFont')) {
-class Google_Service_AdSenseHost_AdStyleFont extends Google_Model
+class Google_0814_Service_AdSenseHost_AdStyleFont extends Google_0814_Model
 {
   public $family;
   public $size;
@@ -1641,19 +1607,17 @@ class Google_Service_AdSenseHost_AdStyleFont extends Google_Model
     return $this->size;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_AdUnit')) {
-class Google_Service_AdSenseHost_AdUnit extends Google_Model
+class Google_0814_Service_AdSenseHost_AdUnit extends Google_0814_Model
 {
   public $code;
-  protected $contentAdsSettingsType = 'Google_Service_AdSenseHost_AdUnitContentAdsSettings';
+  protected $contentAdsSettingsType = 'Google_0814_Service_AdSenseHost_AdUnitContentAdsSettings';
   protected $contentAdsSettingsDataType = '';
-  protected $customStyleType = 'Google_Service_AdSenseHost_AdStyle';
+  protected $customStyleType = 'Google_0814_Service_AdSenseHost_AdStyle';
   protected $customStyleDataType = '';
   public $id;
   public $kind;
-  protected $mobileContentAdsSettingsType = 'Google_Service_AdSenseHost_AdUnitMobileContentAdsSettings';
+  protected $mobileContentAdsSettingsType = 'Google_0814_Service_AdSenseHost_AdUnitMobileContentAdsSettings';
   protected $mobileContentAdsSettingsDataType = '';
   public $name;
   public $status;
@@ -1668,7 +1632,7 @@ class Google_Service_AdSenseHost_AdUnit extends Google_Model
     return $this->code;
   }
 
-  public function setContentAdsSettings(Google_Service_AdSenseHost_AdUnitContentAdsSettings $contentAdsSettings)
+  public function setContentAdsSettings(Google_0814_Service_AdSenseHost_AdUnitContentAdsSettings $contentAdsSettings)
   {
     $this->contentAdsSettings = $contentAdsSettings;
   }
@@ -1678,7 +1642,7 @@ class Google_Service_AdSenseHost_AdUnit extends Google_Model
     return $this->contentAdsSettings;
   }
 
-  public function setCustomStyle(Google_Service_AdSenseHost_AdStyle $customStyle)
+  public function setCustomStyle(Google_0814_Service_AdSenseHost_AdStyle $customStyle)
   {
     $this->customStyle = $customStyle;
   }
@@ -1708,7 +1672,7 @@ class Google_Service_AdSenseHost_AdUnit extends Google_Model
     return $this->kind;
   }
 
-  public function setMobileContentAdsSettings(Google_Service_AdSenseHost_AdUnitMobileContentAdsSettings $mobileContentAdsSettings)
+  public function setMobileContentAdsSettings(Google_0814_Service_AdSenseHost_AdUnitMobileContentAdsSettings $mobileContentAdsSettings)
   {
     $this->mobileContentAdsSettings = $mobileContentAdsSettings;
   }
@@ -1738,17 +1702,15 @@ class Google_Service_AdSenseHost_AdUnit extends Google_Model
     return $this->status;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_AdUnitContentAdsSettings')) {
-class Google_Service_AdSenseHost_AdUnitContentAdsSettings extends Google_Model
+class Google_0814_Service_AdSenseHost_AdUnitContentAdsSettings extends Google_0814_Model
 {
-  protected $backupOptionType = 'Google_Service_AdSenseHost_AdUnitContentAdsSettingsBackupOption';
+  protected $backupOptionType = 'Google_0814_Service_AdSenseHost_AdUnitContentAdsSettingsBackupOption';
   protected $backupOptionDataType = '';
   public $size;
   public $type;
 
-  public function setBackupOption(Google_Service_AdSenseHost_AdUnitContentAdsSettingsBackupOption $backupOption)
+  public function setBackupOption(Google_0814_Service_AdSenseHost_AdUnitContentAdsSettingsBackupOption $backupOption)
   {
     $this->backupOption = $backupOption;
   }
@@ -1778,10 +1740,8 @@ class Google_Service_AdSenseHost_AdUnitContentAdsSettings extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_AdUnitContentAdsSettingsBackupOption')) {
-class Google_Service_AdSenseHost_AdUnitContentAdsSettingsBackupOption extends Google_Model
+class Google_0814_Service_AdSenseHost_AdUnitContentAdsSettingsBackupOption extends Google_0814_Model
 {
   public $color;
   public $type;
@@ -1817,10 +1777,8 @@ class Google_Service_AdSenseHost_AdUnitContentAdsSettingsBackupOption extends Go
     return $this->url;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_AdUnitMobileContentAdsSettings')) {
-class Google_Service_AdSenseHost_AdUnitMobileContentAdsSettings extends Google_Model
+class Google_0814_Service_AdSenseHost_AdUnitMobileContentAdsSettings extends Google_0814_Model
 {
   public $markupLanguage;
   public $scriptingLanguage;
@@ -1867,13 +1825,11 @@ class Google_Service_AdSenseHost_AdUnitMobileContentAdsSettings extends Google_M
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_AdUnits')) {
-class Google_Service_AdSenseHost_AdUnits extends Google_Collection
+class Google_0814_Service_AdSenseHost_AdUnits extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_AdSenseHost_AdUnit';
+  protected $itemsType = 'Google_0814_Service_AdSenseHost_AdUnit';
   protected $itemsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -1918,10 +1874,8 @@ class Google_Service_AdSenseHost_AdUnits extends Google_Collection
     return $this->nextPageToken;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_AssociationSession')) {
-class Google_Service_AdSenseHost_AssociationSession extends Google_Collection
+class Google_0814_Service_AdSenseHost_AssociationSession extends Google_0814_Collection
 {
   public $accountId;
   public $id;
@@ -2023,10 +1977,8 @@ class Google_Service_AdSenseHost_AssociationSession extends Google_Collection
     return $this->websiteUrl;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_CustomChannel')) {
-class Google_Service_AdSenseHost_CustomChannel extends Google_Model
+class Google_0814_Service_AdSenseHost_CustomChannel extends Google_0814_Model
 {
   public $code;
   public $id;
@@ -2073,13 +2025,11 @@ class Google_Service_AdSenseHost_CustomChannel extends Google_Model
     return $this->name;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_CustomChannels')) {
-class Google_Service_AdSenseHost_CustomChannels extends Google_Collection
+class Google_0814_Service_AdSenseHost_CustomChannels extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_AdSenseHost_CustomChannel';
+  protected $itemsType = 'Google_0814_Service_AdSenseHost_CustomChannel';
   protected $itemsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -2124,13 +2074,11 @@ class Google_Service_AdSenseHost_CustomChannels extends Google_Collection
     return $this->nextPageToken;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_Report')) {
-class Google_Service_AdSenseHost_Report extends Google_Collection
+class Google_0814_Service_AdSenseHost_Report extends Google_0814_Collection
 {
   public $averages;
-  protected $headersType = 'Google_Service_AdSenseHost_ReportHeaders';
+  protected $headersType = 'Google_0814_Service_AdSenseHost_ReportHeaders';
   protected $headersDataType = 'array';
   public $kind;
   public $rows;
@@ -2208,10 +2156,8 @@ class Google_Service_AdSenseHost_Report extends Google_Collection
     return $this->warnings;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_ReportHeaders')) {
-class Google_Service_AdSenseHost_ReportHeaders extends Google_Model
+class Google_0814_Service_AdSenseHost_ReportHeaders extends Google_0814_Model
 {
   public $currency;
   public $name;
@@ -2247,10 +2193,8 @@ class Google_Service_AdSenseHost_ReportHeaders extends Google_Model
     return $this->type;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_UrlChannel')) {
-class Google_Service_AdSenseHost_UrlChannel extends Google_Model
+class Google_0814_Service_AdSenseHost_UrlChannel extends Google_0814_Model
 {
   public $id;
   public $kind;
@@ -2286,13 +2230,11 @@ class Google_Service_AdSenseHost_UrlChannel extends Google_Model
     return $this->urlPattern;
   }
 }
-}
 
-if (!class_exists('Google_Service_AdSenseHost_UrlChannels')) {
-class Google_Service_AdSenseHost_UrlChannels extends Google_Collection
+class Google_0814_Service_AdSenseHost_UrlChannels extends Google_0814_Collection
 {
   public $etag;
-  protected $itemsType = 'Google_Service_AdSenseHost_UrlChannel';
+  protected $itemsType = 'Google_0814_Service_AdSenseHost_UrlChannel';
   protected $itemsDataType = 'array';
   public $kind;
   public $nextPageToken;
@@ -2336,5 +2278,4 @@ class Google_Service_AdSenseHost_UrlChannels extends Google_Collection
   {
     return $this->nextPageToken;
   }
-}
 }

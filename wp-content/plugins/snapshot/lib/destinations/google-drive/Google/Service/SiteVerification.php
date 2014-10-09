@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_SiteVerification')) {
-class Google_Service_SiteVerification extends Google_Service
+class Google_0814_Service_SiteVerification extends Google_0814_Service
 {
   /** Manage the list of sites and domains you control. */
   const SITEVERIFICATION = "https://www.googleapis.com/auth/siteverification";
@@ -43,16 +42,16 @@ class Google_Service_SiteVerification extends Google_Service
   /**
    * Constructs the internal representation of the SiteVerification service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'siteVerification/v1/';
     $this->version = 'v1';
     $this->serviceName = 'siteVerification';
 
-    $this->webResource = new Google_Service_SiteVerification_WebResource_Resource(
+    $this->webResource = new Google_0814_Service_SiteVerification_WebResource_Resource(
         $this,
         $this->serviceName,
         'webResource',
@@ -128,11 +127,11 @@ class Google_Service_SiteVerification extends Google_Service
  * The "webResource" collection of methods.
  * Typical usage is:
  *  <code>
- *   $siteVerificationService = new Google_Service_SiteVerification(...);
+ *   $siteVerificationService = new Google_0814_Service_SiteVerification(...);
  *   $webResource = $siteVerificationService->webResource;
  *  </code>
  */
-class Google_Service_SiteVerification_WebResource_Resource extends Google_Service_Resource
+class Google_0814_Service_SiteVerification_WebResource_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -154,55 +153,55 @@ class Google_Service_SiteVerification_WebResource_Resource extends Google_Servic
    * @param string $id
    * The id of a verified site or domain.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_SiteVerification_SiteVerificationWebResourceResource
+   * @return Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource
    */
   public function get($id, $optParams = array())
   {
     $params = array('id' => $id);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_SiteVerification_SiteVerificationWebResourceResource");
+    return $this->call('get', array($params), "Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource");
   }
   /**
    * Get a verification token for placing on a website or domain.
    * (webResource.getToken)
    *
-   * @param Google_SiteVerificationWebResourceGettokenRequest $postBody
+   * @param Google_0814_SiteVerificationWebResourceGettokenRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_SiteVerification_SiteVerificationWebResourceGettokenResponse
+   * @return Google_0814_Service_SiteVerification_SiteVerificationWebResourceGettokenResponse
    */
-  public function getToken(Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRequest $postBody, $optParams = array())
+  public function getToken(Google_0814_Service_SiteVerification_SiteVerificationWebResourceGettokenRequest $postBody, $optParams = array())
   {
     $params = array('postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('getToken', array($params), "Google_Service_SiteVerification_SiteVerificationWebResourceGettokenResponse");
+    return $this->call('getToken', array($params), "Google_0814_Service_SiteVerification_SiteVerificationWebResourceGettokenResponse");
   }
   /**
    * Attempt verification of a website or domain. (webResource.insert)
    *
    * @param string $verificationMethod
    * The method to use for verifying a site or domain.
-   * @param Google_SiteVerificationWebResourceResource $postBody
+   * @param Google_0814_SiteVerificationWebResourceResource $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_SiteVerification_SiteVerificationWebResourceResource
+   * @return Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource
    */
-  public function insert($verificationMethod, Google_Service_SiteVerification_SiteVerificationWebResourceResource $postBody, $optParams = array())
+  public function insert($verificationMethod, Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource $postBody, $optParams = array())
   {
     $params = array('verificationMethod' => $verificationMethod, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_SiteVerification_SiteVerificationWebResourceResource");
+    return $this->call('insert', array($params), "Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource");
   }
   /**
    * Get the list of your verified websites and domains.
    * (webResource.listWebResource)
    *
    * @param array $optParams Optional parameters.
-   * @return Google_Service_SiteVerification_SiteVerificationWebResourceListResponse
+   * @return Google_0814_Service_SiteVerification_SiteVerificationWebResourceListResponse
    */
   public function listWebResource($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_SiteVerification_SiteVerificationWebResourceListResponse");
+    return $this->call('list', array($params), "Google_0814_Service_SiteVerification_SiteVerificationWebResourceListResponse");
   }
   /**
    * Modify the list of owners for your website or domain. This method supports
@@ -210,43 +209,43 @@ class Google_Service_SiteVerification_WebResource_Resource extends Google_Servic
    *
    * @param string $id
    * The id of a verified site or domain.
-   * @param Google_SiteVerificationWebResourceResource $postBody
+   * @param Google_0814_SiteVerificationWebResourceResource $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_SiteVerification_SiteVerificationWebResourceResource
+   * @return Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource
    */
-  public function patch($id, Google_Service_SiteVerification_SiteVerificationWebResourceResource $postBody, $optParams = array())
+  public function patch($id, Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource $postBody, $optParams = array())
   {
     $params = array('id' => $id, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_SiteVerification_SiteVerificationWebResourceResource");
+    return $this->call('patch', array($params), "Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource");
   }
   /**
    * Modify the list of owners for your website or domain. (webResource.update)
    *
    * @param string $id
    * The id of a verified site or domain.
-   * @param Google_SiteVerificationWebResourceResource $postBody
+   * @param Google_0814_SiteVerificationWebResourceResource $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_SiteVerification_SiteVerificationWebResourceResource
+   * @return Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource
    */
-  public function update($id, Google_Service_SiteVerification_SiteVerificationWebResourceResource $postBody, $optParams = array())
+  public function update($id, Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource $postBody, $optParams = array())
   {
     $params = array('id' => $id, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_SiteVerification_SiteVerificationWebResourceResource");
+    return $this->call('update', array($params), "Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource");
   }
 }
 
 
 
 
-class Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRequest extends Google_Model
+class Google_0814_Service_SiteVerification_SiteVerificationWebResourceGettokenRequest extends Google_0814_Model
 {
-  protected $siteType = 'Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRequestSite';
+  protected $siteType = 'Google_0814_Service_SiteVerification_SiteVerificationWebResourceGettokenRequestSite';
   protected $siteDataType = '';
   public $verificationMethod;
 
-  public function setSite(Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRequestSite $site)
+  public function setSite(Google_0814_Service_SiteVerification_SiteVerificationWebResourceGettokenRequestSite $site)
   {
     $this->site = $site;
   }
@@ -267,7 +266,7 @@ class Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRequest
   }
 }
 
-class Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRequestSite extends Google_Model
+class Google_0814_Service_SiteVerification_SiteVerificationWebResourceGettokenRequestSite extends Google_0814_Model
 {
   public $identifier;
   public $type;
@@ -293,7 +292,7 @@ class Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRequest
   }
 }
 
-class Google_Service_SiteVerification_SiteVerificationWebResourceGettokenResponse extends Google_Model
+class Google_0814_Service_SiteVerification_SiteVerificationWebResourceGettokenResponse extends Google_0814_Model
 {
   public $method;
   public $token;
@@ -319,9 +318,9 @@ class Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRespons
   }
 }
 
-class Google_Service_SiteVerification_SiteVerificationWebResourceListResponse extends Google_Collection
+class Google_0814_Service_SiteVerification_SiteVerificationWebResourceListResponse extends Google_0814_Collection
 {
-  protected $itemsType = 'Google_Service_SiteVerification_SiteVerificationWebResourceResource';
+  protected $itemsType = 'Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource';
   protected $itemsDataType = 'array';
 
   public function setItems($items)
@@ -335,11 +334,11 @@ class Google_Service_SiteVerification_SiteVerificationWebResourceListResponse ex
   }
 }
 
-class Google_Service_SiteVerification_SiteVerificationWebResourceResource extends Google_Collection
+class Google_0814_Service_SiteVerification_SiteVerificationWebResourceResource extends Google_0814_Collection
 {
   public $id;
   public $owners;
-  protected $siteType = 'Google_Service_SiteVerification_SiteVerificationWebResourceResourceSite';
+  protected $siteType = 'Google_0814_Service_SiteVerification_SiteVerificationWebResourceResourceSite';
   protected $siteDataType = '';
 
   public function setId($id)
@@ -362,7 +361,7 @@ class Google_Service_SiteVerification_SiteVerificationWebResourceResource extend
     return $this->owners;
   }
 
-  public function setSite(Google_Service_SiteVerification_SiteVerificationWebResourceResourceSite $site)
+  public function setSite(Google_0814_Service_SiteVerification_SiteVerificationWebResourceResourceSite $site)
   {
     $this->site = $site;
   }
@@ -373,7 +372,7 @@ class Google_Service_SiteVerification_SiteVerificationWebResourceResource extend
   }
 }
 
-class Google_Service_SiteVerification_SiteVerificationWebResourceResourceSite extends Google_Model
+class Google_0814_Service_SiteVerification_SiteVerificationWebResourceResourceSite extends Google_0814_Model
 {
   public $identifier;
   public $type;
@@ -397,5 +396,4 @@ class Google_Service_SiteVerification_SiteVerificationWebResourceResourceSite ex
   {
     return $this->type;
   }
-}
 }

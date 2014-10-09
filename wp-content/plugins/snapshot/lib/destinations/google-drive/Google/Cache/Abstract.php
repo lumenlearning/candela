@@ -20,11 +20,10 @@
  *
  * @author Chris Chabot <chabotc@google.com>
  */
-if (!class_exists('Google_Cache_Abstract')) {
-abstract class Google_Cache_Abstract
+abstract class Google_0814_Cache_Abstract
 {
 
-  abstract public function __construct(Google_Client $client);
+  abstract public function __construct(Google_0814_Client $client);
 
   /**
    * Retrieves the data for the given key, or false if they
@@ -51,5 +50,4 @@ abstract class Google_Cache_Abstract
    * @param String $key
    */
   abstract public function delete($key);
-}
 }

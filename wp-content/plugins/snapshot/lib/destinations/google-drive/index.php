@@ -207,7 +207,7 @@ if ((!class_exists('SnapshotDestinationGoogleDrive')) && (version_compare(phpver
 			//$this->snapshot_logger->log_message(sprintf(__("Connecting to %s", SNAPSHOT_I18N_DOMAIN), $this->name_display));
 			try {
 
-				$this->client = new Google_Client();
+				$this->client = new Google_0814_Client();
 				$this->client->setClientId( $this->destination_info['clientid'] );
 				$this->client->setClientSecret( $this->destination_info['clientsecret'] );
 				$this->client->setRedirectUri($this->destination_info['redirecturi']);
@@ -252,7 +252,7 @@ if ((!class_exists('SnapshotDestinationGoogleDrive')) && (version_compare(phpver
 				return false;
 			}
 
-			$this->connection = new Google_Service_Drive($this->client);
+			$this->connection = new Google_0814_Service_Drive($this->client);
 
 			return true;
 		}
@@ -280,14 +280,14 @@ if ((!class_exists('SnapshotDestinationGoogleDrive')) && (version_compare(phpver
 
 			try {
 
-				$file = new Google_Service_Drive_DriveFile();
+				$file = new Google_0814_Service_Drive_DriveFile();
 			    $file->title = basename($filename);
 			    $chunkSizeBytes = 1 * 1024 * 1024;
 				//echo "chunkSizeBytes[". $chunkSizeBytes ."]<br />";
 
 				if (!empty($this->destination_info['directory'])) {
 					$parent_directories = explode(',', $this->destination_info['directory']);
-					$parent = new Google_Service_Drive_ParentReference();
+					$parent = new Google_0814_Service_Drive_ParentReference();
 					foreach($parent_directories as $parent_directory) {
 						$parent_directory = trim($parent_directory);
 						if (!empty($parent_directory)) {
@@ -302,7 +302,7 @@ if ((!class_exists('SnapshotDestinationGoogleDrive')) && (version_compare(phpver
 			    $request = $this->connection->files->insert($file);
 				if (is_object($request)) {
 				    // Create a media file upload to represent our upload process.
-				    $media = new Google_Http_MediaFileUpload(
+				    $media = new Google_0814_Http_MediaFileUpload(
 						$this->client,
 						$request,
 						'application/x-zip',

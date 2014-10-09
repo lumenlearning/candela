@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_Groupssettings')) {
-class Google_Service_Groupssettings extends Google_Service
+class Google_0814_Service_Groupssettings extends Google_0814_Service
 {
   /** View and manage the settings of a Google Apps Group. */
   const APPS_GROUPS_SETTINGS = "https://www.googleapis.com/auth/apps.groups.settings";
@@ -41,16 +40,16 @@ class Google_Service_Groupssettings extends Google_Service
   /**
    * Constructs the internal representation of the Groupssettings service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'groups/v1/groups/';
     $this->version = 'v1';
     $this->serviceName = 'groupssettings';
 
-    $this->groups = new Google_Service_Groupssettings_Groups_Resource(
+    $this->groups = new Google_0814_Service_Groupssettings_Groups_Resource(
         $this,
         $this->serviceName,
         'groups',
@@ -98,11 +97,11 @@ class Google_Service_Groupssettings extends Google_Service
  * The "groups" collection of methods.
  * Typical usage is:
  *  <code>
- *   $groupssettingsService = new Google_Service_Groupssettings(...);
+ *   $groupssettingsService = new Google_0814_Service_Groupssettings(...);
  *   $groups = $groupssettingsService->groups;
  *  </code>
  */
-class Google_Service_Groupssettings_Groups_Resource extends Google_Service_Resource
+class Google_0814_Service_Groupssettings_Groups_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -111,13 +110,13 @@ class Google_Service_Groupssettings_Groups_Resource extends Google_Service_Resou
    * @param string $groupUniqueId
    * The resource ID
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Groupssettings_Groups
+   * @return Google_0814_Service_Groupssettings_Groups
    */
   public function get($groupUniqueId, $optParams = array())
   {
     $params = array('groupUniqueId' => $groupUniqueId);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_Groupssettings_Groups");
+    return $this->call('get', array($params), "Google_0814_Service_Groupssettings_Groups");
   }
   /**
    * Updates an existing resource. This method supports patch semantics.
@@ -125,37 +124,37 @@ class Google_Service_Groupssettings_Groups_Resource extends Google_Service_Resou
    *
    * @param string $groupUniqueId
    * The resource ID
-   * @param Google_Groups $postBody
+   * @param Google_0814_Groups $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Groupssettings_Groups
+   * @return Google_0814_Service_Groupssettings_Groups
    */
-  public function patch($groupUniqueId, Google_Service_Groupssettings_Groups $postBody, $optParams = array())
+  public function patch($groupUniqueId, Google_0814_Service_Groupssettings_Groups $postBody, $optParams = array())
   {
     $params = array('groupUniqueId' => $groupUniqueId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('patch', array($params), "Google_Service_Groupssettings_Groups");
+    return $this->call('patch', array($params), "Google_0814_Service_Groupssettings_Groups");
   }
   /**
    * Updates an existing resource. (groups.update)
    *
    * @param string $groupUniqueId
    * The resource ID
-   * @param Google_Groups $postBody
+   * @param Google_0814_Groups $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Groupssettings_Groups
+   * @return Google_0814_Service_Groupssettings_Groups
    */
-  public function update($groupUniqueId, Google_Service_Groupssettings_Groups $postBody, $optParams = array())
+  public function update($groupUniqueId, Google_0814_Service_Groupssettings_Groups $postBody, $optParams = array())
   {
     $params = array('groupUniqueId' => $groupUniqueId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('update', array($params), "Google_Service_Groupssettings_Groups");
+    return $this->call('update', array($params), "Google_0814_Service_Groupssettings_Groups");
   }
 }
 
 
 
 
-class Google_Service_Groupssettings_Groups extends Google_Model
+class Google_0814_Service_Groupssettings_Groups extends Google_0814_Model
 {
   public $allowExternalMembers;
   public $allowGoogleCommunication;
@@ -465,5 +464,4 @@ class Google_Service_Groupssettings_Groups extends Google_Model
   {
     return $this->whoCanViewMembership;
   }
-}
 }

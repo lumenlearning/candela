@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-if (!class_exists('Google_Exception')) {
-	class Google_Exception extends Exception
-	{
-	}
+class Google_0814_Exception extends Exception
+{
 }

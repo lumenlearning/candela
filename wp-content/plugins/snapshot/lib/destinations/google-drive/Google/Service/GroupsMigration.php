@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_GroupsMigration')) {
-class Google_Service_GroupsMigration extends Google_Service
+class Google_0814_Service_GroupsMigration extends Google_0814_Service
 {
 
 
@@ -40,16 +39,16 @@ class Google_Service_GroupsMigration extends Google_Service
   /**
    * Constructs the internal representation of the GroupsMigration service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'groups/v1/groups/';
     $this->version = 'v1';
     $this->serviceName = 'groupsmigration';
 
-    $this->archive = new Google_Service_GroupsMigration_Archive_Resource(
+    $this->archive = new Google_0814_Service_GroupsMigration_Archive_Resource(
         $this,
         $this->serviceName,
         'archive',
@@ -77,11 +76,11 @@ class Google_Service_GroupsMigration extends Google_Service
  * The "archive" collection of methods.
  * Typical usage is:
  *  <code>
- *   $groupsmigrationService = new Google_Service_GroupsMigration(...);
+ *   $groupsmigrationService = new Google_0814_Service_GroupsMigration(...);
  *   $archive = $groupsmigrationService->archive;
  *  </code>
  */
-class Google_Service_GroupsMigration_Archive_Resource extends Google_Service_Resource
+class Google_0814_Service_GroupsMigration_Archive_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -90,20 +89,20 @@ class Google_Service_GroupsMigration_Archive_Resource extends Google_Service_Res
    * @param string $groupId
    * The group ID
    * @param array $optParams Optional parameters.
-   * @return Google_Service_GroupsMigration_Groups
+   * @return Google_0814_Service_GroupsMigration_Groups
    */
   public function insert($groupId, $optParams = array())
   {
     $params = array('groupId' => $groupId);
     $params = array_merge($params, $optParams);
-    return $this->call('insert', array($params), "Google_Service_GroupsMigration_Groups");
+    return $this->call('insert', array($params), "Google_0814_Service_GroupsMigration_Groups");
   }
 }
 
 
 
 
-class Google_Service_GroupsMigration_Groups extends Google_Model
+class Google_0814_Service_GroupsMigration_Groups extends Google_0814_Model
 {
   public $kind;
   public $responseCode;
@@ -127,5 +126,4 @@ class Google_Service_GroupsMigration_Groups extends Google_Model
   {
     return $this->responseCode;
   }
-}
 }

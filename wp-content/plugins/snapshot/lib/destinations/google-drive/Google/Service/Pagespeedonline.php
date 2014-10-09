@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_Pagespeedonline')) {
-class Google_Service_Pagespeedonline extends Google_Service
+class Google_0814_Service_Pagespeedonline extends Google_0814_Service
 {
 
 
@@ -40,16 +39,16 @@ class Google_Service_Pagespeedonline extends Google_Service
   /**
    * Constructs the internal representation of the Pagespeedonline service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'pagespeedonline/v1/';
     $this->version = 'v1';
     $this->serviceName = 'pagespeedonline';
 
-    $this->pagespeedapi = new Google_Service_Pagespeedonline_Pagespeedapi_Resource(
+    $this->pagespeedapi = new Google_0814_Service_Pagespeedonline_Pagespeedapi_Resource(
         $this,
         $this->serviceName,
         'pagespeedapi',
@@ -72,18 +71,14 @@ class Google_Service_Pagespeedonline extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'snapshots' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
-                'strategy' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'rule' => array(
                   'location' => 'query',
                   'type' => 'string',
                   'repeated' => true,
+                ),
+                'strategy' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
                 'filter_third_party_resources' => array(
                   'location' => 'query',
@@ -102,11 +97,11 @@ class Google_Service_Pagespeedonline extends Google_Service
  * The "pagespeedapi" collection of methods.
  * Typical usage is:
  *  <code>
- *   $pagespeedonlineService = new Google_Service_Pagespeedonline(...);
+ *   $pagespeedonlineService = new Google_0814_Service_Pagespeedonline(...);
  *   $pagespeedapi = $pagespeedonlineService->pagespeedapi;
  *  </code>
  */
-class Google_Service_Pagespeedonline_Pagespeedapi_Resource extends Google_Service_Resource
+class Google_0814_Service_Pagespeedonline_Pagespeedapi_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -122,45 +117,43 @@ class Google_Service_Pagespeedonline_Pagespeedapi_Resource extends Google_Servic
    * Indicates if binary data containing a screenshot should be included
    * @opt_param string locale
    * The locale used to localize formatted results
-   * @opt_param bool snapshots
-   * Indicates if binary data containing snapshot images should be included
-   * @opt_param string strategy
-   * The analysis strategy to use
    * @opt_param string rule
    * A Page Speed rule to run; if none are given, all rules are run
-   * @opt_param bool filterThirdPartyResources
+   * @opt_param string strategy
+   * The analysis strategy to use
+   * @opt_param bool filter_third_party_resources
    * Indicates if third party resources should be filtered out before PageSpeed analysis.
-   * @return Google_Service_Pagespeedonline_Result
+   * @return Google_0814_Service_Pagespeedonline_Result
    */
   public function runpagespeed($url, $optParams = array())
   {
     $params = array('url' => $url);
     $params = array_merge($params, $optParams);
-    return $this->call('runpagespeed', array($params), "Google_Service_Pagespeedonline_Result");
+    return $this->call('runpagespeed', array($params), "Google_0814_Service_Pagespeedonline_Result");
   }
 }
 
 
 
 
-class Google_Service_Pagespeedonline_Result extends Google_Collection
+class Google_0814_Service_Pagespeedonline_Result extends Google_0814_Collection
 {
-  protected $formattedResultsType = 'Google_Service_Pagespeedonline_ResultFormattedResults';
+  protected $formattedResultsType = 'Google_0814_Service_Pagespeedonline_ResultFormattedResults';
   protected $formattedResultsDataType = '';
   public $id;
   public $invalidRules;
   public $kind;
-  protected $pageStatsType = 'Google_Service_Pagespeedonline_ResultPageStats';
+  protected $pageStatsType = 'Google_0814_Service_Pagespeedonline_ResultPageStats';
   protected $pageStatsDataType = '';
   public $responseCode;
   public $score;
-  protected $screenshotType = 'Google_Service_Pagespeedonline_ResultScreenshot';
+  protected $screenshotType = 'Google_0814_Service_Pagespeedonline_ResultScreenshot';
   protected $screenshotDataType = '';
   public $title;
-  protected $versionType = 'Google_Service_Pagespeedonline_ResultVersion';
+  protected $versionType = 'Google_0814_Service_Pagespeedonline_ResultVersion';
   protected $versionDataType = '';
 
-  public function setFormattedResults(Google_Service_Pagespeedonline_ResultFormattedResults $formattedResults)
+  public function setFormattedResults(Google_0814_Service_Pagespeedonline_ResultFormattedResults $formattedResults)
   {
     $this->formattedResults = $formattedResults;
   }
@@ -200,7 +193,7 @@ class Google_Service_Pagespeedonline_Result extends Google_Collection
     return $this->kind;
   }
 
-  public function setPageStats(Google_Service_Pagespeedonline_ResultPageStats $pageStats)
+  public function setPageStats(Google_0814_Service_Pagespeedonline_ResultPageStats $pageStats)
   {
     $this->pageStats = $pageStats;
   }
@@ -230,7 +223,7 @@ class Google_Service_Pagespeedonline_Result extends Google_Collection
     return $this->score;
   }
 
-  public function setScreenshot(Google_Service_Pagespeedonline_ResultScreenshot $screenshot)
+  public function setScreenshot(Google_0814_Service_Pagespeedonline_ResultScreenshot $screenshot)
   {
     $this->screenshot = $screenshot;
   }
@@ -250,7 +243,7 @@ class Google_Service_Pagespeedonline_Result extends Google_Collection
     return $this->title;
   }
 
-  public function setVersion(Google_Service_Pagespeedonline_ResultVersion $version)
+  public function setVersion(Google_0814_Service_Pagespeedonline_ResultVersion $version)
   {
     $this->version = $version;
   }
@@ -261,10 +254,10 @@ class Google_Service_Pagespeedonline_Result extends Google_Collection
   }
 }
 
-class Google_Service_Pagespeedonline_ResultFormattedResults extends Google_Model
+class Google_0814_Service_Pagespeedonline_ResultFormattedResults extends Google_0814_Model
 {
   public $locale;
-  protected $ruleResultsType = 'Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElement';
+  protected $ruleResultsType = 'Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElement';
   protected $ruleResultsDataType = 'map';
 
   public function setLocale($locale)
@@ -288,11 +281,16 @@ class Google_Service_Pagespeedonline_ResultFormattedResults extends Google_Model
   }
 }
 
-class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElement extends Google_Collection
+class Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResults extends Google_0814_Model
+{
+
+}
+
+class Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElement extends Google_0814_Collection
 {
   public $localizedRuleName;
   public $ruleImpact;
-  protected $urlBlocksType = 'Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocks';
+  protected $urlBlocksType = 'Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocks';
   protected $urlBlocksDataType = 'array';
 
   public function setLocalizedRuleName($localizedRuleName)
@@ -326,14 +324,14 @@ class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElement ex
   }
 }
 
-class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocks extends Google_Collection
+class Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocks extends Google_0814_Collection
 {
-  protected $headerType = 'Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksHeader';
+  protected $headerType = 'Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksHeader';
   protected $headerDataType = '';
-  protected $urlsType = 'Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrls';
+  protected $urlsType = 'Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrls';
   protected $urlsDataType = 'array';
 
-  public function setHeader(Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksHeader $header)
+  public function setHeader(Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksHeader $header)
   {
     $this->header = $header;
   }
@@ -354,9 +352,9 @@ class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrl
   }
 }
 
-class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksHeader extends Google_Collection
+class Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksHeader extends Google_0814_Collection
 {
-  protected $argsType = 'Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksHeaderArgs';
+  protected $argsType = 'Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksHeaderArgs';
   protected $argsDataType = 'array';
   public $format;
 
@@ -381,7 +379,7 @@ class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrl
   }
 }
 
-class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksHeaderArgs extends Google_Model
+class Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksHeaderArgs extends Google_0814_Model
 {
   public $type;
   public $value;
@@ -407,11 +405,11 @@ class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrl
   }
 }
 
-class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrls extends Google_Collection
+class Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrls extends Google_0814_Collection
 {
-  protected $detailsType = 'Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsDetails';
+  protected $detailsType = 'Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsDetails';
   protected $detailsDataType = 'array';
-  protected $resultType = 'Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsResult';
+  protected $resultType = 'Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsResult';
   protected $resultDataType = '';
 
   public function setDetails($details)
@@ -424,7 +422,7 @@ class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrl
     return $this->details;
   }
 
-  public function setResult(Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsResult $result)
+  public function setResult(Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsResult $result)
   {
     $this->result = $result;
   }
@@ -435,9 +433,9 @@ class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrl
   }
 }
 
-class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsDetails extends Google_Collection
+class Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsDetails extends Google_0814_Collection
 {
-  protected $argsType = 'Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsDetailsArgs';
+  protected $argsType = 'Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsDetailsArgs';
   protected $argsDataType = 'array';
   public $format;
 
@@ -462,7 +460,7 @@ class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrl
   }
 }
 
-class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsDetailsArgs extends Google_Model
+class Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsDetailsArgs extends Google_0814_Model
 {
   public $type;
   public $value;
@@ -488,9 +486,9 @@ class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrl
   }
 }
 
-class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsResult extends Google_Collection
+class Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsResult extends Google_0814_Collection
 {
-  protected $argsType = 'Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsResultArgs';
+  protected $argsType = 'Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsResultArgs';
   protected $argsDataType = 'array';
   public $format;
 
@@ -515,7 +513,7 @@ class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrl
   }
 }
 
-class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsResultArgs extends Google_Model
+class Google_0814_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsResultArgs extends Google_0814_Model
 {
   public $type;
   public $value;
@@ -541,7 +539,7 @@ class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrl
   }
 }
 
-class Google_Service_Pagespeedonline_ResultPageStats extends Google_Model
+class Google_0814_Service_Pagespeedonline_ResultPageStats extends Google_0814_Model
 {
   public $cssResponseBytes;
   public $flashResponseBytes;
@@ -688,7 +686,7 @@ class Google_Service_Pagespeedonline_ResultPageStats extends Google_Model
   }
 }
 
-class Google_Service_Pagespeedonline_ResultScreenshot extends Google_Model
+class Google_0814_Service_Pagespeedonline_ResultScreenshot extends Google_0814_Model
 {
   public $data;
   public $height;
@@ -736,7 +734,7 @@ class Google_Service_Pagespeedonline_ResultScreenshot extends Google_Model
   }
 }
 
-class Google_Service_Pagespeedonline_ResultVersion extends Google_Model
+class Google_0814_Service_Pagespeedonline_ResultVersion extends Google_0814_Model
 {
   public $major;
   public $minor;
@@ -760,5 +758,4 @@ class Google_Service_Pagespeedonline_ResultVersion extends Google_Model
   {
     return $this->minor;
   }
-}
 }

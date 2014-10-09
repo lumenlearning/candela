@@ -16,19 +16,20 @@
  */
 
 /**
- * Http Streams based implementation of Google_IO.
+ * Http Streams based implementation of Google_0814_IO.
  *
  * @author Stuart Langley <slangley@google.com>
  */
 
 require_once 'Google/IO/Abstract.php';
 
-if (!class_exists('Google_IO_Stream')) {
-class Google_IO_Stream extends Google_IO_Abstract
+class Google_0814_IO_Stream extends Google_0814_IO_Abstract
 {
   const TIMEOUT = "timeout";
   const ZLIB = "compress.zlib://";
   private $options = array();
+  private $trappedErrorNumber;
+  private $trappedErrorString;
 
   private static $DEFAULT_HTTP_CONTEXT = array(
     "follow_location" => 0,
@@ -42,12 +43,12 @@ class Google_IO_Stream extends Google_IO_Abstract
   /**
    * Execute an HTTP Request
    *
-   * @param Google_HttpRequest $request the http request to be executed
-   * @return Google_HttpRequest http request with the response http code,
+   * @param Google_0814_HttpRequest $request the http request to be executed
+   * @return Google_0814_HttpRequest http request with the response http code,
    * response headers and response body filled in
-   * @throws Google_IO_Exception on curl or IO error
+   * @throws Google_0814_IO_Exception on curl or IO error
    */
-  public function executeRequest(Google_Http_Request $request)
+  public function executeRequest(Google_0814_Http_Request $request)
   {
     $default_options = stream_context_get_options(stream_context_get_default());
 
@@ -96,11 +97,26 @@ class Google_IO_Stream extends Google_IO_Abstract
       $url = self::ZLIB . $url;
     }
 
-    // Not entirely happy about this, but supressing the warning from the
-    // fopen seems like the best situation here - we can't do anything
-    // useful with it, and failure to connect is a legitimate run
-    // time situation.
-    @$fh = fopen($url, 'r', false, $context);
+    // We are trapping any thrown errors in this method only and
+    // throwing an exception.
+    $this->trappedErrorNumber = null;
+    $this->trappedErrorString = null;
+
+    // START - error trap.
+    set_error_handler(array($this, 'trapError'));
+    $fh = fopen($url, 'r', false, $context);
+    restore_error_handler();
+    // END - error trap.
+
+    if ($this->trappedErrorNumber) {
+      throw new Google_0814_IO_Exception(
+          sprintf(
+              "HTTP Error: Unable to connect: '%s'",
+              $this->trappedErrorString
+          ),
+          $this->trappedErrorNumber
+      );
+    }
 
     $response_data = false;
     $respHttpCode = self::UNKNOWN_CODE;
@@ -116,7 +132,7 @@ class Google_IO_Stream extends Google_IO_Abstract
     }
 
     if (false === $response_data) {
-      throw new Google_IO_Exception(
+      throw new Google_0814_IO_Exception(
           sprintf(
               "HTTP Error: Unable to connect: '%s'",
               $respHttpCode
@@ -140,6 +156,16 @@ class Google_IO_Stream extends Google_IO_Abstract
   }
 
   /**
+   * Method to handle errors, used for error handling around
+   * stream connection methods.
+   */
+  public function trapError($errno, $errstr)
+  {
+    $this->trappedErrorNumber = $errno;
+    $this->trappedErrorString = $errstr;
+  }
+
+  /**
    * Set the maximum request time in seconds.
    * @param $timeout in seconds
    */
@@ -158,13 +184,15 @@ class Google_IO_Stream extends Google_IO_Abstract
   }
 
   /**
-   * Determine whether "Connection Established" quirk is needed
+   * Test for the presence of a cURL header processing bug
+   *
+   * {@inheritDoc}
+   *
    * @return boolean
    */
   protected function needsQuirk()
   {
-      // Stream needs the special quirk
-      return true;
+    return false;
   }
 
   protected function getHttpResponseCode($response_headers)
@@ -180,5 +208,4 @@ class Google_IO_Stream extends Google_IO_Abstract
     }
     return self::UNKNOWN_CODE;
   }
-}
 }

@@ -7,6 +7,21 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+2.4.3.0 2014-09-18
+----------------------------------------------------------------------
+- Fixed issue where WordPress core files have been placed in a different location as per http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory  
+
+2.4.2.9 2014-09-18
+----------------------------------------------------------------------
+- Fixed issue preventing some users to upgrade.
+
+2.4.2.8 2014-09-15
+----------------------------------------------------------------------
+- Updated Google API client for Google Drive integration. Not a bad idea to re-authorize Google Drive destinations.
+- Fixed issue with file paths causing problems with networks in sub-directories.  
+- Fixed issue with paths causing issue with Domain Mapping plugin.  
+
+
 2.4.2.7 2014-07-24
 ----------------------------------------------------------------------
 - Fixed critical bug with 'local server' as the destination. Automatic backup restored.
@@ -297,4 +312,4 @@ http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it
 - Initial stable release
 
 
-94382-1408466579-ai
+94382-1412860609

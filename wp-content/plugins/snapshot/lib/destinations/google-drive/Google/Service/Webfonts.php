@@ -29,8 +29,7 @@
  *
  * @author Google, Inc.
  */
-if (!class_exists('Google_Service_Webfonts')) {
-class Google_Service_Webfonts extends Google_Service
+class Google_0814_Service_Webfonts extends Google_0814_Service
 {
 
 
@@ -40,16 +39,16 @@ class Google_Service_Webfonts extends Google_Service
   /**
    * Constructs the internal representation of the Webfonts service.
    *
-   * @param Google_Client $client
+   * @param Google_0814_Client $client
    */
-  public function __construct(Google_Client $client)
+  public function __construct(Google_0814_Client $client)
   {
     parent::__construct($client);
     $this->servicePath = 'webfonts/v1/';
     $this->version = 'v1';
     $this->serviceName = 'webfonts';
 
-    $this->webfonts = new Google_Service_Webfonts_Webfonts_Resource(
+    $this->webfonts = new Google_0814_Service_Webfonts_Webfonts_Resource(
         $this,
         $this->serviceName,
         'webfonts',
@@ -76,11 +75,11 @@ class Google_Service_Webfonts extends Google_Service
  * The "webfonts" collection of methods.
  * Typical usage is:
  *  <code>
- *   $webfontsService = new Google_Service_Webfonts(...);
+ *   $webfontsService = new Google_0814_Service_Webfonts(...);
  *   $webfonts = $webfontsService->webfonts;
  *  </code>
  */
-class Google_Service_Webfonts_Webfonts_Resource extends Google_Service_Resource
+class Google_0814_Service_Webfonts_Webfonts_Resource extends Google_0814_Service_Resource
 {
 
   /**
@@ -91,20 +90,20 @@ class Google_Service_Webfonts_Webfonts_Resource extends Google_Service_Resource
    *
    * @opt_param string sort
    * Enables sorting of the list
-   * @return Google_Service_Webfonts_WebfontList
+   * @return Google_0814_Service_Webfonts_WebfontList
    */
   public function listWebfonts($optParams = array())
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_Webfonts_WebfontList");
+    return $this->call('list', array($params), "Google_0814_Service_Webfonts_WebfontList");
   }
 }
 
 
 
 
-class Google_Service_Webfonts_Webfont extends Google_Collection
+class Google_0814_Service_Webfonts_Webfont extends Google_0814_Collection
 {
   public $category;
   public $family;
@@ -196,9 +195,14 @@ class Google_Service_Webfonts_Webfont extends Google_Collection
   }
 }
 
-class Google_Service_Webfonts_WebfontList extends Google_Collection
+class Google_0814_Service_Webfonts_WebfontFiles extends Google_0814_Model
 {
-  protected $itemsType = 'Google_Service_Webfonts_Webfont';
+
+}
+
+class Google_0814_Service_Webfonts_WebfontList extends Google_0814_Collection
+{
+  protected $itemsType = 'Google_0814_Service_Webfonts_Webfont';
   protected $itemsDataType = 'array';
   public $kind;
 
@@ -221,5 +225,4 @@ class Google_Service_Webfonts_WebfontList extends Google_Collection
   {
     return $this->kind;
   }
-}
 }
