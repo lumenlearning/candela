@@ -17,6 +17,18 @@ The following instructions assume basic familiarity with installing Wordpress, a
   * Username: `******`
   * Password: `******`
   * Email: `******`
+1. Edit wp-config.php and add the following just above the line `/* That's all, stop editing! Happy blogging. */
+`;
+````
+    /* Multisite */
+    define( 'WP_ALLOW_MULTISITE', true );
+
+    /* Pressbooks configuration */
+    define( 'PB_PRINCE_COMMAND', '/usr/bin/prince' );
+    define( 'PB_KINDLEGEN_COMMAND', '/home/vagrant/kindlegen/kindlegen' );
+    define( 'PB_EPUBCHECK_COMMAND', '/usr/bin/java -jar /home/vagrant/epubcheck-3.0.1/epubcheck-3.0.1.jar' );
+    define( 'PB_XMLLINT_COMMAND', '/usr/bin/xmllint' );
+````
 1. Click "Log in"
 1. Login with details just created.
 1. Tools -> Network Setup
