@@ -1,0 +1,40 @@
+  body {
+    background: white
+		font:14px/1.6em "Lucida Grand", "Lucida Sans", "Lucida Sans Unicode", Arial;
+	}
+
+  section {
+    background: black;
+		color:#C0B8B0;
+    border-radius: 1em;
+    padding: 1em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+	}
+
+	h1,h2,h3 {
+		font-family:Calibri, "Franklin Gothic", Arial;
+		color:#EEE;
+	}
+	h1 { margin: 0 0 .6em;  }
+	h2 { margin: 1.07em 0 .535em; }
+	h3 { margin: 1.14em 0 .57em; }
+	h4 { margin: 1.23em 0 .615em; }
+	h5 { margin: 1.33em 0 .67em; }
+	h6 { margin: 1.6em 0 .8em; }
+
+	strong {
+		color:#D47F31;
+	}
+	a:link,
+	a:visited {
+		color:#D54E21;
+		text-decoration:none;
+	}
+	a:hover,
+	a:active {
+		color:#56A5EC;
+	}
