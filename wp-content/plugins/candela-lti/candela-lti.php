@@ -144,6 +144,9 @@ class CandelaLTI {
    * required.
    */
   public static function lti_accounts() {
+
+    global $wp;
+
     // Used to track if we call wp_logout() since is_user_logged_in() will still
     // report true after our call to that.
     // @see http://wordpress.stackexchange.com/questions/13087/wp-logout-not-logging-me-out
@@ -190,6 +193,12 @@ class CandelaLTI {
     // Associate the external id with this account.
     if ( ! empty($_POST['user_id'] ) ) {
       CandelaLTI::set_external_id_for_userid( $user->ID, $_POST['user_id'] );
+    }
+
+    // Associate the user with this blog as a subscriber if not already associated.
+    $blog = (int)$wp->query_vars['blog'];
+    if ( ! empty( $blog ) && ! is_user_member_of_blog( $user->ID, $blog ) ) {
+      add_user_to_blog( $blog, $user->ID, 'subscriber');
     }
   }
 
@@ -437,10 +446,12 @@ class CandelaLTI {
    */
   public static function content_map_lti_launch( $content ) {
     if ( is_single() && CandelaLTI::user_can_map_lti_links() ) {
+
       $map = CandelaLTI::get_lti_map();
       $target_action = get_permalink();
       $resource_link_id = '';
       $links = array();
+
       if ( empty( $map ) || ( empty( $map->target_action ) && ! empty( $map->resource_link_id ) ) ) {
         $resource_link_id = $map->resource_link_id;
         // Map is either not set at all or needs to be set, inject content to do so.
@@ -481,11 +492,26 @@ class CandelaLTI {
    * @todo add proper checks, currently this just checks if the user is logged in.
    */
   public static function user_can_map_lti_links() {
+    global $wp;
+
+    $switched = FALSE;
+    if ( ! ( empty( $wp->query_vars['blog'] ) ) ){
+      switch_to_blog( (int) $wp->query_vars['blog'] );
+      $switched = TRUE;
+    }
+
     if ( is_user_logged_in() ) {
       $current_user = wp_get_current_user();
+
       if ( $current_user->has_cap(CANDELA_LTI_CAP_LINK_LTI) ) {
+        if ( $switched ) {
+          restore_current_blog();
+        }
         return TRUE;
       }
+    }
+    if ( $switched ) {
+      restore_current_blog();
     }
     return FALSE;
   }
