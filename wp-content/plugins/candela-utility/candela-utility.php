@@ -220,6 +220,13 @@ function pressbooks_new_blog() {
 	$options['copyright_license'] = 1;
 	update_option('pressbooks_theme_options_global', $options);
 
+	// Update new blog urls to https
+	$urls = array('home', 'siteurl');
+	foreach ( $urls as $option ) {
+		$value = get_option( $option );
+		update_option($option , str_replace( 'http://', 'https://', $value) );
+	}
+
 }
 
 /**
