@@ -43,9 +43,6 @@
 						</script>
 					</div>
 				<?php endif; ?>
-				<?php if ( $license = CandelaLicense::renderLicense( $post->ID ) ): ?>
-					<?php echo $license ?>
-				<?php endif; ?>
 
 				</div><!-- #content -->
 
