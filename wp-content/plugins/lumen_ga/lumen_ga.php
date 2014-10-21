@@ -6,7 +6,7 @@
 /*
 Plugin Name: Candela Analytics
 Plugin URI: http://lumenlearning.com/
-Description: Adds Google Analyics tracking code to the theme header
+Description: Adds Google Analyics tracking code to the theme header. This plugin assumes that you will set LUMEN_GA_WEB_PROPERTY_ID and LUMEN_GA_COOKIE_DOMAIN in wp-config.php.
 Version: 0.1
 Author URI: http://lumenlearning.com
 */
