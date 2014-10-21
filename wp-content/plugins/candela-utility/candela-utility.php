@@ -212,4 +212,10 @@ function embed_oembed_html($html, $url, $attr) {
 function pressbooks_new_blog() {
 	// Change to a different theme
 	switch_theme( 'candela' );
+
+	// Set copyright to display by default
+	$options = get_option( 'pressbooks_theme_options_global' );
+	$options['copyright_license'] = 1;
+	update_option('pressbooks_theme_options_global', $options);
+
 }
