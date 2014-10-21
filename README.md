@@ -41,14 +41,15 @@ The following instructions assume basic familiarity with installing Wordpress, a
 1. Once above edits are made relogin
 1. Navigate to "My Sites" -> "Network Admin" -> "Plugins"
 1. "Network Activate" Pressbooks
-1. "Network Activate" PressBooks Textbook
 1. "Network Activate" Disable Comments
+1. "Network Activate" Candela Analytics
 1. "Network Activate" Candela Citations
-1. "Network Activate" Candela License
+1. "Network Activate" Candela Links
+1. "Network Activate" Candela Utility
 1. Use the "Settings" link for Disable Comments to access the settings page. Select "Everywhere: Disable all comment-related controls and settings in WordPress." Click the "Save Changes" button.
 1. Navigate to "My Catalog" -> "Network Admin" -> "Themes"
 1. Select "Installed Themes"
-1. "Network Enable" the "Open Textbooks" theme - NOTE - this theme has all the PBTB functionality. The other PB specific themes will also work, but will not deliver the PBTB featureset
+1. "Network Enable" the "Candela" theme
 1. Navigate to "My Catalog" -> "Network Admin" -> "Dashboard"
 1. Select "Settings" -> "Network Settings"
 1. In the "Allow new registrations" section, select: "Logged in users may register new sites." This allows members with adequate privileges to create their own books
