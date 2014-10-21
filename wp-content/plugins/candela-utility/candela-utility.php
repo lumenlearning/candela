@@ -33,6 +33,8 @@ function init() {
 	add_action( 'admin_menu', '\Candela\Utility\adjust_admin_menu', 11);
 	add_action( 'plugins_loaded', '\Candela\Utility\remove_pressbooks_branding' );
 	add_action( 'pressbooks_new_blog', '\Candela\Utility\pressbooks_new_blog' );
+	add_action( 'wp_insert_post', '\Candela\Utility\pressbooks_new_book_info' );
+
 
 	add_filter( 'admin_footer_text', '\Candela\Utility\add_footer_link' );
 	add_action( 'admin_bar_menu', '\Candela\Utility\replace_menu_bar_branding', 11 );
@@ -218,4 +220,19 @@ function pressbooks_new_blog() {
 	$options['copyright_license'] = 1;
 	update_option('pressbooks_theme_options_global', $options);
 
+}
+
+/**
+ * Update default book info settings.
+ *
+ * A default book info post is created when the "Book Info" section is first
+ * visited but not prior. As such we can safely override the defaults on insert
+ * because there was no user input.
+ */
+function pressbooks_new_book_info( $post_id ) {
+	// There is exactly one 'metadata' post per wordpress site
+	if ( get_post_type( $post_id ) == 'metadata' ) {
+		update_post_meta( $post_id, 'pb_book_license', 'cc-by' );
+		update_post_meta( $post_id, 'pb_copyright_holder', 'Lumen Learning' );
+	}
 }
