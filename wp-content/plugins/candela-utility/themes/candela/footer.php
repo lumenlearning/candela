@@ -44,6 +44,9 @@
 
 				</table>
 				<?php endif; ?>
+
+				<?php echo pressbooks_copyright_license(); ?>
+
 		<?php endif; ?>
 	</div><!-- #inner -->
 </div><!-- #footer -->
