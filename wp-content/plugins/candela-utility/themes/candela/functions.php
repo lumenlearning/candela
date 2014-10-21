@@ -11,8 +11,8 @@ function fitzgerald_enqueue_styles() {
 add_action( 'wp_print_styles', 'fitzgerald_enqueue_styles' );
 
 /**
- * Returns an html blog of meta elements 
- * 
+ * Returns an html blog of meta elements
+ *
  * @return string $html metadata
  */
 function pbt_get_seo_meta_elements() {
@@ -69,19 +69,5 @@ function pbt_get_microdata_meta_elements() {
 		}
 	}
 
-	// add elements that aren't captured, and don't need user input
-	$lrmi_meta = array(
-	    'educationalAlignment' => $metadata['pb_bisac_subject'],
-	    'educationalUse' => 'Open textbook study',
-	    'audience' => 'student',
-	    'interactivityType' => 'mixed',
-	    'learningResourceType' => 'textbook',
-	    'typicalAgeRange' => '17-',
-	);
-
-	foreach ( $lrmi_meta as $itemprop => $content ) {
-		// @todo parse educationalAlignment items into alignmentOjects
-		$html .= "<meta itemprop='" . $itemprop . "' content='" . $content . "' id='" . $itemprop . "'>\n";
-	}
 	return $html;
 }
