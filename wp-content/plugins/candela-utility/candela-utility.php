@@ -32,6 +32,7 @@ function init() {
 	add_filter( 'gettext_with_context', '\Candela\Utility\gettext_with_context', 20, 4 );
 	add_action( 'admin_menu', '\Candela\Utility\adjust_admin_menu', 11);
 	add_action( 'plugins_loaded', '\Candela\Utility\remove_pressbooks_branding' );
+	add_action( 'pressbooks_new_blog', '\Candela\Utility\pressbooks_new_blog' );
 
 	add_filter( 'admin_footer_text', '\Candela\Utility\add_footer_link' );
 	add_action( 'admin_bar_menu', '\Candela\Utility\replace_menu_bar_branding', 11 );
@@ -203,4 +204,12 @@ function embed_oembed_html($html, $url, $attr) {
 	}
 	return $html;
 
+}
+
+/**
+ * Necessary configuration updates and changes when a new blog/book is created.
+ */
+function pressbooks_new_blog() {
+	// Change to a different theme
+	switch_theme( 'candela' );
 }
