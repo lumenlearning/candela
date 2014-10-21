@@ -18,9 +18,11 @@ define('LUMEN_GA_USERMETA_UUID', 'lumen_ga_uuid');
 define('LUMEN_GA_UUID_LENGTH', 32);
 
 function lumen_ga_script() {
-  lumen_ga_header();
-  lumen_ga_custom();
-  lumen_ga_footer();
+  if ( defined( 'LUMEN_GA_WEB_PROPERTY_ID' ) && defined( 'LUMEN_GA_COOKIE_DOMAIN' ) ) {
+    lumen_ga_header();
+    lumen_ga_custom();
+    lumen_ga_footer();
+  }
 }
 
 function lumen_ga_header() {
