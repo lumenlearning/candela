@@ -25,7 +25,7 @@ init();
 const VERSION = '0.1';
 
 function init() {
-	add_action( 'init', '\Candela\Utility\register_theme' );
+	add_action( 'init', '\Candela\Utility\wp_init' );
 	add_action( 'wp_enqueue_style', '\Candela\Utility\register_child_theme' );
 	add_filter( 'allowed_themes', '\Candela\Utility\add_theme', 12 );
 	add_filter( 'gettext', '\Candela\Utility\gettext', 20, 3 );
@@ -90,6 +90,11 @@ function remove_pressbooks_branding() {
 	remove_action( 'admin_head', '\PressBooks\Admin\Laf\add_feedback_dialogue' );
 	remove_filter( 'admin_footer_text', '\PressBooks\Admin\Laf\add_footer_link' );
 	remove_action( 'admin_bar_menu', '\PressBooks\Admin\Laf\replace_menu_bar_branding', 11 );
+}
+
+function wp_init() {
+	register_theme();
+	register_oembed_providers();
 }
 
 function register_theme() {
@@ -204,8 +209,58 @@ function embed_oembed_html($html, $url, $attr) {
 	if ( is_ssl() ) {
 		return str_replace('http://', 'https://', $html);
 	}
-	return $html;
 
+	return $html;
+}
+
+/**
+ * Add any new oembed_providers (This is currently a workaround for https://github.com/tatemae/oea/issues/44)
+ */
+function register_oembed_providers() {
+	$providers = array(
+		'openassessments.com' => array(
+			'regex' => '#https?://(openassessments\.com)/assessments/(.*)#i',
+		),
+		'openassessments.org' => array(
+			'regex' => '#https?://(openassessments\.org)/assessments/(.*)#i',
+		),
+		'openassessments.com' => array(
+			'regex' => '#https?://(www\.openassessments\.com)/assessments/(.*)#i',
+		),
+		'openassessments.org' => array(
+			'regex' => '#https?://(www.\openassessments\.org)/assessments/(.*)#i',
+		),
+		'oea.herokuapp.com' => array(
+			'regex' => '#https?://(oea\.herokuapp\.com)/assessments/(.*)#i',
+		),
+	);
+
+	foreach ($providers as $id => $info ) {
+		wp_embed_register_handler( $id, $info['regex'], '\Candela\Utility\embed_handler' );
+	}
+}
+
+/**
+ * Handle embeds
+ */
+function embed_handler( $matches, $attr, $url, $rawattr ) {
+	$parameters = array(
+		'confidence_levels=true',
+		'enable_start=true',
+	);
+
+	$parms = implode('&', $parameters);
+
+	$embed = sprintf( '<iframe src="//%s/assessments/load?src_url=https://%s/api/assessments/%d/.xml&results_end_point=https://%s/api&assessment_id=%d&%s" frameborder="0" style="border:none;width:100%%;height:100%%;min-height:400px;"></iframe>',
+		esc_attr($matches[1]),
+		esc_attr($matches[1]),
+		esc_attr($matches[2]),
+		esc_attr($matches[1]),
+		esc_attr($matches[2]),
+		$parms
+	);
+
+	return apply_filters( 'embed_oea', $embed, $matches, $attr, $url, $rawattr );
 }
 
 /**
@@ -243,3 +298,4 @@ function pressbooks_new_book_info( $post_id ) {
 		update_post_meta( $post_id, 'pb_copyright_holder', 'Lumen Learning' );
 	}
 }
+
