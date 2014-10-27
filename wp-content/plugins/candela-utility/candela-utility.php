@@ -132,7 +132,7 @@ function adjust_admin_menu() {
 	}
 
 	// Remove items that non-admins should not see
-	if ( ! in_array('administrator', $current_user->roles) ) {
+	if ( ! ( in_array('administrator', $current_user->roles) || is_super_admin() ) ) {
 		remove_menu_page('themes.php');
 		remove_menu_page('pb_export');
 		remove_menu_page('pb_import');
@@ -143,7 +143,7 @@ function adjust_admin_menu() {
 	}
 
 	// Remove items for non-admins and non-editors
-	if ( ! ( in_array('administrator' , $current_user->roles ) || in_array('editor', $current_user->roles) ) ) {
+	if ( ! ( in_array('administrator' , $current_user->roles ) || in_array('editor', $current_user->roles) || is_super_admin() ) ) {
 		$metadata = new \PressBooks\Metadata();
 		$meta = $metadata->getMetaPost();
 		if ( ! empty( $meta ) ) {
