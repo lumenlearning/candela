@@ -34,6 +34,7 @@ function init() {
 	add_action( 'plugins_loaded', '\Candela\Utility\remove_pressbooks_branding' );
 	add_action( 'pressbooks_new_blog', '\Candela\Utility\pressbooks_new_blog' );
 	add_action( 'wp_insert_post', '\Candela\Utility\pressbooks_new_book_info' );
+	add_action( 'custom_metadata_manager_init_metadata', '\Candela\Utility\add_meta_boxes' );
 
 
 	add_filter( 'admin_footer_text', '\Candela\Utility\add_footer_link' );
@@ -300,3 +301,40 @@ function pressbooks_new_book_info( $post_id ) {
 	}
 }
 
+/**
+ * Add metadata information for Candela.
+ */
+function add_meta_boxes() {
+	x_add_metadata_group( 'candela-book-information', 'metadata', array(
+		'label' => __( 'Candela Book Information', 'pressbooks' ),
+		'priority' => 'high',
+	) );
+
+	$fields = array(
+		'candela-course-id' => array(
+			'label' => __('Course Id'),
+		),
+		'candela-faculty-first-name' => array(
+			'label' => __('Faculty First Name'),
+		),
+		'candela-faculty-last-name' => array(
+			'label' => __('Faculty Last Name'),
+		),
+		'candela-year' => array(
+			'label' => __('Year'),
+		),
+		'candela-semsester' => array(
+			'label' => __('Semester'),
+			'description' => __(''),
+		),
+		'candela-previous-textbook-cost' => array(
+			'label' => __('Previous Textbook Cost'),
+			'description' => __('Previous textbook cost rounded down to the nearest dollar.'),
+		),
+	);
+
+	foreach ($fields as $key => $info) {
+		$info['group'] = 'candela-book-information';
+		x_add_metadata_field( $key, 'metadata', $info);
+	}
+}
