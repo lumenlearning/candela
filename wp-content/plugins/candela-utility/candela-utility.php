@@ -246,9 +246,16 @@ function register_oembed_providers() {
  * Handle embeds
  */
 function embed_handler( $matches, $attr, $url, $rawattr ) {
+	// Use the current post as the external id
+	$permalink = get_permalink();
+	if ( empty( $permalink ) ) {
+		$permalink = get_bloginfo( 'url' );
+	}
+
 	$parameters = array(
 		'confidence_levels=true',
 		'enable_start=true',
+		'eid=' . esc_url($permalink),
 	);
 
 	$parms = implode('&', $parameters);
