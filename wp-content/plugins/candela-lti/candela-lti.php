@@ -353,7 +353,6 @@ class CandelaLTI {
           '%s',
           '%s',
           '%d',
-          '%s',
           '%d',
         );
 
