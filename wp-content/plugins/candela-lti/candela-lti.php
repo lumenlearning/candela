@@ -475,7 +475,7 @@ class CandelaLTI {
             // don't include add and delete link
             unset($links['add']);
           }
-          $url = $base_url . '&action=delete&ID=' . $map->ID;
+          $url = $base_url . '&action=delete&ID=' . $map->ID . '&blog=' . get_current_blog_id();
           $links[] = '<a class="btn red" href="' . $url . '"title="' . esc_attr( str_replace('##RES##', $map->resource_link_id, $hover) ) . '">' . $text . '</a>';
         }
       }
