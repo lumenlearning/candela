@@ -226,10 +226,10 @@ function register_oembed_providers() {
 		'openassessments.org' => array(
 			'regex' => '#https?://(openassessments\.org)/assessments/(.*)#i',
 		),
-		'openassessments.com' => array(
+		'wwwopenassessments.com' => array(
 			'regex' => '#https?://(www\.openassessments\.com)/assessments/(.*)#i',
 		),
-		'openassessments.org' => array(
+		'wwwopenassessments.org' => array(
 			'regex' => '#https?://(www.\openassessments\.org)/assessments/(.*)#i',
 		),
 		'oea.herokuapp.com' => array(
