@@ -328,6 +328,7 @@ class CandelaLTI {
    */
   public static function parse_request() {
     global $wp, $wpdb;
+
     if ( CandelaLTI::user_can_map_lti_links() && isset( $wp->query_vars['__candelalti'] ) && !empty($wp->query_vars['__candelalti'] ) ) {
       // Process adding link associations
       if ( wp_verify_nonce($wp->query_vars['candela-lti-nonce'], 'mapping-lti-link') &&
@@ -459,7 +460,7 @@ class CandelaLTI {
         $hover = __('resource_link_id(##RES##)');
         $url = get_site_url(1) . '/api/candelalti';
         $url = wp_nonce_url($url, 'mapping-lti-link', 'candela-lti-nonce');
-        $url .= '&resource_link_id=' . urlencode($map->resource_link_id) . '&target_action=' . urlencode( $target_action );
+        $url .= '&resource_link_id=' . urlencode($map->resource_link_id) . '&target_action=' . urlencode( $target_action ) . '&blog=' . get_current_blog_id();
         $links['add'] = '<div class="lti addmap"><a class="btn blue" href="' . $url . '" title="' . esc_attr( str_replace('##RES##', $map->resource_link_id, $hover) ) . '">' . $text . '</a></div>';
       }
 
@@ -493,7 +494,6 @@ class CandelaLTI {
    */
   public static function user_can_map_lti_links() {
     global $wp;
-
     $switched = FALSE;
     if ( ! ( empty( $wp->query_vars['blog'] ) ) ){
       switch_to_blog( (int) $wp->query_vars['blog'] );
@@ -502,7 +502,6 @@ class CandelaLTI {
 
     if ( is_user_logged_in() ) {
       $current_user = wp_get_current_user();
-
       if ( $current_user->has_cap(CANDELA_LTI_CAP_LINK_LTI) ) {
         if ( $switched ) {
           restore_current_blog();
