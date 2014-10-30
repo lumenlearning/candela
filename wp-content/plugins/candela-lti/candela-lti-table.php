@@ -34,37 +34,6 @@ class Candela_LTI_Table extends WP_List_Table {
     return sprintf('<a href="%s/wp-admin/user-edit.php?user_id=%d">%s</a>', get_site_url(), esc_attr($item['user_id']), $item['user_nicename']);
   }
 
-  function column_lti_info($item) {
-    $output = '';
-    if (!empty($item['lti_info'])) {
-      $values = unserialize($item['lti_info']);
-      if (! empty($values) ) {
-
-        $output .= '<a href="#" id="lti-info-toggle-'. $item['ID'] .'">Info</a>';
-        $output .= '<div id="lti-info-div-' . $item['ID'] . '" style="display:none;"><dl>';
-        ksort($values);
-        foreach ($values as $key => $value) {
-          $output .= '<dt>' . esc_html($key) . '</dt>';
-          $output .= '<dd>' . esc_html($value) . '</dd>';
-        }
-        $output .= '</dl></div>';
-        $output .= '<script type="text/javascript">
-            jQuery(function($){
-              $(document).ready(function() {
-                $("#lti-info-toggle-' . $item['ID'] . '").click(function(){
-                  $("#lti-info-div-' . $item['ID'] . '").slideToggle();
-                });
-              });
-            });
-          </script>';
-      }
-    }
-    else {
-      $output = '';
-    }
-    return $output;
-  }
-
   function get_columns() {
     return array(
       'cb' => '<input type="checkbox" />',
