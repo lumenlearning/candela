@@ -253,7 +253,7 @@ function embed_handler( $matches, $attr, $url, $rawattr ) {
 
 	$parms = implode('&', $parameters);
 
-	$embed = sprintf( '<iframe src="//%s/assessments/load?src_url=https://%s/api/assessments/%d/.xml&results_end_point=https://%s/api&assessment_id=%d&%s" frameborder="0" style="border:none;width:100%%;height:100%%;min-height:400px;"></iframe>',
+	$embed = sprintf( '<iframe src="//%s/assessments/load?src_url=https://%s/api/assessments/%d.xml&results_end_point=https://%s/api&assessment_id=%d&%s" frameborder="0" style="border:none;width:100%%;height:100%%;min-height:400px;"></iframe>',
 		esc_attr($matches[1]),
 		esc_attr($matches[1]),
 		esc_attr($matches[2]),
