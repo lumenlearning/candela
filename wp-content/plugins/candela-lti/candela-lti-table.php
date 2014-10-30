@@ -71,7 +71,6 @@ class Candela_LTI_Table extends WP_List_Table {
       'resource_link_id' => __('Link ID', 'candela_lti'),
       'target_action' => __('Action', 'candela_lti'),
       'user' => __('User', 'candela_lti'),
-      'lti_info' => __('LTI Info', 'candela_lti'),
     );
   }
 
