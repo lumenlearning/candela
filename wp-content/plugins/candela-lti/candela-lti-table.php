@@ -34,12 +34,23 @@ class Candela_LTI_Table extends WP_List_Table {
     return sprintf('<a href="%s/wp-admin/user-edit.php?user_id=%d">%s</a>', get_site_url(), esc_attr($item['user_id']), $item['user_nicename']);
   }
 
+  function column_blog_id($item) {
+    if ( ! empty( $item['blog_id'] ) ) {
+      $blog = get_blog_details( $item['blog_id']);
+      return sprintf('<a href="%s">%s</a>', get_site_url($item['blog_id']), $blog->blogname);
+    }
+    else {
+      return 'N/A';
+    }
+  }
+
   function get_columns() {
     return array(
       'cb' => '<input type="checkbox" />',
       'resource_link_id' => __('Link ID', 'candela_lti'),
       'target_action' => __('Action', 'candela_lti'),
       'user' => __('User', 'candela_lti'),
+      'blog_id' => __('Blog ID', 'candela_lti' ),
     );
   }
 
@@ -48,6 +59,7 @@ class Candela_LTI_Table extends WP_List_Table {
       'resource_link_id' => array('resource_link_id', TRUE),
       'target_action' => array('target_action', FALSE),
       'user' => array('user_nicename', FALSE),
+      'blog_id' => array('blog_id', FALSE),
     );
   }
 
@@ -95,12 +107,21 @@ class Candela_LTI_Table extends WP_List_Table {
     $orderby = (isset($_REQUEST['orderby']) && in_array($_REQUEST['orderby'], array_keys($this->get_sortable_columns()))) ? $_REQUEST['orderby'] : 'resource_link_id';
     $order = (isset($_REQUEST['order']) && in_array($_REQUEST['order'], array('asc', 'desc'))) ? $_REQUEST['order'] : 'asc';
 
-
-    $sql = "SELECT l.*, u.user_nicename FROM $table_name l
-            LEFT JOIN wp_users u ON u.ID = l.user_id
-            ORDER BY $orderby $order
-            LIMIT %d OFFSET %d";
-    $prepared = $wpdb->prepare($sql, $per_page, $paged);
+    if ( get_current_blog_id() != 1 ) {
+      $sql = "SELECT l.*, u.user_nicename FROM $table_name l
+              LEFT JOIN wp_users u ON u.ID = l.user_id
+              WHERE blog_id = %d
+              ORDER BY $orderby $order
+              LIMIT %d OFFSET %d";
+      $prepared = $wpdb->prepare($sql, get_current_blog_id(), $per_page, $paged);
+    }
+    else {
+      $sql = "SELECT l.*, u.user_nicename FROM $table_name l
+        LEFT JOIN wp_users u ON u.ID = l.user_id
+        ORDER BY $orderby $order
+        LIMIT %d OFFSET %d";
+      $prepared = $wpdb->prepare($sql, $per_page, $paged);
+    }
     $this->items = $wpdb->get_results($prepared, ARRAY_A);
 
     $this->set_pagination_args(array(

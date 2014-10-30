@@ -24,7 +24,7 @@ class CandelaLTI {
   public static function init() {
     // Table name is always root (site)
     define('CANDELA_LTI_TABLE', 'wp_candelalti');
-    define('CANDELA_LTI_DB_VERSION', '1.1');
+    define('CANDELA_LTI_DB_VERSION', '1.2');
     define('CANDELA_LTI_CAP_LINK_LTI', 'candela link lti launch');
     define('CANDELA_LTI_USERMETA_LASTLINK', 'candelalti_lastkey');
     define('CANDELA_LTI_USERMETA_EXTERNAL_KEY', 'candelalti_external_userid');
@@ -302,6 +302,11 @@ class CandelaLTI {
       update_option( 'candela_lti_db_version', CANDELA_LTI_DB_VERSION );
       restore_current_blog();
     }
+
+    if ( $version = '1.1' ) {
+      // This also updates the table.
+      CandelaLTI::create_db_table();
+    }
   }
 
   /**
@@ -342,12 +347,14 @@ class CandelaLTI {
           'resource_link_id' => $wp->query_vars['resource_link_id'],
           'target_action' => $wp->query_vars['target_action'],
           'user_id' => $current_user->ID,
+          'blog_id' => $wp->query_vars['blog'],
         );
         $value_format = array(
           '%s',
           '%s',
           '%d',
           '%s',
+          '%d',
         );
 
         if ( ! empty( $map->target_action ) ) {
@@ -526,6 +533,7 @@ class CandelaLTI {
       resource_link_id TINYTEXT,
       target_action TINYTEXT,
       user_id mediumint(9),
+      blog_id mediumint(9),
       PRIMARY KEY  (id),
       UNIQUE KEY resource_link_id (resource_link_id(32))
     );";
