@@ -7,6 +7,16 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+2.4.3.1 2014-10-24
+----------------------------------------------------------------------
+Critical update:
+- Fixed a number of issues where using Snapshot together with Domain Mapping plugin.
+- Multisites improvements
+  * Path names now resolve correctly and restoring is improved.
+  * Improved restoring into another site (a new site within the network must be created first before doing this)
+- NOTE: If restoring a site on a folder based multisite and it appears that your links are broken,
+you will need to go to the site's Settings > Permalinks and click on 'Save Changes'.
+
 2.4.3.0 2014-09-18
 ----------------------------------------------------------------------
 - Fixed issue where WordPress core files have been placed in a different location as per http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory  
@@ -312,4 +322,4 @@ http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it
 - Initial stable release
 
 
-94382-1412860609
+94382-1414793654

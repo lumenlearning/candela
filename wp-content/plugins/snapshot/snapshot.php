@@ -4,7 +4,7 @@ Plugin Name: Snapshot
 Plugin URI: http://premium.wpmudev.org/project/snapshot
 Description: This plugin allows you to take quick on-demand backup snapshots of your working WordPress database. You can select from the default WordPress tables as well as custom plugin tables within the database structure. All snapshots are logged, and you can restore the snapshot as needed.
 Author: WPMU DEV
-Version: 2.4.3.0
+Version: 2.4.3.1
 Author URI: http://premium.wpmudev.org/
 Network: true
 WDP ID: 257
@@ -160,6 +160,15 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			require( 'lib/snapshot_admin_panels.php' );
 			$this->_snapshot_admin_panels = new wpmudev_snapshot_admin_panels();
 
+			// Fix home path when integrating with Domain Mapping
+			add_filter( 'snapshot_home_path', array( &$this, 'snapshot_check_home_path' ) );
+
+			// Fix DOMAIN_CURRENT_SITE if not configured
+			add_filter( 'snapshot_current_domain', array( &$this, 'snapshot_check_current_domain' ) );
+
+			// Fix PATH_CURRENT_SITE if not configured
+			add_filter( 'snapshot_current_path', array( &$this, 'snapshot_check_current_path' ) );
+
 		}
 
 		/**
@@ -173,6 +182,29 @@ if (!class_exists('WPMUDEVSnapshot')) {
 	    function WPMUDEVSnapshot() {
 	        $this->__construct();
 	    }
+
+		function snapshot_check_home_path( $path ) {
+			if ( '/' == $path || 2 > strlen( $path ) ) {
+				$path = ABSPATH;
+			}
+			return $path;
+		}
+
+		function snapshot_check_current_domain( $path ) {
+			if( !defined( $path ) ) {
+				$path = preg_replace('/(http|https):\/\/|\/$/', '', network_home_url() );
+			}
+			return $path;
+		}
+
+		function snapshot_check_current_path( $path ) {
+			if( !defined( $path ) ) {
+				$blog_details = get_blog_details();
+				$path = $blog_details->path;
+			}
+			return $path;
+		}
+
 
 		function snapshot_init_proc() {
 
@@ -2560,7 +2592,6 @@ if (!class_exists('WPMUDEVSnapshot')) {
 		function snapshot_ajax_backup_proc()
 		{
 			global $wpdb;
-
 			//echo "_settings<pre>"; print_r($this->_settings); echo "</pre>";
 
 			// When zlib compression is turned on we get errors from this shutdown action setup by WordPress. So we disabled.
@@ -2726,6 +2757,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 				case 'file':
 
 					if (isset($_POST['snapshot-file-data-key'])) {
+
 						$file_data_key = esc_attr($_POST['snapshot-file-data-key']);
 
 						$this->_session = new SnapshotSessions(trailingslashit($this->_settings['backupSessionFolderFull']), $item_key);
@@ -2739,6 +2771,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 							$this->snapshot_logger->log_message("file: section: ". $file_data_key);
 
 							ob_start();
+
 							$error_array = $this->snapshot_ajax_backup_file($item, $_POST);
 							$function_output = ob_get_contents();
 							ob_end_clean();
@@ -2863,6 +2896,8 @@ if (!class_exists('WPMUDEVSnapshot')) {
 
 		function snapshot_ajax_backup_init($item, $_post_array) {
 			global $wpdb;
+
+			$home_path = apply_filters( 'snapshot_home_path', get_home_path() );
 
 			$error_status 								= array();
 			$error_status['errorStatus'] 				= false;
@@ -3027,7 +3062,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 						switch($_section) {
 							/*
 							case 'home':
-								$_path = get_home_path();
+								$_path = $home_path;
 								if (($_post_array['snapshot-action']) && ($_post_array['snapshot-action'] == "cron"))
 									$_max_depth=0;
 								else
@@ -3035,7 +3070,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 								break;
 							*/
 							case 'media':
-								$_path = trailingslashit(get_home_path()) . snapshot_utility_get_blog_upload_path($item['blog-id']) ."/";
+								$_path = trailingslashit( $home_path ) . snapshot_utility_get_blog_upload_path($item['blog-id']) ."/";
 								//$_path = snapshot_utility_get_blog_upload_path($item['blog-id']) ."/";
 								if (($_post_array['snapshot-action']) && ($_post_array['snapshot-action'] == "cron"))
 									$_max_depth=0;
@@ -3326,7 +3361,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			$error_status['errorText'] 		= "";
 			$error_status['responseText'] 	= "";
 
-			$home_path = get_home_path();
+			$home_path = apply_filters( 'snapshot_home_path', get_home_path() );
 
 			if (isset($_post_array['snapshot-file-data-key'])) {
 				$file_data_key = sanitize_text_field($_post_array['snapshot-file-data-key']);
@@ -3433,6 +3468,8 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			$error_status['responseText'] 	= "";
 
 			$manifest_array = array();
+
+			$home_path = apply_filters( 'snapshot_home_path', get_home_path() );
 
 			if (isset($this->_session->data['backupItemFolder'])) {
 
@@ -3613,7 +3650,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 
 				if (isset($session_files_data)) {
 					// We want to remove the ABSPATH from the stored file items.
-					$home_path = get_home_path();
+
 					foreach($session_files_data as $file_item_idx => $file_item) {
 						$session_files_data[$file_item_idx] = str_replace($home_path, '', $file_item);
 					}
@@ -3787,13 +3824,20 @@ if (!class_exists('WPMUDEVSnapshot')) {
 				if (intval($snapshot_blog_id_search) != 0) {
 					$blog_id = intval($snapshot_blog_id_search);
 				} else {
+
 					global $wpdb;
 
+					$current_domain = apply_filters( 'snapshot_current_domain',  DOMAIN_CURRENT_SITE );
+					$current_path = apply_filters( 'snapshot_current_path',  PATH_CURRENT_SITE );
+
 					if (is_subdomain_install()) {
-						if (!empty($snapshot_blog_id_search))
-							$full_domain = $snapshot_blog_id_search .".". DOMAIN_CURRENT_SITE.PATH_CURRENT_SITE;
-						else
-							$full_domain = DOMAIN_CURRENT_SITE.PATH_CURRENT_SITE;
+						if (!empty($snapshot_blog_id_search)) {
+							$full_domain = $snapshot_blog_id_search .".". $current_domain;
+							// $full_domain = $snapshot_blog_id_search .".". $current_domain.$current_path;
+						} else {
+							$full_domain = $current_domain;
+							// $full_domain = $current_domain.current_path;
+						}
 						$sql_str = $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s LIMIT 1", $full_domain);
 					} else {
 						$snapshot_blog_id_search_path = trailingslashit($snapshot_blog_id_search);
@@ -3802,9 +3846,9 @@ if (!class_exists('WPMUDEVSnapshot')) {
 						}
 
 						$sql_str = $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s LIMIT 1",
-							DOMAIN_CURRENT_SITE, PATH_CURRENT_SITE . $snapshot_blog_id_search_path );
-
+							$current_domain, $current_path . $snapshot_blog_id_search_path );
 					}
+
 					//echo "sql_str=[". $sql_str ."]<br />";
 					$blog = $wpdb->get_row( $sql_str );
 					if ((isset($blog->blog_id)) && (intval($blog->blog_id) > 0)) {
@@ -3887,6 +3931,8 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			$blog_id = 0;
 			$json_data = array();
 
+			$home_path = apply_filters( 'snapshot_home_path', get_home_path() );
+
 			if (isset($_POST['snapshot_blog_id_search'])) {
 				$snapshot_blog_id_search = esc_attr($_POST['snapshot_blog_id_search']);
 				$PHP_URL_SCHEME = parse_url($snapshot_blog_id_search, PHP_URL_SCHEME);
@@ -3898,11 +3944,17 @@ if (!class_exists('WPMUDEVSnapshot')) {
 					$blog_id = intval($snapshot_blog_id_search);
 				} else {
 
+					$current_domain = apply_filters( 'snapshot_current_domain',  DOMAIN_CURRENT_SITE );
+					$current_path = apply_filters( 'snapshot_current_path',  PATH_CURRENT_SITE );
+
 					if (is_subdomain_install()) {
-						if (!empty($snapshot_blog_id_search))
-							$full_domain = $snapshot_blog_id_search .".". DOMAIN_CURRENT_SITE.PATH_CURRENT_SITE;
-						else
-							$full_domain = DOMAIN_CURRENT_SITE.PATH_CURRENT_SITE;
+						if (!empty($snapshot_blog_id_search)) {
+							// $full_domain = $snapshot_blog_id_search . "." . $current_domain . $current_path;
+							$full_domain = $snapshot_blog_id_search . "." . $current_domain;
+						} else {
+							// $full_domain = $current_domain . $current_path;
+							$full_domain = $current_domain;
+						}
 
 						$sql_str = $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s LIMIT 1", $full_domain);
 					} else {
@@ -3911,7 +3963,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 							$snapshot_blog_id_search_path = '';
 						}
 						$sql_str = $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s LIMIT 1",
-							DOMAIN_CURRENT_SITE, PATH_CURRENT_SITE . $snapshot_blog_id_search_path );
+							$current_domain, $current_path . $snapshot_blog_id_search_path );
 					}
 					//echo "sql_str=[". $sql_str ."]<br />";
 					$blog = $wpdb->get_row( $sql_str );
@@ -3951,7 +4003,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 				$json_data['WP_DB_NAME'] = snapshot_utility_get_db_name();
 
 				$uploads = wp_upload_dir();
-				$home_path = get_home_path();
+
 				if (isset($uploads['basedir'])) {
 					$uploads['basedir'] = str_replace('\\', '/', $uploads['basedir']);
 					$json_data['WP_UPLOAD_PATH'] = str_replace($home_path, '', $uploads['basedir']);
@@ -4168,6 +4220,8 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			$error_status['errorText'] 		= "";
 			$error_status['responseText'] 	= "";
 
+			$home_path = apply_filters( 'snapshot_home_path', get_home_path() );
+
 			if (!isset($_POST['item_data'])) {
 				$error_status['errorStatus'] 	= true;
 				$error_status['errorText'] 		= "<p>". __("ERROR: The Snapshot missing 'item_data' key",
@@ -4296,14 +4350,14 @@ if (!class_exists('WPMUDEVSnapshot')) {
 				$error_status['MANIFEST']['RESTORE']['DEST']['WP_BLOG_ID'] 				= $_POST['snapshot-blog-id'];
 				$error_status['MANIFEST']['RESTORE']['DEST']['WP_DB_PREFIX'] 			= $wpdb->get_blog_prefix( $_POST['snapshot-blog-id'] );
 				$error_status['MANIFEST']['RESTORE']['DEST']['WP_DB_BASE_PREFIX'] 		= $wpdb->base_prefix;
-				$error_status['MANIFEST']['RESTORE']['DEST']['WP_SITEURL'] 				= network_site_url();
+				$error_status['MANIFEST']['RESTORE']['DEST']['WP_SITEURL'] 				= get_site_url( $_POST['snapshot-blog-id'] );
 
 				$wp_upload_dir = wp_upload_dir();
 				//echo "wp_upload_dir<pre>"; print_r($wp_upload_dir); echo "</pre>";
 				//die();
 
 				$wp_upload_dir['basedir'] = str_replace('\\', '/', $wp_upload_dir['basedir']);
-				$error_status['MANIFEST']['RESTORE']['DEST']['UPLOAD_DIR']				= str_replace(get_home_path(), '', $wp_upload_dir['basedir']);
+				$error_status['MANIFEST']['RESTORE']['DEST']['UPLOAD_DIR']				= str_replace($home_path, '', $wp_upload_dir['basedir']);
 
 				//echo "error_status<pre>"; print_r($error_status); echo "</pre>";
 				//die();
@@ -4324,7 +4378,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 				$error_status['MANIFEST']['RESTORE']['DEST']['WP_BLOG_ID'] 				= $error_status['MANIFEST']['WP_BLOG_ID'];
 				$error_status['MANIFEST']['RESTORE']['DEST']['WP_DB_PREFIX'] 			= $wpdb->prefix;
 				$error_status['MANIFEST']['RESTORE']['DEST']['WP_DB_BASE_PREFIX'] 		= $wpdb->base_prefix;
-				$error_status['MANIFEST']['RESTORE']['DEST']['WP_SITEURL'] 				= network_site_url();
+				$error_status['MANIFEST']['RESTORE']['DEST']['WP_SITEURL'] 				= get_site_url( $error_status['MANIFEST']['WP_BLOG_ID'] );
 
 				$error_status['MANIFEST']['RESTORE']['DEST']['UPLOAD_DIR']				= $error_status['MANIFEST']['RESTORE']['SOURCE']['UPLOAD_DIR'];
 
@@ -4591,6 +4645,8 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			$error_status['errorText'] 		= "";
 			$error_status['responseText'] 	= "";
 
+			$home_path = apply_filters( 'snapshot_home_path', get_home_path() );
+
 			if (!isset($_POST['file_data_idx'])) {
 				$error_status['errorStatus'] 	= true;
 				$error_status['errorText'] 		= "<p>". __("ERROR: The Snapshot missing 'file_data_idx' key", SNAPSHOT_I18N_DOMAIN)  ."</p>";
@@ -4696,7 +4752,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 						}
 					}
 
-					$destinationFileFull = get_home_path() . $file_relative;
+					$destinationFileFull = trailingslashit($home_path) . $file_relative;
 
 					if (file_exists($destinationFileFull)) {
 						unlink($destinationFileFull);
@@ -4864,7 +4920,10 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			}
 
 			if (!isset( $this->_session->data['MANIFEST']['RESTORE']['DEST']['WP_SITEURL'] )) return;
-			if ( $this->_session->data['MANIFEST']['WP_HOME'] == $this->_session->data['MANIFEST']['RESTORE']['DEST']['WP_SITEURL'] ) return;
+			if ( $this->_session->data['MANIFEST']['WP_HOME'] == $this->_session->data['MANIFEST']['RESTORE']['DEST']['WP_SITEURL']
+			   && $this->_session->data['MANIFEST']['RESTORE']['DEST']['WP_BLOG_ID'] == $this->_session->data['MANIFEST']['RESTORE']['SOURCE']['WP_BLOG_ID'] ) {
+				return;
+			}
 
 			$blog_prefix = $wpdb->get_blog_prefix( $_POST['snapshot-blog-id'] );
 			$_old_siteurl = str_replace('http://', '://', $this->_session->data['MANIFEST']['WP_HOME']);
@@ -5018,9 +5077,18 @@ if (!class_exists('WPMUDEVSnapshot')) {
 					$db_row = $wpdb->get_row($sql_str);
 					//echo "db_row<pre>"; print_r($db_row); echo "</pre>";
 					if (!empty($db_row)) {
+
+						if( is_subdomain_install() ) {
+							$home_url = untrailingslashit($this->_session->data['MANIFEST']['RESTORE']['DEST']['WP_SITEURL']);
+						} else {
+							switch_to_blog( $this->_session->data['MANIFEST']['RESTORE']['DEST']['WP_BLOG_ID'] );
+							$home_url = home_url();
+							restore_current_blog();
+						}
+
 						$new_value = snapshot_utility_replace_value ( $db_row->option_value,
 										$this->_session->data['MANIFEST']['WP_HOME'],
-										network_home_url() );
+										$home_url );
 
 						if ($new_value != $db_row->option_value) {
 							$sql_str = $wpdb->prepare("UPDATE `". $table_set['table_name_restore'] ."` SET option_value=%s WHERE option_id=%d",
@@ -6009,6 +6077,8 @@ if (!class_exists('WPMUDEVSnapshot')) {
 
 			global $wpdb;
 
+			$home_path = apply_filters( 'snapshot_home_path', get_home_path() );
+
 			@set_time_limit( 0 );
 
 			$old_error_handler = set_error_handler(array( $this, 'snapshot_ErrorHandler' ));
@@ -6282,7 +6352,6 @@ if (!class_exists('WPMUDEVSnapshot')) {
 							$this->snapshot_logger->log_message(__("file: The following files are excluded due to match exclusion patterns.",
 								SNAPSHOT_I18N_DOMAIN));
 
-							$home_path = get_home_path();
 							foreach($error_array['files_data']['excluded']['pattern'] as $idx => $filename) {
 								$filename = str_replace($home_path, '', $filename);
 								$this->snapshot_logger->log_message("file: excluded:  ". $filename);
@@ -6292,7 +6361,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 						if ((isset($error_array['files_data']['excluded']['error'])) && (count($error_array['files_data']['excluded']['error']))) {
 
 							$this->snapshot_logger->log_message(__("file: The following files are excluded because snapshot cannot open them. Check file permissions or locks", SNAPSHOT_I18N_DOMAIN));
-							$home_path = get_home_path();
+
 							foreach($error_array['files_data']['excluded']['error'] as $idx => $filename) {
 								$filename = str_replace($home_path, '', $filename);
 								$this->snapshot_logger->log_message("file: error: ". $filename);
@@ -6360,6 +6429,9 @@ if (!class_exists('WPMUDEVSnapshot')) {
 
 
 		function purge_archive_limit($item_key) {
+
+			$home_path = apply_filters( 'snapshot_home_path', get_home_path() );
+
 			if (!isset($this->config_data['items'][$item_key])) return;
 
 			$item = $this->config_data['items'][$item_key];
@@ -6407,9 +6479,9 @@ if (!class_exists('WPMUDEVSnapshot')) {
 
 									if (file_exists($backupFile)) {
 										@unlink($backupFile);
-										$this->snapshot_logger->log_message("archive cleanup: filename: ". str_replace(get_home_path(), '', $backupFile) ." removed");
+										$this->snapshot_logger->log_message("archive cleanup: filename: ". str_replace($home_path, '', $backupFile) ." removed");
 									} else {
-										$this->snapshot_logger->log_message("archive cleanup: filename: ". str_replace(get_home_path(), '', $backupFile) ." not found");
+										$this->snapshot_logger->log_message("archive cleanup: filename: ". str_replace($home_path, '', $backupFile) ." not found");
 									}
 								}
 							//}
@@ -6866,6 +6938,8 @@ if (!class_exists('WPMUDEVSnapshot')) {
 
 		function snapshot_get_item_destination_path($item=array(), $data_item=array(), $create_folder=true) {
 
+			$home_path = apply_filters( 'snapshot_home_path', get_home_path() );
+
 			// If not destination in the data_item we can't process.
 			if (!isset($data_item['destination'])) {
 				if (!isset($item['destination'])) {
@@ -6931,7 +7005,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			// the site root path.
 			if (((empty($data_item['destination'])) || ($data_item['destination'] == "local")) && (!empty($backupFolder))) {
 				if (substr($backupFolder, 0, 1) != "/") {
-					$backupFolder = trailingslashit(get_home_path()) . $backupFolder;
+					$backupFolder = trailingslashit($home_path) . $backupFolder;
 				}
 				//echo "create_folder[". $create_folder ."]<br />";
 				if ($create_folder) {
@@ -6999,6 +7073,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 			global $wpdb, $site_id;
 
 			$item_files = array();
+			$home_path = apply_filters( 'snapshot_home_path', get_home_path() );
 
 			if ((!isset($item['files-option'])) || (!count($item['files-option'])))
 				return $item_files;
@@ -7031,7 +7106,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 				switch($file_section) {
 					case 'media':
 
-						$_path = get_home_path() . snapshot_utility_get_blog_upload_path($item['blog-id']);
+						$_path = $home_path . snapshot_utility_get_blog_upload_path($item['blog-id']);
 						$_path = str_replace('\\', '/', $_path);
 
 						//echo "_path[". $_path ."]<br />";
@@ -7064,7 +7139,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 
 
 					case 'config':
-						$wp_config_file = trailingslashit(get_home_path()) ."wp-config.php";
+						$wp_config_file = trailingslashit($home_path) ."wp-config.php";
 						//$wp_config_file = str_replace('\\', '/', $wp_config_file);
 
 						if (file_exists($wp_config_file)) {
@@ -7078,7 +7153,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 
 
 					case 'htaccess':
-						$wp_htaccess_file = trailingslashit(get_home_path()) .".htaccess";
+						$wp_htaccess_file = trailingslashit($home_path) .".htaccess";
 						//$wp_htaccess_file = str_replace('\\', '/', $wp_htaccess_file);
 						if (file_exists($wp_htaccess_file)) {
 
@@ -7088,7 +7163,7 @@ if (!class_exists('WPMUDEVSnapshot')) {
 							$item_files['files'][] = $wp_htaccess_file;
 						}
 
-						$web_config_file = trailingslashit(get_home_path()) ."web.config";
+						$web_config_file = trailingslashit($home_path) ."web.config";
 						//$web_config_file = str_replace('\\', '/', $web_config_file);
 						if (file_exists($web_config_file)) {
 

@@ -1042,6 +1042,7 @@ function snapshot_utility_secure_folder($folder) {
 
 function snapshot_utility_get_blog_upload_path($switched_blog_id=0, $key='basedir') {
 	global $blog_id;
+	$home_path = apply_filters( 'snapshot_home_path', get_home_path() );
 
 	//echo "switched_blog_id[". $switched_blog_id ."] key[". $key ."]<br />";
 	if (is_multisite()) {
@@ -1053,7 +1054,7 @@ function snapshot_utility_get_blog_upload_path($switched_blog_id=0, $key='basedi
 		if ($key == "basedir") {
 			if (isset($uploads['basedir'])) {
 				$upload_path = str_replace('\\', '/', $uploads['basedir']);
-				$upload_path = str_replace(get_home_path(), '', $upload_path);
+				$upload_path = str_replace($home_path, '', $upload_path);
 			}
 		} else if ($key == "baseurl") {
 
@@ -1076,7 +1077,7 @@ function snapshot_utility_get_blog_upload_path($switched_blog_id=0, $key='basedi
 		if ($key == "basedir") {
 			if (isset($uploads['basedir'])) {
 				$upload_path = str_replace('\\', '/', $uploads['basedir']);
-				$upload_path = str_replace(get_home_path(), '', $upload_path);
+				$upload_path = str_replace($home_path, '', $upload_path);
 			}
 		} else if ($key == "baseurl") {
 			if (isset($uploads['baseurl'])) {
@@ -1089,12 +1090,13 @@ function snapshot_utility_get_blog_upload_path($switched_blog_id=0, $key='basedi
 		if (!$upload_path) {
 			$upload_path = trailingslashit(WP_CONTENT_DIR) . "uploads";
 			$upload_path = str_replace('\\', '/', $upload_path);
-			$upload_path = str_replace(get_home_path(), '', $upload_path);
+			$upload_path = str_replace($home_path, '', $upload_path);
 		}
 	}
 
 	return $upload_path;
 }
+
 
 function snapshot_utility_get_tables_sections_display($item) {
 

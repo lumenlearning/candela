@@ -1,7 +1,7 @@
 jQuery(document).ready( function($) {
 	
 	jQuery("select#snapshot-destination-region").change(function() {
-		console.log('changed');
+		// console.log('changed');
 		if (jQuery(this).val() == 'other') {
 			jQuery('div#snapshot-destination-region-other-container').show();
 		} else {

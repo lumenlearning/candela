@@ -87,7 +87,7 @@ class AmazonCloudFormation extends CFRuntime
 	/**
 	 * Specify the queue URL for the Asia Pacific Southeast (Singapore) Region.
 	 */
-	const REGION_APAC_SE1 = 'cloudformation.ap-southeast-1.amazonaws.com';
+	const REGION_APAC_SE1 = 'cloudformation.ap-southeast-1.amazonaws.com';	 			   		 	 				
 
 	/**
 	 * Specify the queue URL for the Asia Pacific Southeast (Singapore) Region.

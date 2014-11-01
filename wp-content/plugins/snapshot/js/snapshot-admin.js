@@ -348,7 +348,7 @@ jQuery(document).ready( function($) {
 	
 	jQuery("form#snapshot-add-update button#snapshot-blog-id-lookup").click(function() {
 		var blog_id_search = jQuery("form#snapshot-add-update input#snapshot-blog-id-search").val();
-		console.log("blog_id_search=["+blog_id_search+"]");
+		// console.log("blog_id_search=["+blog_id_search+"]");
 		if (blog_id_search != undefined) {
 
 			jQuery('div#snapshot-blog-search span#snapshot-blog-search-error').hide();
@@ -533,7 +533,7 @@ jQuery(document).ready( function($) {
 	});
 
 	jQuery("button#snapshot-blog-id-cancel").click(function() {
-		console.log('in cancel');
+		// console.log('in cancel');
 		jQuery('#snapshot-blog-search-success').show();
 		jQuery('#snapshot-blog-search').hide();
 		
@@ -901,7 +901,9 @@ jQuery(document).ready( function($) {
 					'snapshot-destination-directory': snapshot_form_destination_directory,
 					'snapshot-destination-sync': snapshot_form_destination_sync
 				};
-
+				
+				// console.log( data );
+				
 			    snapshot_ajax_hdl_xhr = jQuery.ajax({
 				  	type: 'POST',
 				  	url: ajaxurl,
