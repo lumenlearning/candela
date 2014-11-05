@@ -4,7 +4,7 @@ namespace Candela\Utility\Upates;
 define('CANDELA_UTILITY_VERBOSE' , 1);
 
 $update = get_option( 'candela_utility_updates', '-1' );
-echo $update;
+
 switch ($update) {
   case '-1':
     update_000();
@@ -21,17 +21,24 @@ function update_000() {
   $regexp = '(<iframe[^>]*src="([^"]+)"[^<]+</iframe>)';
   $first = TRUE;
   $urls = array();
+
+  $noaction = array();
+  $updated = array();
+
   foreach ( $blogs as $blog ) {
     // switch_to_blog() doesn't appear to work via php-cli (restore blog() halts execution)
     $table = 'wp_' . $blog->blog_id . '_posts';
-    $sql = 'SELECT ID, post_content FROM ' . $table . ' WHERE post_content LIKE \'%<iframe%\'';
+    $sql = 'SELECT ID, post_content, post_title FROM ' . $table . ' WHERE post_content LIKE \'%<iframe%\'';
     $posts = $wpdb->get_results($sql);
     foreach ( $posts as $post ) {
       $matches = array();
       preg_match_all($regexp, $post->post_content, $matches);
 
       if (empty($matches[0])) {
-        print "Manual Review Blog($blog->blog_id) post: $post->ID " . get_post_link($blog, $post) . "\n";
+        $noaction[] = array(
+          'blog' => $blog,
+          'post' => $post,
+        );
       }
       else {
         $regexes = array(
@@ -68,15 +75,19 @@ function update_000() {
 
                 // Replace original matched iframe block
                 $post->post_content = str_replace($matches[0][$i], $replace, $post->post_content );
-                if (CANDELA_UTILITY_VERBOSE) {
-                  print "INFO: Replacing: " . $matches[0][$i] . "\n";
-                  print "           with: " . trim($replace) . "\n";
-                  print "         review: " . get_post_link($blog, $post) . "\n";
-                  break;
-                }
+                $update[] = array(
+                  'blog' => $blog,
+                  'post' => $post,
+                  'source' => $matches[0][$i],
+                  'replace' => trim($replace),
+                );
               }
               else {
-                print "WARNING: Could not determine rewrite for blog(" . $blog->blog_id . ") post(" . $post->ID . "): " . $matches[0][$i] . "\n";
+                $noaction[] = array(
+                  'blog' => $blog,
+                  'post' => $post,
+                  'unknown pattern' => $matches[0][$i],
+                );
               }
             }
           }
@@ -86,8 +97,48 @@ function update_000() {
     }
   }
   update_option( 'candela_utility_updates', '0');
+  output_details_000($update, $noaction);
 }
 
 function get_post_link($blog, $post) {
   return 'https://courses.candelalearning.com' . $blog->path . 'wp-admin/post.php?post=' . $post->ID . '&action=edit';
 }
+
+function output_details_000($update, $noaction) {
+  // Output information
+  if ( ! empty( $update ) ) {
+    print "\n<h1>Updates</h1>\n";
+    foreach ($update as $updated) {
+      $title = esc_html($updated['post']->post_title);
+      if (empty(trim($title))) {
+        $title = 'Missing Post Title';
+      }
+      print '<h2><a href="' . get_post_link( $updated['blog'], $updated['post'] ) . '">' . $title . "</a></h2>\n";
+      print "<h3>Source</h3>\n";
+      print "<pre><code>\n" . esc_html($updated['source']) . "\n</code></pre>\n\n";
+      print "<h4>Rewrite</h4>\n";
+      print "<pre><code>\n" . esc_html($updated['replace']) . "\n</code></pre>\n\n";
+    }
+  }
+
+  if ( ! empty( $noaction ) ) {
+    print "\n<h1>Manual Review (no action applied)</h1>\n";
+    foreach ($noaction as $review ) {
+      $title = esc_html($review['post']->post_title);
+      if ( empty(trim($title))) {
+        $title = 'Missing Post Title';
+      }
+      print '<h2><a href="' . get_post_link( $review['blog'], $review['post'] ) . '">' . $title . "</a></h2>\n";
+      print "<h3>Reason</h3>\n";
+      if ( isset($review['unknown pattern' ] ) ) {
+        print "<p>No known URL pattern</p>\n";
+        print "<h4>Matching content</h4>\n";
+        print "<pre><code>\n" . esc_html($review['unknown pattern']) . "\n</code></pre>\n\n";
+      }
+      else {
+        print "<p>Content matched iframe tag but regex returned no match</p>\n";
+      }
+    }
+  }
+}
+
