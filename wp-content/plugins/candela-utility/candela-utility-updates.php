@@ -101,7 +101,7 @@ function update_000() {
 }
 
 function get_post_link($blog, $post) {
-  return 'https://courses.candelalearning.com' . $blog->path . 'wp-admin/post.php?post=' . $post->ID . '&action=edit';
+  return get_site_url() . $blog->path . 'wp-admin/post.php?post=' . $post->ID . '&action=edit';
 }
 
 function output_details_000($update, $noaction) {
