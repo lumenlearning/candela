@@ -28,7 +28,7 @@ function update_000() {
   foreach ( $blogs as $blog ) {
     // switch_to_blog() doesn't appear to work via php-cli (restore blog() halts execution)
     $table = 'wp_' . $blog->blog_id . '_posts';
-    $sql = 'SELECT ID, post_content, post_title FROM ' . $table . ' WHERE post_content LIKE \'%<iframe%\'';
+    $sql = 'SELECT ID, post_content, post_title FROM ' . $table . ' WHERE post_type != "revision" AND post_content LIKE \'%<iframe%\'';
     $posts = $wpdb->get_results($sql);
     foreach ( $posts as $post ) {
       $matches = array();
