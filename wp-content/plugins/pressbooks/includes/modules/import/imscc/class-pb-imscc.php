@@ -278,12 +278,16 @@ class IMSCCParser {
     $content = '';
 
     $item = $this->getItem( $id );
-    if (!empty($item['payload'])) {
+    // Prefer payload then text for document content.
+    if ( ! empty( $item['payload'] ) ) {
       $content = $item['payload'];
     }
+    elseif ( ! empty( $item['text'] ) ) {
+      $content = $item['text'];
+    }
     else {
-      // Figure out what to do.
-      $content = '<pre>' . var_export($item, 1) . '</pre>';
+      // Does content come from other fields besides 'payload' and 'text'?
+      $content = '';
     }
 
     return $content;
