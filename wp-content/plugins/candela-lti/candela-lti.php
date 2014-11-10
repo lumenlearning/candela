@@ -540,7 +540,7 @@ class CandelaLTI {
     dbDelta( $sql );
 
     switch_to_blog(1);
-    add_option( 'candela_lti_db_version', CANDELA_LTI_DB_VERSION );
+    update_option( 'candela_lti_db_version', CANDELA_LTI_DB_VERSION );
     restore_current_blog();
   }
 
