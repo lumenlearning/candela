@@ -289,8 +289,11 @@ class CandelaLTI {
    * Update the database
    */
   public static function update_db() {
+    switch_to_blog(1);
     $version = get_option( 'candela_lti_db_version', '');
-    if (empty($version) || $version = '1.0') {
+    restore_current_blog();
+
+    if (empty($version) || $version == '1.0') {
       $meta_type = 'user';
       $user_id = 0; // ignored since delete all = TRUE
       $meta_key = 'candelalti_lti_info';
@@ -302,8 +305,7 @@ class CandelaLTI {
       update_option( 'candela_lti_db_version', CANDELA_LTI_DB_VERSION );
       restore_current_blog();
     }
-
-    if ( $version = '1.1' ) {
+    if ( $version == '1.1' ) {
       // This also updates the table.
       CandelaLTI::create_db_table();
     }
