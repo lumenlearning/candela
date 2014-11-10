@@ -1,7 +1,5 @@
 <?php
-namespace Candela\Utility\Upates;
-
-define('CANDELA_UTILITY_VERBOSE' , 1);
+namespace Candela\Utility\Updates;
 
 $update = get_option( 'candela_utility_updates', '-1' );
 
@@ -14,7 +12,6 @@ switch ($update) {
 function update_000() {
   global $wpdb;
 
-  define('CANDELA_UTILITY_VERBOSE', 0);
   // wp_get_sites() doesn't appear to work
   $blogs = $wpdb->get_results("SELECT blog_id, path FROM wp_blogs");
 
