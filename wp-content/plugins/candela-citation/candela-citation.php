@@ -446,7 +446,7 @@ class CandelaCitation {
       jQuery( document ).ready( function( $ ) {
         $('#citation-add-all').click(function() {
           if (!confirm(\"Are you sure you want to add citations to *every* page in this book?\")) {
-            event.preventDefault();
+            return false;
           }
         });
       });
@@ -456,7 +456,7 @@ class CandelaCitation {
       jQuery( document ).ready( function( $ ) {
         $('#citation-replace-all').click(function() {
           if (!confirm(\"Are you sure you want to replace all citations in *every* page in this book?\")) {
-            event.preventDefault();
+            return false;
           }
         });
       });
