@@ -422,7 +422,7 @@ class CandelaCitation {
     // Process incoming form and preload previous citations.
     $rows = array();
     if (!empty($_POST['__citation'])) {
-      $citations = CandelaCitation::process_global_form();
+      CandelaCitation::process_global_form();
 
       if (!empty($citations)) {
         foreach($citations as $citation) {
