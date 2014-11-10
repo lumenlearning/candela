@@ -297,14 +297,22 @@ function pressbooks_new_blog() {
  * Update default book info settings.
  *
  * A default book info post is created when the "Book Info" section is first
- * visited but not prior. As such we can safely override the defaults on insert
- * because there was no user input.
+ * visited but not prior. Unfortunately the wp_insert_post action is not *ONLY*
+ * called on new posts as documented so we check for empty values on those we
+ * want defaults set for.
  */
 function pressbooks_new_book_info( $post_id ) {
 	// There is exactly one 'metadata' post per wordpress site
-	if ( get_post_type( $post_id ) == 'metadata' ) {
-		update_post_meta( $post_id, 'pb_book_license', 'cc-by' );
-		update_post_meta( $post_id, 'pb_copyright_holder', 'Lumen Learning' );
+	if ( get_post_type( $post_id ) == 'metadata') {
+		$license = get_post_meta( $post_id, 'pb_book_license', TRUE);
+		if ( empty( $license ) ) {
+			update_post_meta( $post_id, 'pb_book_license', 'cc-by' );
+		}
+
+		$copyright_holder = get_post_meta( $post_id, 'pb_copyright_holder', TRUE );
+		if ( empty( $copyright_holder ) ) {
+			update_post_meta( $post_id, 'pb_copyright_holder', 'Lumen Learning' );
+		}
 	}
 }
 
