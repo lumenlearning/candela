@@ -223,8 +223,8 @@ function admin_menu() {
 
     add_submenu_page(
       'outcomes-overview',
-      __('Collections', 'candela_outcomes'),
-      __('Collections', 'candela_outcomes'),
+      __('Collections Overview', 'candela_outcomes'),
+      __('Collections Overview', 'candela_outcomes'),
       'manage_outcomes',
       'collections',
       __NAMESPACE__ . '\admin_collections'
