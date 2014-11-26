@@ -36,6 +36,9 @@ function plugin_init() {
   add_filter( 'template_include', __NAMESPACE__ . '\template_include' );
 }
 
+/**
+ * Implementation of activation_hook
+ */
 function activate( $networkwide ) {
   global $wpdb;
   if ( is_multisite() && $networkwide ) {
@@ -51,6 +54,9 @@ function activate( $networkwide ) {
   _activate();
 }
 
+/**
+ * Internal callback function used to do all activation details for all sites.
+ */
 function _activate() {
   db_collection_table();
   db_outcome_table();
@@ -59,24 +65,39 @@ function _activate() {
   flush_rewrite_rules();
 }
 
+/**
+ * Implementation of uninstall_hook().
+ */
 function deactivate() {
   flush_rewrite_rules();
 }
 
+/**
+ * Implementation of filter 'wpmu_drop_tables'
+ */
 function delete_blog() {
   remove_db_tables();
   delete_option('candela_outcomes_db_version');
 }
 
+/**
+ * Implementation of action 'pressbooks_new_blog'
+ */
 function pressbooks_new_blog( ) {
   _activate();
 }
 
+/**
+ * Implementation of action 'init'.
+ */
 function init() {
   add_rewrite_endpoint( 'outcomes', EP_ROOT );
 
 }
 
+/**
+ * Implementation of action parse_request.
+ */
 function parse_request() {
   global $wp;
   if ( ! empty($wp->query_vars['outcomes'] ) ) {
@@ -109,6 +130,9 @@ function parse_request() {
   }
 }
 
+/**
+ * Implementation of filter 'template_include'
+ */
 function template_include( $template_file ) {
   global $wp;
 
@@ -135,6 +159,9 @@ function template_include( $template_file ) {
   return $template_file;
 }
 
+/**
+ * Helper function to determine proper path for a template.
+ */
 function get_template( $type ) {
   $filename = $type . '.template.php';
   $filepath = plugin_dir_path( __FILE__ ) . $filename;
@@ -145,6 +172,9 @@ function get_template( $type ) {
   return get_404_template();
 }
 
+/**
+ * Implementation of action 'admin_init'
+ */
 function admin_init() {
   setup_capabilities();
 }
@@ -243,11 +273,17 @@ function general_form ( $item, $function ) {
   print '</form>';
 }
 
+/**
+ * Custom form elements used on collection forms.
+ */
 function collection_form( $collection ) {
   $options = get_status_options( 'collection' );
   select('outcomes-collection-status', '_outcomes_collection_status', _e('Status'), $options, $collection->status);
 }
 
+/**
+ * Custom form elements used on outcomes forms.
+ */
 function outcome_form( $outcome ) {
   $options = get_status_options( 'outcome' );
   select('outcomes-outcome-status', '_outcomes_outcome_status', _e('Status'), $options, $outcome->status );
@@ -259,6 +295,9 @@ function outcome_form( $outcome ) {
   select('outcomes-outcome-belongs-to', '_outcomes_outcome_belongs_to', _e('Belongs to'), $options, $outcome->belongs_to );
 }
 
+/**
+ * Helper function to return valid status and details.
+ */
 function get_status_options( $type ) {
   switch ( $type ) {
     case 'collection':
@@ -300,6 +339,9 @@ function text( $id, $name, $label, $value ) {
   print '<input type="text" id="' . $id . '" name="' . esc_attr($name) . '" value="' . esc_attr( $value ) . '">';
 }
 
+/**
+ * Outputs a text area.
+ */
 function textarea( $id, $name, $label, $value ) {
   print '<label for="' . $id . '">';
   print $label;
@@ -445,6 +487,9 @@ function validate_outcome( $outcome ) {
   return $errors;
 }
 
+/**
+ * dbDelta handling function to manage database structure for collections.
+ */
 function db_collection_table() {
   global $wpdb;
   $table_name = $wpdb->prefix . 'outcomes_collection';
@@ -461,6 +506,9 @@ function db_collection_table() {
   dbDelta( $sql );
 }
 
+/**
+ * dbDelta handling function to manage database structure for outcomes.
+ */
 function db_outcome_table() {
   global $wpdb;
   $table_name = $wpdb->prefix . 'outcomes_outcome';
@@ -481,6 +529,9 @@ function db_outcome_table() {
   dbDelta( $sql );
 }
 
+/**
+ * Cleanup any tables that were created. Used on blog delete.
+ */
 function remove_db_tables() {
   global $wpdb;
 
