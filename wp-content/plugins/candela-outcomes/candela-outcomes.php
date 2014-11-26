@@ -212,31 +212,33 @@ function setup_capabilities() {
 }
 
 function admin_menu() {
-  add_menu_page(
-    __('Learning Outcomes Overview', 'candela_outcomes'),
-    __('Learning Outcomes', 'candela_outcomes'),
-    'manage_outcomes',
-    'outcomes-overview',
-    __NAMESPACE__ . '\admin_outcomes_overview'
-  );
+  if ( current_user_can( 'manage_outcomes' ) ) {
+    add_menu_page(
+      __('Learning Outcomes Overview', 'candela_outcomes'),
+      __('Learning Outcomes', 'candela_outcomes'),
+      'manage_outcomes',
+      'outcomes-overview',
+      __NAMESPACE__ . '\admin_outcomes_overview'
+    );
 
-  add_submenu_page(
-    'outcomes-overview',
-    __('Collections', 'candela_outcomes'),
-    __('Collections', 'candela_outcomes'),
-    'manage_outcomes',
-    'collections',
-    __NAMESPACE__ . '\admin_collections'
-  );
+    add_submenu_page(
+      'outcomes-overview',
+      __('Collections', 'candela_outcomes'),
+      __('Collections', 'candela_outcomes'),
+      'manage_outcomes',
+      'collections',
+      __NAMESPACE__ . '\admin_collections'
+    );
 
-  add_submenu_page(
-    'outcomes-overview',
-    __('Outcomes', 'candela_outcomes'),
-    __('Outcomes', 'candela_outcomes'),
-    'manage_outcomes',
-    'outcomes',
-    __NAMESPACE__ . '\admin_outcomes'
-  );
+    add_submenu_page(
+      'outcomes-overview',
+      __('Outcomes', 'candela_outcomes'),
+      __('Outcomes', 'candela_outcomes'),
+      'manage_outcomes',
+      'outcomes',
+      __NAMESPACE__ . '\admin_outcomes'
+    );
+  }
 }
 
 function admin_outcomes_overview() {
