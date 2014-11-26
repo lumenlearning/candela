@@ -31,8 +31,8 @@ function plugin_init() {
   add_action( 'admin_init', __NAMESPACE__ . '\admin_init' );
   add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
   add_action( 'pressbooks_new_blog', __NAMESPACE__ . '\pressbooks_new_blog' );
-  add_filter( 'wpmu_drop_tables', 'delete_blog' );
 
+  add_filter( 'wpmu_drop_tables', __NAMESPACE__ . '\delete_blog' );
   add_filter( 'template_include', __NAMESPACE__ . '\template_include' );
 }
 
