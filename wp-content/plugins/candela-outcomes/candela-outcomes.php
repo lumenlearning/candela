@@ -31,6 +31,8 @@ function plugin_init() {
   add_action( 'admin_init', __NAMESPACE__ . '\admin_init' );
   add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
   add_action( 'pressbooks_new_blog', __NAMESPACE__ . '\pressbooks_new_blog' );
+  add_action( 'admin_notices', __NAMESPACE__ . '\show_admin_notices' );
+
 
   add_filter( 'wpmu_drop_tables', __NAMESPACE__ . '\delete_blog' );
   add_filter( 'template_include', __NAMESPACE__ . '\template_include' );
@@ -113,7 +115,7 @@ function parse_request() {
     }
 
     if ( ! empty( $params[1] ) ) {
-      $errors = validate_uuid( $params[1] );
+      $errors = Base::isValidUUID( $params[1] );
       if ( empty( $errors ) ) {
         $wp->query_vars['outcomes_uuid'] = $params[1];
       }
@@ -141,17 +143,30 @@ function template_include( $template_file ) {
     $type = get_query_var( 'outcomes_type' );
     switch ( $type ) {
       case 'outcome':
-      case 'collection':
-        $item = load_item_by_uuid( $uuid, $type );
-        if ( ! empty( $item ) ) {
-          return get_template( $type );
+        $outcome = new Outcome;
+        $outcome->load( $uuid );
+        if ( ! $outcome->hasErrors() ) {
+          return get_template( 'outcome' );
         }
         else {
+          // TODO: more descriptive error?
+          return get_404_template();
+        }
+        break;
+      case 'collection':
+        $collection = new Collection;
+        $collection->load( $uuid );
+        if ( ! $collection->hasErrors() ) {
+          return get_template( 'collection' );
+        }
+        else {
+          // TODO: more descriptive error?
           return get_404_template();
         }
         break;
 
       default:
+        // TODO: more descriptive error?
         return get_404_template();
         break;
     }
@@ -232,91 +247,171 @@ function admin_menu() {
 
     add_submenu_page(
       'outcomes-overview',
+      __('Add Collection', 'candela_outcomes'),
+      __('Add Collection', 'candela_outcomes'),
+      'manage_outcomes',
+      'add_collection',
+      __NAMESPACE__ . '\edit_collection'
+    );
+
+
+    add_submenu_page(
+      'outcomes-overview',
       __('Outcomes', 'candela_outcomes'),
       __('Outcomes', 'candela_outcomes'),
       'manage_outcomes',
       'outcomes',
       __NAMESPACE__ . '\admin_outcomes'
     );
+
+    add_submenu_page(
+      'outcomes-overview',
+      __('Add Outcome', 'candela_outcomes'),
+      __('Add Outcome', 'candela_outcomes'),
+      'manage_outcomes',
+      'add_outcome',
+      __NAMESPACE__ . '\edit_outcome'
+    );
   }
 }
 
+/**
+ * Top-level admin page callback for outcomes.
+ */
 function admin_outcomes_overview() {
   print 'outcomes overview';
 }
 
+/**
+ * Admin page callback for collections overview.
+ */
 function admin_collections() {
   print 'collections';
 }
 
+/**
+ * Admin page callback for outcomes overview.
+ */
 function admin_outcomes() {
   print 'outcomes';
 }
 
-
-
 /**
- * Output an editing form for collections or outcomes.
- *
- * @param $item either a collection or outcome item.
- * @param $function specific callback for custom form items.
- *   eg. 'collection_form', 'outcome_form'
+ * Admin page callback to add a new or edit an existing collection.
  */
-function general_form ( $item, $function ) {
-  print '<form method="POST">';
-  print '<input type="hidden" id="uuid" name="uuid" value="' . esc_attr( $item->uuid ) . '" >';
-  // URI is auto filled.
-  text( 'title', 'title', __('Title', 'candela_outcomes'), $item->title );
-  textarea( 'description', 'description', __('Description', 'candela_outcomes'), $item['description'] );
+function edit_collection() {
+  global $wp;
+  print 'add/edit collection';
 
-  // Call custom form.
-  $function( $item );
+  $uuid = '';
+  if ( ! empty( $_GET['uuid'] ) ) {
+    $uuid = $_GET['uuid'];
+    $errors = Base::isValidUUID( $uuid );
 
-  print '</form>';
-}
+    if ( ! empty( $errors ) ) {
+      $uuid = '';
 
-/**
- * Custom form elements used on collection forms.
- */
-function collection_form( $collection ) {
-  $options = get_status_options( 'collection' );
-  select('outcomes-collection-status', '_outcomes_collection_status', _e('Status'), $options, $collection->status);
-}
-
-/**
- * Custom form elements used on outcomes forms.
- */
-function outcome_form( $outcome ) {
-  $options = get_status_options( 'outcome' );
-  select('outcomes-outcome-status', '_outcomes_outcome_status', _e('Status'), $options, $outcome->status );
-
-  $options = get_valid_successors( $post );
-  select('outcomes-outcome-successor', '_outcomes_outcome_successor', _e('Succeeded by'), $options, $outcome->successor );
-
-  $options = get_valid_collections( $post );
-  select('outcomes-outcome-belongs-to', '_outcomes_outcome_belongs_to', _e('Belongs to'), $options, $outcome->belongs_to );
-}
-
-/**
- * Helper function to return valid status and details.
- */
-function get_status_options( $type ) {
-  switch ( $type ) {
-    case 'collection':
-      return array(
-        'private' => __('Private', 'candela_outcomes'),
-        'public' => __('Public', 'candela_outcomes'),
-      );
-      break;
-    case 'outcome':
-      return array(
-        'draft' => __('Draft', 'candela_outcomes'),
-        'active' => __('Active', 'candela_outcomes'),
-        'deprecated' => __('Deprecated', 'candela_outcomes'),
-      );
-      break;
+      foreach ( $errors as $key => $val ) {
+        error_admin_register( 'uuid', $key, $val );
+      }
+    }
   }
-  return array();
+
+  if ( ! empty( $uuid ) ) {
+    // Try to load the corresponding collection.
+    $collection = load_item_by_uuid( $uuid, 'collection' );
+
+    if ( empty($collection ) ) {
+      // 404 template?
+      print 'TODO: Collection could not be loaded';
+      $collection = new Collection;
+    }
+  }
+  else {
+    $collection = new Collection;
+  }
+
+  $collection->form();
+
+}
+
+/**
+ * Admin page callback to add a new or edit and existing outcome.
+ */
+function edit_outcome() {
+  print 'add/edit outcome';
+
+  $uuid = '';
+  if ( ! empty( $_GET['uuid'] ) ) {
+    $uuid = $_GET['uuid'];
+    $errors = Base::isValidUUID( $uuid );
+
+    if ( ! empty( $errors ) ) {
+      $uuid = '';
+
+      foreach ( $errors as $key => $val ) {
+        error_admin_register( 'uuid', $key, $val );
+      }
+    }
+  }
+
+  if ( ! empty( $uuid ) ) {
+    // Try to load the corresponding outcome.
+    $outcome = load_item_by_uuid( $uuid, 'outcome' );
+    if ( empty($outcome ) ) {
+      // 404 template?
+      print 'TODO: Outcome could not be loaded';
+      $outcome = new Outcome;
+    }
+  }
+  else {
+    $outcome = new Outcome;
+  }
+
+  $outcome->form();
+}
+
+/**
+ * Implementation of action 'admin_notices'.
+ *
+ * Loads the outcomes_admin_errors transient for this user and wraps all
+ * all messages in error divs.
+ */
+function show_admin_notices() {
+  $transient_name = 'outcomes_admin_errors_' . get_current_user_id();
+  if ( $errors = get_transient( $transient_name ) ) {
+    delete_transient( $transient_name );
+    foreach ($errors as $widget => $sub_errors ) {
+      print '<div class="error ' . esc_attr($widget) . '">';
+      foreach ( $sub_errors as $type => $messages ) {
+        foreach ( $messages as $message ) {
+          print '<p>' . $message . '</p>';
+        }
+      }
+      print '</div>';
+    }
+  }
+}
+
+/**
+ * Set a transient to be used by show_admin_notices.
+ *
+ * Transient is composed of user id, context, widget, and error type.
+ *
+ * If you are calling this function ensure that the $widgets array in
+ * show_admin_notices has corresponding entries to check for this error.
+ *
+ */
+function error_admin_register( $widget, $error_type, $message ) {
+  $transient_name = 'outcomes_admin_errors_' . get_current_user_id();
+  $errors = get_transient( $transient_name );
+  if ( empty( $errors ) ) {
+    $errors = array();
+  }
+
+  $errors[$widget][$error_type][] = $message;
+
+  set_transient( $transient_name, $errors );
 }
 
 /**
@@ -371,7 +466,7 @@ function options($options, $selected) {
  */
 function get_valid_successors( $post ) {
   $options = array(
-    '0' => __('None', 'candela_outcomes'),
+    '' => __('None', 'candela_outcomes'),
   );
 
   // TODO: query for all potential successors.
@@ -383,7 +478,8 @@ function get_valid_successors( $post ) {
  * Gets a list of valid collections an outcome could belong to.
  */
 function get_valid_collections( $post ) {
-  $options = array();
+  $options = array(
+  );
 
   // TODO: query for all potential collections.
 
@@ -397,96 +493,6 @@ function get_uuid( ) {
   global $wpdb;
   $uuid = $wpdb->get_var('SELECT UUID();');
   return $uuid;
-}
-
-/**
- * Validates a UUID
- */
-function validate_uuid( $uuid, $empty_ok = FALSE ) {
-  $errors = array();
-  if ( ! empty( $uuid ) ) {
-    // uuid character
-    $uc = '[a-f0-9A-F]';
-    $regex = "/$uc{8}-$uc{4}-$uc{4}-$uc{4}-$uc{12}/";
-    if ( ! preg_match( $regex, $uuid ) ) {
-      $errors['invalid'] = __('Invalid UUID.', 'candela_outcomes');
-    }
-  }
-  else if ( ! $empty_ok ) {
-    $errors['empty'] = __('Empty UUID.', 'candela_outcomes');
-  }
-
-  return $errors;
-}
-
-/**
- * Validates a URI
- */
-function validate_uri( $uri ) {
-  // TODO: validate URI.
-  $errors = array();
-
-  return $errors;
-}
-
-function validate_generic( $generic ) {
-  $errors = array();
-  if ( empty( $generic ) ) {
-    $errors['empty'] = __('Empty value.', 'candela_outcomes');
-  }
-  return $errors;
-}
-
-function validate_title( $title ) {
-  return validate_generic( $title );
-}
-
-function validate_description( $description ) {
-  return validate_generic( $description );
-}
-
-function validate_status( $status, $type ) {
-  $errors = array();
-
-  $valid = get_status_options( $type );
-
-  if ( empty( $status ) ) {
-    $errors['empty'] = __('Empty status.', 'candela_outcomes');
-  }
-  else {
-    if ( ! in_array( $status, array_keys( $valid ) ) ) {
-      $errors['invalid'] = __('Invalid status.', 'candela_outcomes');
-    }
-  }
-
-  return $errors;
-}
-
-function validate_base( $item ) {
-  $errors = array();
-
-  $errors['uuid'] = validate_uuid( $item['uuid'] );
-  $errors['uri'] = validate_uri( $item['uri'] );
-  $errors['title'] = validate_title( $item['title'] );
-  $errors['description'] = validate_description( $item['description'] );
-
-  return $errors;
-}
-
-function validate_collection( $collection ) {
-  $errors = validate_base( $collection );
-  $errors['status'] = validate_status( $collection['status'], 'colleciton' );
-
-  return $errors;
-}
-
-function validate_outcome( $outcome ) {
-  $errors = validate_base( $outcome );
-
-  $errors['status'] = validate_status( $outcome['status'], 'outcome' );
-  $errors['successor'] = validate_uuid( $outcome['uuid'], TRUE );
-  $errors['belongs_to'] = validate_uuid( $outcome['belongs_to'] );
-  return $errors;
 }
 
 /**
@@ -542,4 +548,195 @@ function remove_db_tables() {
 
   $table_name = $wpdb->base_prefix . 'outcomes_outcome';
   $wpdb->query("DROP TABLE IF EXISTS $table_name");
+}
+
+abstract class Base {
+  public static $type = '';
+  public $errors = array();
+  public $uuid = '';
+  public $user_id = 0;
+  public $title = '';
+  public $description = '';
+  public $status = '';
+
+  abstract public function getStatusOptions();
+  abstract public function load( $uuid );
+
+  public function hasErrors() {
+    return empty( $errors );
+  }
+
+  public function formHeader() {
+    print '<form method="POST">';
+    print '<input type="hidden" id="uuid" name="uuid" value="' . esc_attr( $this->uuid ) . '" >';
+    // URI is auto filled.
+    text( 'title', 'title', __('Title', 'candela_outcomes'), $this->title );
+    textarea( 'description', 'description', __('Description', 'candela_outcomes'), $this->description );
+  }
+
+  public function formFooter() {
+    print '</form>';
+  }
+
+  public function validate() {
+    $this->validateUuid();
+    $this->validateURI();
+    $this->validateUserID();
+    $this->validateTitle();
+    $this->validateDescription();
+    $this->validateStatus();
+  }
+
+  public static function isValidUUID( $uuid ) {
+    // uuid character
+    $uc = '[a-f0-9A-F]';
+    $regex = "/$uc{8}-$uc{4}-$uc{4}-$uc{4}-$uc{12}/";
+    if ( preg_match( $regex, $uuid ) ) {
+      return TRUE;
+    }
+
+    return FALSE;
+  }
+
+  public function validateUuid() {
+    if ( ! $this->isValidUUID( $this->uuid ) ) {
+      $this->errors['uuid']['invalid'] = __('Invalid UUID.', 'candela_outcomes');
+    }
+  }
+
+  public function validateURI( ) {
+    // TODO: validate URI.
+  }
+
+  public function validateStatus() {
+    $valid = $this->getStatusOptions();
+
+    if ( empty( $this->status ) ) {
+      $this->errors['status']['empty'] = __('Empty status.', 'candela_outcomes');
+    }
+    else {
+      if ( ! in_array( $this->status, array_keys( $valid ) ) ) {
+        $this->errors['status']['invalid'] = __('Invalid status.', 'candela_outcomes');
+      }
+    }
+  }
+
+
+
+
+  public function validateTitle( ) {
+    $this->validateGeneric( 'title', $this->title );
+  }
+
+  public function validateDescription( ) {
+    $this->validateGeneric( 'description', $this->description );
+  }
+
+
+
+  public function validateGeneric( $field, $value ) {
+    if ( empty( $value ) ) {
+      $this->errors[$field]['empty'] = __('Empty value.', 'candela_outcomes');
+    }
+  }
+}
+
+class Collection extends Base {
+  public static $type = 'collection';
+  public $status = 'private';
+
+  public function load( $uuid ) {
+    $item = load_item_by_uuid( $uuid, 'collection' );
+
+    if ( ! empty( $item ) ) {
+      foreach ($item as $prop => $value ) {
+        $this->$prop = $value;
+      }
+
+      $this->uuid = $uuid;
+    }
+    else {
+      $this->errors['loader']['notfound'] = __('Unable to find item with UUID.', 'candela_outcomes' );
+    }
+  }
+
+  public function form() {
+    $this->formHeader();
+
+    $options = $this->getStatusOptions();
+    select('outcomes-collection-status', '_outcomes_collection_status', _e('Status'), $options, $this->status);
+
+    $this->formFooter();
+  }
+
+  public function getStatusOptions() {
+    return array(
+      'private' => __('Private', 'candela_outcomes'),
+      'public' => __('Public', 'candela_outcomes'),
+    );
+  }
+}
+
+class Outcome extends Base {
+  public static $type = 'outcome';
+  public $status = 'draft';
+  public $successor = '';
+  public $belongs_to = '';
+
+  public function load( $uuid ) {
+    $item = load_item_by_uuid( $uuid, 'collection' );
+
+    if ( ! empty( $item ) ) {
+      foreach ($item as $prop => $value ) {
+        $this->$prop = $value;
+      }
+
+      $this->uuid = $uuid;
+    }
+    else {
+      $this->errors['loader']['notfound'] = __('Unable to find item with UUID.', 'candela_outcomes' );
+    }
+  }
+
+  public function form() {
+    $this->formHeader();
+    $options = $this->getStatusOptions();
+    select('outcomes-outcome-status', '_outcomes_outcome_status', _e('Status'), $options, $this->status );
+
+    $options = get_valid_successors( $this );
+    select('outcomes-outcome-successor', '_outcomes_outcome_successor', _e('Succeeded by'), $options, $this->successor );
+
+    $options = get_valid_collections( $this );
+    select('outcomes-outcome-belongs-to', '_outcomes_outcome_belongs_to', _e('Belongs to'), $options, $this->belongs_to );
+
+    $this->formFooter();
+  }
+
+  public function getStatusOptions() {
+    return array(
+      'draft' => __('Draft', 'candela_outcomes'),
+      'active' => __('Active', 'candela_outcomes'),
+      'deprecated' => __('Deprecated', 'candela_outcomes'),
+    );
+  }
+
+  public function validate() {
+    parent::validate();
+
+    $this->validateSuccessor();
+    $this->validateBelongsTo();
+  }
+
+  public function validateSuccessor() {
+    if ( ! $this->isValidUUID( $this->successor ) ) {
+      $this->errors['successor']['invalid'] = __('Invalid UUID.', 'candela_outcomes');
+    }
+  }
+
+  public function validateBelongsTo() {
+    if ( ! $this->isValidUUID( $this->belongs_to ) ) {
+      $this->errors['belongs_to']['invalid'] = __('Invalid UUID.', 'candela_outcomes');
+    }
+  }
+
 }
