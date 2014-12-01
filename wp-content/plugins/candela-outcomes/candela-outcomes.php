@@ -418,32 +418,44 @@ function error_admin_register( $widget, $error_type, $message ) {
  * Outputs a select widget, and label.
  */
 function select( $id, $name, $label, $options, $selected ) {
+  print '<div id="' . $id . 'div">';
+  print '<div id="' . $id . 'wrap">';
   print '<label for="' . $id . '">';
   print $label;
   print '</label>';
   print '<select id="' . $id . '" name="' . $name . '">';
   options( $options, $selected );
   print '</select>';
+  print '</div>';
+  print '</div>';
 }
 
 /**
  * Outputs a text widget
  */
 function text( $id, $name, $label, $value ) {
-  print '<label for="' . $id . '">';
+  print '<div id="' . $id . 'div">';
+  print '<div id="' . $id . 'wrap">';
+  print '<label class="' . $id . '-prompt-text" for="' . $id . '">';
   print $label;
   print '</label>';
   print '<input type="text" id="' . $id . '" name="' . esc_attr($name) . '" value="' . esc_attr( $value ) . '">';
+  print '</div>';
+  print '</div>';
 }
 
 /**
  * Outputs a text area.
  */
 function textarea( $id, $name, $label, $value ) {
+  print '<div id="' . $id . 'div">';
+  print '<div id="' . $id . 'wrap">';
   print '<label for="' . $id . '">';
   print $label;
   print '</label>';
   print '<textarea class="widefat" rows="8" cols="10" id="' . esc_attr($id) . '" name="' . esc_attr($name) . '">' . esc_textarea( $value ) . '</textarea>';
+  print '</div>';
+  print '</div>';
 }
 
 /**
