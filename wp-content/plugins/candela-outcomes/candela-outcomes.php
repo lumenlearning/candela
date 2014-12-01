@@ -15,12 +15,18 @@ namespace Candela\Outcomes;
 // If file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+include_once( __DIR__  . '/class.widget.php' );
+include_once( __DIR__ . '/class.outcome.php' );
+include_once( __DIR__ . '/class.collection.php' );
+
 plugin_init();
 
 /**
  * Takes care of registering our hooks and setting constants.
  */
 function plugin_init() {
+
+
   define('DB_VERSION', '1.0' );
 
   register_activation_hook( __FILE__,  __NAMESPACE__ . '\activate' );
@@ -250,7 +256,7 @@ function admin_menu() {
       __('Add Collection', 'candela_outcomes'),
       __('Add Collection', 'candela_outcomes'),
       'manage_outcomes',
-      'add_collection',
+      'edit_collection',
       __NAMESPACE__ . '\edit_collection'
     );
 
@@ -269,7 +275,7 @@ function admin_menu() {
       __('Add Outcome', 'candela_outcomes'),
       __('Add Outcome', 'candela_outcomes'),
       'manage_outcomes',
-      'add_outcome',
+      'edit_outcome',
       __NAMESPACE__ . '\edit_outcome'
     );
   }
@@ -300,31 +306,23 @@ function admin_outcomes() {
  * Admin page callback to add a new or edit an existing collection.
  */
 function edit_collection() {
-  global $wp;
-  print 'add/edit collection';
-
-  $uuid = '';
-  if ( ! empty( $_GET['uuid'] ) ) {
-    $uuid = $_GET['uuid'];
-    $errors = Base::isValidUUID( $uuid );
-
-    if ( ! empty( $errors ) ) {
-      $uuid = '';
-
-      foreach ( $errors as $key => $val ) {
-        error_admin_register( 'uuid', $key, $val );
-      }
-    }
+  // Load collection via form submission, then requested id
+  $collection = new Collection();
+  if ( $collection->isValidNonce() ) {
+    $collection->processForm();
+    $collection->processFormErrors();
   }
-
-  if ( ! empty( $uuid ) ) {
-    // Try to load the corresponding collection.
-    $collection = load_item_by_uuid( $uuid, 'collection' );
-
-    if ( empty($collection ) ) {
-      // 404 template?
-      print 'TODO: Collection could not be loaded';
-      $collection = new Collection;
+  else if ( ! empty( $_GET['uuid'] ) ) {
+    if ( ! Base::isValidUUID( $_GET['uuid'] ) ) {
+      error_admin_register( 'uuid', $key, $val );
+    }
+    else {
+      $collection = new Collection();
+      $collection->load( $_GET['uuid'] );
+      if ( empty($collection->uuid ) ) {
+        print '<div class="error">' . __('Invalid UUID or UUID not found.') . '</div>';
+        return;
+      }
     }
   }
   else {
@@ -339,29 +337,23 @@ function edit_collection() {
  * Admin page callback to add a new or edit and existing outcome.
  */
 function edit_outcome() {
-  print 'add/edit outcome';
-
-  $uuid = '';
-  if ( ! empty( $_GET['uuid'] ) ) {
-    $uuid = $_GET['uuid'];
-    $errors = Base::isValidUUID( $uuid );
-
-    if ( ! empty( $errors ) ) {
-      $uuid = '';
-
-      foreach ( $errors as $key => $val ) {
-        error_admin_register( 'uuid', $key, $val );
-      }
-    }
+  // Load outcome via form submission, then requested id
+  $outcome = new Outcome();
+  if ( $outcome->isValidNonce() ) {
+    $outcome->processForm();
+    $outcome->processFormErrors();
   }
-
-  if ( ! empty( $uuid ) ) {
-    // Try to load the corresponding outcome.
-    $outcome = load_item_by_uuid( $uuid, 'outcome' );
-    if ( empty($outcome ) ) {
-      // 404 template?
-      print 'TODO: Outcome could not be loaded';
-      $outcome = new Outcome;
+  else if ( ! empty( $_GET['uuid'] ) ) {
+    if ( ! Base::isValidUUID( $_GET['uuid'] ) ) {
+      error_admin_register( 'uuid', $key, $val );
+    }
+    else {
+      $outcome = new Outcome();
+      $outcome->load( $_GET['uuid'] );
+      if ( empty($outcome->uuid ) ) {
+        print '<div class="error">' . __('Invalid UUID or UUID not found.') . '</div>';
+        return;
+      }
     }
   }
   else {
@@ -369,6 +361,7 @@ function edit_outcome() {
   }
 
   $outcome->form();
+
 }
 
 /**
@@ -412,90 +405,6 @@ function error_admin_register( $widget, $error_type, $message ) {
   $errors[$widget][$error_type][] = $message;
 
   set_transient( $transient_name, $errors );
-}
-
-/**
- * Outputs a select widget, and label.
- */
-function select( $id, $name, $label, $options, $selected ) {
-  print '<div id="' . $id . 'div">';
-  print '<div id="' . $id . 'wrap">';
-  print '<label for="' . $id . '">';
-  print $label;
-  print '</label>';
-  print '<select id="' . $id . '" name="' . $name . '">';
-  options( $options, $selected );
-  print '</select>';
-  print '</div>';
-  print '</div>';
-}
-
-/**
- * Outputs a text widget
- */
-function text( $id, $name, $label, $value ) {
-  print '<div id="' . $id . 'div">';
-  print '<div id="' . $id . 'wrap">';
-  print '<label class="' . $id . '-prompt-text" for="' . $id . '">';
-  print $label;
-  print '</label>';
-  print '<input type="text" id="' . $id . '" name="' . esc_attr($name) . '" value="' . esc_attr( $value ) . '">';
-  print '</div>';
-  print '</div>';
-}
-
-/**
- * Outputs a text area.
- */
-function textarea( $id, $name, $label, $value ) {
-  print '<div id="' . $id . 'div">';
-  print '<div id="' . $id . 'wrap">';
-  print '<label for="' . $id . '">';
-  print $label;
-  print '</label>';
-  print '<textarea class="widefat" rows="8" cols="10" id="' . esc_attr($id) . '" name="' . esc_attr($name) . '">' . esc_textarea( $value ) . '</textarea>';
-  print '</div>';
-  print '</div>';
-}
-
-/**
- * Outputs a set of select options, marking the appropriate value as selected.
- */
-function options($options, $selected) {
-  foreach ( $options as $value => $label ) {
-    if ( $selected == $value ) {
-      $s = 'selected';
-    }
-    else {
-      $s = '';
-    }
-    print '<option value="' . esc_attr($value) . "\" $s>" . esc_html($label) . '</option>';
-  }
-}
-
-/**
- * Gets a list of valid successors for an outcome.
- */
-function get_valid_successors( $post ) {
-  $options = array(
-    '' => __('None', 'candela_outcomes'),
-  );
-
-  // TODO: query for all potential successors.
-
-  return $options;
-}
-
-/**
- * Gets a list of valid collections an outcome could belong to.
- */
-function get_valid_collections( $post ) {
-  $options = array(
-  );
-
-  // TODO: query for all potential collections.
-
-  return $options;
 }
 
 /**
@@ -562,193 +471,3 @@ function remove_db_tables() {
   $wpdb->query("DROP TABLE IF EXISTS $table_name");
 }
 
-abstract class Base {
-  public static $type = '';
-  public $errors = array();
-  public $uuid = '';
-  public $user_id = 0;
-  public $title = '';
-  public $description = '';
-  public $status = '';
-
-  abstract public function getStatusOptions();
-  abstract public function load( $uuid );
-
-  public function hasErrors() {
-    return empty( $errors );
-  }
-
-  public function formHeader() {
-    print '<form method="POST">';
-    print '<input type="hidden" id="uuid" name="uuid" value="' . esc_attr( $this->uuid ) . '" >';
-    // URI is auto filled.
-    text( 'title', 'title', __('Title', 'candela_outcomes'), $this->title );
-    textarea( 'description', 'description', __('Description', 'candela_outcomes'), $this->description );
-  }
-
-  public function formFooter() {
-    print '</form>';
-  }
-
-  public function validate() {
-    $this->validateUuid();
-    $this->validateURI();
-    $this->validateUserID();
-    $this->validateTitle();
-    $this->validateDescription();
-    $this->validateStatus();
-  }
-
-  public static function isValidUUID( $uuid ) {
-    // uuid character
-    $uc = '[a-f0-9A-F]';
-    $regex = "/$uc{8}-$uc{4}-$uc{4}-$uc{4}-$uc{12}/";
-    if ( preg_match( $regex, $uuid ) ) {
-      return TRUE;
-    }
-
-    return FALSE;
-  }
-
-  public function validateUuid() {
-    if ( ! $this->isValidUUID( $this->uuid ) ) {
-      $this->errors['uuid']['invalid'] = __('Invalid UUID.', 'candela_outcomes');
-    }
-  }
-
-  public function validateURI( ) {
-    // TODO: validate URI.
-  }
-
-  public function validateStatus() {
-    $valid = $this->getStatusOptions();
-
-    if ( empty( $this->status ) ) {
-      $this->errors['status']['empty'] = __('Empty status.', 'candela_outcomes');
-    }
-    else {
-      if ( ! in_array( $this->status, array_keys( $valid ) ) ) {
-        $this->errors['status']['invalid'] = __('Invalid status.', 'candela_outcomes');
-      }
-    }
-  }
-
-
-
-
-  public function validateTitle( ) {
-    $this->validateGeneric( 'title', $this->title );
-  }
-
-  public function validateDescription( ) {
-    $this->validateGeneric( 'description', $this->description );
-  }
-
-
-
-  public function validateGeneric( $field, $value ) {
-    if ( empty( $value ) ) {
-      $this->errors[$field]['empty'] = __('Empty value.', 'candela_outcomes');
-    }
-  }
-}
-
-class Collection extends Base {
-  public static $type = 'collection';
-  public $status = 'private';
-
-  public function load( $uuid ) {
-    $item = load_item_by_uuid( $uuid, 'collection' );
-
-    if ( ! empty( $item ) ) {
-      foreach ($item as $prop => $value ) {
-        $this->$prop = $value;
-      }
-
-      $this->uuid = $uuid;
-    }
-    else {
-      $this->errors['loader']['notfound'] = __('Unable to find item with UUID.', 'candela_outcomes' );
-    }
-  }
-
-  public function form() {
-    $this->formHeader();
-
-    $options = $this->getStatusOptions();
-    select('outcomes-collection-status', '_outcomes_collection_status', _e('Status'), $options, $this->status);
-
-    $this->formFooter();
-  }
-
-  public function getStatusOptions() {
-    return array(
-      'private' => __('Private', 'candela_outcomes'),
-      'public' => __('Public', 'candela_outcomes'),
-    );
-  }
-}
-
-class Outcome extends Base {
-  public static $type = 'outcome';
-  public $status = 'draft';
-  public $successor = '';
-  public $belongs_to = '';
-
-  public function load( $uuid ) {
-    $item = load_item_by_uuid( $uuid, 'collection' );
-
-    if ( ! empty( $item ) ) {
-      foreach ($item as $prop => $value ) {
-        $this->$prop = $value;
-      }
-
-      $this->uuid = $uuid;
-    }
-    else {
-      $this->errors['loader']['notfound'] = __('Unable to find item with UUID.', 'candela_outcomes' );
-    }
-  }
-
-  public function form() {
-    $this->formHeader();
-    $options = $this->getStatusOptions();
-    select('outcomes-outcome-status', '_outcomes_outcome_status', _e('Status'), $options, $this->status );
-
-    $options = get_valid_successors( $this );
-    select('outcomes-outcome-successor', '_outcomes_outcome_successor', _e('Succeeded by'), $options, $this->successor );
-
-    $options = get_valid_collections( $this );
-    select('outcomes-outcome-belongs-to', '_outcomes_outcome_belongs_to', _e('Belongs to'), $options, $this->belongs_to );
-
-    $this->formFooter();
-  }
-
-  public function getStatusOptions() {
-    return array(
-      'draft' => __('Draft', 'candela_outcomes'),
-      'active' => __('Active', 'candela_outcomes'),
-      'deprecated' => __('Deprecated', 'candela_outcomes'),
-    );
-  }
-
-  public function validate() {
-    parent::validate();
-
-    $this->validateSuccessor();
-    $this->validateBelongsTo();
-  }
-
-  public function validateSuccessor() {
-    if ( ! $this->isValidUUID( $this->successor ) ) {
-      $this->errors['successor']['invalid'] = __('Invalid UUID.', 'candela_outcomes');
-    }
-  }
-
-  public function validateBelongsTo() {
-    if ( ! $this->isValidUUID( $this->belongs_to ) ) {
-      $this->errors['belongs_to']['invalid'] = __('Invalid UUID.', 'candela_outcomes');
-    }
-  }
-
-}
