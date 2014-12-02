@@ -3,7 +3,7 @@
  * Template Name: Collection
  */
 get_header();
-print "COLLECTION TEMPLATE";
+Candela\Outcomes\get_collection();
 get_sidebar( 'content' );
 get_sidebar();
 get_footer();

@@ -3,7 +3,8 @@
  * Template Name: Outcome
  */
 get_header();
-print "OUTCOME TEMPLATE";
+
+Candela\Outcomes\get_outcome();
 get_sidebar( 'content' );
 get_sidebar();
 get_footer();

@@ -16,11 +16,17 @@ class Outcome extends Base {
     $item = load_item_by_uuid( $uuid, 'outcome' );
 
     if ( ! empty( $item ) ) {
+      $item->is_new = FALSE;
       foreach ($item as $prop => $value ) {
         $this->$prop = $value;
       }
 
       $this->uuid = $uuid;
+
+      if ( ! empty( $item->belongs_to ) ) {
+        $item->collection = new Collection;
+        $item->collection->load( $item->belongs_to );
+      }
     }
     else {
       $this->errors['loader']['notfound'] = __('Unable to find item with UUID.', 'candela_outcomes' );
@@ -188,7 +194,7 @@ class Outcome extends Base {
 
       if ( empty ( $this->errors ) ) {
         $this->save();
-        wp_redirect( $this->uri() );
+        wp_redirect( $this->uri( TRUE ) );
         exit;
       }
     }

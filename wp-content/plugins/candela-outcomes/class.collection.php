@@ -14,6 +14,7 @@ class Collection extends Base {
     $item = load_item_by_uuid( $uuid, 'collection' );
 
     if ( ! empty( $item ) ) {
+      $item->is_new = FALSE;
       foreach ($item as $prop => $value ) {
         $this->$prop = $value;
       }
@@ -109,7 +110,7 @@ class Collection extends Base {
 
       if ( empty ( $this->errors ) ) {
         $this->save();
-        wp_redirect( $this->uri() );
+        wp_redirect( $this->uri( TRUE ) );
         exit;
       }
     }

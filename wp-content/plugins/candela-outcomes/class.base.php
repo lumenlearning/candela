@@ -13,6 +13,7 @@ abstract class Base {
   public $title = '';
   public $description = '';
   public $status = '';
+  public $is_new = TRUE;
 
   abstract public function getStatusOptions();
   abstract public function load( $uuid );
@@ -21,13 +22,14 @@ abstract class Base {
   abstract public function uri( $edit = FALSE );
 
   public function hasErrors() {
-    return empty( $errors );
+    return ! empty( $this->errors );
   }
 
   public function formHeader() {
     print '<form class="form-horizontal" role="form" method="POST">';
     print '<input type="hidden" id="uuid" name="uuid" value="' . esc_attr( $this->uuid ) . '" >';
     wp_nonce_field( 'outcomes-edit', 'outcomes-edit-field' );
+
     // URI is auto filled.
     $title = new Text();
     $title->id = 'title';
@@ -35,6 +37,15 @@ abstract class Base {
     $title->label = __('Title', 'candela_outcomes');
     $title->value = $this->title;
     $title->FormElement();
+
+    if ( ! $this->is_new ) {
+      print '<div id="edit-slug-box">';
+      print '<strong>' . _e('Permalink') . ':</strong>';
+      print '<span id="sample-permalink">' . esc_html( $this->uri() ) . '</span>';
+      print '<span id="view-post-btn"><a href="' . esc_attr( $this->uri() ) . '" class="button button-small">' . __('View') . '</a></span>';
+      print '<span id="edit-post-btn"><a href="' . esc_attr( $this->uri( TRUE ) ) . '" class="button button-small">' . __('Edit') . '</a></span>';
+      print '</div>';
+    }
 
     $description = new TextArea();
     $description->id = 'description';
@@ -140,6 +151,14 @@ abstract class Base {
         print '</div>';
       }
     }
+  }
+
+  public function userCanEdit( $user = NULL ) {
+    if ( empty ( $user ) ) {
+      $user = wp_get_current_user();
+    }
+
+    return user_can( $user, 'manage_outcomes');
   }
 
 }

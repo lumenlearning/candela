@@ -120,22 +120,24 @@ function parse_request() {
       $wp->query_vars['outcomes_type'] = 'invalid';
     }
 
-    if ( ! empty( $params[1] ) ) {
-      $errors = Base::isValidUUID( $params[1] );
-      if ( empty( $errors ) ) {
-        $wp->query_vars['outcomes_uuid'] = $params[1];
-      }
-      else {
-        $wp->query_vars['outcomes_action'] = $params[1];
-      }
-    }
-
-    if ( empty( $action ) && ! empty( $params[2] ) ) {
-      if ( $params[2] == 'edit' ) {
-        $wp->query_vars['outcomes_action'] = 'edit';
-      }
+    if ( ! empty( $params[1] && Base::isValidUUID( $params[1] ) ) ) {
+      $wp->query_vars['outcomes_uuid'] = $params[1];
     }
   }
+}
+
+function get_outcome() {
+  $uuid = get_query_var( 'outcomes_uuid' );
+  $outcome = new Outcome;
+  $outcome->load( $uuid );
+  include(__DIR__ . '/outcome.single.php');
+}
+
+function get_collection() {
+  $uuid = get_query_var( 'outcomes_uuid' );
+  $collection = new Collection;
+  $collection->load( $uuid );
+  include(__DIR__ . '/collection.single.php');
 }
 
 /**
@@ -147,6 +149,7 @@ function template_include( $template_file ) {
   if ( get_query_var( 'outcomes_page' ) ) {
     $uuid = get_query_var( 'outcomes_uuid' );
     $type = get_query_var( 'outcomes_type' );
+
     switch ( $type ) {
       case 'outcome':
         $outcome = new Outcome;
@@ -198,6 +201,8 @@ function get_template( $type ) {
  */
 function admin_init() {
   setup_capabilities();
+
+  process_form();
 }
 
 function load_item_by_uuid( $uuid, $type ) {
@@ -232,6 +237,32 @@ function setup_capabilities() {
   $wp_roles->add_cap( 'administrator', 'manage_outcomes' );
 }
 
+/**
+ * Grab incoming form submissions and dispatch so we can redirect before headers
+ * are sent.
+ */
+function process_form() {
+
+  if ( ! empty($_GET['page'] ) ) {
+    switch ( $_GET['page'] ) {
+      case 'edit_collection':
+        $collection = new Collection();
+        if ( $collection->isValidNonce() ) {
+          $collection->processForm();
+        }
+        break;
+      case 'edit_outcome':
+        $outcome = new Outcome();
+        if ( $outcome->isValidNonce() ) {
+          $outcome->processForm();
+        }
+        break;
+      default:
+        break;
+    }
+  }
+}
+
 function admin_menu() {
   if ( current_user_can( 'manage_outcomes' ) ) {
     add_menu_page(
@@ -253,27 +284,17 @@ function admin_menu() {
 
     add_submenu_page(
       'outcomes-overview',
-      __('Add Collection', 'candela_outcomes'),
-      __('Add Collection', 'candela_outcomes'),
+      __('Add/Edit Collection', 'candela_outcomes'),
+      __('Add/Edit Collection', 'candela_outcomes'),
       'manage_outcomes',
       'edit_collection',
       __NAMESPACE__ . '\edit_collection'
     );
 
-
     add_submenu_page(
       'outcomes-overview',
-      __('Outcomes', 'candela_outcomes'),
-      __('Outcomes', 'candela_outcomes'),
-      'manage_outcomes',
-      'outcomes',
-      __NAMESPACE__ . '\admin_outcomes'
-    );
-
-    add_submenu_page(
-      'outcomes-overview',
-      __('Add Outcome', 'candela_outcomes'),
-      __('Add Outcome', 'candela_outcomes'),
+      __('Add/Edit Outcome', 'candela_outcomes'),
+      __('Add/Edit Outcome', 'candela_outcomes'),
       'manage_outcomes',
       'edit_outcome',
       __NAMESPACE__ . '\edit_outcome'
@@ -285,6 +306,9 @@ function admin_menu() {
  * Top-level admin page callback for outcomes.
  */
 function admin_outcomes_overview() {
+  // TODO: List global outcomes and select which ones are available.
+
+  // TODO: Show list of all collections and link to edit collection links.
   print 'outcomes overview';
 }
 
@@ -296,21 +320,14 @@ function admin_collections() {
 }
 
 /**
- * Admin page callback for outcomes overview.
- */
-function admin_outcomes() {
-  print 'outcomes';
-}
-
-/**
  * Admin page callback to add a new or edit an existing collection.
  */
 function edit_collection() {
   // Load collection via form submission, then requested id
   $collection = new Collection();
   if ( $collection->isValidNonce() ) {
-    $collection->processForm();
-    $collection->processFormErrors();
+      $collection->processForm();
+      $collection->processFormErrors();
   }
   else if ( ! empty( $_GET['uuid'] ) ) {
     if ( ! Base::isValidUUID( $_GET['uuid'] ) ) {
