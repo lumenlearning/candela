@@ -18,6 +18,7 @@ abstract class Base {
   abstract public function getStatusOptions();
   abstract public function load( $uuid );
   abstract public function save();
+  abstract public function delete();
   abstract public function processForm();
   abstract public function uri( $edit = FALSE );
 
@@ -58,8 +59,14 @@ abstract class Base {
   public function formFooter() {
     print '<div class="submitbox" id="submitpost">';
     print '<div id="saving-action">';
-    print '<input type="submit" name="save" id="save" class="button button-primary button-large" value="Save">';
+    print '<input type="submit" name="submit" id="save" class="button button-primary button-large" value="Save">';
     print '</div>';
+
+    if ( !$this->is_new ) {
+      print '<div id="delete-action">';
+      print '<input type="submit" name="submit" id="delete" class="button button-primary button-large" value="Delete">';
+      print '</div>';
+    }
     print '</div>';
     print '</form>';
   }
@@ -67,7 +74,6 @@ abstract class Base {
   public function validate() {
     $this->validateNonce();
     $this->validateUuid();
-    $this->validateURI();
     $this->validateUserID();
     $this->validateTitle();
     $this->validateDescription();
@@ -102,10 +108,6 @@ abstract class Base {
     if ( ! $this->isValidUUID( $this->uuid ) ) {
       $this->errors['uuid']['invalid'] = __('Invalid UUID.', 'candela_outcomes' );
     }
-  }
-
-  public function validateURI( ) {
-    // TODO: validate URI.
   }
 
   public function validateUserID() {

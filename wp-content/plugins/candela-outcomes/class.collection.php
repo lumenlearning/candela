@@ -60,6 +60,15 @@ class Collection extends Base {
 
   }
 
+  public function delete() {
+    global $wpdb;
+    $table = $wpdb->prefix . 'outcomes_collection';
+
+    $wpdb->delete( $table, array('uuid' => $this->uuid) );
+
+    // TODO: update(orphan) or delete outcomes referncing this collection
+  }
+
   public function form() {
     $this->formHeader();
 
@@ -108,10 +117,20 @@ class Collection extends Base {
 
       $this->validate();
 
-      if ( empty ( $this->errors ) ) {
-        $this->save();
-        wp_redirect( $this->uri( TRUE ) );
-        exit;
+      if ( empty ( $this->errors ) && ! empty( $_POST['submit'] ) ) {
+        switch ( $_POST['submit'] ) {
+          case 'Save':
+            $this->save();
+            wp_redirect( $this->uri( TRUE ) );
+            exit;
+            break;
+          case 'Delete';
+            // Add delete notification;
+            $this->delete();
+            wp_redirect( home_url() . '/wp-admin/admin.php?page=edit_collection' );
+            exit;
+            break;
+        }
       }
     }
   }

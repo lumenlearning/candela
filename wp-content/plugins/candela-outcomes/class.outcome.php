@@ -70,6 +70,13 @@ class Outcome extends Base {
 
   }
 
+  public function delete() {
+    global $wpdb;
+    $table = $wpdb->prefix . 'outcomes_outcome';
+
+    $wpdb->delete( $table, array('uuid' => $this->uuid) );
+  }
+
 
   public function form() {
     $this->formHeader();
@@ -113,11 +120,21 @@ class Outcome extends Base {
    * Gets a list of valid successors for an outcome.
    */
   function getValidSuccessors() {
+    global $wpdb;
+
     $options = array(
       '' => __('None', 'candela_outcomes'),
     );
 
-    // TODO: query for all potential successors.
+    $outcome_table = $wpdb->prefix . 'outcomes_outcome';
+    $query = $wpdb->prepare( 'SELECT uuid, title FROM ' . $outcome_table  . ' WHERE uuid != %s ORDER BY title ', $this->uuid );
+    $outcomes = $wpdb->get_results( $query );
+
+    if ( ! empty( $outcomes ) ) {
+      foreach ($outcomes as $row => $values ) {
+        $options[$values->uuid] = $values->title;
+      }
+    }
 
     return $options;
   }
@@ -134,8 +151,11 @@ class Outcome extends Base {
     $collection_table = $wpdb->prefix . 'outcomes_collection';
 
     $collections = $wpdb->get_results('SELECT uuid, title FROM ' . $collection_table  . ' ORDER BY title');
-    foreach ($collections as $row => $values ) {
-      $options[$values->uuid] = $values->title;
+
+    if ( ! empty( $collections ) ) {
+      foreach ($collections as $row => $values ) {
+        $options[$values->uuid] = $values->title;
+      }
     }
 
     return $options;
@@ -192,10 +212,20 @@ class Outcome extends Base {
 
       $this->validate();
 
-      if ( empty ( $this->errors ) ) {
-        $this->save();
-        wp_redirect( $this->uri( TRUE ) );
-        exit;
+      if ( empty ( $this->errors ) && ! empty( $_POST['submit'] ) ) {
+        switch ( $_POST['submit'] ) {
+          case 'Save':
+            $this->save();
+            wp_redirect( $this->uri( TRUE ) );
+            exit();
+            break;
+          case 'Delete';
+            // Add delete notification;
+            $this->delete();
+            wp_redirect( home_url() . '/wp-admin/admin.php?page=edit_collection' );
+            exit();
+            break;
+        }
       }
     }
   }
