@@ -275,15 +275,6 @@ function admin_menu() {
 
     add_submenu_page(
       'outcomes-overview',
-      __('Collections Overview', 'candela_outcomes'),
-      __('Collections Overview', 'candela_outcomes'),
-      'manage_outcomes',
-      'collections',
-      __NAMESPACE__ . '\admin_collections'
-    );
-
-    add_submenu_page(
-      'outcomes-overview',
       __('Add/Edit Collection', 'candela_outcomes'),
       __('Add/Edit Collection', 'candela_outcomes'),
       'manage_outcomes',
@@ -306,10 +297,18 @@ function admin_menu() {
  * Top-level admin page callback for outcomes.
  */
 function admin_outcomes_overview() {
+  global $wpdb;
+
+  if (!class_exists('Collections_Table')) {
+      require_once(__DIR__ . '/table-collections.php');
+  }
   // TODO: List global outcomes and select which ones are available.
 
   // TODO: Show list of all collections and link to edit collection links.
-  print 'outcomes overview';
+  print '<h2>' . __('Collections Overview' ) . '</h2>';
+  $table = new Collections_Table();
+  $table->prepare_items();
+  $table->display();
 }
 
 /**
