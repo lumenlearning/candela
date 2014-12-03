@@ -302,9 +302,7 @@ function admin_menu() {
  * Top-level admin page callback for outcomes.
  */
 function admin_outcomes_overview() {
-  global $wpdb;
-
-  if (!class_exists('Collections_Table')) {
+  if ( ! class_exists('CollectionsTable')) {
       require_once(__DIR__ . '/table-collections.php');
   }
 
@@ -315,7 +313,7 @@ function admin_outcomes_overview() {
   //       Once this is done, then add outcome selection to appropriate post types.
 
   print '<h2>' . __('Collections Overview' ) . '</h2>';
-  $table = new Collections_Table();
+  $table = new CollectionsTable();
   $table->prepare_items();
   $table->display();
 }

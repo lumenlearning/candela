@@ -9,7 +9,7 @@ if (!class_exists('WP_List_Table')) {
   require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 }
 
-class Collections_Table extends \WP_List_Table {
+class CollectionsTable extends \WP_List_Table {
   function __construct() {
     global $status, $page;
 
