@@ -24,8 +24,13 @@ class Outcome extends Base {
       $this->uuid = $uuid;
 
       if ( ! empty( $item->belongs_to ) ) {
-        $item->collection = new Collection;
-        $item->collection->load( $item->belongs_to );
+        $this->collection = new Collection;
+        $this->collection->load( $item->belongs_to );
+      }
+
+      if ( ! empty( $item->successor ) ) {
+        $this->successor_outcome = new Outcome;
+        $this->successor_outcome->load( $item->successor );
       }
     }
     else {

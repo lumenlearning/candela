@@ -14,6 +14,12 @@
   <p><a href="<?php print esc_attr($outcome->collection->uri()); ?>"><?php print esc_html($outcome->collection->title);?></a></p>
 <?php } ?>
 
+<?php if ( ! empty($outcome->successor_outcome ) ) { ?>
+  <h2><?php _e('Successor'); ?></h2>
+  <p><a href="<?php print esc_attr($outcome->successor_outcome->uri()); ?>"><?php print esc_html($outcome->successor_outcome->title);?></a></p>
+
+<?php } ?>
+
 <h2><?php _e('Description'); ?></h2>
 <p><?php print esc_html($outcome->description); ?></p>
 
