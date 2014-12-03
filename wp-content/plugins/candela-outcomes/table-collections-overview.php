@@ -9,10 +9,12 @@ if (!class_exists('WP_List_Table')) {
   require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 }
 
-class CollectionsTable extends \WP_List_Table {
-  function __construct() {
-    global $status, $page;
+class CollectionOverviewTable extends \WP_List_Table {
+  private $uuid = '';
 
+  function __construct( $uuid ) {
+    global $status, $page;
+    $this->uuid = $uuid;
     parent::__construct(array(
       'singular' => 'Collection',
       'plural' => 'Collections',
@@ -24,16 +26,28 @@ class CollectionsTable extends \WP_List_Table {
   }
 
   function column_title($item) {
-    $collection = new Collection();
-    $collection->uuid = $item['uuid'];
-    return sprintf('<a href="%s">%s</a><a href="%s" class="button button-small">%s</a><a href="%s" class="button button-small">%s</a>', esc_attr( $collection->uri() ), esc_html( $item['title'] ), esc_attr( $collection->uri( TRUE ) ), __('Edit'), esc_attr( $collection->overviewUri() ), __('Overview') );
+    return $this->handle_title( $item['uuid'], $item['title'] );
   }
+
+  function column_successor($item) {
+    if ( ! empty ( $item['successor'] ) ) {
+      return $this->handle_title( $item['successor'], $item['successor_title'] );
+    }
+    return '';
+  }
+
+  function handle_title( $uuid, $title ) {
+    $outcome = new Outcome();
+    $outcome->uuid = $uuid;
+    return sprintf('<a href="%s">%s</a><a href="%s" class="button button-small">%s</a>', esc_attr( $outcome->uri() ), esc_html( $title ), esc_attr( $outcome->uri( TRUE ) ), __('Edit') );
+  }
+
 
   function get_columns() {
     return array(
       'title' => __('Title'),
       'status' => __('Status'),
-      'total' => __('Total Outcomes'),
+      'successor' => __('Successor'),
     );
   }
 
@@ -61,13 +75,13 @@ class CollectionsTable extends \WP_List_Table {
     $orderby = (isset($_REQUEST['orderby']) && in_array($_REQUEST['orderby'], array_keys($this->get_sortable_columns()))) ? $_REQUEST['orderby'] : 'title';
     $order = (isset($_REQUEST['order']) && in_array($_REQUEST['order'], array('asc', 'desc'))) ? $_REQUEST['order'] : 'asc';
 
-    $sql = "SELECT c.uuid, c.title, c.status, (
-          SELECT count(*) FROM $outcomes_table o WHERE o.belongs_to = c.uuid
-        ) as total
-        FROM $collections_table c
+    $sql = "SELECT o.uuid, o.title, o.status, o.successor, s.title as successor_title
+        FROM $outcomes_table o
+        LEFT JOIN $outcomes_table s ON o.successor = s.uuid
+        WHERE o.belongs_to = %s
         ORDER BY $orderby $order
         LIMIT %d OFFSET %d";
-    $prepared = $wpdb->prepare($sql, $per_page, $paged);
+    $prepared = $wpdb->prepare($sql, $this->uuid, $per_page, $paged);
 
     $this->items = $wpdb->get_results($prepared, ARRAY_A);
 

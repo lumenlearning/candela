@@ -27,6 +27,11 @@ class Collection extends Base {
     }
   }
 
+
+  public function overviewUri() {
+    return home_url() . '/wp-admin/admin.php?page=collection-overview&uuid=' . $this->uuid;
+  }
+
   public function save() {
     global $wpdb;
     $table = $wpdb->prefix . 'outcomes_collection';

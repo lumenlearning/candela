@@ -295,6 +295,16 @@ function admin_menu() {
       'edit_outcome',
       __NAMESPACE__ . '\edit_outcome'
     );
+
+    // No menu entry for collection overview
+    add_submenu_page(
+      NULL,
+      '',
+      '',
+      'manage_outcomes',
+      'collection-overview',
+      __NAMESPACE__ . '\collection_overview'
+    );
   }
 }
 
@@ -316,6 +326,31 @@ function admin_outcomes_overview() {
   $table = new CollectionsTable();
   $table->prepare_items();
   $table->display();
+}
+
+
+function collection_overview() {
+
+  if ( ! class_exists('CollectionOverviewTable' ) ) {
+    require_once(__DIR__ . '/table-collections-overview.php' );
+  }
+
+  if ( ! Base::isValidUUID( $_GET['uuid'] ) ) {
+    error_admin_register( 'uuid', $key, $val );
+  }
+  else {
+    $collection = new Collection();
+    $collection->load( $_GET['uuid'] );
+    if ( empty($collection->uuid ) ) {
+      print '<div class="error">' . __('Invalid UUID or UUID not found.') . '</div>';
+      return;
+    }
+
+    print '<h2>' . esc_html( $collection->title ) . '</h2>';
+    $table = new CollectionOverviewTable( $collection->uuid );
+    $table->prepare_items();
+    $table->display();
+  }
 }
 
 /**
