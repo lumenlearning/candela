@@ -218,7 +218,7 @@ class Outcome extends Base {
             exit();
             break;
           case 'Delete';
-            if ( $this->status == 'draft' )
+            if ( $this->status == 'draft' ) {
               // Add delete notification;
               $this->delete();
               wp_redirect( home_url() . '/wp-admin/admin.php?page=edit_collection' );
