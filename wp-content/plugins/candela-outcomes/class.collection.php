@@ -126,8 +126,13 @@ class Collection extends Base {
             break;
           case 'Delete';
             // Add delete notification;
-            $this->delete();
-            wp_redirect( home_url() . '/wp-admin/admin.php?page=edit_collection' );
+            if ( $this->status != 'public' ) {
+              $this->delete();
+              wp_redirect( home_url() . '/wp-admin/admin.php?page=edit_collection' );
+              exit;
+            }
+            error_admin_register( 'collection', 'delete_unavailable', __('You cannot delete public collections.') );
+            wp_redirect( $this->uri( TRUE ) );
             exit;
             break;
         }

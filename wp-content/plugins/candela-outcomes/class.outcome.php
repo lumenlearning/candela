@@ -218,10 +218,15 @@ class Outcome extends Base {
             exit();
             break;
           case 'Delete';
-            // Add delete notification;
-            $this->delete();
-            wp_redirect( home_url() . '/wp-admin/admin.php?page=edit_collection' );
-            exit();
+            if ( $this->status == 'draft' )
+              // Add delete notification;
+              $this->delete();
+              wp_redirect( home_url() . '/wp-admin/admin.php?page=edit_collection' );
+              exit();
+            }
+            error_admin_register( 'outcome', 'delete_unavailable', __('You can not delete outcomes that are not in the draft state.' ) );
+            wp_redirect( $this->uri( TRUE) );
+            exit;
             break;
         }
       }
