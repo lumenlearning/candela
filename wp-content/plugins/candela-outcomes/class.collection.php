@@ -134,4 +134,21 @@ class Collection extends Base {
       }
     }
   }
+
+  /**
+   * Return TRUE if the collection is public, or if the user can manage outcomes.
+   *
+   * This should likely be expanded to have an additional capability.
+   */
+  public function userCanView( $user = NULL ) {
+    if ( $this->status == 'public' ) {
+      return TRUE;
+    }
+
+    if ( empty ( $user ) ) {
+      $user = wp_get_current_user();
+    }
+
+    return user_can( $user, 'manage_outcomes');
+  }
 }

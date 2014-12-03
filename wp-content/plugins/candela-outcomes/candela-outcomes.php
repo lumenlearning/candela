@@ -160,7 +160,7 @@ function template_include( $template_file ) {
       case 'outcome':
         $outcome = new Outcome;
         $outcome->load( $uuid );
-        if ( ! $outcome->hasErrors() ) {
+        if ( ! $outcome->hasErrors() && $outcome->userCanView() ) {
           return get_template( 'outcome' );
         }
         else {
@@ -171,7 +171,7 @@ function template_include( $template_file ) {
       case 'collection':
         $collection = new Collection;
         $collection->load( $uuid );
-        if ( ! $collection->hasErrors() ) {
+        if ( ! $collection->hasErrors() && $collection->userCanView() ) {
           return get_template( 'collection' );
         }
         else {

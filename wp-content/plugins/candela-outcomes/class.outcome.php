@@ -228,4 +228,23 @@ class Outcome extends Base {
     }
   }
 
+
+  /**
+   * Return TRUE if the outcome is active or deprecated, or if the user can
+   * manage outcomes.
+   *
+   * This should likely be expanded to have an additional capability.
+   */
+  public function userCanView( $user = NULL ) {
+    if ( $this->status == 'active' || $this->status == 'deprecated' ) {
+      return TRUE;
+    }
+
+    if ( empty ( $user ) ) {
+      $user = wp_get_current_user();
+    }
+
+    return user_can( $user, 'manage_outcomes');
+  }
+
 }
