@@ -15,17 +15,58 @@ abstract class Base {
   public $status = '';
   public $is_new = TRUE;
 
+  /**
+   * Return the available status options keyed by value with labels as values.
+   */
   abstract public function getStatusOptions();
+
+  /**
+   * Load the data into the current object for the given $uuid
+   */
   abstract public function load( $uuid );
+
+  /**
+   * Save the current settings to the database
+   */
   abstract public function save();
+
+  /**
+   * Delete the current object from the database.
+   */
   abstract public function delete();
+
+  /**
+   * Render the edit form for this object.
+   */
+  abstract public function form();
+
+  /**
+   * Process incoming form submission and branch accordingly.
+   */
   abstract public function processForm();
+
+  /**
+   * Return URI (permalink) for the current object. If the $edit parameter is
+   * TRUE then return the edit link for the current object instead.
+   */
   abstract public function uri( $edit = FALSE );
 
+  /**
+   * Determine if the passed user (or current user if NULL) can view the current
+   * collection/outcome.
+   */
+  abstract public function userCanView( $user );
+
+  /**
+   * Returns TRUE if the current object has any errors set.
+   */
   public function hasErrors() {
     return ! empty( $this->errors );
   }
 
+  /**
+   * Write the generic form boilerplace intro, used for editing an object.
+   */
   public function formHeader() {
     print '<form class="form-horizontal" role="form" method="POST">';
     print '<input type="hidden" id="uuid" name="uuid" value="' . esc_attr( $this->uuid ) . '" >';
@@ -56,6 +97,9 @@ abstract class Base {
     $description->FormElement();
   }
 
+  /**
+   * Write the generic form boilerplate footer.
+   */
   public function formFooter() {
     print '<div class="submitbox" id="submitpost">';
     print '<div id="saving-action">';
@@ -71,6 +115,9 @@ abstract class Base {
     print '</form>';
   }
 
+  /**
+   * Make sure the current object passes validation.
+   */
   public function validate() {
     $this->validateNonce();
     $this->validateUuid();
@@ -80,6 +127,9 @@ abstract class Base {
     $this->validateStatus();
   }
 
+  /**
+   * Determine if the passed $uuid value is a valid UUID.
+   */
   public static function isValidUUID( $uuid ) {
     // uuid character
     $uc = '[a-f0-9A-F]';
@@ -91,6 +141,12 @@ abstract class Base {
     return FALSE;
   }
 
+  /**
+   * Utility function checks if the nonce submitted is valid.
+   *
+   * @see formHeader().
+   * @see validateNonce().
+   */
   public function isValidNonce() {
     if ( ! isset( $_POST['outcomes-edit-field'] ) || ! wp_verify_nonce( $_POST['outcomes-edit-field'], 'outcomes-edit' ) ) {
       return FALSE;
@@ -98,24 +154,36 @@ abstract class Base {
     return TRUE;
   }
 
+  /*
+   * Check if the submitted nonce is valid, and set errors appropriately.
+   */
   public function validateNonce() {
     if ( ! $this->isValidNonce() ) {
       $this->errors['nonce']['invalid'] = __('Invalid Nonce.', 'candela_outcomes' );
     }
   }
 
+  /**
+   * Check if the current UUID is valid, and set errors appropriately.
+   */
   public function validateUuid() {
     if ( ! $this->isValidUUID( $this->uuid ) ) {
       $this->errors['uuid']['invalid'] = __('Invalid UUID.', 'candela_outcomes' );
     }
   }
 
+  /**
+   * Check if the current user_id is valid, and set errors appropriately.
+   */
   public function validateUserID() {
     if ( ! is_int( $this->user_id ) ) {
       $this->errors['user_id']['invalid'] = __('Invalid user id.', 'candela_outcomes' );
     }
   }
 
+  /**
+   * Check if the current status is valid, and set errors appropriately.
+   */
   public function validateStatus() {
     $valid = $this->getStatusOptions();
 
@@ -129,20 +197,33 @@ abstract class Base {
     }
   }
 
+  /**
+   * Check if the current title is valid, and set errors appropriately.
+   */
   public function validateTitle( ) {
     $this->validateGeneric( 'title', $this->title );
   }
 
+  /**
+   * Check if the current description is valid, and set errors appropriately.
+   */
   public function validateDescription( ) {
     $this->validateGeneric( 'description', $this->description );
   }
 
+  /**
+   * Generic validator checks if the given field is empty, and sets an empty error.
+   */
   public function validateGeneric( $field, $value ) {
     if ( empty( $value ) ) {
       $this->errors[$field]['empty'] = __('Empty ' . $field . '.', 'candela_outcomes');
     }
   }
 
+  /**
+   * Determine if there were any form errors and output a transient div to cue
+   * the user.
+   */
   public function processFormErrors() {
     if ( ! empty( $this->errors ) ) {
       foreach ( $this->errors as $widget => $errors ) {
@@ -155,6 +236,9 @@ abstract class Base {
     }
   }
 
+  /**
+   * Deterimne if the given user (or current user) can edit this object.
+   */
   public function userCanEdit( $user = NULL ) {
     if ( empty ( $user ) ) {
       $user = wp_get_current_user();

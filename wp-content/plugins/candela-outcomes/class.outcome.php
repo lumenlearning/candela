@@ -161,8 +161,6 @@ class Outcome extends Base {
     return $options;
   }
 
-
-
   public function validate() {
     parent::validate();
 

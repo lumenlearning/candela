@@ -126,6 +126,9 @@ function parse_request() {
   }
 }
 
+/**
+ * Template helper called by outcome.template.php.
+ */
 function get_outcome() {
   $uuid = get_query_var( 'outcomes_uuid' );
   $outcome = new Outcome;
@@ -133,6 +136,9 @@ function get_outcome() {
   include(__DIR__ . '/outcome.single.php');
 }
 
+/**
+ * Template helper called by collection.template.php
+ */
 function get_collection() {
   $uuid = get_query_var( 'outcomes_uuid' );
   $collection = new Collection;
@@ -304,7 +310,6 @@ function admin_outcomes_overview() {
   }
   // TODO: List global outcomes and select which ones are available.
 
-  // TODO: Show list of all collections and link to edit collection links.
   print '<h2>' . __('Collections Overview' ) . '</h2>';
   $table = new Collections_Table();
   $table->prepare_items();
