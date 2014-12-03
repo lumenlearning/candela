@@ -39,7 +39,6 @@ function plugin_init() {
   add_action( 'pressbooks_new_blog', __NAMESPACE__ . '\pressbooks_new_blog' );
   add_action( 'admin_notices', __NAMESPACE__ . '\show_admin_notices' );
 
-
   add_filter( 'wpmu_drop_tables', __NAMESPACE__ . '\delete_blog' );
   add_filter( 'template_include', __NAMESPACE__ . '\template_include' );
 }
@@ -308,7 +307,12 @@ function admin_outcomes_overview() {
   if (!class_exists('Collections_Table')) {
       require_once(__DIR__ . '/table-collections.php');
   }
-  // TODO: List global outcomes and select which ones are available.
+
+  // TODO: IF site id = 1, add external collections.
+
+  // TODO: List global outcomes (outcomes from site id = 1 and select which ones
+  //       are available.
+  //       Once this is done, then add outcome selection to appropriate post types.
 
   print '<h2>' . __('Collections Overview' ) . '</h2>';
   $table = new Collections_Table();
