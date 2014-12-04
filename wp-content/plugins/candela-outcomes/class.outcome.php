@@ -42,9 +42,14 @@ class Outcome extends Base {
     global $wpdb;
     $table = $wpdb->prefix . 'outcomes_outcome';
 
+    if ( empty( $this->uri ) ) {
+      $this->uri = $this->uri();
+    }
+
     $data = array(
       'uuid' => $this->uuid,
       'user_id' => $this->user_id,
+      'uri' => $this->uri,
       'title' => $this->title,
       'description' => $this->description,
       'status' => $this->status,

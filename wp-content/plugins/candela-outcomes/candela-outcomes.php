@@ -485,6 +485,7 @@ function db_collection_table() {
   $sql = "CREATE TABLE $table_name (
       uuid CHAR(36),
       user_id mediumint(9) NOT NULL,
+      uri TEXT,
       title TEXT,
       description LONGTEXT,
       status VARCHAR(32),
@@ -504,6 +505,7 @@ function db_outcome_table() {
   $sql = "CREATE TABLE $table_name (
       uuid CHAR(36),
       user_id mediumint(9) NOT NULL,
+      uri TEXT,
       title TEXT,
       description LONGTEXT,
       status VARCHAR(32),
