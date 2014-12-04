@@ -287,6 +287,7 @@ function admin_menu() {
       __NAMESPACE__ . '\edit_collection'
     );
 
+
     add_submenu_page(
       'outcomes-overview',
       __('Add/Edit Outcome', 'candela_outcomes'),
@@ -322,7 +323,7 @@ function admin_outcomes_overview() {
   //       are available.
   //       Once this is done, then add outcome selection to appropriate post types.
 
-  print '<h2>' . __('Collections Overview' ) . '</h2>';
+  print '<h2>' . __('Learning Outcomes Collections' ) . '</h2>';
   $table = new CollectionsTable();
   $table->prepare_items();
   $table->display();
@@ -346,7 +347,8 @@ function collection_overview() {
       return;
     }
 
-    print '<h2>' . esc_html( $collection->title ) . '</h2>';
+
+    print '<h2>' . esc_html( $collection->title ) . ' ' . __('Collection overview') . '</h2>';
     $table = new CollectionOverviewTable( $collection->uuid );
     $table->prepare_items();
     $table->display();

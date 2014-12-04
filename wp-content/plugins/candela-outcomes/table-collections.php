@@ -33,7 +33,7 @@ class CollectionsTable extends \WP_List_Table {
     return array(
       'title' => __('Title'),
       'status' => __('Status'),
-      'total' => __('Total Outcomes'),
+      'total' => __('Learning Outcomes'),
     );
   }
 
