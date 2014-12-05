@@ -67,17 +67,25 @@ class TextArea extends Widget {
 }
 
 class Select extends Widget {
+  public $multiple = FALSE;
   public $options = array();
 
   public function Widget() {
-    print '<select id="' . esc_attr( $this->id ) . '" name="' . esc_attr( $this->name ) . '" class="form-control">';
+    if ($this->multiple) {
+      if ( strpos($this->name, '[]' ) === FALSE ) {
+        $this->name .= '[]';
+      }
+    }
+
+    $multiple = $this->multiple ? 'multiple' : '';
+    print '<select id="' . esc_attr( $this->id ) . '" name="' . esc_attr( $this->name ) . '" class="form-control" ' . $multiple . '>';
     $this->Options();
     print '</select>';
   }
 
   private function Options() {
     foreach ( $this->options as $value => $label ) {
-      if ( $this->value == $value ) {
+      if ( ( ! $this->multiple && $this->value == $value ) || ($this->multiple && in_array($value, $this->value ) ) ) {
         $s = 'selected';
       }
       else {

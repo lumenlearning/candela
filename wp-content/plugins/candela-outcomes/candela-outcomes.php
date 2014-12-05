@@ -280,13 +280,21 @@ function admin_menu() {
 
     add_submenu_page(
       'outcomes-overview',
+      __('Configure Outcomes'),
+      __('Configure Outcomes'),
+      'manage_outcomes',
+      'configure_outcomes',
+      __NAMESPACE__ . '\configure_outcomes'
+    );
+
+    add_submenu_page(
+      'outcomes-overview',
       __('Add/Edit Collection', 'candela_outcomes'),
       __('Add/Edit Collection', 'candela_outcomes'),
       'manage_outcomes',
       'edit_collection',
       __NAMESPACE__ . '\edit_collection'
     );
-
 
     add_submenu_page(
       'outcomes-overview',
@@ -321,6 +329,57 @@ function admin_outcomes_overview() {
   $table = new CollectionsTable();
   $table->prepare_items();
   $table->display();
+}
+
+function configure_outcomes() {
+  $collections = get_public_collections( 1 );
+
+  if ( get_current_blog_id() != 1 ) {
+    if ( ! empty( $collections ) ) {
+      process_configuration_form();
+      print '<form class="form-horizontal" role="form" method="POST">';
+      wp_nonce_field( 'configure-outcomes', 'configure-outcomes-field' );
+
+      $selected = new Select();
+      $selected->id = 'global-collections';
+      $selected->name = 'global-collections';
+      $selected->label = __( 'Global Collections' );
+      $selected->options = $collections;
+      $selected->multiple = TRUE;
+      $selected->value = get_site_option( 'global-collections', array(), FALSE );
+      $selected->formElement();
+
+      print '<div class="submitbox" id="submitpost">';
+      print '<div id="saving-action">';
+      print '<input type="submit" name="submit" id="save" class="button button-primary button-large" value="Save">';
+      print '</div>';
+      print '</div>';
+      print '</form>';
+    }
+    else {
+      print '<div class="warning"><p>' . __('There are no global learning outcome collections to enable in this site.') . '</p></div>';
+    }
+  }
+  else {
+    // TODO: Import collections via URL.
+    print '<div class="warning"><p>' . __('Global site currently has no configuration.') . '</p></div>';
+  }
+}
+
+function process_configuration_form() {
+  // Set sitewide option with values for the site.
+  if ( ! empty( $_POST['configure-outcomes-field'] ) && wp_verify_nonce( $_POST['configure-outcomes-field'], 'configure-outcomes' ) ) {
+    $setting = array();
+
+    if ( ! empty($_POST['global-collections'] ) ) {
+      foreach ( $_POST['global-collections'] as $uuid ) {
+        if ( Base::isValidUUID( $uuid ) ) {
+          $setting[] = $uuid;
+        }
+      }
+    }
+    update_site_option( 'global-collections', $setting );
+  }
 }
 
 function get_public_collections( $blog_id ) {
