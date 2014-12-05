@@ -38,6 +38,8 @@ function plugin_init() {
   add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
   add_action( 'pressbooks_new_blog', __NAMESPACE__ . '\pressbooks_new_blog' );
   add_action( 'admin_notices', __NAMESPACE__ . '\show_admin_notices' );
+  add_action( 'add_meta_boxes', __NAMESPACE__ . '\add_meta_boxes' );
+  add_action( 'save_post', __NAMESPACE__ . '\save_post' );
 
   add_filter( 'wpmu_drop_tables', __NAMESPACE__ . '\delete_blog' );
   add_filter( 'template_include', __NAMESPACE__ . '\template_include' );
@@ -413,6 +415,57 @@ function get_public_collections( $blog_id ) {
   return $collections;
 }
 
+function get_local_outcomes( ) {
+  global $wpdb;
+  $outcomes = array();
+
+  $outcome_table = $wpdb->prefix . 'outcomes_outcome';
+  $collection_table = $wpdb->prefix . 'outcomes_collection';
+  $sql = "SELECT o.uuid, CONCAT_WS(': ', c.title, o.title) AS title
+    FROM $outcome_table o
+    LEFT JOIN $collection_table c ON o.belongs_to = c.uuid
+    ORDER BY c.title, o.title";
+
+  $rows = $wpdb->get_results($sql, ARRAY_A);
+  if ( ! empty( $rows ) ) {
+    foreach ( $rows as $row ) {
+      $outcomes[$row['uuid']] = $row['title'];
+    }
+  }
+
+  return $outcomes;
+}
+
+function get_global_outcomes( $collections ) {
+  global $wpdb;
+  $outcomes = array();
+
+  switch_to_blog( 1 );
+
+  $outcome_table = $wpdb->prefix . 'outcomes_outcome';
+  $collection_table = $wpdb->prefix . 'outcomes_collection';
+  $sql = "SELECT o.uuid, CONCAT_WS(': ', c.title, o.title) AS title
+    FROM $outcome_table o
+    LEFT JOIN $collection_table c ON o.belongs_to = c.uuid
+    WHERE o.status = %s
+      AND belongs_to IN(" . implode(', ', array_fill(0, count($collections), '%s')) . ")
+    ORDER BY c.title, o.title";
+
+  // use call_user_func_array for $wpdb->prepare to handle variable number of arguments
+  $prepared = call_user_func_array(array($wpdb, 'prepare'), array_merge(array($sql), array('public'), $collections));
+
+  $rows = $wpdb->get_results($prepared, ARRAY_A);
+  if ( ! empty( $rows ) ) {
+    foreach ( $rows as $row ) {
+      $outcomes[$row['uuid']] = $row['title'];
+    }
+  }
+
+  restore_current_blog();
+
+  return $outcomes;
+}
+
 function collection_overview() {
 
   if ( ! class_exists('CollectionOverviewTable' ) ) {
@@ -615,3 +668,84 @@ function remove_db_tables() {
   $wpdb->query("DROP TABLE IF EXISTS $table_name");
 }
 
+/**
+ * Implementation of action 'add_meta_boxes'
+ */
+function add_meta_boxes() {
+  $types = post_types();
+
+  foreach ($types as $type ) {
+    add_meta_box('outcomes', __( 'Outcomes' ), __NAMESPACE__ . '\add_outcome_meta', $type, 'normal' );
+  }
+}
+
+/**
+ * Helper function returns an array of post types to attach outcomes to.
+ */
+function post_types() {
+  return array(
+    'back-matter',
+    'chapter',
+    'front-matter',
+  );
+}
+
+/**
+ * Add our outcome meta box.
+ */
+function add_outcome_meta( $post, $metabox ) {
+  $outcomes = get_post_meta( $post->ID, '_candela_outcomes', TRUE );
+  $options = get_outcome_options();
+
+  if ( ! empty( $options ) ) {
+    $selected = new Select();
+    $selected->id = 'candela-outcomes';
+    $selected->name = 'candela-outcomes';
+    $selected->label = __( 'Outcomes' );
+    $selected->options = get_outcome_options();
+    $selected->multiple = TRUE;
+    $selected->value = $outcomes;
+    $selected->formElement();
+  }
+  else {
+    print '<div class="warning">' . __('There are no valid outcomes to select from.') . '</div>';
+  }
+}
+
+/**
+ * Get the outcome options
+ */
+function get_outcome_options() {
+  $local = get_local_outcomes();
+
+  $collections = get_site_option( 'global-collections', array(), FALSE );
+  $global = get_global_outcomes( $collections );
+  return array_merge($local, $global);
+}
+
+/**
+ * Handle saving our post meta
+ */
+function save_post( $post_id ) {
+  if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+    return $post_id;
+  }
+
+  if ( ! current_user_can( 'edit_page', $post_id) ) {
+    return $post_id;
+  }
+
+  $types = post_types();
+  if ( isset( $_POST['post_type'] ) && in_array( $_POST['post_type'], $types ) ) {
+    $outcomes = array();
+    if ( isset( $_POST['candela-outcomes'] ) ) {
+
+      foreach ( $_POST['candela-outcomes'] as $uuid ) {
+        if ( Base::isValidUUID( $uuid ) ) {
+          $outcomes[] = $uuid;
+        }
+      }
+    }
+    update_post_meta( $post_id, '_candela_outcomes', $outcomes );
+  }
+}
