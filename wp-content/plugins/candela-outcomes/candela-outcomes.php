@@ -317,18 +317,42 @@ function admin_outcomes_overview() {
       require_once(__DIR__ . '/table-collections.php');
   }
 
-  // TODO: IF site id = 1, add external collections.
-
-  // TODO: List global outcomes (outcomes from site id = 1 and select which ones
-  //       are available.
-  //       Once this is done, then add outcome selection to appropriate post types.
-
   print '<h2>' . __('Learning Outcomes Collections' ) . '</h2>';
   $table = new CollectionsTable();
   $table->prepare_items();
   $table->display();
 }
 
+function get_public_collections( $blog_id ) {
+  global $wpdb;
+
+  $collections = array();
+
+  $switched = FALSE;
+  if ( $blog_id != get_current_blog_id() ) {
+    switch_to_blog( $blog_id );
+    $switched = TRUE;
+  }
+
+  $table_name = $wpdb->prefix . 'outcomes_collection';
+  $sql = "SELECT uuid, title
+    FROM $table_name
+    WHERE status = %s
+    ORDER BY title";
+  $prepared = $wpdb->prepare( $sql, 'public' );
+  $rows = $wpdb->get_results($prepared, ARRAY_A);
+  if ( ! empty( $rows ) ) {
+    foreach ( $rows as $row ) {
+      $collections[$row['uuid']] = $row['title'];
+    }
+  }
+
+  if ( $switched ) {
+    restore_current_blog();
+  }
+
+  return $collections;
+}
 
 function collection_overview() {
 
@@ -390,30 +414,36 @@ function edit_collection() {
  * Admin page callback to add a new or edit and existing outcome.
  */
 function edit_outcome() {
-  // Load outcome via form submission, then requested id
-  $outcome = new Outcome();
-  if ( $outcome->isValidNonce() ) {
-    $outcome->processForm();
-    $outcome->processFormErrors();
-  }
-  else if ( ! empty( $_GET['uuid'] ) ) {
-    if ( ! Base::isValidUUID( $_GET['uuid'] ) ) {
-      error_admin_register( 'uuid', $key, $val );
+  $collections = get_public_collections( get_current_blog_id() );
+  if ( ! empty( $collections ) ) {
+    // Load outcome via form submission, then requested id
+    $outcome = new Outcome();
+    if ( $outcome->isValidNonce() ) {
+      $outcome->processForm();
+      $outcome->processFormErrors();
     }
-    else {
-      $outcome = new Outcome();
-      $outcome->load( $_GET['uuid'] );
-      if ( empty($outcome->uuid ) ) {
-        print '<div class="error">' . __('Invalid UUID or UUID not found.') . '</div>';
-        return;
+    else if ( ! empty( $_GET['uuid'] ) ) {
+      if ( ! Base::isValidUUID( $_GET['uuid'] ) ) {
+        error_admin_register( 'uuid', $key, $val );
+      }
+      else {
+        $outcome = new Outcome();
+        $outcome->load( $_GET['uuid'] );
+        if ( empty($outcome->uuid ) ) {
+          print '<div class="error">' . __('Invalid UUID or UUID not found.') . '</div>';
+          return;
+        }
       }
     }
+    else {
+      $outcome = new Outcome;
+    }
+
+    $outcome->form();
   }
   else {
-    $outcome = new Outcome;
+    print '<div class="warning">' . __('You must create a collection before you can add outcomes.') . '</div>';
   }
-
-  $outcome->form();
 
 }
 
