@@ -356,13 +356,6 @@ function collection_overview() {
 }
 
 /**
- * Admin page callback for collections overview.
- */
-function admin_collections() {
-  print 'collections';
-}
-
-/**
  * Admin page callback to add a new or edit an existing collection.
  */
 function edit_collection() {
