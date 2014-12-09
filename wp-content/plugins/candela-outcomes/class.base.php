@@ -9,6 +9,7 @@ abstract class Base {
   public static $type = '';
   public $errors = array();
   public $uuid = '';
+  public $uri = '';
   public $user_id = 0;
   public $title = '';
   public $description = '';

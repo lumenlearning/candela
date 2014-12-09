@@ -9,6 +9,7 @@ include_once( __DIR__ . '/class.base.php' );
 class Collection extends Base {
   public static $type = 'collection';
   public $status = 'private';
+  private $outcomes = array();
 
   public function load( $uuid ) {
     $item = load_item_by_uuid( $uuid, 'collection' );
@@ -27,6 +28,14 @@ class Collection extends Base {
     }
   }
 
+  public function loadOutcomes() {
+    global $wpdb;
+    $outcomes_table = $wpdb->prefix . 'outcomes_outcome';
+
+    $sql = "SELECT * FROM $outcomes_table o WHERE o.belongs_to = %s";
+    $prepared = $wpdb->prepare( $sql, $this->uuid );
+    $this->outcomes = $wpdb->get_results( $prepared );
+  }
 
   public function overviewUri() {
     return home_url() . '/wp-admin/admin.php?page=collection-overview&uuid=' . $this->uuid;
@@ -70,6 +79,26 @@ class Collection extends Base {
 
   }
 
+  public function json () {
+    $collection = array(
+      'uuid' => $this->uuid,
+      'title' => $this->title,
+      'description' => $this->description,
+      'status' => $this->status,
+      'uri' => $this->uri,
+      'outcomes' => array(),
+    );
+
+    $this->loadOutcomes();
+    foreach ( $this->outcomes as $outcome ) {
+      $outcome = new Outcome();
+      $outcome->load( $outcome->uuid );
+      $collection['outcomes'][] = $outcome->uri();
+    }
+
+    return $collection;
+  }
+
   public function delete() {
     global $wpdb;
     $table = $wpdb->prefix . 'outcomes_collection';
@@ -101,11 +130,17 @@ class Collection extends Base {
   }
 
   public function uri( $edit = FALSE ) {
+    // If URI is "external" just send that value.
+    if ( $this->uri != NULL && $this->uri != home_url() . '/outcomes/collection/' . $this->uuid) {
+      return $this->uri;
+    }
+
     if ( $edit ) {
       return home_url() . '/wp-admin/admin.php?page=edit_collection&uuid=' . $this->uuid;
     }
 
     return home_url() . '/outcomes/collection/' . $this->uuid;
+
   }
 
   public function processForm() {

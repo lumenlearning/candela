@@ -80,6 +80,21 @@ class Outcome extends Base {
 
   }
 
+  public function json () {
+    $outcome = array(
+      'uuid' => $this->uuid,
+      'title' => $this->title,
+      'description' => $this->description,
+      'status' => $this->status,
+      'uri' => $this->uri,
+      'successor' => empty($this->successor) ? '' : $this->successor_outcome->uri(),
+      'belongs_to' => empty($this->belongs_to) ? '' : $this->collection->uri(),
+    );
+
+    return $outcome;
+  }
+
+
   public function delete() {
     global $wpdb;
     $table = $wpdb->prefix . 'outcomes_outcome';
@@ -193,6 +208,10 @@ class Outcome extends Base {
   }
 
   public function uri( $edit = FALSE ) {
+    // If URI is "external" just send that value.
+    if ( $this->uri != NULL && $this->uri != home_url() . '/outcomes/outcome/' . $this->uuid) {
+      return $this->uri;
+    }
     if ( $edit ) {
       return home_url() . '/wp-admin/admin.php?page=edit_outcome&uuid=' . $this->uuid;
     }

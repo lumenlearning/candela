@@ -101,7 +101,6 @@ function pressbooks_new_blog( ) {
  */
 function init() {
   add_rewrite_endpoint( 'outcomes', EP_ROOT );
-
 }
 
 /**
@@ -161,23 +160,46 @@ function template_include( $template_file ) {
       case 'outcome':
         $outcome = new Outcome;
         $outcome->load( $uuid );
-        if ( ! $outcome->hasErrors() && $outcome->userCanView() ) {
-          return get_template( 'outcome' );
+        if ( ! empty( $_SERVER['CONTENT_TYPE'] ) && $_SERVER['CONTENT_TYPE'] == 'application/json' ) {
+          if ( ! $outcome->hasErrors() && $outcome->userCanView() ) {
+            wp_send_json( $outcome->json() );
+          }
+          else {
+            // TODO send complete list of public collections or list of X most recent outcomes?
+            wp_send_json(__('Outcome not found or you do not have enough permissions to view collection.'));
+          }
         }
         else {
-          // TODO: more descriptive error?
-          return get_404_template();
+          if ( ! $outcome->hasErrors() && $outcome->userCanView() ) {
+            return get_template( 'outcome' );
+          }
+          else {
+            // TODO: more descriptive error?
+            return get_404_template();
+          }
         }
         break;
       case 'collection':
         $collection = new Collection;
         $collection->load( $uuid );
-        if ( ! $collection->hasErrors() && $collection->userCanView() ) {
-          return get_template( 'collection' );
+
+        if ( ! empty( $_SERVER['CONTENT_TYPE'] ) && $_SERVER['CONTENT_TYPE'] == 'application/json' ) {
+          if ( ! $collection->hasErrors() && $collection->userCanView() ) {
+            wp_send_json( $collection->json() );
+          }
+          else {
+            // TODO send complete list of public collections.
+            wp_send_json(__('Collection not found or you do not have enough permissions to view collection.'));
+          }
         }
         else {
-          // TODO: more descriptive error?
-          return get_404_template();
+          if ( ! $collection->hasErrors() && $collection->userCanView() ) {
+            return get_template( 'collection' );
+          }
+          else {
+            // TODO: more descriptive error?
+            return get_404_template();
+          }
         }
         break;
 
