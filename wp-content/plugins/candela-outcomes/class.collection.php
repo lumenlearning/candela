@@ -45,9 +45,17 @@ class Collection extends Base {
     global $wpdb;
     $outcomes_table = $wpdb->prefix . 'outcomes_outcome';
 
-    $sql = "SELECT * FROM $outcomes_table o WHERE o.belongs_to = %s";
+    $sql = "SELECT uuid FROM $outcomes_table o WHERE o.belongs_to = %s";
     $prepared = $wpdb->prepare( $sql, $this->uuid );
-    $this->outcomes = $wpdb->get_results( $prepared );
+    $outcomes = $wpdb->get_results( $prepared );
+
+    if ( ! empty( $outcomes ) ) {
+      foreach ($outcomes as $outcome ) {
+        $object = new Outcome;
+        $object->load( $outcome->uuid );
+        $this->outcomes[ $outcome->uuid ] = $object;
+      }
+    }
   }
 
   public function overviewUri() {
@@ -103,10 +111,11 @@ class Collection extends Base {
     );
 
     $this->loadOutcomes();
-    foreach ( $this->outcomes as $outcome ) {
-      $outcome = new Outcome();
-      $outcome->load( $outcome->uuid );
-      $collection['outcomes'][] = $outcome->uri();
+    foreach ( $this->outcomes as $uuid => $outcome ) {
+      $collection['outcomes'][] = array(
+        'uri' => $outcome->uri(),
+        'title' => $outcome->title,
+      );
     }
 
     return $collection;

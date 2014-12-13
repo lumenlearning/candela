@@ -199,8 +199,8 @@ class Outcome extends Base {
     return $options;
   }
 
-  public function validate() {
-    parent::validate();
+  public function validate( $nonce = TRUE ) {
+    parent::validate( $nonce );
 
     $this->validateSuccessor();
     $this->validateBelongsTo();

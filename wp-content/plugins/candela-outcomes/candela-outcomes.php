@@ -146,6 +146,18 @@ function get_collection() {
   include(__DIR__ . '/collection.single.php');
 }
 
+function is_json_request() {
+  if ( ! empty( $_SERVER['CONTENT_TYPE'] ) && $_SERVER['CONTENT_TYPE'] == 'application/json' ) {
+    return TRUE;
+  }
+
+  if ( ! empty( $_SERVER['HTTP_ACCEPT'] ) && $_SERVER['HTTP_ACCEPT'] == 'application/json' ) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
 /**
  * Implementation of filter 'template_include'
  */
@@ -160,7 +172,7 @@ function template_include( $template_file ) {
       case 'outcome':
         $outcome = new Outcome;
         $outcome->load( $uuid );
-        if ( ! empty( $_SERVER['CONTENT_TYPE'] ) && $_SERVER['CONTENT_TYPE'] == 'application/json' ) {
+        if ( is_json_request() ) {
           if ( ! $outcome->hasErrors() && $outcome->userCanView() ) {
             wp_send_json( $outcome->json() );
           }
@@ -183,7 +195,7 @@ function template_include( $template_file ) {
         $collection = new Collection;
         $collection->load( $uuid );
 
-        if ( ! empty( $_SERVER['CONTENT_TYPE'] ) && $_SERVER['CONTENT_TYPE'] == 'application/json' ) {
+        if ( is_json_request() ) {
           if ( ! $collection->hasErrors() && $collection->userCanView() ) {
             wp_send_json( $collection->json() );
           }
@@ -286,6 +298,9 @@ function process_form() {
           $outcome->processForm();
         }
         break;
+      case 'configure_outcomes':
+        process_import_form();
+        break;
       default:
         break;
     }
@@ -385,8 +400,22 @@ function configure_outcomes() {
     }
   }
   else {
-    // TODO: Import collections via URL.
-    print '<div class="warning"><p>' . __('Global site currently has no configuration.') . '</p></div>';
+      print '<form class="form-horizontal" role="form" method="POST">';
+      wp_nonce_field( 'import-outcomes', 'import-outcomes-field' );
+
+      $import = new Text();
+      $import->id = 'import';
+      $import->name = 'import';
+      $import->label = __('Collection URI', 'candela_outcomes');
+      $import->value = '';
+      $import->FormElement();
+
+      print '<div class="submitbox" id="submitpost">';
+      print '<div id="saving-action">';
+      print '<input type="submit" name="submit" id="save" class="button button-primary button-large" value="Import">';
+      print '</div>';
+      print '</div>';
+      print '</form>';
   }
 }
 
@@ -403,6 +432,132 @@ function process_configuration_form() {
       }
     }
     update_site_option( 'global-collections', $setting );
+  }
+}
+
+/**
+ * TODO: Add a "refresh" parameter default FALSE, then query the DB
+ * if "refresh" is false and we already have the URL in question then
+ * Set error and continue.
+ */
+function json_request( $url, $refresh = FALSE ) {
+  $result = array(
+    'error' => NULL,
+    'result' => '',
+  );
+
+  if ( $refresh == FALSE ) {
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . 'outcomes_collection';
+    $sql = "SELECT COUNT(*)
+      FROM $table_name
+      WHERE uri = %s";
+    $prepared = $wpdb->prepare( $sql, $url );
+    $exists = $wpdb->get_var( $prepared );
+
+    if ( empty( $exists ) ) {
+      $result['error'] = __( 'URL already exists in database. Not refreshing'  );
+      return $result;
+    }
+  }
+
+  $ch = curl_init();
+  // TODO remove ssl certification verification disabling
+  curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+  curl_setopt($ch, CURLOPT_URL, $url );
+  $result['error'] = curl_error($ch);
+  $result['result'] = curl_exec($ch);
+  curl_close($ch);
+
+  return $result;
+}
+
+function process_import_form() {
+  if ( ! empty( $_POST['import-outcomes-field'] ) && wp_verify_nonce( $_POST['import-outcomes-field'], 'import-outcomes' ) ) {
+    if ( ! empty( $_POST['import'] ) ) {
+      $result = json_request( $_POST['import'] );
+      if ( ! empty( $result['error'] ) ) {
+        error_admin_register( 'import', 'curl', $result['error'] );
+      }
+      else {
+        process_collection_json_payload( $result['result'] );
+      }
+    }
+    wp_redirect('wp-admin/admin.php?page=configure_outcomes');
+  }
+}
+
+function process_collection_json_payload( $result ) {
+  $json = json_decode( $result );
+  if ( $json === NULL ) {
+    error_admin_register( 'decode json', 'json_decode', __( 'JSON cannot be decoded' ) );
+  }
+  else {
+    $collection = new Collection;
+    $outcomes = array();
+    foreach ($json as $attribute => $value ) {
+      switch ( $attribute ) {
+        case 'outcomes':
+          $outcomes = $value;
+          break;
+        default:
+          $collection->$attribute = $value;
+      }
+    }
+    $collection->validate( FALSE );
+    if ( $collection->hasErrors() ) {
+      foreach ($collection->errors as $widget => $value ) {
+        foreach ($value as $error_type => $message ) {
+          error_admin_register( $widget, $error_type, $message );
+        }
+      }
+    }
+    else {
+      $collection->save();
+      foreach ( $outcomes as $outcome ) {
+        $result = json_request( $outcome->uri );
+        if ( ! empty( $result['error'] ) ) {
+          error_admin_register( 'import', 'outcome_import', $result['error'] );
+        }
+        else {
+          process_outcome_json_payload( $result['result'] );
+        }
+      }
+    }
+  }
+}
+
+function process_outcome_json_payload( $result ) {
+  $json = json_decode( $result );
+  if ( $json === NULL ) {
+    error_admin_register( 'decode json', 'json_outcome_decode', __( 'JSON cannot be decoded' ) );
+  }
+  else {
+    $outcome = new Outcome;
+    print '<pre>';
+    print "\nJSON\n";
+    print_r($json);
+    print '</pre>';
+    foreach ( $json as $attribute => $value ) {
+      $outcome->$attribute = $value;
+    }
+    $outcome->validate( FALSE );
+
+    if ( $outcome->hasErrors() ) {
+      foreach ($outcome->errors as $widget => $value ) {
+        foreach ($value as $error_type => $message ) {
+          error_admin_register( $widget, $error_type, $message );
+        }
+      }
+    }
+    else {
+      $outcome->save();
+    }
   }
 }
 
@@ -567,7 +722,7 @@ function edit_collection() {
  * Admin page callback to add a new or edit and existing outcome.
  */
 function edit_outcome() {
-  $collections = get_public_collections( get_current_blog_id() );
+  $collections = get_collections( );
   if ( ! empty( $collections ) ) {
     // Load outcome via form submission, then requested id
     $outcome = new Outcome();

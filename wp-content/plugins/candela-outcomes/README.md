@@ -5,10 +5,6 @@ This is a WordPress module intended to work with PHP 5.4.
 
 Candela Learning outcomes.
 
-## Requirements
-
-This plugin requires the O
-
 ## Functionality
 
 Learning Outcomes are collections of learning goals. These goals can be arbitrarily
@@ -24,3 +20,10 @@ These are collections of outcomes
 ### Learning outcomes
 
 These are individual learning outcomes.
+
+### Setup
+
+After network enabling this module if you get redirected to the top level site
+when attempting to view a collection or outcome then you need to visit
+'/wp-admin/options-permalink.php?settings-updated=true' for each site and hit
+the submit button.
