@@ -28,6 +28,19 @@ class Collection extends Base {
     }
   }
 
+  public function loadByURI( $uri ) {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'outcomes_collection';
+    $uuid = $wpdb->get_var(
+      $wpdb->prepare("
+        SELECT uuid FROM $table_name
+        WHERE uri = %s",
+        $uri
+      )
+    );
+    $this->load( $uuid );
+  }
+
   public function loadOutcomes() {
     global $wpdb;
     $outcomes_table = $wpdb->prefix . 'outcomes_outcome';
@@ -158,7 +171,7 @@ class Collection extends Base {
       $this->description = empty( $_POST['description'] ) ? '' : $_POST['description'];
       $this->status = empty( $_POST['status'] ) ? '' : $_POST['status'];
       $this->user_id = get_current_user_id();
-
+      $this->uri = $this->uri();
 
       $this->validate();
 

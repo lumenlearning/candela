@@ -25,17 +25,30 @@ class Outcome extends Base {
 
       if ( ! empty( $item->belongs_to ) ) {
         $this->collection = new Collection;
-        $this->collection->load( $item->belongs_to );
+        $this->collection->loadByURI( $item->belongs_to );
       }
 
       if ( ! empty( $item->successor ) ) {
         $this->successor_outcome = new Outcome;
-        $this->successor_outcome->load( $item->successor );
+        $this->successor_outcome->loadByURI( $item->successor );
       }
     }
     else {
       $this->errors['loader']['notfound'] = __('Unable to find item with UUID.', 'candela_outcomes' );
     }
+  }
+
+  public function loadByURI( $uri ) {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'outcomes_outcome';
+    $uuid = $wpdb->get_var(
+      $wpdb->prepare("
+        SELECT uuid FROM $table_name
+        WHERE uri = %s",
+        $uri
+      )
+    );
+    $this->load( $uuid );
   }
 
   public function save() {
@@ -87,8 +100,8 @@ class Outcome extends Base {
       'description' => $this->description,
       'status' => $this->status,
       'uri' => $this->uri,
-      'successor' => empty($this->successor) ? '' : $this->successor_outcome->uri(),
-      'belongs_to' => empty($this->belongs_to) ? '' : $this->collection->uri(),
+      'successor' => empty($this->successor) ? '' : $this->successor,
+      'belongs_to' => empty($this->belongs_to) ? '' : $this->belongs_to,
     );
 
     return $outcome;
@@ -152,12 +165,12 @@ class Outcome extends Base {
     );
 
     $outcome_table = $wpdb->prefix . 'outcomes_outcome';
-    $query = $wpdb->prepare( 'SELECT uuid, title FROM ' . $outcome_table  . ' WHERE uuid != %s ORDER BY title ', $this->uuid );
+    $query = $wpdb->prepare( 'SELECT uri, title FROM ' . $outcome_table  . ' WHERE uuid != %s ORDER BY title ', $this->uri );
     $outcomes = $wpdb->get_results( $query );
 
     if ( ! empty( $outcomes ) ) {
       foreach ($outcomes as $row => $values ) {
-        $options[$values->uuid] = $values->title;
+        $options[$values->uri] = $values->title;
       }
     }
 
@@ -175,11 +188,11 @@ class Outcome extends Base {
 
     $collection_table = $wpdb->prefix . 'outcomes_collection';
 
-    $collections = $wpdb->get_results('SELECT uuid, title FROM ' . $collection_table  . ' ORDER BY title');
+    $collections = $wpdb->get_results('SELECT uri, title FROM ' . $collection_table  . ' ORDER BY title');
 
     if ( ! empty( $collections ) ) {
       foreach ($collections as $row => $values ) {
-        $options[$values->uuid] = $values->title;
+        $options[$values->uri] = $values->title;
       }
     }
 
@@ -236,6 +249,7 @@ class Outcome extends Base {
       $this->successor = empty( $_POST['successor'] ) ? '' : $_POST['successor'];
       $this->belongs_to = empty( $_POST['belongs_to'] ) ? '' : $_POST['belongs_to'];
       $this->user_id = get_current_user_id();
+      $this->uri = $this->uri();
 
       $this->validate();
 

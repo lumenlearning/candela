@@ -396,9 +396,9 @@ function process_configuration_form() {
     $setting = array();
 
     if ( ! empty($_POST['global-collections'] ) ) {
-      foreach ( $_POST['global-collections'] as $uuid ) {
-        if ( Base::isValidUUID( $uuid ) ) {
-          $setting[] = $uuid;
+      foreach ( $_POST['global-collections'] as $uri ) {
+        if ( Base::isValidURI( $uri ) ) {
+          $setting[] = $uri;
         }
       }
     }
@@ -418,7 +418,7 @@ function get_public_collections( $blog_id ) {
   }
 
   $table_name = $wpdb->prefix . 'outcomes_collection';
-  $sql = "SELECT uuid, title
+  $sql = "SELECT uri, title
     FROM $table_name
     WHERE status = %s
     ORDER BY title";
@@ -426,12 +426,31 @@ function get_public_collections( $blog_id ) {
   $rows = $wpdb->get_results($prepared, ARRAY_A);
   if ( ! empty( $rows ) ) {
     foreach ( $rows as $row ) {
-      $collections[$row['uuid']] = $row['title'];
+      $collections[$row['uri']] = $row['title'];
     }
   }
 
   if ( $switched ) {
     restore_current_blog();
+  }
+
+  return $collections;
+}
+
+function get_collections( ) {
+  global $wpdb;
+
+  $collections = array();
+
+  $table_name = $wpdb->prefix . 'outcomes_collection';
+  $sql = "SELECT uri, title
+    FROM $table_name
+    ORDER BY title";
+  $rows = $wpdb->get_results($sql, ARRAY_A);
+  if ( ! empty( $rows ) ) {
+    foreach ( $rows as $row ) {
+      $collections[$row['uri']] = $row['title'];
+    }
   }
 
   return $collections;
@@ -443,15 +462,15 @@ function get_local_outcomes( ) {
 
   $outcome_table = $wpdb->prefix . 'outcomes_outcome';
   $collection_table = $wpdb->prefix . 'outcomes_collection';
-  $sql = "SELECT o.uuid, CONCAT_WS(': ', c.title, o.title) AS title
+  $sql = "SELECT o.uri, CONCAT_WS(': ', c.title, o.title) AS title
     FROM $outcome_table o
-    LEFT JOIN $collection_table c ON o.belongs_to = c.uuid
+    LEFT JOIN $collection_table c ON o.belongs_to = c.uri
     ORDER BY c.title, o.title";
 
   $rows = $wpdb->get_results($sql, ARRAY_A);
   if ( ! empty( $rows ) ) {
     foreach ( $rows as $row ) {
-      $outcomes[$row['uuid']] = $row['title'];
+      $outcomes[$row['uri']] = $row['title'];
     }
   }
 
@@ -466,9 +485,9 @@ function get_global_outcomes( $collections ) {
 
   $outcome_table = $wpdb->prefix . 'outcomes_outcome';
   $collection_table = $wpdb->prefix . 'outcomes_collection';
-  $sql = "SELECT o.uuid, CONCAT_WS(': ', c.title, o.title) AS title
+  $sql = "SELECT o.uri, CONCAT_WS(': ', c.title, o.title) AS title
     FROM $outcome_table o
-    LEFT JOIN $collection_table c ON o.belongs_to = c.uuid
+    LEFT JOIN $collection_table c ON o.belongs_to = c.uri
     WHERE o.status = %s
       AND belongs_to IN(" . implode(', ', array_fill(0, count($collections), '%s')) . ")
     ORDER BY c.title, o.title";
@@ -479,7 +498,7 @@ function get_global_outcomes( $collections ) {
   $rows = $wpdb->get_results($prepared, ARRAY_A);
   if ( ! empty( $rows ) ) {
     foreach ( $rows as $row ) {
-      $outcomes[$row['uuid']] = $row['title'];
+      $outcomes[$row['uri']] = $row['title'];
     }
   }
 
@@ -642,11 +661,12 @@ function db_collection_table() {
   $sql = "CREATE TABLE $table_name (
       uuid CHAR(36),
       user_id mediumint(9) NOT NULL,
-      uri TEXT,
+      uri TEXT NOT NULL,
       title TEXT,
       description LONGTEXT,
       status VARCHAR(32),
-    PRIMARY KEY  (uuid)
+    PRIMARY KEY  (uuid),
+    INDEX uri (uri(100))
   );";
 
   require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -662,15 +682,16 @@ function db_outcome_table() {
   $sql = "CREATE TABLE $table_name (
       uuid CHAR(36),
       user_id mediumint(9) NOT NULL,
-      uri TEXT,
+      uri TEXT NOT NULL,
       title TEXT,
       description LONGTEXT,
       status VARCHAR(32),
-      successor CHAR(36),
-      belongs_to CHAR(36),
+      successor TEXT,
+      belongs_to TEXT,
     PRIMARY KEY (`uuid`),
-    INDEX successor (successor),
-    INDEX belongs_to (belongs_to)
+    INDEX successor (successor(100)),
+    INDEX belongs_to (belongs_to(100)),
+    INDEX uri (uri(100))
   );";
 
   require_once( ABSPATH . 'wp-admin/includes/upgrade.php');

@@ -118,10 +118,16 @@ abstract class Base {
 
   /**
    * Make sure the current object passes validation.
+   *
+   * Default checks the nonce, but this can be omitted for
+   * non form based validation.
    */
-  public function validate() {
-    $this->validateNonce();
+  public function validate( $nonce = TRUE ) {
+    if ( $nonce ) {
+      $this->validateNonce();
+    }
     $this->validateUuid();
+    $this->validateURI();
     $this->validateUserID();
     $this->validateTitle();
     $this->validateDescription();
@@ -140,6 +146,26 @@ abstract class Base {
     }
 
     return FALSE;
+  }
+
+  /**
+   * Determine if hte passwed $uri value is a valid URL.
+   */
+  public static function isValidURI( $uri ) {
+    if ( empty( $uri ) ) {
+      return FALSE;
+    }
+
+    if ( ! filter_var( $uri, FILTER_VALIDATE_URL ) ) {
+      return FALSE;
+    }
+
+    $scheme = parse_url($uri, PHP_URL_SCHEME );
+    if ( $sheme != 'http' && $scheme != 'https' ) {
+      return FALSE;
+    }
+
+    return TRUE;
   }
 
   /**
@@ -170,6 +196,19 @@ abstract class Base {
   public function validateUuid() {
     if ( ! $this->isValidUUID( $this->uuid ) ) {
       $this->errors['uuid']['invalid'] = __('Invalid UUID.', 'candela_outcomes' );
+    }
+  }
+
+  /**
+   * Check if the current URI is valid, and set errors appropriately.
+   */
+  public function validateURI() {
+    if ( empty( $this->uri ) ) {
+      $this->errors['uri']['empty'] = __('Empty URI', 'candela_outcomes' );
+    }
+
+    if ( ! filter_var( $this->uri, FILTER_VALIDATE_URL ) ) {
+      $this->errors['uri']['invalid'] = __('Invalid URI.', 'candela_outcomes' );
     }
   }
 
