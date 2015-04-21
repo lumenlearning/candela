@@ -2,12 +2,20 @@
 <?php get_header(); ?>
 <?php if (get_option('blog_public') == '1' || (get_option('blog_public') == '0' && current_user_can_for_blog($blog_id, 'read'))): ?>
 
-				<?php edit_post_link( __( 'Edit', 'pressbooks' ), '<span class="edit-link">', '</span>' ); ?>
-			<h2 class="entry-title"><?php
+			<h1 class="entry-title"><?php
 				if ( $chapter_number = pb_get_chapter_number( $post->post_name ) ) echo "<span>$chapter_number</span>  ";
 				the_title();
-				?></h2>
-					<?php pb_get_links(); ?>
+				?></h1>
+
+					<?php
+            if(isset($_GET['content_only']) || isset($_GET['hide_navigation'])) {
+              pb_get_links(false);
+            } else {
+              pb_get_links();
+            }
+
+          ?>
+
 				<div id="post-<?php the_ID(); ?>" <?php post_class( pb_get_section_type( $post ) ); ?>>
 
 					<div class="entry-content">
@@ -26,6 +34,11 @@
 						} ?>
 					</div><!-- .entry-content -->
 				</div><!-- #post-## -->
+
+
+        <?php if (!isset($_GET['hide_edit'])) { ?>
+          <?php edit_post_link(__('Edit', 'pressbooks'), '<span class="edit-link-subtle">', '</span>'); ?>
+        <?php } ?>
 
 				<?php if ( $citation = CandelaCitation::renderCitation( $post->ID ) ): ?>
 					<div class="post-citations sidebar">
@@ -46,7 +59,11 @@
 
 				</div><!-- #content -->
 
-				<?php get_template_part( 'content', 'social-footer' ); ?>
+        <?php
+          if (!isset($_GET['content_only']) && !isset($_GET['hide_social'])) {
+            get_template_part( 'content', 'social-footer' );
+          }
+        ?>
 
 				<?php comments_template( '', true ); ?>
 <?php else: ?>

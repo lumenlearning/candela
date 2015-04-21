@@ -117,7 +117,10 @@ class CandelaLTI {
       } else {
         $slash = '/';
       }
-      wp_redirect( get_bloginfo('wpurl') . $slash . $page );
+
+      // todo make all the hide_* parameters copy over?
+      // If it's a deep LTI link default to showing content_only
+      wp_redirect( get_bloginfo('wpurl') . $slash . $page . "?content_only" );
       exit;
     }
 
@@ -470,7 +473,10 @@ class CandelaLTI {
    * associate current page with the LTI launch.
    */
   public static function content_map_lti_launch( $content ) {
-    if ( is_single() && CandelaLTI::user_can_map_lti_links() ) {
+    if ( is_single()
+        && CandelaLTI::user_can_map_lti_links()
+        && empty($wp->query_vars['page_title'])
+        && ! isset($_GET['content_only']) ) {
 
       $map = CandelaLTI::get_lti_map();
       $target_action = get_permalink();

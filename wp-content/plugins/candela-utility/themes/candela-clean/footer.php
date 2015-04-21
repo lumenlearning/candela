@@ -5,7 +5,11 @@
 <?php } ?>
 <?php if( !is_front_page() ){?>
 
-	<?php get_sidebar(); ?>
+  <?php
+  if (!isset($_GET['content_only']) && !isset($_GET['hide_sidebar'])) {
+    get_sidebar();
+  }
+  ?>
 
 	</div><!-- #wrap -->
 	<div class="push"></div>
@@ -13,6 +17,7 @@
 	</div><!-- .wrapper for sitting footer at the bottom of the page -->
 <?php } ?>
 
+<?php if (!isset($_GET['content_only']) && !isset($_GET['hide_footer'])) { ?>
 
 <div class="footer">
 	<div class="inner">
@@ -50,6 +55,20 @@
 		<?php endif; ?>
 	</div><!-- #inner -->
 </div><!-- #footer -->
+<?php } ?>
+
 <?php wp_footer(); ?>
+<script>
+    // get rid of double iframe scrollbars
+    var default_height = Math.max(
+        document.body.scrollHeight, document.body.offsetHeight,
+        document.documentElement.clientHeight, document.documentElement.scrollHeight,
+        document.documentElement.offsetHeight);
+    parent.postMessage(JSON.stringify({
+        subject: 'lti.frameResize',
+        height: default_height
+    }), '*');
+</script>
+
 </body>
 </html>

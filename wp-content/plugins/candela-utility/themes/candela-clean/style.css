@@ -1,10 +1,27 @@
 /*
-Theme Name: Candela
+Theme Name: Candela Clean
 Description: Fork of opentextbooks theme by Brad Payne
 Author: Lumen Learning, Brad Payne
 Version: 0.1
 Template: pressbooks-book
 Tags: Pressbooks Textbook
+*/
+
+/*
+Adding these options to the query string will hide the specified section:
+hide_header
+hide_sidebar
+hide_footer
+hide_navigation
+hide_social
+hide_edit
+
+Or, do hide all of that, except the hide_edit, just add:
+content_only
+
+For example:
+https://example.com/candela/book/page?hide_header
+https://example.com/candela/book/page?content_only
 */
 
 @import url("../../../pressbooks/themes-book/pressbooks-book/style.css");
@@ -120,7 +137,7 @@ ol.alphalist li::before{
 .entry-title {
 	font-weight: normal;
 	text-align: left;
-	margin: 100px 0 80px;
+	margin: 10px 0 10px;
 }
 .entry-title span {
 	border-bottom: 1px solid #333;
@@ -187,6 +204,12 @@ p.cc-block{
 	Textbook specific styles
 ********************************/
 
+/*
+ todo: Once all content is updated, remove the h3 styles here.
+ This is so that you can have these styles when an h3 isn't
+ appropriate for the overall header hierarchy.
+*/
+
 .bcc-box{
 	/*	width: 100%;*/
 	padding: 2% 3%;
@@ -201,6 +224,13 @@ p.cc-block{
 	padding: 15px 0 15px;
 
 }
+.bcc-box .bcc-header:first-child{
+    text-align: center;
+    margin: -2% -3% 15px;
+    color: #ffffff;
+    padding: 15px 0 15px;
+
+}
 
 .bcc-highlight{
 	background-color: #f7f7f9;
@@ -208,6 +238,9 @@ p.cc-block{
 
 .bcc-box.bcc-highlight h3{
 	background-color: #111111;
+}
+.bcc-box.bcc-highlight .bcc-header{
+    background-color: #111111;
 }
 
 .bcc-success{
@@ -217,6 +250,10 @@ p.cc-block{
 .bcc-box.bcc-success h3{
 	background-color: #3a7a33;
 }
+.bcc-box.bcc-success .bcc-header{
+    background-color: #3a7a33;
+}
+
 
 .bcc-info{
 	background-color: #e3eff6;
@@ -225,6 +262,9 @@ p.cc-block{
 .bcc-box.bcc-info h3{
 	background-color: #0b6396;
 }
+.bcc-box.bcc-info .bcc-header{
+    background-color: #0b6396;
+}
 
 .bcc-warning {
 	background-color: #fcf8e3;
@@ -232,6 +272,9 @@ p.cc-block{
 
 .bcc-box.bcc-warning h3{
 	background-color: #c09853;
+}
+.bcc-box.bcc-warning .bcc-header{
+    background-color: #c09853;
 }
 
 span.export-file-icon{
@@ -434,4 +477,8 @@ h3.collapsed {
 	background:  url("/wp-includes/images/toggle-arrow-2x.png") 0 0 no-repeat;
 	height: 46px;
 	line-height: 46px;
+}
+
+#wrap {
+    margin: initial;
 }

@@ -101,10 +101,12 @@ function wp_init() {
 function register_theme() {
 	register_theme_directory( __DIR__ . '/themes' );
 	wp_register_style( 'candela', __DIR__ . '/themes/candela/style.css', array( 'pressbooks' ), VERSION, 'screen' );
+	wp_register_style( 'candela-clean', __DIR__ . '/themes/candela-clean/style.css', array( 'pressbooks' ), VERSION, 'screen' );
 }
 
 function register_child_theme() {
 	wp_enqueue_style( 'candela' );
+	wp_enqueue_style( 'candela-clean' );
 }
 
 function add_theme( $themes ) {
