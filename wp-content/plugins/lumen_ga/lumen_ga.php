@@ -47,7 +47,7 @@ function lumen_ga_custom() {
 
   $uuid = lumen_ga_get_current_user_uuid();
   if (!empty($uuid)) {
-    print "ga(‘set’, ‘&uid’, '" . $uuid . "');\n";
+    print "ga('set', '&uid', '" . $uuid . "');\n";
   }
 }
 
