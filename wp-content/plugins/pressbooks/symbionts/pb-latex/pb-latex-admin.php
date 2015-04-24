@@ -244,6 +244,7 @@ tr.pb-latex-method-<?php echo $current_method; ?> {
 			<td>
 				<ul id="pb-latex-method-switch">
 					<li><label for="pb-latex-method-wpcom"><input type="radio" name="pb_latex[method]" id="pb-latex-method-wpcom" value='Automattic_Latex_WPCOM'<?php checked( 'Automattic_Latex_WPCOM', $values['method'] ); ?> /> <?php printf( _x( '%s LaTeX server (recommended)|WordPress.com LaTeX Server (recommended)', 'pb-latex' ), '<a href="http://wordpress.com/" target="_blank">WordPress.com</a>' ); ?></label></li>
+					<li><label for="pb-latex-method-momcom"><input type="radio" name="pb_latex[method]" id="pb-latex-method-momcom" value='Automattic_Latex_MOMCOM'<?php checked( 'Automattic_Latex_MOMCOM', $values['method'] ); ?> /> <?php printf( _x( '%s MimeTeX server', 'pb-latex' ), 'MyOpenMath.com' ); ?></label></li>
 				</ul>
 			</td>
 		</tr>
@@ -264,7 +265,7 @@ tr.pb-latex-method-<?php echo $current_method; ?> {
 			</td>
 		</tr>
 		
-	<?php foreach ( $default_wrappers as $method => $default_wrapper ) : ?>
+	<?php /*foreach ( $default_wrappers as $method => $default_wrapper ) : ?>
 		<tr class="pb-latex-method pb-latex-method-<?php echo $method; ?>">
 			<th></th>
 			<td>
@@ -272,7 +273,7 @@ tr.pb-latex-method-<?php echo $current_method; ?> {
 				<div class="pre"><code><?php echo $default_wrapper; ?></code></div>
 			</td>
 		</tr>
-	<?php endforeach; ?>
+	<?php endforeach; */?>
 	</tbody>
 	</table>
 	
