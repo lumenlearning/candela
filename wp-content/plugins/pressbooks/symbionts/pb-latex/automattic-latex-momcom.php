@@ -44,8 +44,13 @@ class Automattic_Latex_MOMCOM {
 	function wrapper( $wrapper = false ) {}
 
 	function url() {
+		//mimetex doesn't like hfill
+		$tex = str_replace( '\hfill', '', $this->latex );
+		$encoded = rawurlencode( $tex );
+		//workaround weird encoding issue
+		$encoded = str_replace( '%C2%20', '%20', $encoded);
 		//$this->url = 'http://s.wordpress.com/latex.php?latex=' . rawurlencode( $this->latex ) . "&bg=$this->bg_hex&fg=$this->fg_hex&s=$this->size";
-		$this->url = 'https://www.myopenmath.com/cgi-bin/mimetex.cgi?' . rawurlencode( $this->latex );
+		$this->url = 'https://www.myopenmath.com/cgi-bin/mimetex.cgi?' . $encoded;
 		return $this->url;
 	}
 }
