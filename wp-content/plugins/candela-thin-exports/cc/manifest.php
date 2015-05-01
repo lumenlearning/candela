@@ -93,7 +93,7 @@ XML;
     $items = '';
     $template = <<<XML
 
-        <item identifier="%s" identifierref="R_%s">
+        <item identifier="%s" identifierref="%s">
           <title>%s</title>
         </item>
 XML;
