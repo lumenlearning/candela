@@ -7,6 +7,9 @@ jQuery(document).ready(function($) {
 
 			var data = {
 				action: 'thincc_ajax',
+                include_fm: $form.find( 'input[name="include_fm"]:checked' ).val(),
+                include_bm: $form.find( 'input[name="include_bm"]:checked' ).val(),
+                export_flagged_only: $form.find( 'input[name="export_flagged_only"]:checked' ).val(),
 				download: 0
 			};
 			

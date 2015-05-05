@@ -10,6 +10,7 @@ class Manifest extends Base
   private $manifest = null;
   private $link_template = null;
   private $is_inline = false;
+  private $options = null;
 
   private $tmp_file = null;
 
@@ -28,13 +29,15 @@ class Manifest extends Base
     ],
   ];
 
+  public static $available_options = ['inline', 'include_fm', 'include_bm', 'export_flagged_only'];
+
   public function __construct($structure, $options=[])
   {
     $this->book_structure = $structure;
     $this->version = isset($options['version']) ? $options['version'] : 'thin';
-    $this->is_inline = isset($options['inline']) ? $options['inline'] : false;
     $this->manifest = self::get_manifest_template();
     $this->link_template = $this->get_lti_link_template();
+    $this->options = $options;
   }
 
   public function build_manifest()
@@ -51,7 +54,7 @@ class Manifest extends Base
     $zip->open($this->tmp_file,\ZipArchive::OVERWRITE);
 
     $zip->addFromString('imsmanifest.xml', $this->manifest);
-    if(!$this->is_inline) {
+    if(!$this->options['inline']) {
       $this->add_lti_link_files($zip);
     }
 
@@ -82,7 +85,10 @@ class Manifest extends Base
 XML;
 
     foreach ($this->book_structure['part'] as $part) {
-      $items .= sprintf($template, $this->identifier($part, "I_"), $part['post_title'], $this->item_pages($part));
+      $item_pages = $this->item_pages($part);
+      if($item_pages != ''){
+        $items .= sprintf($template, $this->identifier($part, "I_"), $part['post_title'], $item_pages);
+      }
     }
 
     return $items;
@@ -99,7 +105,9 @@ XML;
 XML;
 
     foreach ($part['chapters'] as $chapter) {
-      $items .= sprintf($template, $this->identifier($chapter, "I_"), $this->identifier($chapter), $chapter['post_title']);
+      if($this->export_page($chapter)) {
+        $items .= sprintf($template, $this->identifier($chapter, "I_"), $this->identifier($chapter), $chapter['post_title']);
+      }
     }
 
     return $items;
@@ -107,7 +115,7 @@ XML;
 
   private function item_resources()
   {
-    if($this->is_inline) {
+    if($this->options['inline']) {
       return $this->inline_lti_resources();
     }else {
       return $this->referenced_lti_resources();
@@ -126,8 +134,10 @@ XML;
     foreach ($this->book_structure['part'] as $part) {
       $part_base_url = sprintf($base_url, $part['post_name'] . '%%2F%s');
       foreach ($part['chapters'] as $chapter) {
-        $launch_url = sprintf($part_base_url, $chapter['post_name']);
-        $resources .= sprintf("\n" . $template, $this->identifier($chapter), sprintf("\n" . $this->link_template, $chapter['post_title'], $launch_url));
+        if($this->export_page($chapter)){
+          $launch_url = sprintf($part_base_url, $chapter['post_name']);
+          $resources .= sprintf("\n" . $template, $this->identifier($chapter), sprintf("\n" . $this->link_template, $chapter['post_title'], $launch_url));
+        }
       }
     }
 
@@ -143,7 +153,9 @@ XML;
 XML;
     foreach ($this->book_structure['part'] as $part) {
       foreach ($part['chapters'] as $chapter) {
-        $resources .= sprintf("\n" . $template, $this->identifier($chapter), $this->identifier($chapter));
+        if($this->export_page($chapter)) {
+          $resources .= sprintf("\n" . $template, $this->identifier($chapter), $this->identifier($chapter));
+        }
       }
     }
 
@@ -161,6 +173,10 @@ XML;
         $zip->addFromString($this->identifier($chapter) . '.xml', sprintf('<?xml version="1.0" encoding="UTF-8"?>' . "\n" . $this->link_template, $chapter['post_title'], $launch_url));
       }
     }
+  }
+
+  private function export_page($page){
+    return $this->options['export_flagged_only'] && $page['export'] == '1';
   }
 
   public function __toString()

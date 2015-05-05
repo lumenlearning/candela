@@ -42,9 +42,12 @@ function thincc_ajax()
   $sitename = sanitize_key(get_bloginfo('name'));
   if (!empty($sitename)) $sitename .= '.';
   $filename = $sitename . 'wordpress.' . date('Y-m-d');
+  $options = process_thincc_options($_POST);
 
   if(isset($_POST['download']) && $_POST['download'] == '0') {
-    $manifest = new \CC\Manifest(\PressBooks\Book::getBookStructure(), ['version' => 'thin', 'inline' => true]);
+    $options['version'] = 'thin';
+    $options['inline'] = true;
+    $manifest = new \CC\Manifest(\PressBooks\Book::getBookStructure(), $options);
     $manifest->build_manifest();
 
     header('Content-Description: File Transfer');
@@ -53,15 +56,29 @@ function thincc_ajax()
 
     echo '<pre>', htmlentities($manifest), '</pre>';
   } else {
-    $manifest = new \CC\Manifest(\PressBooks\Book::getBookStructure(), ['version' => '1.2', 'inline' => false]);
+    $options['version'] = '1.2';
+    $manifest = new \CC\Manifest(\PressBooks\Book::getBookStructure(), $options);
     $manifest->build_manifest();
     $file = $manifest->build_zip();
 
     header('Content-Type: application/vnd.ims.imsccv1p2+application/zip');
     header('Content-Length: ' . filesize($file));
-    header('Content-Disposition: attachment; filename="' . $filename . '.imscc"');
+    header('Content-Disposition: attachment; filename="' . $filename . '.zip"');
     readfile($file);
   }
+}
+
+function process_thincc_options($data){
+  $options = [];
+  foreach (\CC\Manifest::$available_options as $key){
+    if(isset($data[$key])) {
+      $options[$key] = true;
+    } else {
+      $options[$key] = false;
+    }
+  }
+
+  return $options;
 }
 
 ?>

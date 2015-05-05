@@ -21,7 +21,7 @@ wp_die(__('You do not have sufficient permissions to export the content of this 
 global $wpdb;
 ?>
 
-<div class="thincc">
+<div class="thincc" xmlns="http://www.w3.org/1999/html">
   <div class="wrap">
 
     <h2>Export to Thin Common Cartridge</h2>
@@ -29,6 +29,13 @@ global $wpdb;
     <div id="main">
 
       <form id="thincc-form" action="" method="post">
+
+          <div class="options">
+            <div><input name="export_flagged_only" id="export_only" type="checkbox" checked/><label for="export_only">Only pages marked as export</label> </div>
+<!--            <div><input name="include_fm" id="include_fm" type="checkbox"/><label for="include_fm">Include Front Matter</label> </div>-->
+<!--            <div><input name="include_bm" id="include_bm" type="checkbox"/><label for="include_bm">Include Back Matter</label> </div>-->
+          </div>
+
           <div class="submit">
             <input type="hidden" name="download" value="<?php echo get_home_path(); ?>"/>
 
