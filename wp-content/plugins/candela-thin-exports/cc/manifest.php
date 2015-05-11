@@ -169,14 +169,20 @@ XML;
     foreach ($this->book_structure['part'] as $part) {
       $part_base_url = sprintf($base_url, $part['post_name'] . '%%2F%s');
       foreach ($part['chapters'] as $chapter) {
-        $launch_url = sprintf($part_base_url, $chapter['post_name']);
-        $zip->addFromString($this->identifier($chapter) . '.xml', sprintf('<?xml version="1.0" encoding="UTF-8"?>' . "\n" . $this->link_template, $chapter['post_title'], $launch_url));
+        if($this->export_page($chapter)) {
+          $launch_url = sprintf($part_base_url, $chapter['post_name']);
+          $zip->addFromString($this->identifier($chapter) . '.xml', sprintf('<?xml version="1.0" encoding="UTF-8"?>' . "\n" . $this->link_template, $chapter['post_title'], $launch_url));
+        }
       }
     }
   }
 
   private function export_page($page){
-    return $this->options['export_flagged_only'] && $page['export'] == '1';
+    if ($this->options['export_flagged_only']) {
+      return $page['export'] == '1';
+    } else {
+      return true;
+    }
   }
 
   public function __toString()
