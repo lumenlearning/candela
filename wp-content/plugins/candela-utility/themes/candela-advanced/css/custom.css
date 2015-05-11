@@ -379,3 +379,18 @@ div#wrap {
 .footer table td {
 	padding: 0.5em !important;
 }
+
+/* temporary for may faculty review */
+.footer{
+    display: none;
+}
+
+.second-block-wrap{
+    border: none;
+    border-top: 1px solid #e1e1e1;
+}
+
+.description-book-info{
+    display: none;
+}
+
