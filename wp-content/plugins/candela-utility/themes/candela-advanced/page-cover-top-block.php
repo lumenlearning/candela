@@ -44,21 +44,4 @@
 				</div>	
 				<?php endif; ?>
 				
-				<div class="call-to-action-wrap">
-					<?php global $first_chapter; ?>
-					<div class="call-to-action">
-						<a class="btn red" href="<?php global $first_chapter; echo $first_chapter; ?>"><span class="read-icon"></span><?php _e('Read', 'pressbooks'); ?></a>
-						
-						<?php if ( @array_filter( get_option( 'pressbooks_ecommerce_links' ) ) ) : ?>
-						 <!-- Buy -->
-							 <a class="btn black" href="<?php echo get_option('home'); ?>/buy"><span class="buy-icon"></span><?php _e('Buy', 'pressbooks'); ?></a>				
-						 <?php endif; ?>	
-						 
-						
-					</div> <!-- end .call-to-action -->		
-				</div><!--  end .call-to-action-wrap -->
-				
-			
-			
-			
 	</section> <!-- end .top-block -->

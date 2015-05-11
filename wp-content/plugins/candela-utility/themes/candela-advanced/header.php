@@ -13,6 +13,8 @@
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="//use.typekit.net/mje6fya.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
 
 <?php
 if ( is_front_page() ) {
@@ -42,7 +44,6 @@ if ( is_front_page() ) {
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 
 <?php wp_head(); ?>
-
 </head>
 <body <?php body_class(); if(wp_title('', false) != '') { print ' id="' . str_replace(' ', '', strtolower(wp_title('', false))) . '"'; } ?>>
 <!-- Faccebook share js sdk -->
@@ -64,49 +65,39 @@ if ( is_front_page() ) {
 		      image inLanguage keywords publisher audience educationalAlignment educationalUse interactivityType learningResourceType typicalAgeRange">
 			<div class="book-info-container hfeed">
 	 
-		<?php else: ?>  	 
+		<?php else: ?>
 		
 		<span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">		
 			<div class="nav-container">
-				<nav>
-			
-			 		<!-- Book Title -->
-					<h1 class="book-title"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-			    
-					    <div class="sub-nav-left">
-							<!-- Logo -->
-							<h2 class="pressbooks-logo"><a href="#"><?php echo get_site_option('site_name'); ?></a></h2>
-					    </div> <!-- end .sub-nav-left -->
-			    
-			    <div class="sub-nav-right">
-			    
-					    <?php if ( @array_filter( get_option( 'pressbooks_ecommerce_links' ) ) ) : ?>
-					    <!-- Buy -->
-					    <div class="buy">
-							<a href="<?php echo get_option('home'); ?>/buy" class="button-red"><?php _e('Buy', 'pressbooks'); ?></a>
-						</div>
-						<?php endif; ?>	
-						
-						<?php get_template_part( 'content', 'social-header' ); ?> 
-				
-				</div> <!-- end .sub-nav-right -->
-			</nav>
-			      
-			  <div class="sub-nav">   
-			     <div class="alignright pullleft">
-				     <?php get_search_form(); ?>
-			     </div>			     
-				  <!-- Author Name -->   
-			    <div class="author-wrap"> 
-			    	<?php $metadata = pb_get_book_information(); ?>
-					<?php if ( ! empty( $metadata['pb_author'] ) ): ?>
-				    <h3><?php echo $metadata['pb_author']; ?></h3></span>
-		     		<?php endif; ?>
-			     </div> <!-- end .author-name -->
+        <div class="row">
+          <nav>
 
-			  </div><!-- end sub-nav -->  
-			    
-				 
+            <!-- Book Title -->
+            <h1 class="book-title"><a href="<?php echo home_url('/'); ?>"
+                                      title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>"
+                                      rel="home"><?php bloginfo('name'); ?></a></h1>
+
+            <div class="sub-nav-left">
+              <!-- Logo -->
+              <h2 class="pressbooks-logo"><a href="#"><?php echo get_site_option('site_name'); ?></a></h2>
+            </div>
+            <!-- end .sub-nav-left -->
+
+            <div class="sub-nav-right">
+
+              <?php if (@array_filter(get_option('pressbooks_ecommerce_links'))) : ?>
+                <!-- Buy -->
+                <div class="buy">
+                  <a href="<?php echo get_option('home'); ?>/buy"
+                     class="button-red"><?php _e('Buy', 'pressbooks'); ?></a>
+                </div>
+              <?php endif; ?>
+
+            </div>
+            <!-- end .sub-nav-right -->
+          </nav>
+        </div>
+			      
 		</div> <!-- end .nav-container -->
 
 	<div class="wrapper"><!-- for sitting footer at the bottom of the page -->	    

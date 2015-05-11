@@ -1,6 +1,5 @@
 <?php if( !is_single() ){?>
 
-	</div><!-- #content -->
 
 <?php } ?>
 <?php if( !is_front_page() ){?>
@@ -13,9 +12,8 @@
 	</div><!-- .wrapper for sitting footer at the bottom of the page -->
 <?php } ?>
 
-
 <div class="footer">
-	<div class="inner">
+	<div class="row">
 		<?php if (get_option('blog_public') == '1' || is_user_logged_in()): ?>
 			<?php if (is_page() || is_home( ) ): ?>
 
@@ -50,6 +48,7 @@
 		<?php endif; ?>
 	</div><!-- #inner -->
 </div><!-- #footer -->
+
 <?php wp_footer(); ?>
 </body>
 </html>

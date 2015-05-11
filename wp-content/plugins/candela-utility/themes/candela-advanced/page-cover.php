@@ -5,14 +5,17 @@
 	if (have_posts()) the_post();
 ?>
 
-
 	<?php get_template_part('page-cover', 'top-block'); ?>
-	<?php get_template_part('page-cover', 'third-block'); ?>
+
+  </div><!-- end book-info-container -->
+  <div class="row">
+	  <?php get_template_part('page-cover', 'third-block'); ?>
+  </div>
 	<?php get_template_part('page-cover', 'second-block'); ?>
 
 
-		
-			
+
+
 <?php else: ?>
 
 	<?php get_template_part('page-cover', 'private-block'); ?>
