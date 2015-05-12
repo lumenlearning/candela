@@ -20,9 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Add Hypothesis over https
  */
 function add_javascript() {
-	if ( is_user_logged_in() && ! is_admin() ) {
     wp_enqueue_script( 'hypothesis', 'https://hypothes.is/app/embed.js', '', false, true );
-  }
 }
 
 add_action( 'init', '\Candela\Hypothesis\add_javascript' );
