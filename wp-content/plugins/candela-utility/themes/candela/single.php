@@ -29,7 +29,7 @@
 
 				<?php if ( $citation = CandelaCitation::renderCitation( $post->ID ) ): ?>
 					<div class="post-citations sidebar">
-						<h3 id="citation-header-<?php print $post->ID; ?>" class="collapsed"><?php _e('Citations'); ?></h3>
+						<h3 id="citation-header-<?php print $post->ID; ?>" class="collapsed"><?php _e('Licenses and Attributions'); ?></h3>
 						<div id="citation-list-<?php print $post->ID; ?>" style="display:none;">
 							<?php print $citation ?>
 						</div>
