@@ -125,17 +125,16 @@ XML;
   private function inline_lti_resources(){
     $resources = "";
     $blog_id = get_current_blog_id();
-    $base_url = get_site_url(1) . '/api/lti/' . $blog_id . '?page_title=%s';
+    $base_url = get_site_url(1) . '/api/lti/' . $blog_id . '?page_title=chapter%%2F%s';
     $template = <<<XML
         <resource identifier="%s" type="imsbasiclti_xmlv1p0">%s
         </resource>
 XML;
 
     foreach ($this->book_structure['part'] as $part) {
-      $part_base_url = sprintf($base_url, $part['post_name'] . '%%2F%s');
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)){
-          $launch_url = sprintf($part_base_url, $chapter['post_name']);
+          $launch_url = sprintf($base_url, $chapter['post_name']);
           $resources .= sprintf("\n" . $template, $this->identifier($chapter), sprintf("\n" . $this->link_template, $chapter['post_title'], $launch_url));
         }
       }
@@ -164,13 +163,12 @@ XML;
 
   private function add_lti_link_files($zip){
     $blog_id = get_current_blog_id();
-    $base_url = get_site_url(1) . '/api/lti/' . $blog_id . '?page_title=%s';
+    $base_url = get_site_url(1) . '/api/lti/' . $blog_id . '?page_title=chapter%%2F%s';
 
     foreach ($this->book_structure['part'] as $part) {
-      $part_base_url = sprintf($base_url, $part['post_name'] . '%%2F%s');
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)) {
-          $launch_url = sprintf($part_base_url, $chapter['post_name']);
+          $launch_url = sprintf($base_url, $chapter['post_name']);
           $zip->addFromString($this->identifier($chapter) . '.xml', sprintf('<?xml version="1.0" encoding="UTF-8"?>' . "\n" . $this->link_template, $chapter['post_title'], $launch_url));
         }
       }
