@@ -70,31 +70,20 @@ if ( is_front_page() ) {
 		<span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">		
 			<div class="nav-container">
         <div class="row">
-          <nav>
-
+          <nav role="navigation">
             <!-- Book Title -->
-            <h1 class="book-title"><a href="<?php echo home_url('/'); ?>"
+            <div class="book-title"><a href="<?php echo home_url('/'); ?>"
                                       title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>"
-                                      rel="home"><?php bloginfo('name'); ?></a></h1>
+                                      rel="home"><?php bloginfo('name'); ?></a>
+            </div>
 
-            <div class="sub-nav-left">
+            <div class="sub-nav-left" aria-hidden="true">
               <!-- Logo -->
-              <h2 class="pressbooks-logo"><a href="#"><?php echo get_site_option('site_name'); ?></a></h2>
-            </div>
-            <!-- end .sub-nav-left -->
+              <div class="pressbooks-logo"><?php echo get_site_option('site_name'); ?></div>
+            </div><!-- end .sub-nav-left -->
 
-            <div class="sub-nav-right">
-
-              <?php if (@array_filter(get_option('pressbooks_ecommerce_links'))) : ?>
-                <!-- Buy -->
-                <div class="buy">
-                  <a href="<?php echo get_option('home'); ?>/buy"
-                     class="button-red"><?php _e('Buy', 'pressbooks'); ?></a>
-                </div>
-              <?php endif; ?>
-
-            </div>
-            <!-- end .sub-nav-right -->
+            <!-- previous/next page links -->
+            <?php ca_get_links(); ?>
           </nav>
         </div>
 			      
@@ -102,6 +91,6 @@ if ( is_front_page() ) {
 
 	<div class="wrapper"><!-- for sitting footer at the bottom of the page -->	    
 			<div id="wrap">	    
-				<div id="content">
+				<div id="content" role="main">
 
 	 <?php endif; ?>	

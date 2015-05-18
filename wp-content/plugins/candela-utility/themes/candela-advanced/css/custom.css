@@ -50,6 +50,7 @@ ul li {
 	font-size: 1em;
 	margin-right: 3em;
 	padding-top: 0.25em;
+    color: #ffffff;
 }
 nav {
 	background: transparent;
@@ -186,11 +187,19 @@ nav {
 .third-block-wrap ul {
     line-height: 1.3 !important;
 }
-h1.book-title {
+.book-title {
+    font: 1.2em/1.6em "Minion Pro", "Times New Roman", Times, serif;
 	font-family: "proxima-nova", sans-serif;
 	text-align: left;
 	padding: 10px 0;
 	font-weight: 600;
+    margin: 0 auto;
+    width: 520px;
+}
+.book-title a {
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: none;
 }
 #sidebar {
 	top: 0;
@@ -238,7 +247,7 @@ h1.book-title {
 .entry-title {
 	margin: 1.75em auto 1em auto;
 }
-h2.entry-title {
+h1.entry-title {
 	text-align: center;
 	font-size: 1.5em;
 	margin-top: 0;

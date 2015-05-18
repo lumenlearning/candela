@@ -79,3 +79,26 @@ function pbt_get_microdata_meta_elements() {
 
 	return $html;
 }
+
+/**
+ * Render Previous and next buttons
+ *
+ * @param bool $echo
+ */
+function ca_get_links($echo=true) {
+  global $first_chapter, $prev_chapter, $next_chapter;
+  $first_chapter = pb_get_first();
+  $prev_chapter = pb_get_prev();
+  $next_chapter = pb_get_next();
+  if ($echo):
+    ?><div class="nav">
+    <?php if ($prev_chapter != '/') : ?>
+    <span class="previous"><a href="<?php echo $prev_chapter; ?>"><?php _e('Previous Page', 'pressbooks'); ?></a></span>
+  <?php endif; ?>
+    <!-- 	<h2 class="entry-title"><?php the_title(); ?></h2> -->
+    <?php if ($next_chapter != '/') : ?>
+    <span class="next"><a href="<?php echo $next_chapter ?>"><?php _e('Next Page', 'pressbooks'); ?></a></span>
+  <?php endif; ?>
+    </div><?php
+  endif;
+}
