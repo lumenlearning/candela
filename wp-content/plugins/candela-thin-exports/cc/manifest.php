@@ -10,6 +10,7 @@ class Manifest extends Base
   private $manifest = null;
   private $link_template = null;
   private $is_inline = false;
+  private $use_page_name_launch_url = false;
   private $options = null;
 
   private $tmp_file = null;
@@ -37,6 +38,9 @@ class Manifest extends Base
     $this->version = isset($options['version']) ? $options['version'] : 'thin';
     $this->manifest = self::get_manifest_template();
     $this->link_template = $this->get_lti_link_template();
+    if( isset($options['use_page_name_launch_url']) && $options['use_page_name_launch_url']){
+      $this->use_page_name_launch_url = true;
+    }
     $this->options = $options;
   }
 
@@ -122,10 +126,25 @@ XML;
     }
   }
 
+  private function get_base_url(){
+    $blog_id = get_current_blog_id();
+    if ( $this->use_page_name_launch_url ) {
+      return get_site_url(1) . '/api/lti/' . $blog_id . '?page_title=chapter%%2F%s';
+    }else{
+      return get_site_url(1) . '/api/lti/' . $blog_id . '?page_id=%s';
+    }
+  }
+
+  private function create_launch_url($page){
+    if ( $this->use_page_name_launch_url ) {
+      return sprintf($this->get_base_url(), $page['post_name']);
+    }else{
+      return sprintf($this->get_base_url(), $page['ID']);
+    }
+  }
+
   private function inline_lti_resources(){
     $resources = "";
-    $blog_id = get_current_blog_id();
-    $base_url = get_site_url(1) . '/api/lti/' . $blog_id . '?page_title=chapter%%2F%s';
     $template = <<<XML
         <resource identifier="%s" type="imsbasiclti_xmlv1p0">%s
         </resource>
@@ -134,7 +153,7 @@ XML;
     foreach ($this->book_structure['part'] as $part) {
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)){
-          $launch_url = sprintf($base_url, $chapter['post_name']);
+          $launch_url = $this->create_launch_url($chapter);
           $resources .= sprintf("\n" . $template, $this->identifier($chapter), sprintf("\n" . $this->link_template, $chapter['post_title'], $launch_url));
         }
       }
@@ -162,13 +181,10 @@ XML;
   }
 
   private function add_lti_link_files($zip){
-    $blog_id = get_current_blog_id();
-    $base_url = get_site_url(1) . '/api/lti/' . $blog_id . '?page_title=chapter%%2F%s';
-
     foreach ($this->book_structure['part'] as $part) {
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)) {
-          $launch_url = sprintf($base_url, $chapter['post_name']);
+          $launch_url = $this->create_launch_url($chapter);
           $zip->addFromString($this->identifier($chapter) . '.xml', sprintf('<?xml version="1.0" encoding="UTF-8"?>' . "\n" . $this->link_template, $chapter['post_title'], $launch_url));
         }
       }

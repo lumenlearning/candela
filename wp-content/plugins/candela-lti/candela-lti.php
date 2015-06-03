@@ -124,6 +124,15 @@ class CandelaLTI {
       exit;
     }
 
+    // allows deep links with an LTI launch urls like:
+    // candela/api/lti/BLOGID?page_id=10
+    if ( ! empty($wp->query_vars['page_id'] ) && is_numeric($wp->query_vars['page_id']) ) {
+      switch_to_blog((int)$wp->query_vars['blog']);
+      wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['page_id'] . "&content_only" );
+      exit;
+    }
+    error_log("_not_ redirecting to page id");
+
     if ( ! empty($wp->query_vars['resource_link_id'] ) ) {
       $map = CandelaLTI::get_lti_map($wp->query_vars['resource_link_id']);
       if ( ! empty( $map->target_action ) ) {
@@ -298,6 +307,7 @@ class CandelaLTI {
     $query_vars[] = 'resource_link_id';
     $query_vars[] = 'target_action';
     $query_vars[] = 'page_title';
+    $query_vars[] = 'page_id';
     $query_vars[] = 'action';
     $query_vars[] = 'ID';
     $query_vars[] = 'candela-lti-nonce';
