@@ -102,3 +102,25 @@ function ca_get_links($echo=true) {
     </div><?php
   endif;
 }
+
+/**
+ * Sends a Window.postMessage to resize the iframe
+ * (Only works in Canvas for now)
+ */
+function add_iframe_resize_message() {
+
+  printf(
+      '<script>
+    // get rid of double iframe scrollbars
+    var default_height = Math.max(
+        document.body.scrollHeight, document.body.offsetHeight,
+        document.documentElement.clientHeight, document.documentElement.scrollHeight,
+        document.documentElement.offsetHeight);
+    parent.postMessage(JSON.stringify({
+        subject: "lti.frameResize",
+        height: default_height
+    }), "*");
+</script>'
+  );
+
+}

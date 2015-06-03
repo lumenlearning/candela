@@ -134,6 +134,8 @@ function adjust_admin_menu() {
 		remove_menu_page( "edit.php?post_type=lti_consumer" );
 	}
 
+  add_submenu_page('pb_export', 'Export to Thin-CC', 'Thin-CC Export', 'export', 'tools.php?page=candela-thin-export.php');
+
 	// Remove items that non-admins should not see
 	if ( ! ( in_array('administrator', $current_user->roles) || is_super_admin() ) ) {
 		remove_menu_page('themes.php');
@@ -155,6 +157,7 @@ function adjust_admin_menu() {
 			$book_info_url = 'post-new.php?post_type=metadata';
 		}
 		remove_menu_page($book_info_url);
+    remove_submenu_page('pb_export', 'tools.php?page=candela-thin-export.php');
 	}
 
 }

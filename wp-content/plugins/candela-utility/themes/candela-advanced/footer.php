@@ -49,6 +49,10 @@
 	</div><!-- #inner -->
 </div><!-- #footer -->
 
-<?php wp_footer(); ?>
+<?php
+wp_footer();
+add_iframe_resize_message();
+?>
+
 </body>
 </html>
