@@ -224,8 +224,12 @@ function pb_get_chapter_number( $post_name ) {
 	foreach ( $lookup as $key => $val ) {
 		if ( 'chapter' == $val ) {
 			$chapter = get_posts( array( 'name' => $key, 'post_type' => 'chapter', 'post_status' => 'publish', 'numberposts' => 1 ) );
-			$type = pb_get_section_type( $chapter[0] );
-			if ( $type !== 'numberless' ) ++$i;
+			if ( isset( $chapter[0] ) ) {
+				$type = pb_get_section_type( $chapter[0] );
+				if ( $type !== 'numberless' ) ++$i;
+			} else {
+				return 0;
+			}
 			if ( $key == $post_name ) break;
 		}
 	}
@@ -259,14 +263,14 @@ function pb_get_section_type( $post ) {
 }
 
 /**
- * Returns a hierarchical array of subsections in a chapter.
+ * Returns an array of subsections in front matter, back matter, or chapters.
  *
  * @param $id
  *
  * @return array
  */
-function pb_get_chapter_sections( $id ) {
-	return \PressBooks\Book::getChapterSubSections( $id );
+function pb_get_sections( $id ) {
+	return \PressBooks\Book::getSubsections( $id );
 }
 
 /**

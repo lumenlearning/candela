@@ -272,7 +272,7 @@ function add_sitemap_to_robots_txt() {
 function do_sitemap() {
 
 	if ( 1 == get_option( 'blog_public' ) ) {
-		$template = untrailingslashit( PB_PLUGIN_DIR ) . '/themes-root/pressbooks-publisher-one/pb-sitemap.php';
+		$template = untrailingslashit( PB_PLUGIN_DIR ) . '/includes/pb-sitemap.php';
 		load_template( $template );
 	} else {
 		status_header( 404 );
@@ -294,3 +294,45 @@ function create_tmp_file() {
 	return array_search( 'uri', @array_flip( stream_get_meta_data( $GLOBALS[mt_rand()] = tmpfile() ) ) );
 }
 
+/**
+ * Lightweight check to see if the prince constant is defined and if the 
+ * executable file exists
+ * 
+ * @return boolean
+ */
+function check_prince_install() {
+	$result = false;
+
+	// @see wp-config.php
+	if ( ! defined( 'PB_PRINCE_COMMAND' ) ) {
+		define( 'PB_PRINCE_COMMAND', '/usr/bin/prince' );
+	}
+	// check if the file exists, assume that's enough
+	if ( ! file_exists( PB_PRINCE_COMMAND ) ) {
+		$result = false;
+	} else {
+		$result = true;
+	}
+	return $result;
+}
+
+/**
+ * Function to determine whether or not experimental features should be visible to users. Currently just hides them from *.pressbooks.com.
+ * 
+ * @return boolean
+ */
+function show_experimental_features() {
+	$result = true;
+
+	// hosts where experimental features should be hidden
+	$hosts_for_hiding = array( 
+		'pressbooks.com',
+	);
+
+	$host = parse_url( network_site_url(), PHP_URL_HOST );
+	
+	if ( in_array( $host, $hosts_for_hiding ) )
+		$result = false;
+
+	return $result;
+}

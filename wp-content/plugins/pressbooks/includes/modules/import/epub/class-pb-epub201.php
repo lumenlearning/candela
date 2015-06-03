@@ -253,7 +253,7 @@ class Epub201 extends Import {
 	protected function getZipContent( $file, $as_xml = true ) {
 
 		// Locates an entry using its name
-		$index = $this->zip->locateName( $file );
+		$index = $this->zip->locateName( urldecode( $file ) );
 
 		if ( $index === false ) {
 			return '';
@@ -303,7 +303,7 @@ class Epub201 extends Import {
 			$new_post['post_parent'] = $chapter_parent;
 		}
 
-		$pid = wp_insert_post( $new_post );
+		$pid = wp_insert_post( add_magic_quotes( $new_post ) );
 
 		update_post_meta( $pid, 'pb_show_title', 'on' );
 		update_post_meta( $pid, 'pb_export', 'on' );

@@ -589,6 +589,9 @@ abstract class Export {
 			if ( isset( $x['pdf'] ) ) {
 				$modules[] = '\PressBooks\Export\Prince\Pdf';
 			}
+			if ( isset( $x['mpdf'] ) ) {
+				$modules[] = '\PressBooks\Export\Mpdf\Pdf';
+			}
 			if ( isset( $x['epub'] ) ) {
 				$modules[] = '\PressBooks\Export\Epub\Epub201'; // Must be set before MOBI
 			}
@@ -597,9 +600,6 @@ abstract class Export {
 			}
 			if ( isset( $x['mobi'] ) ) {
 				$modules[] = '\PressBooks\Export\Mobi\Kindlegen'; // Must be set after EPUB
-			}
-			if ( isset( $x['hpub'] ) ) {
-				$modules[] = '\PressBooks\Export\Hpub\Hpub';
 			}
 			if ( isset( $x['icml'] ) ) {
 				$modules[] = '\PressBooks\Export\InDesign\Icml';
@@ -612,6 +612,9 @@ abstract class Export {
 			}
 			if ( isset ( $x['vanillawxr'] ) ){
 				$modules[] = '\PressBooks\Export\WordPress\VanillaWxr';
+			}
+			if ( isset ( $x['odt'] ) ){
+				$modules[] = '\PressBooks\Export\Odt\Odt';
 			}
 
 			// --------------------------------------------------------------------------------------------------------

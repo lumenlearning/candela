@@ -65,7 +65,9 @@ add_filter('upload_mimes', '\PressBooks\Media\addMimeTypes');
 
 add_action( 'init', '\PressBooks\PostType\register_post_types' );
 add_action( 'init', '\PressBooks\Taxonomy\register_taxonomies' );
-add_filter( 'request', '\PressBooks\PostType\add_post_types_rss' );
+if ( \PressBooks\Book::isBook() ) {
+	add_filter( 'request', '\PressBooks\PostType\add_post_types_rss' );
+}
 
 // -------------------------------------------------------------------------------------------------------------------
 // Remove the "admin bar" from any public facing theme
@@ -101,6 +103,7 @@ add_action( 'user_register', '\PressBooks\Activation::forcePbColors' );
 
 add_filter( 'init', '\PressBooks\Redirect\rewrite_rules_for_format', 1 );
 add_filter( 'init', '\PressBooks\Redirect\rewrite_rules_for_catalog', 1 );
+add_filter( 'init', '\PressBooks\Redirect\rewrite_rules_for_api', 1 );
 add_filter( 'login_redirect', '\PressBooks\Redirect\login', 10, 3 );
 
 // -------------------------------------------------------------------------------------------------------------------
@@ -113,6 +116,9 @@ add_action( 'do_robotstxt', '\PressBooks\Utility\add_sitemap_to_robots_txt' );
 // -------------------------------------------------------------------------------------------------------------------
 // Shortcodes
 // -------------------------------------------------------------------------------------------------------------------
+
+remove_filter( 'the_content', 'wpautop' );
+add_filter( 'the_content', 'wpautop' , 12); // execute wpautop after shortcode processing
 
 $_ = \PressBooks\Shortcodes\Footnotes\Footnotes::getInstance();
 $_ = \PressBooks\Shortcodes\Generics\Generics::getInstance();

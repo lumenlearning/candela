@@ -26,7 +26,6 @@ class PBLatex {
 	var $options;
 	var $methods = array(
 	    'Automattic_Latex_WPCOM' => 'wpcom',
-	    'Automattic_Latex_MOMCOM' => 'momcom'
 	);
 
 	function init() {

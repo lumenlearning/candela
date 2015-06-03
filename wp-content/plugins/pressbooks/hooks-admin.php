@@ -28,7 +28,6 @@ add_action( 'admin_bar_menu', '\PressBooks\Admin\Laf\remove_menu_bar_update', 41
 add_action( 'admin_bar_menu', '\PressBooks\Admin\Laf\remove_menu_bar_new_content', 71 );
 
 // Add contact Info
-add_action( 'admin_head', '\PressBooks\Admin\Laf\add_feedback_dialogue' );
 add_filter( 'admin_footer_text', '\PressBooks\Admin\Laf\add_footer_link' );
 
 if ( \PressBooks\Book::isBook() ) {
@@ -172,6 +171,21 @@ if ( \PressBooks\Book::isBook() ) {
 	add_filter( 'theme_action_links', function ( $actions ) {
 		unset ( $actions['preview'] );
 		return $actions;
+	} );
+
+	// Check mpdf export paths
+	add_action( 'admin_notices', function () {
+		$paths = array(
+			PB_PLUGIN_DIR . 'symbionts/mpdf/ttfontdata',
+			PB_PLUGIN_DIR . 'symbionts/mpdf/tmp',
+			PB_PLUGIN_DIR . 'symbionts/mpdf/graph_cache',
+		);
+
+		foreach ( $paths as $path ) {
+			if ( ! is_writable( $path ) ) {
+				$_SESSION['pb_errors'][] = sprintf( __('The path "%s" is not writable. Please check and adjust the ownership and file permissions for mpdf export to work properly.', 'pressbooks'), $path );
+			}
+		}
 	} );
 }
 

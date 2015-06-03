@@ -26,8 +26,18 @@
 				<li>
 					<ul>
 						<?php foreach ($book['front-matter'] as $fm): ?>
-						<?php if ($fm['post_status'] != 'publish') continue; // Skip ?>
-						<li class="front-matter <?php echo pb_get_section_type( get_post($fm['ID']) ) ?>"><a href="<?php echo get_permalink($fm['ID']); ?>"><?php echo pb_strip_br( $fm['post_title'] );?></a></li>
+						<?php if ($fm['post_status'] != 'publish' && !current_user_can_for_blog($blog_id, 'read')) continue; // Skip ?>
+						<li class="front-matter <?php echo pb_get_section_type( get_post($fm['ID']) ) ?>"><a href="<?php echo get_permalink($fm['ID']); ?>"><?php echo pb_strip_br( $fm['post_title'] );?></a>
+						<?php $sections = pb_get_sections( $fm['ID'] );
+							if ( $sections && pb_should_parse_sections() ){
+								$s = 1; ?>
+								<ul class="sections">
+								<?php foreach ( $sections as $id => $name ) { ?>
+									<li class="section"><a href="<?php echo get_permalink($fm['ID']); ?>#<?php echo $id; ?>"><?php echo $name; ?></a></li>
+								<?php } ?>
+								</ul>
+							<?php } ?>
+						</li>
 						<?php endforeach; ?>
 					</ul>
 				</li>
@@ -40,9 +50,9 @@
 				<li>
 					<ul>
 						<?php foreach ($part['chapters'] as $chapter) : ?>
-							<?php if ($chapter['post_status'] != 'publish') continue; // Skip ?>
+							<?php if ($chapter['post_status'] != 'publish' && !current_user_can_for_blog($blog_id, 'read')) continue; // Skip ?>
 							<li class="chapter <?php echo pb_get_section_type( get_post($chapter['ID']) ) ?>"><a href="<?php echo get_permalink($chapter['ID']); ?>"><?php echo pb_strip_br( $chapter['post_title'] ); ?></a>
-							<?php $sections = pb_get_chapter_sections( $chapter['ID'] );
+							<?php $sections = pb_get_sections( $chapter['ID'] );
 							if ( $sections && pb_should_parse_sections() ){
 								$s = 1; ?>
 								<ul class="sections">
@@ -60,8 +70,18 @@
 				<li>
 					<ul>
 						<?php foreach ($book['back-matter'] as $bm): ?>
-						<?php if ($bm['post_status'] != 'publish') continue; // Skip ?>
-						<li class="back-matter <?php echo pb_get_section_type( get_post($bm['ID']) ) ?>"><a href="<?php echo get_permalink($bm['ID']); ?>"><?php echo pb_strip_br( $bm['post_title'] );?></a></li>
+						<?php if ($bm['post_status'] != 'publish' && !current_user_can_for_blog($blog_id, 'read')) continue; // Skip ?>
+						<li class="back-matter <?php echo pb_get_section_type( get_post($bm['ID']) ) ?>"><a href="<?php echo get_permalink($bm['ID']); ?>"><?php echo pb_strip_br( $bm['post_title'] );?></a>
+						<?php $sections = pb_get_sections( $bm['ID'] );
+							if ( $sections && pb_should_parse_sections() ){
+								$s = 1; ?>
+								<ul class="sections">
+								<?php foreach ( $sections as $id => $name ) { ?>
+									<li class="section"><a href="<?php echo get_permalink($bm['ID']); ?>#<?php echo $id; ?>"><?php echo $name; ?></a></li>
+								<?php } ?>
+								</ul>
+							<?php } ?>
+						</li>
 						<?php endforeach; ?>
 					</ul>
 				</li>

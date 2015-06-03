@@ -135,6 +135,8 @@ p.chapter_add {
 
 body.chapter_page_pressbooks tbody { margin-top: 10px; }
 
+body.chapter_page_pressbooks #menu-posts-chapter ul li.wp-first-item a { font-weight: bold; }
+
 body.chapter_page_pressbooks .widefat thead tr th {
 	font-weight: bold;
 	color: #333333;
@@ -369,10 +371,6 @@ a.toplevel_page_pb_sell > .wp-menu-image:before {
 	background: url(../images/epub3-36.png) -0 0 no-repeat;
 }
 
-.export-page form.export-file span.export-file-icon.small.hpub {
-	background: url(../images/hpub-36.png) -0 0 no-repeat;
-}
-
 .export-page form.export-file span.export-file-icon.small.icml {
 	background: url(../images/icml-36.png) -0 0 no-repeat;
 }
@@ -397,16 +395,16 @@ a.toplevel_page_pb_sell > .wp-menu-image:before {
 	background: url(../images/xhtml-36.png) -0 0 no-repeat;
 }
 
+.export-page form.export-file span.export-file-icon.small.odt {
+	background: url(../images/odt-36.png) -0 0 no-repeat;
+}
+
 .export-page form.export-file span.export-file-icon.large.epub {
 	background: url(../images/epub-48.png) -0 0 no-repeat;
 }
 
 .export-page form.export-file span.export-file-icon.large.epub3 {
 	background: url(../images/epub3-48.png) -0 0 no-repeat;
-}
-
-.export-page form.export-file span.export-file-icon.large.hpub {
-	background: url(../images/hpub-48.png) -0 0 no-repeat;
 }
 
 .export-page form.export-file span.export-file-icon.large.icml {
@@ -431,6 +429,9 @@ a.toplevel_page_pb_sell > .wp-menu-image:before {
 
 .export-page form.export-file span.export-file-icon.large.xhtml {
 	background: url(../images/xhtml-48.png) -0 0 no-repeat;
+}
+.export-page form.export-file span.export-file-icon.large.odt {
+	background: url(../images/odt-48.png) -0 0 no-repeat;
 }
 
 .export-file-container {

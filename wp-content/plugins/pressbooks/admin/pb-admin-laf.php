@@ -28,37 +28,11 @@ function add_footer_link() {
 	}
 }
 
-
-/**
- * Add a feedback dialogue to admin header
- */
-function add_feedback_dialogue() {
-
-	?>
-<div id="myModal" class="modal hide fade">
-	<div class="modal-header">
-		<a class="close" data-dismiss="modal">&times;</a>
-
-		<h3><?php _e( 'Feedback', 'pressbooks' ); ?></h3>
-	</div>
-	<div class="modal-body">
-		<p>Do you have questions, feedback or comments? You can visit our
-		<a href="http://forum.pressbooks.com/" target="_blank">User Forum</a> (sorry, you will have to register there again), or send us an email at
-		<a href="mailto:support@pressbooks.com">support@pressbooks.com</a></p>
-	</div>
-	<div class="modal-footer">
-		<a href="#" class="button-primary alignright" data-dismiss="modal"><?php _e( 'Close', 'pressbooks' ); ?></a>
-	</div>
-</div>
-<a class="admin-feedback-btn" href="#myModal" data-toggle="modal"><?php _e( 'Feedback', 'pressbooks' ); ?></a>
-<?php
-}
-
 /**
  * Replaces 'WordPress' with 'PressBooks' in titles of admin pages.
  */
 function admin_title( $admin_title ) {
-	$title = str_replace( 'WordPress', 'PressBooks', $admin_title );
+	$title = str_replace( 'WordPress', 'Pressbooks', $admin_title );
 	return $title;
 }
 
@@ -69,8 +43,7 @@ function replace_book_admin_menu() {
 
 	global $menu, $submenu;
 
-	// Modify $menu and $submenu global arrays to do some tasks, such as adding a new separator,
-	// moving items from one menu into another, and reordering sub-menu items.
+	// Modify $menu and $submenu global arrays to do some tasks, such as adding a new separator, moving items from one menu into another, and reordering sub-menu items.
 
 	$menu[13] = $menu[60]; // Relocate Appearance
 	unset( $menu[60] );
@@ -109,11 +82,6 @@ function replace_book_admin_menu() {
 	remove_menu_page( "plugins.php" );
 	remove_submenu_page( "edit.php?post_type=chapter", "edit.php?post_type=chapter" );
 
-
-	// Separator
-	// $menu[56] = array( '', 'read', "separator{0}", '', 'wp-menu-separator' );
-
-
 	// Organize
 	$page = add_submenu_page( 'edit.php?post_type=chapter', __( 'Organize', 'pressbooks' ), __( 'Organize', 'pressbooks' ), 'edit_posts', 'pressbooks', __NAMESPACE__ . '\display_organize' );
 	add_action( 'admin_enqueue_scripts', function ( $hook ) use ( $page ) {
@@ -143,7 +111,8 @@ function replace_book_admin_menu() {
 	$front_matter_types = $submenu['edit.php?post_type=front-matter'][15];
 	$back_matter_types = $submenu['edit.php?post_type=back-matter'][15];
 	unset( $submenu['edit.php?post_type=chapter'][10] );
-	
+	unset( $submenu['edit.php?post_type=chapter'][15] );
+
 	if ( is_super_admin() ) {
 		// If network administrator, give the option to see chapter, front matter and back matter types.
 		array_push(
@@ -173,10 +142,6 @@ function replace_book_admin_menu() {
 			}
 		}
 	} );
-	
-	// Separator
-	// $menu[14] = array( '', 'read', "separator{0}", '', 'wp-menu-separator' );
-
 
 	// Export
 	$page = add_menu_page( __( 'Export', 'pressbooks' ), __( 'Export', 'pressbooks' ), 'edit_posts', 'pb_export', __NAMESPACE__ . '\display_export', '', 14 );
@@ -350,32 +315,32 @@ function replace_menu_bar_my_sites( $wp_admin_bar ) {
 
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'my-books-super-admin',
-			'id' => 'network-admin',
+			'id' => 'pb-network-admin',
 			'title' => __( 'Network Admin', 'pressbooks' ),
 			'href' => network_admin_url(),
 		) );
 
 		$wp_admin_bar->add_menu( array(
-			'parent' => 'network-admin',
-			'id' => 'network-admin-d',
+			'parent' => 'pb-network-admin',
+			'id' => 'pb-network-admin-d',
 			'title' => __( 'Dashboard', 'pressbooks' ),
 			'href' => network_admin_url(),
 		) );
 		$wp_admin_bar->add_menu( array(
-			'parent' => 'network-admin',
-			'id' => 'network-admin-s',
+			'parent' => 'pb-network-admin',
+			'id' => 'pb-network-admin-s',
 			'title' => __( 'Sites', 'pressbooks' ),
 			'href' => network_admin_url( 'sites.php' ),
 		) );
 		$wp_admin_bar->add_menu( array(
-			'parent' => 'network-admin',
-			'id' => 'network-admin-u',
+			'parent' => 'pb-network-admin',
+			'id' => 'pb-network-admin-u',
 			'title' => __( 'Users', 'pressbooks' ),
 			'href' => network_admin_url( 'users.php' ),
 		) );
 		$wp_admin_bar->add_menu( array(
-			'parent' => 'network-admin',
-			'id' => 'network-admin-v',
+			'parent' => 'pb-network-admin',
+			'id' => 'pb-network-admin-v',
 			'title' => __( 'Visit Network', 'pressbooks' ),
 			'href' => network_home_url(),
 		) );
@@ -594,7 +559,7 @@ function redirect_away_from_bad_urls() {
 		return; // Do nothing
 
 	$check_against_url = parse_url( ( is_ssl() ? 'http://' : 'https://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], PHP_URL_PATH );
-	$redirecl_url = get_site_url( get_current_blog_id(), '/wp-admin/' );
+	$redirect_url = get_site_url( get_current_blog_id(), '/wp-admin/' );
 
 	// ---------------------------------------------------------------------------------------------------------------
 	// If user is on post-new.php, check for valid post_type
@@ -602,7 +567,7 @@ function redirect_away_from_bad_urls() {
 	if ( preg_match( '~/wp-admin/post-new\.php$~', $check_against_url ) ) {
 		if ( ! in_array( @$_REQUEST['post_type'], \PressBooks\PostType\list_post_types() ) ) {
 			$_SESSION['pb_notices'][] = __( 'Unsupported post type.', 'pressbooks' );
-			\PressBooks\Redirect\location( $redirecl_url );
+			\PressBooks\Redirect\location( $redirect_url );
 		}
 	}
 
@@ -629,7 +594,7 @@ function redirect_away_from_bad_urls() {
 	$expr = '~/wp-admin/(' . implode( '|', $restricted ) . ')\.php$~';
 	if ( preg_match( $expr, $check_against_url ) ) {
 		$_SESSION['pb_notices'][] = __( 'You do not have sufficient permissions to access that URL.', 'pressbooks' );
-		\PressBooks\Redirect\location( $redirecl_url );
+		\PressBooks\Redirect\location( $redirect_url );
 	}
 }
 

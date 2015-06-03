@@ -50,18 +50,18 @@ class Xhtml extends Import {
 	function kneadandInsert( $html, $post_type, $chapter_parent, $domain ) {
 		$matches = array();
 
-		// get author
-		preg_match( '/(<meta name="author" content=")(.+)">/isU', $html, $matches );
+		$meta = $this->getLicenseAttribution( $html );
+		$author = ( isset( $meta['authors'] )) ? $meta['authors'] : $this->getAuthors( $html );
+		$license = ( isset( $meta['license'] )) ? $this->extractCCLicense( $meta['license'] ) : '';
 
-		// get the copyright name, if author is empty
-		if ( empty( $matches[1] ) ) {
-			preg_match( '/(<meta name="copyright" content=")(.+)">/isU', $html, $matches );
+		// get the title, preference to title set by PB
+		preg_match( '/<h2 class="entry-title">(.*)<\/h2>/', $html, $matches );
+		if ( ! empty( $matches[1] ) ) {
+			$title = wp_strip_all_tags( $matches[1] );
+		} else {
+			preg_match( '/<title>(.+)<\/title>/', $html, $matches );
+			$title = ( ! empty( $matches[1] ) ? wp_strip_all_tags( $matches[1] ) : '__UNKNOWN__' );
 		}
-		$author = ( ! empty( $matches[1] ) ? wp_strip_all_tags( $matches[1] ) : '');
-
-		// get the title
-		preg_match( '/<title>(.+)<\/title>/', $html, $matches );
-		$title = ( ! empty( $matches[1] ) ? wp_strip_all_tags( $matches[1] ) : '__UNKNOWN__' );
 
 		// just get the body
 		preg_match( '/(?:<body[^>]*>)(.*)<\/body>/isU', $html, $matches );
@@ -85,16 +85,112 @@ class Xhtml extends Import {
 			$new_post['post_parent'] = $chapter_parent;
 		}
 
-		$pid = wp_insert_post( $new_post );
+		$pid = wp_insert_post( add_magic_quotes( $new_post ) );
 		
 		if( ! empty( $author )){
 			update_post_meta( $pid, 'pb_section_author', $author );
+		}
+		
+		if( ! empty( $license ) ){
+			update_post_meta( $pid, 'pb_section_license', $license );
 		}
 
 		update_post_meta( $pid, 'pb_show_title', 'on' );
 		update_post_meta( $pid, 'pb_export', 'on' );
 
 		Book::consolidatePost( $pid, get_post( $pid ) ); // Reorder		
+	}
+	
+	/**
+	 * Expects a URL string with Creative Commons domain similar in form to: 
+	 * http://creativecommons.org/licenses/by-sa/4.0/
+	 * 
+	 * @param string $url
+	 * @return string license meta value
+	 */
+	protected function extractCCLicense( $url ) {
+		$license = '';
+
+		// evaluate that it's a url
+		if ( ! is_string( $url ) ) {
+			return $license;
+		}
+		// look for creativecommons domain
+		$parts = parse_url( $url );
+
+		if ( 'http' == $parts['scheme'] && 'creativecommons.org' == $parts['host'] ) {
+			// extract the license information from it
+			$split = explode( '/', $parts['path'] );
+			if ( 'zero' == $split[2] ) {
+				$license = 'cc0';
+			} else {
+				$license = 'cc-' . $split[2];
+			}
+		}
+
+		return $license;
+	}
+
+	/**
+	 * Looks for  div class created by the license module in PB, returns
+	 * author and license information.
+	 * 
+	 * @param string $html
+	 * @return array $meta
+	 */
+	protected function getLicenseAttribution( $html ) {
+		$meta = array();
+
+		// get license attribution statement if it exists
+		preg_match( '/(?:<div class="license-attribution[^>]*>)(.*)(<\/div>)/is', $html, $matches );
+
+		if ( ! empty( $matches[1] ) ) {
+
+			// dom it up
+			libxml_use_internal_errors( true );
+
+			// Load HTMl snippet into DOMDocument using UTF-8 hack
+			$utf8_hack = '<?xml version="1.0" encoding="UTF-8"?>';
+			$doc = new \DOMDocument();
+
+			$doc->loadHTML( $utf8_hack . $matches[1] );
+
+			$meta = $this->scrapeAndKneadMeta( $doc );
+		}
+		return $meta;
+	}
+
+	/**
+	 * Looks for meta data in the <head> section of an HTML document. 
+	 * Priority is given to PB generated meta data.
+	 * 
+	 * @param string $html
+	 * @return array $authors
+	 */
+	protected function getAuthors( $html ) {
+		$authors = '';
+
+		// go for the book metadata set in PB <head>
+		preg_match( '/(<meta itemprop="copyrightHolder" content=")(.+)(" id="copyrightHolder")>/is', $html, $matches );
+		if ( empty( $matches[2] ) ) {
+			// grab the authors, if copyrightHolders is empty
+			preg_match( '/(<meta itemprop="author" content=")(.+)(" id="author")>/is', $html, $matches );
+		}
+
+		$authors = $matches[2];
+
+		// final attempt, must not be a PB html page
+		if ( empty( $authors ) ) {
+			preg_match( '/(<meta name="author" content=")(.+)">/isU', $html, $matches );
+
+			// get the copyright name, if author is empty
+			if ( empty( $matches[1] ) ) {
+				preg_match( '/(<meta name="copyright" content=")(.+)">/isU', $html, $matches );
+			}
+			$authors = ( ! empty( $matches[1] ) ? wp_strip_all_tags( $matches[1] ) : '');
+		}
+
+		return $authors;
 	}
 
 	/**
@@ -117,7 +213,11 @@ class Xhtml extends Import {
 		// general content area, greedy
 		preg_match( '/(?:<div id="content"[^>]*>)(.*)<\/div>/is', $html, $matches );
 		$html = ( ! empty( $matches[1] )) ? $matches[1] : $html;
-
+		
+		// specific PB content area, greedy
+		preg_match( '/(?:<div class="entry-content"[^>]*>)(.*)<\/div>/is', $html, $matches );
+		$html = ( ! empty( $matches[1] )) ? $matches[1] : $html;
+		
 		/* cull */
 		// get rid of script tags, ungreedy
 		$result = preg_replace( '/(?:<script[^>]*>)(.*)<\/script>/isU', '', $html );
@@ -125,6 +225,10 @@ class Xhtml extends Import {
 		$result = preg_replace( '/(?:<form[^>]*>)(.*)<\/form>/isU', '', $result );
 		// get rid of html5 nav content, ungreedy
 		$result = preg_replace( '/(?:<nav[^>]*>)(.*)<\/nav>/isU', '', $result );
+		// get rid of PB nav, next/previous
+		$result = preg_replace(  '/(?:<div class="nav"[^>]*>)(.*)<\/div>/isU', '', $result );
+		// get rid of PB share buttons
+		$result = preg_replace(  '/(?:<div class="share-wrap-single"[^>]*>)(.*)<\/div>/isU', '', $result );
 		// get rid of html5 footer content, ungreedy
 		$result = preg_replace( '/(?:<footer[^>]*>)(.*)<\/footer>/isU', '', $result );
 		// get rid of sidebar content, greedy
@@ -153,7 +257,7 @@ class Xhtml extends Import {
 		$doc = new \DOMDocument();
 
 		$doc->loadHTML( $utf8_hack . $html );
-
+		
 		// Download images, change relative paths to absolute
 		$doc = $this->scrapeAndKneadImages( $doc, $domain );
 
@@ -165,6 +269,38 @@ class Xhtml extends Import {
 		libxml_clear_errors();
 
 		return $html;
+	}
+	
+	/**
+	 * Extracts section/book author and section/book license if they exist. 
+	 * Focus is given to CreativeCommons license information genereted by PB
+	 * 
+	 * @param \DOMDocument $doc
+	 * @return array $meta
+	 */
+	protected function scrapeAndKneadMeta( \DOMDocument $doc ) {
+		$meta = array();
+
+		$urls = $doc->getElementsByTagName( 'a' );
+
+		foreach ( $urls as $anchor ) {
+
+			$license = $anchor->getAttribute( 'rel' );
+			$property = $anchor->getAttribute( 'property' );
+
+			// expecting to find  <a href="http://creativecommons.org/licenses/by/4.0/" rel="license">
+			if ( 'license' == $license ) {
+				$meta['license'] = $anchor->getAttribute( 'href' );
+			}
+
+			// expecting to find  <a rel="cc:attributionURL" property="cc:attributionName" href="http://opentextbc.ca/geography/front-matter/about-the-book/" xmlns:cc="http://creativecommons.org/ns#">
+			// Arthur Green, Britta Ricker, Siobhan McPhee, Aviv Ettya, Cristina Temenos</a>
+			if ( 'cc:attributionName' == $property ) {
+				$meta['authors'] = $anchor->nodeValue;
+			}
+		}
+
+		return $meta;
 	}
 
 	/**
@@ -303,7 +439,7 @@ class Xhtml extends Import {
 	}
 
 	/**
-	 * Compliance with XTHML standards, rid cruft generated by word processors
+	 * Compliance with XHTML standards, rid cruft generated by word processors
 	 *
 	 * @param string $html
 	 *
