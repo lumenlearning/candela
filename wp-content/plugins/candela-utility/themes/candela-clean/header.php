@@ -60,38 +60,41 @@ if ( is_front_page() ) {
 	 
 	 	<!-- home page wrap -->
 	 	
-		<span itemscope itemtype="http://schema.org/Book" itemref="about alternativeHeadline author copyrightHolder copyrightYear datePublished description editor 
+		<span itemscope itemtype="http://schema.org/Book" itemref="about alternativeHeadline author copyrightHolder copyrightYear datePublished description editor
 		      image inLanguage keywords publisher audience educationalAlignment educationalUse interactivityType learningResourceType typicalAgeRange">
 			<div class="book-info-container hfeed">
 	 
 		<?php else: ?>
-      <?php if (!isset($_GET['content_only']) && !isset($_GET['hide_header'])) { ?>
+      <?php if (!isset($_GET['hide_header'])) { ?>
         <span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">
           <div class="nav-container">
-            <nav>
+            <?php if (!isset($_GET['content_only'])) { ?>
+              <nav>
 
-              <!-- Book Title -->
-              <h1 class="book-title"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+                <!-- Book Title -->
+                <h1 class="book-title"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 
-                  <div class="sub-nav-left">
-                  <!-- Logo -->
-                  <h2 class="pressbooks-logo"><a href="#"><?php echo get_site_option('site_name'); ?></a></h2>
-                  </div> <!-- end .sub-nav-left -->
+                    <div class="sub-nav-left">
+                    <!-- Logo -->
+                    <h2 class="pressbooks-logo"><a href="#"><?php echo get_site_option('site_name'); ?></a></h2>
+                    </div> <!-- end .sub-nav-left -->
 
-              <div class="sub-nav-right">
+                <div class="sub-nav-right">
 
-                  <?php if ( @array_filter( get_option( 'pressbooks_ecommerce_links' ) ) ) : ?>
-                  <!-- Buy -->
-                  <div class="buy">
-                  <a href="<?php echo get_option('home'); ?>/buy" class="button-red"><?php _e('Buy', 'pressbooks'); ?></a>
-                </div>
-                <?php endif; ?>
+                    <?php if ( @array_filter( get_option( 'pressbooks_ecommerce_links' ) ) ) : ?>
+                    <!-- Buy -->
+                    <div class="buy">
+                    <a href="<?php echo get_option('home'); ?>/buy" class="button-red"><?php _e('Buy', 'pressbooks'); ?></a>
+                  </div>
+                  <?php endif; ?>
 
-                <?php get_template_part( 'content', 'social-header' ); ?>
+                  <?php get_template_part( 'content', 'social-header' ); ?>
 
-            </div> <!-- end .sub-nav-right -->
-          </nav>
+              </div> <!-- end .sub-nav-right -->
+              </nav>
+            <?php } ?>
 
+            <?php if (!isset($_GET['hide_search'])) { ?>
             <div class="sub-nav">
                <div class="alignright pullleft">
                  <?php get_search_form(); ?>
@@ -105,7 +108,7 @@ if ( is_front_page() ) {
                </div> <!-- end .author-name -->
 
             </div><!-- end sub-nav -->
-
+            <?php } ?>
 
         </div> <!-- end .nav-container -->
       <?php } ?>

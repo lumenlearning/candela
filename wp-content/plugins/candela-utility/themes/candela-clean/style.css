@@ -15,8 +15,9 @@ hide_footer
 hide_navigation
 hide_social
 hide_edit
+hide_search
 
-Or, do hide all of that, except the hide_edit, just add:
+Or, do hide all of that, except hide_edit and hide_search, just add:
 content_only
 
 For example:

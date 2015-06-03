@@ -2,6 +2,13 @@
 <?php get_header(); ?>
 <?php if (get_option('blog_public') == '1' || (get_option('blog_public') == '0' && current_user_can_for_blog($blog_id, 'read'))): ?>
 
+    <?php
+      // Show for normal page views, but not for content_only
+      if (!isset($_GET['content_only']) && !isset($_GET['hide_edit'])) {
+        edit_post_link(__('Edit', 'pressbooks'), '<span class="edit-link">', '</span>');
+      }
+    ?>
+
 			<h1 class="entry-title"><?php
 				if ( $chapter_number = pb_get_chapter_number( $post->post_name ) ) echo "<span>$chapter_number</span>  ";
 				the_title();
@@ -36,9 +43,12 @@
 				</div><!-- #post-## -->
 
 
-        <?php if (!isset($_GET['hide_edit'])) { ?>
-          <?php edit_post_link(__('Edit', 'pressbooks'), '<span class="edit-link-subtle">', '</span>'); ?>
-        <?php } ?>
+        <?php
+          // Show more subtle edit link for content_only
+          if (isset($_GET['content_only']) && !isset($_GET['hide_edit'])) {
+            edit_post_link(__('Edit', 'pressbooks'), '<span class="edit-link-subtle">', '</span>');
+          }
+        ?>
 
 				<?php if ( $citation = CandelaCitation::renderCitation( $post->ID ) ): ?>
 					<div class="post-citations sidebar">
