@@ -71,11 +71,11 @@ if ( is_front_page() ) {
 				<nav>
 			
 			 		<!-- Book Title -->
-					<h1 class="book-title"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+					<div class="book-title"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></div>
 			    
 					    <div class="sub-nav-left">
 							<!-- Logo -->
-							<h2 class="pressbooks-logo"><a href="#"><?php echo get_site_option('site_name'); ?></a></h2>
+							<div class="pressbooks-logo"><a href="#"><?php echo get_site_option('site_name'); ?></a></div>
 					    </div> <!-- end .sub-nav-left -->
 			    
 			    <div class="sub-nav-right">
