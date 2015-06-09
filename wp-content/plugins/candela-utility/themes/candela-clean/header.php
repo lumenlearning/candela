@@ -103,7 +103,7 @@ if ( is_front_page() ) {
               <div class="author-wrap">
                 <?php $metadata = pb_get_book_information(); ?>
               <?php if ( ! empty( $metadata['pb_author'] ) ): ?>
-                <h3><?php echo $metadata['pb_author']; ?></h3></span>
+                <div class="author-name"><?php echo $metadata['pb_author']; ?></div></span>
                 <?php endif; ?>
                </div> <!-- end .author-name -->
 

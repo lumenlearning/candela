@@ -450,3 +450,9 @@ h3.collapsed {
     text-transform: none;
 }
 
+.author-wrap .author-name {
+    text-transform: uppercase;
+    display: inline;
+    font: normal 0.75em "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
+    letter-spacing: 0;
+}
