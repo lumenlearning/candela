@@ -443,3 +443,21 @@ div#wrap {
   font-size: 10px;
   font-weight: 600;
 }
+
+
+/*****************************/
+/*  EDIT TAB (LEFT OF PAGE)  */
+/*****************************/
+
+span.edit-link {
+  margin: 120px 0 0 -86px;
+}
+
+span.edit-link a {
+  color: #03a9f4;
+}
+
+span.edit-link a:hover {
+  color: #fff;
+  background-color: #03a9f4;
+}
