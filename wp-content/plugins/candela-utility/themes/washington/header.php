@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ --> 
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7 ]> <html <?php language_attributes(); ?> class="no-js ie6"> <![endif]-->
 <!--[if IE 7 ]>    <html <?php language_attributes(); ?> class="no-js ie7"> <![endif]-->
 <!--[if IE 8 ]>    <html <?php language_attributes(); ?> class="no-js ie8"> <![endif]-->
@@ -58,17 +58,18 @@ if ( is_front_page() ) {
 <!-- end Facebook JS -->
 
 	 <?php if (is_front_page()):?>
-	 
+
 	 	<!-- home page wrap -->
-	 	
-		<span itemscope itemtype="http://schema.org/Book" itemref="about alternativeHeadline author copyrightHolder copyrightYear datePublished description editor 
+
+		<span itemscope itemtype="http://schema.org/Book" itemref="about alternativeHeadline author copyrightHolder copyrightYear datePublished description editor
 		      image inLanguage keywords publisher audience educationalAlignment educationalUse interactivityType learningResourceType typicalAgeRange">
 			<div class="book-info-container hfeed">
-	 
+
 		<?php else: ?>
-		
-		<span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">		
+
+		<span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">
 			<div class="nav-container">
+        <?php if (!isset($_GET['content_only'])) { ?>
         <div class="row">
           <nav role="navigation">
             <!-- Book Title -->
@@ -86,11 +87,12 @@ if ( is_front_page() ) {
             <?php ca_get_links(); ?>
           </nav>
         </div>
-			      
+        <?php } ?>
+
 		</div> <!-- end .nav-container -->
 
-	<div class="wrapper"><!-- for sitting footer at the bottom of the page -->	    
-			<div id="wrap">	    
+	<div class="wrapper"><!-- for sitting footer at the bottom of the page -->
+			<div id="wrap">
 				<div id="content" role="main">
 
-	 <?php endif; ?>	
+	 <?php endif; ?>
