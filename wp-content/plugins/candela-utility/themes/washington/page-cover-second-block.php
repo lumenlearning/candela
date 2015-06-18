@@ -1,4 +1,19 @@
 			<section class="second-block-wrap">
+
+				<!-- Login/Logout -->
+				<div class="log-wrap">
+					<?php if (! is_single()): ?>
+							<?php if (!is_user_logged_in()): ?>
+							<a href="<?php echo wp_login_url(); ?>" class=""><?php _e('login', 'pressbooks'); ?></a>
+								<?php else: ?>
+							<a href="<?php echo  wp_logout_url(); ?>" class=""><?php _e('logout', 'pressbooks'); ?></a>
+							<?php if (is_super_admin() || is_user_member_of_blog()): ?>
+							<a href="<?php echo get_option('home'); ?>/wp-admin"><?php _e('Admin', 'pressbooks'); ?></a>
+							<?php endif; ?>
+							<?php endif; ?>
+						<?php endif; ?>
+				</div>
+
 				<div class="second-block clearfix">
 						<div class="description-book-info">
 							<?php $metadata = pb_get_book_information();?>
