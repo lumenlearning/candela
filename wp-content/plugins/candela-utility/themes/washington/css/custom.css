@@ -31,7 +31,7 @@ ul li {
 	top: 48%;
 }
 .nav span a {
-	
+
 }
 .nav span.previous {
 	left: 3em;
@@ -409,3 +409,37 @@ div#wrap {
     display: none;
 }
 
+
+/*********************/
+/*  SUBNAV & SEARCH  */
+/*********************/
+
+.sub-nav {
+  margin: 0;
+  box-shadow: none;
+}
+
+.sub-nav #searchform {
+  width: 250px;
+  margin: 12px 0 0 0;
+}
+
+.sub-nav input {
+  display: inline;
+  border-radius: 2px;
+}
+
+.sub-nav input#s {
+  width: 60%;
+  height: 22px;
+  margin: 0;
+  vertical-align: bottom;
+  font-size: 12px;
+}
+
+.sub-nav input#searchsubmit {
+  height: 22px;
+  color: #3b3b3b;
+  font-size: 10px;
+  font-weight: 600;
+}

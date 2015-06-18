@@ -45,8 +45,9 @@ if ( is_front_page() ) {
 
 <?php wp_head(); ?>
 </head>
+
 <body <?php body_class(); if(wp_title('', false) != '') { print ' id="' . str_replace(' ', '', strtolower(wp_title('', false))) . '"'; } ?>>
-<!-- Faccebook share js sdk -->
+<!-- Facebook share js sdk -->
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -88,6 +89,12 @@ if ( is_front_page() ) {
           </nav>
         </div>
         <?php } ?>
+
+        <div class="sub-nav">
+			     <div class="alignright pullleft">
+				     <?php get_search_form(); ?>
+			     </div>
+			  </div>
 
 		</div> <!-- end .nav-container -->
 
