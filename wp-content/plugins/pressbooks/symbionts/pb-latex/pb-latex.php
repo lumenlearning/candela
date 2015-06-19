@@ -26,7 +26,8 @@ class PBLatex {
 	var $options;
 	var $methods = array(
 	    'Automattic_Latex_WPCOM' => 'wpcom',
-	    'Automattic_Latex_MOMCOM' => 'momcom'
+	    'Automattic_Latex_MOMCOM' => 'momcom',
+	    'katex' => 'katex',
 	);
 
 	function init() {
@@ -37,7 +38,15 @@ class PBLatex {
 		add_action( 'wp_head', array( &$this, 'wpHead' ) );
 
 		add_filter( 'the_content', array( &$this, 'inlineToShortcode' ), 8 );
-		add_shortcode( 'latex', array( &$this, 'shortCode' ) );
+		if ( $this->options['method'] == 'katex' ) {
+			wp_enqueue_script( 'pb_mathjax', 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML.js');
+			wp_enqueue_script( 'pb_asciimathteximg', plugins_url( 'ASCIIMathTeXImg.js', __FILE__ ) );
+			wp_enqueue_script( 'pb_katex', plugins_url( 'katex.min.js', __FILE__ ) );
+			wp_enqueue_style( 'pb_katex_css', plugins_url( 'katex.min.css', __FILE__ ) );
+			wp_enqueue_script( 'pb_katex_autorender', plugins_url( 'auto-render.js', __FILE__ ), array( 'pb_katex' , 'pb_mathjax' ) );
+		} else {
+			add_shortcode( 'latex', array( &$this, 'shortCode' ) );
+		}
 		add_filter( 'no_texturize_shortcodes', function ( $excluded_shortcodes ) {
 			$excluded_shortcodes[] = 'pb-latex';
 			return $excluded_shortcodes;
@@ -45,6 +54,16 @@ class PBLatex {
 	}
 
 	function wpHead() {
+		if ( $this->options['method'] == 'katex' ) {
+?>
+<script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+    skipStartupTypeset: true
+  });  
+</script>
+<?php
+
+		}
 		if ( !$this->options['css'] )
 			return;
 ?>
