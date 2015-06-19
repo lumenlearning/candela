@@ -4,7 +4,9 @@
 <?php } ?>
 <?php if( !is_front_page() ){?>
 
-	<?php get_sidebar(); ?>
+  <?php if (!isset($_GET['content_only'])) { ?>
+	  <?php get_sidebar(); ?>
+	<?php } ?>
 
 	</div><!-- #wrap -->
 	<div class="push"></div>
