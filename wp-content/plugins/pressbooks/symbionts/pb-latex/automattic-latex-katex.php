@@ -5,7 +5,7 @@ Copyright: Automattic, Inc.
 License: GPL2+
 */
 
-class Automattic_Latex_WPCOM {
+class katex {
 	var $latex;
 	var $bg_hex;
 	var $fg_hex;
