@@ -125,6 +125,8 @@ var renderMathInText = function(text, delimiters) {
             var math = data[i].data;
             if (data[i].format == "asciimath") {
             	    math = "\\displaystyle "+AMTparseAMtoTeX(math);
+            } else if (math.indexOf("\\displaystyle")==-1) {
+            	    math = "\\displaystyle "+math;
             }
             try {
                 katex.render(math, span, {
@@ -172,7 +174,7 @@ var renderElem = function(elem, delimiters, ignoredTags) {
 
 var defaultOptions = {
     delimiters: [
-        {left: "`", right: "`", display: false, format: "asciimath"},
+       // {left: "`", right: "`", display: false, format: "asciimath"},
         {left: "[latex]", right: "[/latex]", display: false, format: "tex"}
     ],
 
@@ -209,6 +211,6 @@ window.renderMathInElement = renderMathInElement;
 
 })();
 
-$(function() {
-	renderMathInElement(document.body);	
+jQuery(function() {
+	renderMathInElement(document.getElementById("content"));	
 });

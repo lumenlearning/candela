@@ -6,7 +6,7 @@
  * It modifies the plugin to work with PressBooks, strips unwanted features, adds others — activated at the network level
  *
  */
-
+error_reporting(E_ALL);
 if ( !defined('ABSPATH') ) exit;
 
 class PBLatexAdmin extends PBLatex {

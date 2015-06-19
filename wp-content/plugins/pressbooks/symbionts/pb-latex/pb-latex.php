@@ -39,11 +39,12 @@ class PBLatex {
 
 		add_filter( 'the_content', array( &$this, 'inlineToShortcode' ), 8 );
 		if ( $this->options['method'] == 'katex' ) {
+			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'pb_mathjax', 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML.js');
 			wp_enqueue_script( 'pb_asciimathteximg', plugins_url( 'ASCIIMathTeXImg.js', __FILE__ ) );
 			wp_enqueue_script( 'pb_katex', plugins_url( 'katex.min.js', __FILE__ ) );
 			wp_enqueue_style( 'pb_katex_css', plugins_url( 'katex.min.css', __FILE__ ) );
-			wp_enqueue_script( 'pb_katex_autorender', plugins_url( 'auto-render.js', __FILE__ ), array( 'pb_katex' , 'pb_mathjax' ) );
+			wp_enqueue_script( 'pb_katex_autorender', plugins_url( 'auto-render.js', __FILE__ ), array( 'pb_katex' , 'pb_mathjax' , 'jquery') );
 		} else {
 			add_shortcode( 'latex', array( &$this, 'shortCode' ) );
 		}
