@@ -59,7 +59,8 @@ class PBLatex {
 ?>
 <script type="text/x-mathjax-config">
    MathJax.Hub.Config({
-    skipStartupTypeset: true
+    skipStartupTypeset: true,
+    TeX: { extensions: ["cancel.js"] }
   });  
 </script>
 <?php

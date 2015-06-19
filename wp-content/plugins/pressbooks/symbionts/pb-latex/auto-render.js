@@ -212,5 +212,5 @@ window.renderMathInElement = renderMathInElement;
 })();
 
 jQuery(function() {
-	renderMathInElement(document.getElementById("content"));	
+	renderMathInElement(jQuery(".entry-content").get(0));	
 });
