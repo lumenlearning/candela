@@ -357,4 +357,56 @@ function add_meta_boxes() {
 		$info['group'] = 'candela-book-information';
 		x_add_metadata_field( $key, 'metadata', $info);
 	}
+
+  add_meta_box( 'nav-links', 'Edit Navigation Links', __NAMESPACE__ . '\nav_links', 'chapter', 'side', 'low' );
+}
+
+function nav_links() {
+  echo(edit_post_link("Previous", '', '', get_pb_page_id("prev")) . " - ");
+  echo(edit_post_link("Next", '', '', get_pb_page_id('next')));
+}
+
+/**
+ * Fetch next or previous Pressbooks post ID
+ * This is taken from PB's inner code to find the next page
+ *
+ * @param string $what prev, next
+ *
+ * @return ID of requested post
+ */
+function get_pb_page_id( $what = 'next' ) {
+
+  global $blog_id;
+  global $post;
+
+  $current_post_id = $post->ID;
+  $book_structure = \PressBooks\Book::getBookStructure();
+  $order = $book_structure['__order'];
+  $pos = array_keys( $order );
+
+  $what = ( $what == 'next' ? 'next' : 'prev' );
+
+  // Move internal pointer to correct position
+  reset( $pos );
+  while ( $find_me = current( $pos ) ) {
+    if ( $find_me == $current_post_id ) {
+      break;
+    } else {
+      next( $pos );
+    }
+  }
+
+  // Get next/previous
+  $what( $pos );
+  while ( $post_id = current( $pos ) ) {
+    if ( $order[$post_id]['post_status'] == 'publish' ) {
+      break;
+    } elseif ( current_user_can_for_blog( $blog_id, 'read' ) ) {
+      break;
+    } else {
+      $what( $pos );
+    }
+  }
+
+  return $post_id;
 }
