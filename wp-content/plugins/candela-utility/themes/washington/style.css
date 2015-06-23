@@ -121,6 +121,7 @@ ol.alphalist li::before{
 	font-weight: normal;
 	text-align: left;
 	margin: 100px 0 80px;
+	text-transform: none;
 }
 .entry-title span {
 	border-bottom: 1px solid #333;
