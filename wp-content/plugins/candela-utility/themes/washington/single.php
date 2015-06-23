@@ -7,6 +7,7 @@
 		edit_post_link(__('Edit', 'pressbooks'), '<span class="edit-link">', '</span>');
 ?>
 
+			<main id="main-content">
 
 			<h1 class="entry-title"><?php the_title(); ?></h1>
 
