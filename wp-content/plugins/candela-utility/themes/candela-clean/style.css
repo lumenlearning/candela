@@ -486,3 +486,23 @@ h3.collapsed {
     font: normal 0.75em "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
     letter-spacing: 0;
 }
+
+#content .h3-styling {
+	font-size: 1em;
+	text-transform: uppercase;
+	margin-top: 1em;
+  text-align: center;
+	font-family: "Roboto Condensed", sans-serif;
+	font-variant: normal;
+	font-weight: normal;
+}
+
+#content .h4-styling {
+  font-size: 1em;
+	text-transform: uppercase;
+	margin-top: 1em;
+  margin-bottom: 1em;
+	font-family: "Roboto Condensed", sans-serif;
+	font-variant: normal;
+	font-weight: normal;
+}
