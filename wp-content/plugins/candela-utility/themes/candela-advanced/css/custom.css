@@ -424,3 +424,19 @@ div#wrap {
 .description-book-info{
     display: none;
 }
+
+
+.skip-to-content a {
+  position:absolute;
+  left:-10000px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
+
+.skip-to-content a:focus {
+  position: static;
+  width: auto;
+  height: auto;
+}
