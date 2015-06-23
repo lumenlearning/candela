@@ -166,7 +166,7 @@ class CandelaCitation {
       $types = CandelaCitation::getOptions('type');
       foreach ( $types as $type => $info ) {
         if ( ! empty( $grouped[$type] ) ) {
-          $output .= '<h4>' . $info['label'] . '</h4>';
+          $output .= '<div class="h4-styling">' . $info['label'] . '</div>';
           $output .= '<ul class="citation-list"><li>';
           $output .= implode('</li><li>', $grouped[$type] );
           $output .= '</li></ul>';
@@ -432,7 +432,7 @@ class CandelaCitation {
     }
 
     print '<div class="wrap">';
-    print '<h2>' . __('Global Citations', 'candela-citation') . '</h2>';
+    print '<div>' . __('Global Citations', 'candela-citation') . '</div>';
     print '<form method="POST" action="' . get_permalink() . '">';
     print '<input type="hidden" name="__citation" value="1" >';
 
@@ -596,7 +596,7 @@ class CandelaCitation {
         $row[] = $field['label-html'] . '&nbsp;&nbsp;' .  $field['widget'];
       }
 
-      echo '<div class="postbox"><div class="handlediv" title="Click to toggle"><br /></div><h3 class="hndle">' . __('Citation') . '</h3><div class="inside"><div class="custom-metadata-field text">';
+      echo '<div class="postbox"><div class="handlediv" title="Click to toggle"><br /></div><div class="hndle">' . __('Citation') . '</div><div class="inside"><div class="custom-metadata-field text">';
       echo implode( '</div><div class="custom-metadata-field text">', str_replace('%%INDEX%%', $i, $row) );
       echo '</div></div></div>';
       $i++;
@@ -608,7 +608,7 @@ class CandelaCitation {
     echo '<script type="text/javascript">
       jQuery( document ).ready( function( $ ) {
         var citationIndex = '. $i . ';
-        citationWidgets = \'<div class="postbox"><div class="handlediv" title="Click to toggle"><br /></div><h3 class="hndle">' . __('Citation') . '</h3><div class="inside"><div class="custom-metadata-field text">' . implode( '</div><div class="custom-metadata-field text">', $row ) . '</div></div></div>\';
+        citationWidgets = \'<div class="postbox"><div class="handlediv" title="Click to toggle"><br /></div><div class="hndle">' . __('Citation') . '</div><div class="inside"><div class="custom-metadata-field text">' . implode( '</div><div class="custom-metadata-field text">', $row ) . '</div></div></div>\';
         $( "#citation-add-more-button" ).click(function() {
           newWidgets = citationWidgets.split("%%INDEX%%").join(citationIndex);
           $( "#citation-table").append(newWidgets);
@@ -618,4 +618,3 @@ class CandelaCitation {
     </script>';
   }
 }
-
