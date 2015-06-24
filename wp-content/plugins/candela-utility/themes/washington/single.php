@@ -7,6 +7,7 @@
 		edit_post_link(__('Edit', 'pressbooks'), '<span class="edit-link">', '</span>');
 ?>
 
+			<main id="main-content">
 
 			<h1 class="entry-title"><?php the_title(); ?></h1>
 
@@ -23,20 +24,22 @@
 				</div><!-- #post-## -->
 
 				<?php if ( $citation = CandelaCitation::renderCitation( $post->ID ) ): ?>
-					<div class="post-citations sidebar">
-						<h3 id="citation-header-<?php print $post->ID; ?>" class="collapsed"><?php _e('Licenses and Attributions'); ?></h3>
-						<div id="citation-list-<?php print $post->ID; ?>" style="display:none;">
-							<?php print $citation ?>
-						</div>
-						<script>
-							jQuery( document ).ready( function( $ ) {
-								$( "#citation-header-<?php print $post->ID;?>" ).click(function() {
-									$( "#citation-list-<?php print $post->ID;?>").slideToggle();
-									$( "#citation-header-<?php print $post->ID;?>").toggleClass('expanded collapsed');
+					<section role="citations">
+						<div class="post-citations sidebar">
+							<div id="citation-header-<?php print $post->ID; ?>" class="collapsed h3-styling"><?php _e('Licenses and Attributions'); ?></div>
+							<div id="citation-list-<?php print $post->ID; ?>" style="display:none;">
+								<?php print $citation ?>
+							</div>
+							<script>
+								jQuery( document ).ready( function( $ ) {
+									$( "#citation-header-<?php print $post->ID;?>" ).click(function() {
+										$( "#citation-list-<?php print $post->ID;?>").slideToggle();
+										$( "#citation-header-<?php print $post->ID;?>").toggleClass('expanded collapsed');
+									});
 								});
-							});
-						</script>
-					</div>
+							</script>
+						</div>
+					</section>
 				<?php endif; ?>
 
 				</div><!-- #content -->
