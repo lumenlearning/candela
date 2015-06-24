@@ -9,6 +9,8 @@
       }
     ?>
 
+      <main id="main-content">
+
 			<h1 class="entry-title"><?php
 				if ( $chapter_number = pb_get_chapter_number( $post->post_name ) ) echo "<span>$chapter_number</span>  ";
 				the_title();
