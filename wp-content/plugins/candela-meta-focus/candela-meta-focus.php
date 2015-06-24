@@ -24,17 +24,17 @@ if ( is_admin() ) {
 
 /***********  THE MEAT  *****/
 class FocusRating{
+
     /** Hook into the appropriate actions when the class is constructed. */
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
-		//add_action( 'save_post', array( $this, 'save' ) ); /* WP's example. */
+		add_action( 'save_post', array( $this, 'save_focus_meta' ) ); /* WP's example. */
 	}
 
     /***********  ADD METABOX  *****/
 	public function add_meta_box( $post_type ) {
         $post_types = array('back-matter', 'chapter', 'front-matter');
         if ( in_array( $post_type, $post_types )) {
-//error_log($post_type . ' IS IN THE ARRAY!');
             add_meta_box('focus', //(ID, title, callback, screen, context, priority, cb args)
             __('Focus Level', 'textdomain'),
             array($this, 'focus_metabox_render'),
@@ -45,45 +45,50 @@ class FocusRating{
         }
 	}
 
-    /***********  RENDER METABOX (StackO Q#13903529 / SmashingMag mashup)  *****/
+    /***********  RENDER METABOX  *****/
     public function focus_metabox_render($post) {
-        $data = get_post_meta($post->ID, 'candela_focus_guid', true);
+        $set_focus_rating = get_post_meta($post->ID, 'candela_focus_rating', true);
+//error_log($set_focus_rating . ' is selected in DB +++++');
         ?>
         <div class="inside">
             <label for="focus_select"><?php _e( "Set the level of focus appropriate for this content.", 'textdomain' ); ?></label>
-            <select id="focus_select" class="select" name="focus_select">
-                <option value="high">High</option>
-                <option value="normal">Normal</option>
-                <option value="skim">Skim</option>
+            <select id="focus_select" class="select" name="focus_select" selected='<?php $set_focus_rating ?>'>
+                <option id="high" value="high" <?php if($set_focus_rating == 'high'){ echo 'selected="selected"'; } ?>>High</option>
+                <option id="normal" value="normal" <?php if($set_focus_rating == 'normal'){ echo 'selected="selected"'; } ?>>Normal</option>
+                <option id="skim" value="skim" <?php if($set_focus_rating == 'skim'){ echo 'selected="selected"'; } ?>>Skim</option>
             </select>
         </div>
         <?php
     }
 
     /*********** SAVE *****/
-    public function save_focus_meta($id) {
-        //Update metadata when user saves post
-        add_action('wp_insert_post', 'save_focus_meta');
-        // $focus_input = strtolower($_POST['focus_select']);
-        // $focus_input = preg_replace('/([^a-z0-9, -])/', '', $focus_input);
-
+    public function save_focus_meta($post_id) {
+        $focus_select = $_POST['focus_select'];
         if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
-        return $id;
+        return $post_id;
+
+        // VALIDATE USER
+        if ( 'page' == $_POST['post_type'] ) {
+            if ( ! current_user_can( 'edit_page', $post_id ) )
+                return $post_id;
+        } else {
+            if ( ! current_user_can( 'edit_post', $post_id ) )
+                return $post_id;
+        }
 
         // VALIDATE INPUT
-        if (!current_user_can('edit_posts') || !$focus_input == 'high' || !$focus_input == 'normal' || !$focus_input == 'skim'){
+        $focus_select = sanitize_text_field($focus_select);
+        if ($focus_select != 'high' && $focus_select != 'normal' && $focus_select != 'skim'){
             return;
         }
 
-        if (!isset($id))
-        $id = (int) $_REQUEST['post_ID'];
+        if (!isset($post_id))
+        $post_id = (int) $_REQUEST['post_ID'];
 
-        if (isset($focus_input)) {
-error_log("setting the value");
-            update_post_meta($id, 'candela_focus_guid', $focus_input); //($post_id, $meta_key, $meta_value, $prev_value)
+        if (isset($focus_select)) {
+            update_post_meta($post_id, 'candela_focus_rating', $focus_select); //($id, $meta_key, $meta_value...)
         } else {
-error_log("clearing the value");
-            delete_post_meta($id, 'candela_focus_guid');
+            delete_post_meta($post_id, 'candela_focus_rating');
         }
     }
 }
