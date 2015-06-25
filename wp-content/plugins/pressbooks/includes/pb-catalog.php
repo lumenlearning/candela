@@ -317,7 +317,7 @@ $_current_user_id = $catalog->getUserId();
 		});
 		$container.isotope({
 			itemSelector: '.book-data',
-			layoutMode: 'fitRows',
+			layoutMode: 'fitRows'
 		});		
 		function webkitTrigger( isoInstance, laidOutItems ) {
 			$container.equalizer();
