@@ -167,7 +167,6 @@ class CandelaCitation {
       foreach ( $types as $type => $info ) {
         if ( ! empty( $grouped[$type] ) ) {
           $output .= '<div class="h4-styling">' . $info['label'] . '</div>';
-          // $output .= '<h4>' . $info['label'] . '</h4>'; // ORIGINAL
           $output .= '<ul class="citation-list"><li>';
           $output .= implode('</li><li>', $grouped[$type] );
           $output .= '</li></ul>';
