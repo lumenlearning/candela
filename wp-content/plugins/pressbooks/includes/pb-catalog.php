@@ -252,7 +252,9 @@ $_current_user_id = $catalog->getUserId();
 	jQuery.noConflict();
 	jQuery(function ($) {
 		var $container = $('#catalog-content');
-		$('.filter-group-1').click( function () {
+        $container.equalizer({ columns: '> div.book-data', min: 350, resizeable: false });
+
+        $('.filter-group-1').click( function () {
 			var filter1_id = $(this).attr( 'data-filter' );
 			var filter1_name = $(this).text();
 			if ( $('.filter-group-2.active').length !== 0 ) {
@@ -317,12 +319,11 @@ $_current_user_id = $catalog->getUserId();
 		});
 		$container.isotope({
 			itemSelector: '.book-data',
-			layoutMode: 'fitRows',
+			layoutMode: 'fitRows'
 		});		
 		function webkitTrigger( isoInstance, laidOutItems ) {
 			$container.equalizer();
 		}		
-		$container.equalizer({ columns: '> div.book-data', min: 350, resizeable: false });
 	});
 	// ]]>
 </script>
