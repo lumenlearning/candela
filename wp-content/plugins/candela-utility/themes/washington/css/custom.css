@@ -309,25 +309,11 @@ div#wrap {
 	margin-top: 1em;
 }
 
-#content .h3-styling {
-	font-size: 1em;
-	text-transform: uppercase;
-	margin-top: 1em;
-  text-align: center;
-}
-
 #content h4 {
 	font-size: 0.9em;
 	font-weight: 400;
 	text-transform: uppercase;
 	color: #1ABC9C;
-}
-
-#content .h4-styling {
-  font-size: 1em;
-	text-transform: uppercase;
-	margin-top: 1em;
-  margin-bottom: 1em;
 }
 
 #content h5 {
@@ -476,4 +462,29 @@ span.edit-link a {
 span.edit-link a:hover {
   color: #fff;
   background-color: #03a9f4;
+}
+
+
+/****************************/
+/*  ATTRIBUTES HEADERS FIX  */
+/****************************/
+
+#content .h3-styling {
+  color: #0288d1;
+  font-family: "proxima-nova", sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 1em;
+  padding-bottom: 2em;
+}
+
+#content .h4-styling {
+	color: #1abc9c;
+  font-family: "proxima-nova", sans-serif;
+  font-size: 0.9em;
+	font-weight: 400;
+	text-transform: uppercase;
+  padding-bottom: 0.8em;
 }
