@@ -37,7 +37,7 @@ function outcomes_metabox_render($post) {
     ?>
     <div class="inside">
         <label for="outcomes_input"><?php _e( "List GUID(s) associated with this content. Separate multiple GUIDs with comma's.", 'textdomain' ); ?></label>
-        <input id="outcomes_input" class="widefat" type="text" name="my_meta_value" placeholder="ie. 26e0522b-abe5-4659-b393-c139f8acf97d" pattern="[a-z0-9, :-]*" value="<?php echo (isset($data)) ? esc_attr($data) : ''; ?>"/>
+        <input id="outcomes_input" class="widefat" type="text" name="my_meta_value" placeholder="ie. 26e0522b-abe5-4659-b393-c139f8acf97d" pattern="[a-zA-Z0-9, :-]*" value="<?php echo (isset($data)) ? esc_attr($data) : ''; ?>"/>
     </div>
     <?php
 }
