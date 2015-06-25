@@ -478,17 +478,34 @@ h3.collapsed {
 }
 
 
+/*********************/
+/*  SKIP NAVIGATION  */
+/*********************/
+
+.skip-to-content {
+  display: block;
+}
+
 .skip-to-content a {
-  position:absolute;
-  left:-10000px;
-  top:auto;
-  width:1px;
-  height:1px;
-  overflow:hidden;
+  position: absolute;
+  top: -40px;
+  left: 0px;
+  padding: 8px;
+  overflow: hidden;
+  z-index: 1000;
+  background-color: #a51b1b;
+  color: #fff;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  border-bottom-right-radius: 6px;
+  opacity: 0.3;
+  transition: .5s ease-out;
 }
 
 .skip-to-content a:focus {
-  position: static;
+  top: 0;
   width: auto;
   height: auto;
+  opacity: 1;
+  transition: .2s ease-in;
 }

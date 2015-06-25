@@ -46,10 +46,6 @@ if ( is_front_page() ) {
 </head>
 <body <?php body_class(); if(wp_title('', false) != '') { print ' id="' . str_replace(' ', '', strtolower(wp_title('', false))) . '"'; } ?>>
 
-	<div class="skip-to-content">
-	  <a href="#main-content">Skip to main content</a>
-	</div>
-
 <!-- Faccebook share js sdk -->
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
@@ -73,6 +69,11 @@ if ( is_front_page() ) {
 
 		<span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">
 			<div class="nav-container">
+
+				<div class="skip-to-content">
+					<a href="#main-content">Skip to main content</a>
+				</div>
+
 				<nav>
 
 			 		<!-- Book Title -->
