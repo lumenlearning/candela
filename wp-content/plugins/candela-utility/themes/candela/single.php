@@ -28,32 +28,21 @@
 				</div><!-- #post-## -->
 
 				<?php if ( $citation = CandelaCitation::renderCitation( $post->ID ) ): ?>
-<<<<<<< HEAD
-					<section role="contentinfo">
-						<div class="post-citations sidebar">
-							<div role="button" aria-pressed="false" id="citation-header-<?php print $post->ID; ?>" class="collapsed h3-styling"><?php _e('Licenses and Attributions'); ?></div>
-=======
+
 					<section role="citations">
 						<div class="post-citations sidebar">
 							<div id="citation-header-<?php print $post->ID; ?>" class="collapsed h3-styling"><?php _e('Licenses and Attributions'); ?></div>
->>>>>>> e065935a3686dce3c859eee8f3118f559307be11
 							<div id="citation-list-<?php print $post->ID; ?>" style="display:none;">
 								<?php print $citation ?>
 							</div>
 							<script>
 								jQuery( document ).ready( function( $ ) {
-<<<<<<< HEAD
 									var pressed = false;
 									$( "#citation-header-<?php print $post->ID;?>" ).click(function() {
 										pressed = !pressed;
 										$( "#citation-list-<?php print $post->ID;?>" ).slideToggle();
 										$( "#citation-header-<?php print $post->ID;?>" ).toggleClass('expanded collapsed');
 										$( "#citation-header-<?php print $post->ID;?>" ).attr('aria-pressed', pressed);
-=======
-									$( "#citation-header-<?php print $post->ID;?>" ).click(function() {
-										$( "#citation-list-<?php print $post->ID;?>").slideToggle();
-										$( "#citation-header-<?php print $post->ID;?>").toggleClass('expanded collapsed');
->>>>>>> e065935a3686dce3c859eee8f3118f559307be11
 									});
 								});
 							</script>
