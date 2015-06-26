@@ -46,7 +46,7 @@ if ( is_front_page() ) {
 </head>
 <body <?php body_class(); if(wp_title('', false) != '') { print ' id="' . str_replace(' ', '', strtolower(wp_title('', false))) . '"'; } ?>>
 
-<!-- Faccebook share js sdk -->
+<!-- Facebook share js sdk -->
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];

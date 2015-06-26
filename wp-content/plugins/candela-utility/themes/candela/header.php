@@ -22,7 +22,7 @@ if ( is_front_page() ) {
 	echo pbt_get_microdata_meta_elements();
 }
 ?>
-<link rel="shortcut icon" href="<?php bloginfo('stylesheet_directory'); ?>/favicon.ico" />
+<link rel="shortcut icon" href="<?php bloginfo('stylesheet_directory'); ?>/favicon.png" />
 <title><?php
 	global $page, $paged;
 	wp_title( '|', true, 'right' );
@@ -46,7 +46,7 @@ if ( is_front_page() ) {
 </head>
 <body <?php body_class(); if(wp_title('', false) != '') { print ' id="' . str_replace(' ', '', strtolower(wp_title('', false))) . '"'; } ?>>
 
-<!-- Faccebook share js sdk -->
+<!-- Facebook share js sdk -->
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
