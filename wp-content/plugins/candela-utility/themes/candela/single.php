@@ -28,17 +28,20 @@
 				</div><!-- #post-## -->
 
 				<?php if ( $citation = CandelaCitation::renderCitation( $post->ID ) ): ?>
-					<section role="citations">
+					<section role="contentinfo">
 						<div class="post-citations sidebar">
-							<div id="citation-header-<?php print $post->ID; ?>" class="collapsed h3-styling"><?php _e('Licenses and Attributions'); ?></div>
+							<div role="button" aria-pressed="false" id="citation-header-<?php print $post->ID; ?>" class="collapsed h3-styling"><?php _e('Licenses and Attributions'); ?></div>
 							<div id="citation-list-<?php print $post->ID; ?>" style="display:none;">
 								<?php print $citation ?>
 							</div>
 							<script>
 								jQuery( document ).ready( function( $ ) {
+									var pressed = false;
 									$( "#citation-header-<?php print $post->ID;?>" ).click(function() {
-										$( "#citation-list-<?php print $post->ID;?>").slideToggle();
-										$( "#citation-header-<?php print $post->ID;?>").toggleClass('expanded collapsed');
+										pressed = !pressed;
+										$( "#citation-list-<?php print $post->ID;?>" ).slideToggle();
+										$( "#citation-header-<?php print $post->ID;?>" ).toggleClass('expanded collapsed');
+										$( "#citation-header-<?php print $post->ID;?>" ).attr('aria-pressed', pressed);
 									});
 								});
 							</script>
