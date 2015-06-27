@@ -333,7 +333,7 @@ class CandelaCitation {
             'link' => 'https://creativecommons.org/licenses/by-nd/4.0/',
           ),
           'cc-by-nc' => array(
-            'label' => __( 'CC BY-N: Attribution-NonCommercial' ),
+            'label' => __( 'CC BY-NC: Attribution-NonCommercial' ),
             'link' => 'https://creativecommons.org/licenses/by-nc/4.0/',
           ),
           'cc-by-nc-sa' => array(
