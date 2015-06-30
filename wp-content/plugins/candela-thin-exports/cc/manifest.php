@@ -16,6 +16,10 @@ class Manifest extends Base
   private $tmp_file = null;
 
   private static $templates = [
+    "1.1" => [
+      'manifest' => '../templates/cc_1_1/manifest.xml',
+      'lti_link' => '../templates/cc_1_2/lti_link.xml',
+    ],
     "1.2" => [
       'manifest' => '../templates/cc_1_2/manifest.xml',
       'lti_link' => '../templates/cc_1_2/lti_link.xml',

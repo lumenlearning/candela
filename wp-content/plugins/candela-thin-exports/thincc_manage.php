@@ -34,13 +34,21 @@ global $wpdb;
             <div><input name="export_flagged_only" id="export_only" type="checkbox" checked/><label for="export_only">Only pages marked as export</label> </div>
 <!--            <div><input name="include_fm" id="include_fm" type="checkbox"/><label for="include_fm">Include Front Matter</label> </div>-->
 <!--            <div><input name="include_bm" id="include_bm" type="checkbox"/><label for="include_bm">Include Back Matter</label> </div>-->
+<!--            <div><label for="cc_version_selector">CC Version:</label>-->
+<!--              <select id="cc_version_selector" name="version">-->
+<!--                <option value="1.1">1.1 (All LMSs)</option>-->
+<!--                <option value="1.2">1.2 (Bb/Sakai/Canvas)</option>-->
+<!--                <option value="1.3">1.3 (Canvas/Sakai)</option>-->
+<!--                <option value="thin">Thin-CC (1.3) (Canvas)</option>-->
+<!--              </select>-->
+<!--            </div>-->
           </div>
 
           <div class="submit">
             <input type="hidden" name="download" value="<?php echo get_home_path(); ?>"/>
 
             <a href="#" class="button-secondary">Preview Thin-CC</a>
-            <input class="button button-primary" type="submit" value="Download CC 1.2 .imscc" name="submit">
+            <input class="button button-primary" type="submit" value="Download CC 1.1 .imscc" name="submit">
           </div>
       </form>
 
