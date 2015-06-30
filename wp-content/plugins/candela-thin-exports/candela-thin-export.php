@@ -56,7 +56,9 @@ function thincc_ajax()
 
     echo '<pre>', htmlentities($manifest), '</pre>';
   } else {
-    $options['version'] = '1.2';
+    if( !isset($options['version']) ){
+      $options['version'] = '1.1';
+    }
     $manifest = new \CC\Manifest(\PressBooks\Book::getBookStructure(), $options);
     $manifest->build_manifest();
     $file = $manifest->build_zip();
@@ -76,6 +78,10 @@ function process_thincc_options($data){
     } else {
       $options[$key] = false;
     }
+  }
+
+  if(isset($data["version"])) {
+    $options["version"] = $data["version"];
   }
 
   return $options;
