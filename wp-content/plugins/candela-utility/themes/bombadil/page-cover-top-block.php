@@ -3,8 +3,6 @@
 	<?php pb_get_links(false); ?>
 	<?php $metadata = pb_get_book_information();?>
 
-  	<!-- LOG WRAP MOVED -->
-
 			<div class="book-info">
 				<!-- Book Title -->
 				<h1 class="entry-title"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>

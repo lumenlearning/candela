@@ -52,8 +52,8 @@
 </div><!-- #footer -->
 
 <?php
-wp_footer();
-add_iframe_resize_message();
+  wp_footer();
+  add_iframe_resize_message();
 ?>
 
 </body>

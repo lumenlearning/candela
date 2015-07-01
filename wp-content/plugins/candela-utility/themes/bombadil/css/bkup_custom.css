@@ -1,27 +1,37 @@
+/*************/
+/*  GLOBALS  */
+/*************/
+
 html {
-  -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-font-smoothing: subpixel-antialiased;
 }
+
 body {
 	font: 1em/1.4em "proxima-nova", sans-serif !important;
 	font-family: "proxima-nova", sans-serif !important;
-  -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-font-smoothing: subpixel-antialiased;
 }
+
 body.home {
 	background: #fff;
 }
+
 a {
-	color: #6c64ad;
-	text-decoration: underline;
-	font-weight: 600;
+  color: #6c64ad;
+  text-decoration: none;
+  font-weight: 600;
 }
+
 h1, h2, h3, h4, h5, h6 {
-	color: #077fab;
+	color: #0288d1;
 	font-family: "proxima-nova", sans-serif;
 	font-weight: 600;
 }
+
 ul li {
 	list-style-type: none;
 }
+
 .btn .red {
 	background-color: #a51b1b;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(179, 56, 56)), to(rgb(165, 27, 27)));
@@ -32,76 +42,48 @@ ul li {
 	background-image: linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#b33838', EndColorStr='#a51b1b');
 }
-.nav {
-	top: 48%;
-}
-.nav span a {
 
-}
-.nav span.previous {
-	left: 3em;
-}
-.nav span.next {
-	right: 3em;
-}
-.nav-container {
-	background: #077fab;
-	margin-bottom: 0;
-}
-.newnav {
-	top: 38%;
-	position: fixed;
-	left: 50%;
-	width: 900px;
-	margin-left: -450px;
-	font-size: 0.9em;
-}
-.newnav span a {
 
+/*********************/
+/*  SKIP NAVIGATION  */
+/*********************/
+
+.skip-to-content {
+  display: block;
 }
-.newnav span.previous {
-	position: absolute;
-	top: 45%;
-	left: -0.1em;
-	background: rgba(0,0,0,0.1);
-	padding: 1em;
-	-moz-transition:color .2s ease-in;
-    -o-transition:color .2s ease-in;
-    -webkit-transition:color .2s ease-in;
-}
-.newnav span.next {
-	position: absolute;
-	top: 45%;
-	right: 1.5em;
-	background: rgba(0,0,0,0.1);
-	padding: 1em;
-	-moz-transition:color .2s ease-in;
-    -o-transition:color .2s ease-in;
-    -webkit-transition:color .2s ease-in;
-}
-.newnav span.previous:hover, .newnav span.next:hover {
-	background: rgba(0,0,0,0.3);
-	color: white;
-}
-.newnav .nav-container {
-	background: #077fab;
-	margin-bottom: 0;
-}
-.back-to {
-	text-align: center;
-	margin-top: 2em;
-	font-size: 0.9em;
-}
-.pressbooks-logo {
-	margin-right: 3em;
-	font-family: "proxima-nova", sans-serif;
-	font-weight: 600;
-	text-transform: none;
-	font-size: 1.1em;
+
+.skip-to-content a {
+  position: absolute;
+  top: -40px;
+  left: 0px;
+  padding: 8px;
+  overflow: hidden;
+  z-index: 1000;
+  background-color: #077fab;
   color: #fff;
+  text-decoration: none;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  border-bottom-right-radius: 6px;
+  opacity: 0.3;
+  transition: .5s ease-out;
 }
+
+.skip-to-content a:focus {
+  top: 0;
+  width: auto;
+  height: auto;
+  opacity: 1;
+  transition: .2s ease-in;
+}
+
+
+/****************/
+/*  NAVIGATION  */
+/****************/
+
 nav {
-	background: transparent;
+	/*background: transparent;*/
 	background: #077fab;
 	-moz-box-shadow: none;
 	-o-box-shadow: none;
@@ -109,26 +91,116 @@ nav {
 	box-shadow: none;
 	position: relative;
 	width: 100%;
+	min-height: 70px;
 	z-index: 100;
-  /*display: inline-block;*/
 }
+
+.book-title {
+  position: relative;
+  top: 50%;
+  transform: translateY(20%);
+  font: 1.2em/1.6em "proxima-nova", serif;
+	font-family: "proxima-nova", sans-serif;
+	text-align: left;
+	padding: 10px 0;
+	font-weight: 500;
+  margin: 0 auto;
+  width: 520px;
+}
+
+.book-title a {
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: none;
+}
+
+.pressbooks-logo {
+
+	font-family: "proxima-nova", sans-serif;
+	font-weight: 400;
+	text-transform: none;
+	font-size: 1em;
+	margin-right: 3em;
+	padding-top: 1em;
+  color: #ffffff;
+}
+
+/*.nav {
+	top: 48%;
+}
+
+.nav span.previous {
+	left: 3em;
+}
+
+.nav span.next {
+	right: 3em;
+}*/
+
+.nav-container {
+	background: #077fab;
+	margin-bottom: 0;
+}
+
+
+/*********************/
+/*  SUBNAV & SEARCH  */
+/*********************/
+
+.sub-nav {
+  margin: 0;
+  height: 40px;
+  background-color: #fafafa;
+  border-bottom: 1px solid #6d6d6d;
+}
+
+.sub-nav #searchform {
+  width: 250px;
+  margin: 2px 0 0 0;
+}
+
+.sub-nav input {
+  display: inline;
+  border-radius: 2px;
+  background-color: #fff;
+  border: 1px solid #6d6d6d;
+}
+
+.sub-nav input#s {
+  width: 60%;
+  height: 22px;
+  margin: 0;
+  vertical-align: bottom;
+  font-size: 13px;
+}
+
+.sub-nav input#searchsubmit {
+  height: 22px;
+  color: #6d6d6d;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+
+
+
+
+
 .book-info-container {
 	background: #077fab;
 }
-.book-info, .call-to-action-wrap {
 
-}
-.book-cover {
-}
 .book-info-container h1, .book-info-container h2, .book-info-container h3, .book-info-container h4, .book-info-container h5 {
 	font-family: "proxima-nova", sans-serif;
 	font-weight: 600;
 }
+
 .book-info-container {
 	font: 16px/1.5 'proxima-nova', serif !important;
 	z-index: -9;
 	padding-bottom: 2em;
 }
+
 .book-cover img {
 	background-color: transparent;
 	box-shadow: none;
@@ -137,15 +209,19 @@ nav {
 	border: 0.25em solid #fafafa;
 	margin-top: 1.75em;
 }
+
 .book-info .book-author {
 	display: none;
 }
+
 .book-info {
-	margin-top: 0;
+    margin-top: 0;
 }
+
 .call-to-action {
 	margin-top: 0;
 }
+
 .book-info h1 {
 	font-size: 1.75em;
 }
@@ -233,19 +309,19 @@ nav {
 .third-block-wrap ul {
     line-height: 1.3 !important;
 }
-.book-title {
-  width: 520px;
-  margin: 0 auto;
-	padding: 10px 0;
-  font: 1.2em/1.6em "proxima-nova", sans-serif;
-	font-weight: 600;
-	text-align: left;
+
+
+
+
+h1.book-title {
+  font-family: "proxima nova", sans-serif;
+  text-align: left;
+  padding: 10px 0;
+  font-weight: 600;
 }
-.book-title a {
-    color: #fff;
-    text-decoration: none;
-    text-transform: none;
-}
+
+
+
 #sidebar {
 	top: 0;
 	margin-top: 5.5em;
@@ -289,24 +365,19 @@ nav {
 #booknav li:last-child {
 	margin-top: -1px;
 }
-/*.entry-title {
-	margin: 1.75em auto 1em auto;
-}*/
 .entry-title {
-	text-align: left;
-  text-transform: uppercase;
+	margin: 1.75em auto 1em auto;
+}
+h1.entry-title {
+	text-align: center;
 	font-size: 1.5em;
 	margin-top: 0;
 	margin-left: 0.5em;
 	padding-top: 1em !important;
 	color: #1d1d1d;
-  line-height: 1.2;
 	font-weight: 600;
 	border-bottom: solid 1px #e1e1e1;
 	padding-bottom: 1em;
-}
-.entry-content img {
-	min-width: 100%;
 }
 .content-header {
     color: white;
@@ -357,14 +428,16 @@ div#wrap {
 	font-size: 1em;
 	text-transform: uppercase;
 	margin-top: 1em;
-	text-align: left;
+  text-align: left;
 }
+
 #content h4 {
 	font-size: 0.9em;
 	font-weight: 600;
 	text-transform: uppercase;
 	color: #6c64ad;
 }
+
 #content h5 {
 	font-size: 0.8em;
 	font-weight: 400;
@@ -388,13 +461,13 @@ div#wrap {
 }
 #content .bcc-box h3 {
 	margin-top: 0;
-	text-align: center;
+  text-align: center;
 }
 .difficulty {
 	float: right;
 	font-weight: 600;
 	letter-spacing: 0.1em;
-	color: #D43900;
+	color: #d43900;
 	font-size: 0.9em;
 	position: absolute;
 	right: 2.5em;
@@ -421,7 +494,6 @@ div#wrap {
 #content table {
 	margin: 1em 0;
 }
-/*Footer*/
 .footer {
     text-align: center;
     background: #fafafa;
@@ -443,9 +515,26 @@ div#wrap {
 	padding: 0.5em !important;
 }
 
-/* Styles added May 20 */
+.lti-mapping {
+    display: none;
+}
 
-.title-area {
+/* temporary for may faculty review */
+/*.footer{
+    display: none;
+}
+
+.second-block-wrap{
+    border: none;
+    border-top: 1px solid #e1e1e1;
+}
+
+.description-book-info{
+    display: none;
+}*/
+
+/* Styles added May 20 */
+/*.title-area {
 	border-bottom: 1px solid #e1e1e1;
 	text-align: center;
 }
@@ -551,6 +640,26 @@ ol li li::before, ol li li li::before {
 	 list-style-position: outside;
 content: none;
 counter-increment: none;
+}*/
+
+
+
+
+/*****************************/
+/*  EDIT TAB (LEFT OF PAGE)  */
+/*****************************/
+
+span.edit-link {
+  margin: 120px 0 0 -86px;
+}
+
+span.edit-link a {
+  color: #03a9f4;
+}
+
+span.edit-link a:hover {
+  color: #fff;
+  background-color: #03a9f4;
 }
 
 
@@ -559,106 +668,21 @@ counter-increment: none;
 /****************************/
 
 #content .h3-styling {
-  color: #077fab;
+  color: #0288d1;
   font-family: "proxima-nova", sans-serif;
-  font-size: 1.1em;
+  font-size: 1em;
   font-weight: 600;
   text-transform: uppercase;
-  text-decoration: underline;
-  text-align: left;
-  cursor: pointer;
+  text-align: center;
   margin-top: 1em;
-  padding: 0;
+  padding-bottom: 2em;
 }
 
 #content .h4-styling {
-    color: #6c64ad;
+    color: #1abc9c;
     font-family: "proxima-nova", sans-serif;
-    font-size: 1em;
-    font-weight: 600;
-    margin-bottom: 12px;
+    font-size: 0.9em;
+    font-weight: 400;
     text-transform: uppercase;
-}
-
-/*********************/
-/*  SUBNAV & SEARCH  */
-/*********************/
-
-.sub-nav {
-  margin: 0;
-  height: 35px;
-  background-color: #fafafa;
-  border-bottom: 1px solid #6d6d6d;
-}
-
-.sub-nav #learning-outcomes {
-  font: "proxima-nova";
-  color: #6d6d6d;
-  vertical-align: bottom;
-}
-
-.sub-nav #learning-outcomes div {
-  font-size: 14px;
-}
-
-.sub-nav #searchform {
-  width: 250px;
-}
-
-.sub-nav input {
-  display: inline;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #6d6d6d;
-  border-radius: 2px;
-}
-
-.sub-nav #searchform #search {
-  width: 150px;
-  height: 24px;
-  margin: 0;
-  vertical-align: bottom;
-  font-size: 13px;
-}
-
-.sub-nav #searchform #submit {
-  height: 24px;
-  width: 24px;
-  color: #6d6d6d;
-  background-color: #fff;
-  vertical-align: bottom;
-}
-
-
-/*********************/
-/*  SKIP NAVIGATION  */
-/*********************/
-
-.skip-to-content {
-  display: block;
-}
-
-.skip-to-content a {
-  position: absolute;
-  top: -40px;
-  left: 0px;
-  padding: 8px;
-  overflow: hidden;
-  z-index: 1000;
-  background-color: #077fab;
-  color: #fff;
-  text-decoration: none;
-  border-right: 1px solid #fff;
-  border-bottom: 1px solid #fff;
-  border-bottom-right-radius: 6px;
-  opacity: 0.3;
-  transition: .5s ease-out;
-}
-
-.skip-to-content a:focus {
-  top: 0;
-  width: auto;
-  height: auto;
-  opacity: 1;
-  transition: .2s ease-in;
+    padding-bottom: 0.8em;
 }

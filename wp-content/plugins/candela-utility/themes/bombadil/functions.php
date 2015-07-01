@@ -1,22 +1,22 @@
 <?php
 
 /* ------------------------------------------------------------------------ *
- * Google Webfonts
+ * Styles and Google Webfonts
  * ------------------------------------------------------------------------ */
 
-function fitzgerald_enqueue_styles() {
-	wp_enqueue_style( 'fitzgerald-fonts', 'http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700|Roboto+Condensed:400,300,300italic,400italic' );
+function bombadil_theme_styles() {
+	// wp_enqueue_style('fitzgerald-fonts', 'http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700|Roboto+Condensed:400,300,300italic,400italic' );
   wp_enqueue_style('foundation', get_stylesheet_directory_uri() . '/css/foundation.min.css');
   wp_enqueue_style('normalize', get_stylesheet_directory_uri() . '/css/normalize.css');
   wp_enqueue_style('custom', get_stylesheet_directory_uri() . '/css/custom.css');
 }
+add_action( 'wp_print_styles', 'bombadil_theme_styles' ); // wp_print_styles is deprecated as of wp v3.3
 
-function cadvanced_enqueue_scripts() {
-  wp_enqueue_script('foundation', get_stylesheet_directory_uri() . '/js/foundation.min.js');
+function bombadil_theme_scripts() {
+  wp_enqueue_script('foundation', get_stylesheet_directory_uri() . '/js/foundation.min.js', array('jquery'), '', true);
 }
+add_action( 'wp_enqueue_scripts', 'bombadil_theme_scripts' );
 
-add_action( 'wp_print_styles', 'fitzgerald_enqueue_styles' );
-add_action( 'wp_enqueue_scripts', 'cadvanced_enqueue_scripts' );
 
 /**
  * Returns an html blog of meta elements
@@ -91,15 +91,7 @@ function ca_get_links($echo=true) {
   $prev_chapter = pb_get_prev();
   $next_chapter = pb_get_next();
   if ($echo):
-    ?><div class="nav">
-    <?php if ($prev_chapter != '/') : ?>
-    <span class="previous"><a href="<?php echo $prev_chapter; ?>"><?php _e('Previous Page', 'pressbooks'); ?></a></span>
-  <?php endif; ?>
-    <!-- 	<h2 class="entry-title"><?php the_title(); ?></h2> -->
-    <?php if ($next_chapter != '/') : ?>
-    <span class="next"><a href="<?php echo $next_chapter ?>"><?php _e('Next Page', 'pressbooks'); ?></a></span>
-  <?php endif; ?>
-    </div><?php
+    ?><?php
   endif;
 }
 
