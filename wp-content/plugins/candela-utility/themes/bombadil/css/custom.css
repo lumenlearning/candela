@@ -2,7 +2,7 @@ html {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 body {
-	font: 1em/1.4em "proxima-nova", sans-serif !important;
+	font: 1em/1.5em "proxima-nova", sans-serif !important;
 	font-family: "proxima-nova", sans-serif !important;
   -webkit-font-smoothing: subpixel-antialiased;
 }
@@ -289,24 +289,20 @@ nav {
 #booknav li:last-child {
 	margin-top: -1px;
 }
-/*.entry-title {
-	margin: 1.75em auto 1em auto;
-}*/
 .entry-title {
 	text-align: left;
   text-transform: uppercase;
 	font-size: 1.5em;
 	margin-top: 0;
-	margin-left: 0.5em;
+  margin-bottom: 0;
 	padding-top: 1em !important;
+	padding-bottom: 0;
 	color: #1d1d1d;
   line-height: 1.2;
 	font-weight: 600;
-	border-bottom: solid 1px #e1e1e1;
-	padding-bottom: 1em;
 }
 .entry-content img {
-	min-width: 100%;
+	/*min-width: 100%;*/
 }
 .content-header {
     color: white;
@@ -350,8 +346,9 @@ div#wrap {
 	min-height: 8em !important;
 }
 #content h2 {
-	font-size: 1.5em;
+	font-size: 1em;
 	margin-bottom: 1em;
+  text-transform: uppercase;
 }
 #content h3 {
 	font-size: 1em;
@@ -591,42 +588,33 @@ counter-increment: none;
   border-bottom: 1px solid #6d6d6d;
 }
 
-.sub-nav #learning-outcomes {
-  font: "proxima-nova";
-  color: #6d6d6d;
-  vertical-align: bottom;
+.center-subtext-search {
+  max-width: 940px;
+  margin: 0 auto;
 }
 
-.sub-nav #learning-outcomes div {
+.sub-nav-subtext {
   font-size: 14px;
+  color: #6d6d6d;
+  float: left;
 }
 
-.sub-nav #searchform {
-  width: 250px;
+.search-form {
+  width: 220px;
+  float: right;
 }
 
-.sub-nav input {
-  display: inline;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #6d6d6d;
-  border-radius: 2px;
-}
-
-.sub-nav #searchform #search {
+.search-form .search-field {
   width: 150px;
   height: 24px;
-  margin: 0;
-  vertical-align: bottom;
-  font-size: 13px;
+  display: inline-block;
 }
 
-.sub-nav #searchform #submit {
+.search-form .search-button {
   height: 24px;
-  width: 24px;
-  color: #6d6d6d;
-  background-color: #fff;
-  vertical-align: bottom;
+  width: 50px;
+  font-size: 0.7em;
+  vertical-align: middle;
 }
 
 
@@ -661,4 +649,17 @@ counter-increment: none;
   height: auto;
   opacity: 1;
   transition: .2s ease-in;
+}
+
+
+
+.end-page-heading-section {
+  margin-top: -18px;
+  border-bottom: solid 1px #e1e1e1;
+  display: block;
+}
+
+.end-page-heading-section .type-icon {
+  width: 31px;
+  padding: 0;
 }

@@ -1,4 +1,4 @@
-<form id="searchform" action="/" method="get">
-	<input type="text" name="s" id="search" value="<?php the_search_query(); ?>" placeholder="Search" />
-	<input id="submit" alt="Search" />
+<form class="search-form" action="/" method="get">
+	<input class="search-field" type="text" name="s" value="<?php the_search_query(); ?>" placeholder="Search" />
+	<input class="search-button" type="button" alt="Search" value="Search" />
 </form>

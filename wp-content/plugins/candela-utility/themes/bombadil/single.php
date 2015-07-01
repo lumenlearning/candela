@@ -4,7 +4,7 @@
 
 			<main id="main-content">
 
-			<h1 class="entry-title"><?php the_title(); ?></h1>
+			<?php the_title('<h1 class="entry-title">', '</h1>'); ?>
 
 				<div id="post-<?php the_ID(); ?>" <?php post_class( pb_get_section_type( $post ) ); ?>>
 

@@ -102,12 +102,14 @@
         <?php } ?>
 
         <div class="sub-nav">
-          <div class="alignleft pullleft" id="learning-outcomes">
-            <div>Primary Learning Outcomes</div>
+          <div class="center-subtext-search">
+            <div class="sub-nav-subtext">Primary Learning Outcomes</div>
+				    <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
+          </div>
+          <!-- <div class="alignleft pullleft">
           </div>
 			    <div class="alignright pullleft">
-				    <?php get_search_form(); ?>
-			    </div>
+			    </div> -->
 			  </div>
 
 		  </div> <!-- end .nav-container -->
