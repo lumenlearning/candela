@@ -94,9 +94,6 @@
             <div class="sub-nav-left" aria-hidden="true">
               <div class="pressbooks-logo"><?php echo get_site_option('site_name'); ?></div>
             </div>
-
-            <!-- previous/next page links -->
-            <?php ca_get_links(); ?>
           </nav>
         </div>
         <?php } ?>
@@ -106,10 +103,6 @@
             <div class="sub-nav-subtext">Primary Learning Outcomes</div>
 				    <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
           </div>
-          <!-- <div class="alignleft pullleft">
-          </div>
-			    <div class="alignright pullleft">
-			    </div> -->
 			  </div>
 
 		  </div> <!-- end .nav-container -->

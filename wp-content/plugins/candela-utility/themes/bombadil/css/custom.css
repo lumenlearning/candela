@@ -103,14 +103,13 @@ ul li {
 nav {
 	background: transparent;
 	background: #077fab;
-	-moz-box-shadow: none;
-	-o-box-shadow: none;
-	-webkit-box-shadow: none;
 	box-shadow: none;
+	-o-box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
 	position: relative;
 	width: 100%;
 	z-index: 100;
-  /*display: inline-block;*/
 }
 .book-info-container {
 	background: #077fab;
@@ -335,7 +334,7 @@ nav {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	margin: 3em auto 0 auto;
-	padding: 0.25em 3em 3em 3em;
+	padding: 0.25em 3em 5em 3em;
 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 	border-radius: 6px;
 }
@@ -652,7 +651,6 @@ counter-increment: none;
 }
 
 
-
 .end-page-heading-section {
   margin-top: -18px;
   border-bottom: solid 1px #e1e1e1;
@@ -663,3 +661,33 @@ counter-increment: none;
   width: 31px;
   padding: 0;
 }
+
+
+.bottom-nav-buttons {
+  margin: 30px 0 30px 0;
+}
+
+.page-nav-btn {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #077fab;
+  text-decoration: none;
+  border: 2px solid #077fab;
+  border-radius: 10px;
+  background opacity: 0.10;
+  padding: 5px 25px;
+  width: 135px;
+  text-align: center;
+}
+
+#prev {
+  float: left;
+}
+
+#next {
+  float: right;
+}
+
+/*span.nav-arrow-text {
+  font-size: 9px;
+}*/

@@ -2,7 +2,7 @@
 
 
 <?php } ?>
-<?php if( !is_front_page() ){?>
+<?php if(!is_front_page()) { ?>
 
   <?php if (!isset($_GET['content_only'])) { ?>
 	  <?php get_sidebar(); ?>

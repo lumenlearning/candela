@@ -37,8 +37,12 @@
 								});
 							</script>
 						</div>
+
 					</section>
 				<?php endif; ?>
+
+				<!-- previous/next page links -->
+				<?php ca_get_links(); ?>
 
 				</div><!-- #content -->
 

@@ -91,7 +91,14 @@ function ca_get_links($echo=true) {
   $prev_chapter = pb_get_prev();
   $next_chapter = pb_get_next();
   if ($echo):
-    ?><?php
+    ?><div class="bottom-nav-buttons">
+    <?php if ($prev_chapter != '/') : ?>
+    <a class="page-nav-btn" id="prev" href="<?php echo $prev_chapter; ?>"><?php _e('Previous', 'pressbooks'); ?></a>
+  <?php endif; ?>
+    <?php if ($next_chapter != '/') : ?>
+    <a class="page-nav-btn" id="next" href="<?php echo $next_chapter ?>"><?php _e('Next', 'pressbooks'); ?></a>
+  <?php endif; ?>
+    </div><?php
   endif;
 }
 
