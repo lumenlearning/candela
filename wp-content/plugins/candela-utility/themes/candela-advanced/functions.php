@@ -13,6 +13,8 @@ function fitzgerald_enqueue_styles() {
 
 function cadvanced_enqueue_scripts() {
   wp_enqueue_script('foundation', get_stylesheet_directory_uri() . '/js/foundation.min.js');
+  wp_enqueue_script('deliverance', get_stylesheet_directory_uri() . '/js/deliverance.js', [], '', true);
+  wp_enqueue_script('deliveryMan', get_stylesheet_directory_uri() . '/js/deliveryMan.js', [], '', true);
 }
 
 add_action( 'wp_print_styles', 'fitzgerald_enqueue_styles' );
