@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ --> 
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7 ]> <html <?php language_attributes(); ?> class="no-js ie6"> <![endif]-->
 <!--[if IE 7 ]>    <html <?php language_attributes(); ?> class="no-js ie7"> <![endif]-->
 <!--[if IE 8 ]>    <html <?php language_attributes(); ?> class="no-js ie8"> <![endif]-->
@@ -22,7 +22,7 @@ if ( is_front_page() ) {
 	echo pbt_get_microdata_meta_elements();
 }
 ?>
-<link rel="shortcut icon" href="<?php bloginfo('stylesheet_directory'); ?>/favicon.ico" />
+<link rel="shortcut icon" href="<?php bloginfo('stylesheet_directory'); ?>/favicon.png" />
 <title><?php
 	global $page, $paged;
 	wp_title( '|', true, 'right' );
@@ -45,7 +45,8 @@ if ( is_front_page() ) {
 
 </head>
 <body <?php body_class(); if(wp_title('', false) != '') { print ' id="' . str_replace(' ', '', strtolower(wp_title('', false))) . '"'; } ?>>
-<!-- Faccebook share js sdk -->
+
+<!-- Facebook share js sdk -->
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -57,60 +58,65 @@ if ( is_front_page() ) {
 <!-- end Facebook JS -->
 
 	 <?php if (is_front_page()):?>
-	 
+
 	 	<!-- home page wrap -->
-	 	
-		<span itemscope itemtype="http://schema.org/Book" itemref="about alternativeHeadline author copyrightHolder copyrightYear datePublished description editor 
+
+		<span itemscope itemtype="http://schema.org/Book" itemref="about alternativeHeadline author copyrightHolder copyrightYear datePublished description editor
 		      image inLanguage keywords publisher audience educationalAlignment educationalUse interactivityType learningResourceType typicalAgeRange">
 			<div class="book-info-container hfeed">
-	 
-		<?php else: ?>  	 
-		
-		<span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">		
+
+		<?php else: ?>
+
+		<span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">
 			<div class="nav-container">
+
+				<div class="skip-to-content">
+					<a href="#main-content">Skip to main content</a>
+				</div>
+
 				<nav>
-			
+
 			 		<!-- Book Title -->
 					<div class="book-title"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></div>
-			    
+
 					    <div class="sub-nav-left">
 							<!-- Logo -->
 							<div class="pressbooks-logo"><a href="#"><?php echo get_site_option('site_name'); ?></a></div>
 					    </div> <!-- end .sub-nav-left -->
-			    
+
 			    <div class="sub-nav-right">
-			    
+
 					    <?php if ( @array_filter( get_option( 'pressbooks_ecommerce_links' ) ) ) : ?>
 					    <!-- Buy -->
 					    <div class="buy">
 							<a href="<?php echo get_option('home'); ?>/buy" class="button-red"><?php _e('Buy', 'pressbooks'); ?></a>
 						</div>
-						<?php endif; ?>	
-						
-						<?php get_template_part( 'content', 'social-header' ); ?> 
-				
+						<?php endif; ?>
+
+						<?php get_template_part( 'content', 'social-header' ); ?>
+
 				</div> <!-- end .sub-nav-right -->
 			</nav>
-			      
-			  <div class="sub-nav">   
+
+			  <div class="sub-nav">
 			     <div class="alignright pullleft">
 				     <?php get_search_form(); ?>
-			     </div>			     
-				  <!-- Author Name -->   
-			    <div class="author-wrap"> 
+			     </div>
+				  <!-- Author Name -->
+			    <div class="author-wrap">
 			    	<?php $metadata = pb_get_book_information(); ?>
 					<?php if ( ! empty( $metadata['pb_author'] ) ): ?>
 				    <div class="author-name"><?php echo $metadata['pb_author']; ?></div></span>
 		     		<?php endif; ?>
 			     </div> <!-- end .author-name -->
 
-			  </div><!-- end sub-nav -->  
-			    
-				 
+			  </div><!-- end sub-nav -->
+
+
 		</div> <!-- end .nav-container -->
 
-	<div class="wrapper"><!-- for sitting footer at the bottom of the page -->	    
-			<div id="wrap">	    
+	<div class="wrapper"><!-- for sitting footer at the bottom of the page -->
+			<div id="wrap">
 				<div id="content">
 
-	 <?php endif; ?>	
+	 <?php endif; ?>

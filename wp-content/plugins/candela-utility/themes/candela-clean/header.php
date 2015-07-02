@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ --> 
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7 ]> <html <?php language_attributes(); ?> class="no-js ie6"> <![endif]-->
 <!--[if IE 7 ]>    <html <?php language_attributes(); ?> class="no-js ie7"> <![endif]-->
 <!--[if IE 8 ]>    <html <?php language_attributes(); ?> class="no-js ie8"> <![endif]-->
@@ -45,7 +45,8 @@ if ( is_front_page() ) {
 
 </head>
 <body <?php body_class(); if(wp_title('', false) != '') { print ' id="' . str_replace(' ', '', strtolower(wp_title('', false))) . '"'; } ?>>
-<!-- Faccebook share js sdk -->
+
+<!-- Facebook share js sdk -->
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -57,17 +58,22 @@ if ( is_front_page() ) {
 <!-- end Facebook JS -->
 
 	 <?php if (is_front_page()):?>
-	 
+
 	 	<!-- home page wrap -->
-	 	
+
 		<span itemscope itemtype="http://schema.org/Book" itemref="about alternativeHeadline author copyrightHolder copyrightYear datePublished description editor
 		      image inLanguage keywords publisher audience educationalAlignment educationalUse interactivityType learningResourceType typicalAgeRange">
 			<div class="book-info-container hfeed">
-	 
+
 		<?php else: ?>
       <?php if (!isset($_GET['hide_header'])) { ?>
         <span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">
           <div class="nav-container">
+
+						<div class="skip-to-content">
+							<a href="#main-content">Skip to main content</a>
+						</div>
+
             <?php if (!isset($_GET['content_only'])) { ?>
               <nav>
 
@@ -113,8 +119,8 @@ if ( is_front_page() ) {
         </div> <!-- end .nav-container -->
       <?php } ?>
 
-	<div class="wrapper"><!-- for sitting footer at the bottom of the page -->	    
-			<div id="wrap">	    
+	<div class="wrapper"><!-- for sitting footer at the bottom of the page -->
+			<div id="wrap">
 				<div id="content">
 
-	 <?php endif; ?>	
+	 <?php endif; ?>

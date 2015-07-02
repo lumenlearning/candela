@@ -31,7 +31,7 @@ ul li {
 	top: 48%;
 }
 .nav span a {
-	
+
 }
 .nav span.previous {
 	left: 3em;
@@ -308,12 +308,14 @@ div#wrap {
 	text-transform: uppercase;
 	margin-top: 1em;
 }
+
 #content h4 {
 	font-size: 0.9em;
 	font-weight: 400;
 	text-transform: uppercase;
 	color: #1ABC9C;
 }
+
 #content h5 {
 	font-size: 0.8em;
 	font-weight: 400;
@@ -409,3 +411,59 @@ div#wrap {
     display: none;
 }
 
+
+/****************************/
+/*  ATTRIBUTES HEADERS FIX  */
+/****************************/
+
+#content .h3-styling {
+  color: #0288d1;
+  font-family: "proxima-nova", sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 1em;
+  padding-bottom: 2em;
+}
+
+#content .h4-styling {
+    color: #1abc9c;
+    font-family: "proxima-nova", sans-serif;
+    font-size: 0.9em;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding-bottom: 0.8em;
+}
+
+/*********************/
+/*  SKIP NAVIGATION  */
+/*********************/
+
+.skip-to-content {
+  display: block;
+}
+
+.skip-to-content a {
+  position: absolute;
+  top: -40px;
+  left: 0px;
+  padding: 8px;
+  overflow: hidden;
+  z-index: 1000;
+  background-color: #0286c2;
+  color: #fff;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  border-bottom-right-radius: 6px;
+  opacity: 0.3;
+  transition: .5s ease-out;
+}
+
+.skip-to-content a:focus {
+  top: 0;
+  width: auto;
+  height: auto;
+  opacity: 1;
+  transition: .2s ease-in;
+}
