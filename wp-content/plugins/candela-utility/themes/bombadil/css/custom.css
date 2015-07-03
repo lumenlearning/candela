@@ -416,6 +416,7 @@ div#wrap {
 }
 #content table {
 	margin: 1em 0;
+  border: none;
 }
 /*Footer*/
 .footer {
