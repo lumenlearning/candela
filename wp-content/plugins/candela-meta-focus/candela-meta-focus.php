@@ -13,16 +13,20 @@
 
 
 
-/***********  ACTION: INSTANCIATE, THEN TRIGGER METHODS *****/
-function instantiate_FocusRating() {
-    new FocusRating();
-}
-if ( is_admin() ) {
-    add_action( 'load-post.php', 'instantiate_FocusRating' );
-    add_action( 'load-post-new.php', 'instantiate_FocusRating' );
+/***********  ACTION: INSTANTIATE, THEN TRIGGER METHODS *****/
+function instantiate_FocusRating()
+{
+  if (!defined('CANDELA_FOCUS_META')) {
+    define('CANDELA_FOCUS_META', 'candela_focus_meta');
+  }
+  new FocusRating();
 }
 
-/***********  THE MEAT  *****/
+if (is_admin()) {
+  add_action('load-post.php', 'instantiate_FocusRating');
+  add_action('load-post-new.php', 'instantiate_FocusRating');
+}
+
 class FocusRating{
 
     /** Hook into the appropriate actions when the class is constructed. */
@@ -31,7 +35,7 @@ class FocusRating{
 		add_action( 'save_post', array( $this, 'save_focus_meta' ) ); /* WP's example. */
 	}
 
-    /***********  ADD METABOX  *****/
+  /***********  ADD METABOX  *****/
 	public function add_meta_box( $post_type ) {
         $post_types = array('back-matter', 'chapter', 'front-matter');
         if ( in_array( $post_type, $post_types )) {
@@ -47,15 +51,15 @@ class FocusRating{
 
     /***********  RENDER METABOX  *****/
     public function focus_metabox_render($post) {
-        $set_focus_rating = get_post_meta($post->ID, 'candela_focus_rating', true);
-//error_log($set_focus_rating . ' is selected in DB +++++');
+        $set_focus_rating = get_post_meta($post->ID, CANDELA_FOCUS_META, true);
         ?>
         <div class="inside">
             <label for="focus_select"><?php _e( "Set the level of focus appropriate for this content.", 'textdomain' ); ?></label>
             <select id="focus_select" class="select" name="focus_select" selected='<?php $set_focus_rating ?>'>
-                <option id="high" value="high" <?php if($set_focus_rating == 'high'){ echo 'selected="selected"'; } ?>>High</option>
-                <option id="normal" value="normal" <?php if($set_focus_rating == 'normal'){ echo 'selected="selected"'; } ?>>Normal</option>
-                <option id="skim" value="skim" <?php if($set_focus_rating == 'skim'){ echo 'selected="selected"'; } ?>>Skim</option>
+                <option value="">N/A</option>
+                <option value="review" <?php if($set_focus_rating == 'review'){ echo 'selected="selected"'; } ?>>Review</option>
+                <option value="normal" <?php if($set_focus_rating == 'normal'){ echo 'selected="selected"'; } ?>>Normal</option>
+                <option value="focus" <?php if($set_focus_rating == 'focus'){ echo 'selected="selected"'; } ?>>Focus</option>
             </select>
         </div>
         <?php
@@ -78,7 +82,7 @@ class FocusRating{
 
         // VALIDATE INPUT
         $focus_select = sanitize_text_field($focus_select);
-        if ($focus_select != 'high' && $focus_select != 'normal' && $focus_select != 'skim'){
+        if ($focus_select != 'focus' && $focus_select != 'normal' && $focus_select != 'review' && $focus_select != ''){
             return;
         }
 
@@ -86,9 +90,9 @@ class FocusRating{
         $post_id = (int) $_REQUEST['post_ID'];
 
         if (isset($focus_select)) {
-            update_post_meta($post_id, 'candela_focus_rating', $focus_select); //($id, $meta_key, $meta_value...)
+            update_post_meta($post_id, CANDELA_FOCUS_META, $focus_select); //($id, $meta_key, $meta_value...)
         } else {
-            delete_post_meta($post_id, 'candela_focus_rating');
+            delete_post_meta($post_id, CANDELA_FOCUS_META);
         }
     }
 }
