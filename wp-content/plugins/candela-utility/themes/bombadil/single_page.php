@@ -35,6 +35,11 @@
 		</section>
 	<?php endif; ?>
 
+	<!-- EDIT PAGE BUTTON -->
+	<div class="edit-course-btn">
+		<a id="edit" href="<?php echo get_edit_post_link( $id, $context ); ?>">Edit This Course</a>
+	</div>
+
 	<!-- PAGE NAVIGATION BUTTONS -->
 	<?php ca_get_links(); ?>
 
