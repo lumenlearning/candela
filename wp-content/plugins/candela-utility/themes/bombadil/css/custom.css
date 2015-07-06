@@ -691,3 +691,9 @@ counter-increment: none;
 #next {
   float: right;
 }
+
+.lumen-footer-logo {
+  background: #fafafa;
+  margin-bottom: -.3em;
+  padding: 0;
+}

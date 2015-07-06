@@ -39,6 +39,10 @@
     margin: 0;
   }
 
+  img {
+    background: transparent;
+  }
+
 
   /***************************/
   /*  SUB NAV HEADER/FOOTER  */
@@ -170,6 +174,10 @@
 
   .chapter-content h5 {
     line-height: 1.5em;
+  }
+
+  .license-attribution {
+    background: #fafafa;
   }
 
 </style>
