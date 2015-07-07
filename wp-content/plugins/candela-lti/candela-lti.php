@@ -212,6 +212,8 @@ class CandelaLTI {
       $user = CandelaLTI::create_user_account( $_POST['user_id'] );
     }
 
+    CandelaLTI::update_user_if_teacher( $user );
+
     // If the user is not currently logged in... authenticate as the matched account.
     if ( ! is_user_logged_in() || $logged_out ) {
       CandelaLTI::login_user_no_password( $user->ID );
@@ -258,16 +260,62 @@ class CandelaLTI {
       return $existing_user;
     }
     else {
-      $email = $username . '@127.0.0.1';
       $password = wp_generate_password( CANDELA_LTI_PASSWORD_LENGTH, true);
 
-      $user_id = wp_create_user( $username, $password, $email );
+      $user_id = wp_create_user( $username, $password, CandelaLTI::default_lti_email($username) );
 
       $user = new WP_User( $user_id );
       $user->set_role( 'subscriber' );
       update_user_meta( $user->ID, CANDELA_LTI_USERMETA_EXTERNAL_KEY, $_POST['user_id'] );
 
       return $user;
+    }
+  }
+
+  public static function default_lti_email( $username ) {
+    return $username . '@127.0.0.1';
+  }
+
+  /**
+   * If a user is a teacher or admin, set their first/last names
+   * If their name wasn't sent, set their name as their role
+   *
+   * @param $user
+   *
+   */
+  public static function update_user_if_teacher( $user ) {
+    if( (!empty($user->last_name) || !empty($user->first_name))
+         && ($user->last_name != 'Admin' && $user->last_name != 'Instructor') ){
+      return;
+    }
+
+    $roles = [];
+    if( isset($_POST['ext_roles']) ) {
+      $roles = $_POST['ext_roles'];
+    } elseif (isset($_POST['roles'])){
+      $roles = $_POST['roles'];
+    } else {
+      return;
+    }
+
+    $roles = explode(",", $roles);
+    $roles = array_filter(array_map('trim', $roles));
+
+    $is_teacher = in_array('urn:lti:role:ims/lis/Instructor', $roles) || in_array('Instructor', $roles);
+    $is_admin = in_array('urn:lti:instrole:ims/lis/Administrator', $roles) || in_array('Administrator', $roles);
+
+    if( $is_teacher || $is_admin ){
+      $userdata = ['ID' => $user->ID];
+      if( !empty($_POST['lis_person_name_family']) || !empty($_POST['lis_person_name_given']) ){
+        $userdata['last_name'] = $_POST['lis_person_name_family'];
+        $userdata['first_name'] = $_POST['lis_person_name_given'];
+      } elseif( empty($user->last_name) && empty($user->first_name) ) {
+        $userdata['last_name'] = $is_admin ? 'Admin' : 'Instructor';
+      }
+
+      if( !empty($userdata['last_name']) || !empty($userdata['first_name']) ) {
+        wp_update_user($userdata);
+      }
     }
   }
 
