@@ -83,3 +83,16 @@ function outcome_display_html($id){
     <?php
     }
 }
+
+//Display outcome html
+add_action('output_clarity_url', '\Candela\Outcomes\output_clarity_url', 10, 1);
+
+function output_clarity_url(){
+
+    if (! empty(CLARITY_ENDPOINT)) {
+        ?>
+        <div id="clarity_endpoint" style="display: none;"
+             data-clarity-endpoint="<?php print(esc_attr(CLARITY_ENDPOINT)); ?>"></div>
+<?php
+    }
+}

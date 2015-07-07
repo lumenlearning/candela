@@ -18,7 +18,11 @@
 					</div><!-- .entry-content -->
 				</div><!-- #post-## -->
 				<!-- place hidden GUIDs on applicable pages -->
-				<?php do_action('display_outcome_html', $post->ID); ?>
+				<?php
+                do_action('display_outcome_html', $post->ID);
+                do_action('output_clarity_url');
+                ?>
+
 				<?php if ( $citation = CandelaCitation::renderCitation( $post->ID ) ): ?>
 					<section role="contentinfo">
 						<div class="post-citations sidebar">
