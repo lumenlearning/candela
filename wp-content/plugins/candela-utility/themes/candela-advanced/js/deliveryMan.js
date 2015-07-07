@@ -9,7 +9,7 @@ window.onload = function() {
     deliverance.send({
         user_id: Number(outcomes.dataset.userId),
         type: 'page_load',
-        guid: outcomes.dataset.outcomeGuids.split(','), //creates array of guids
+        guid: outcomes.dataset.outcomeGuids.split(', '), //creates array of guids
         data: {}
     }, function (err, res) {
         if (err) return console.error("Err:", err, res);
