@@ -340,7 +340,7 @@ nav {
 	margin-top: 0;
   margin-bottom: 0;
 	padding-top: 1em !important;
-	padding-bottom: 0;
+	padding-bottom: 1em;
 	color: #1d1d1d;
   line-height: 1.2;
 	font-weight: 600;
@@ -416,12 +416,18 @@ div#wrap {
 #content blockquote {
 	padding: 2em 2em 2em 4em;
 }
-#content .bcc-box {
+#content .bcc-box,
+#content .linkitup,
+#content .keytakeaways,
+#content .tryit {
 	padding: 0 3% 2% 3%;
 	margin-bottom: 15px;
 	border-radius: 4px;
 }
-#content .bcc-box h3 {
+#content .bcc-box h3,
+#content .linkitup h3,
+#content .keytakeaways h3,
+#content .tryit h3 {
 	margin-top: 0;
 	text-align: center;
 }
@@ -459,10 +465,13 @@ div#wrap {
 	background-color: #e1f4ff;
 	margin-bottom: 1.5em;
 }
-.bcc-box.bcc-success h3 {
+/*.bcc-box.bcc-success h3 {
 	background-color: #077fab;
-}
-.bcc-box h3:first-child {
+}*/
+.bcc-box h3:first-child,
+.linkitup h3:first-child,
+.keytakeaways h3:first-child,
+.tryit h3:first-child {
 	text-align: center;
 	margin: -2% -3% 15px;
 	color: #ffffff;
