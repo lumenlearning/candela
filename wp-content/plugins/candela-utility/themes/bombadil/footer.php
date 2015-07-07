@@ -45,7 +45,7 @@
 				</table>
 				<?php endif; ?>
 
-        <img class="lumen-footer-logo" src="/lumen/candela/wp-content/plugins/candela-utility/themes/bombadil/images/FooterMasteryMark.svg" alt="Footer Logo Lumen Mastery" />
+        <img class="lumen-footer-logo" src="<?php echo get_stylesheet_directory_uri(); ?>/images/FooterMasteryMark.svg" alt="Footer Logo Lumen Mastery" />
 
 				<?php echo pressbooks_copyright_license(); ?>
 
