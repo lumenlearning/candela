@@ -43,9 +43,6 @@ class CandelaLTI {
     add_action( 'lti_setup', array( __CLASS__, 'lti_setup' ) );
     add_action( 'lti_launch', array( __CLASS__, 'lti_launch') );
 
-    // Add a content filter with low priority to inject our mapping link
-    add_filter('the_content', array( __CLASS__, 'content_map_lti_launch'), 20);
-
     add_action('admin_menu', array( __CLASS__, 'admin_menu'));
 	}
 
