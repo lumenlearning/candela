@@ -391,7 +391,7 @@ div#wrap {
 }
 #content h3 {
 	font-size: 1em;
-	text-transform: capitalize;
+	text-transform: uppercase;
 	margin-top: 1em;
 	text-align: left;
   color: #6c64ad;
