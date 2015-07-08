@@ -445,8 +445,19 @@ div#wrap {
 #content .keytakeaways h3,
 #content .tryit h3 {
 	margin-top: 0;
+  padding: 7px 0;
 	text-align: center;
   color: #fff;
+}
+#content .bcc-box .wp-caption p,
+#content .linkitup .wp-caption p,
+#content .keytakeaways .wp-caption p,
+#content .tryit .wp-caption p {
+  line-height: 1.3;
+  margin: 0;
+  padding: 5px 0 0 0;
+  color: #000;
+  font-size: 0.75em;
 }
 #content .bcc-box p,
 #content .linkitup p,
@@ -454,8 +465,9 @@ div#wrap {
 #content .tryit p {
   font-size: 0.95em;
   color: #6f6f6f;
-  padding: 20px 20px 0 10px;
-  margin: -5px 15px 15px 15px;
+  padding: 0 20px 0 10px;
+  margin: 10px 15px 5px 15px;
+  line-height: 1.3;
 }
 
 /*  LICENSES & ATTRIBUTIONS H3/H4 STYLING  */
