@@ -638,7 +638,7 @@ ol li li::before, ol li li li::before {
   content: none;
   counter-increment: none;
 }
-.edit-course-btn {
+.edit-page-btn {
   margin: 15px 0 30px 0;
   height: 34px;
 }
@@ -650,7 +650,7 @@ ol li li::before, ol li li li::before {
   border: 2px solid #26a69a;
   border-radius: 7px;
   background-color: rgba(38, 166, 154, 0.1);
-  padding: 9px 17px;
+  padding: 9px 23px;
   text-align: center;
   text-decoration: none;
 }

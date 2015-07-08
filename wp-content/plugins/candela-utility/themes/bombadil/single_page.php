@@ -36,8 +36,8 @@
 	<?php endif; ?>
 
 	<!-- EDIT PAGE BUTTON -->
-	<div class="edit-course-btn">
-		<a id="edit" href="<?php echo get_edit_post_link( $id, $context ); ?>">Edit This Course</a>
+	<div class="edit-page-btn">
+		<a id="edit" href="<?php echo get_edit_post_link( $id, $context ); ?>">Edit This Page</a>
 	</div>
 
 	<!-- PAGE NAVIGATION BUTTONS -->
