@@ -701,9 +701,6 @@ ol li li::before, ol li li li::before {
 /*  SUB NAV HEADER/FOOTER  */
 /***************************/
 
-.row {
-  background-color: #fff;
-}
 .columns {
   padding: 0;
 }
