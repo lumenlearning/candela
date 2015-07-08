@@ -422,7 +422,9 @@ div#wrap {
 	margin-left: 1em;
 }
 #content blockquote {
+  margin: 2em 0;
 	padding: 2em 2em 2em 4em;
+
 }
 #content .bcc-box,
 #content .linkitup,
