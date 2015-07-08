@@ -457,6 +457,8 @@ div#wrap {
   padding: 20px 20px 0 10px;
   margin: -5px 15px 15px 15px;
 }
+
+/*  LICENSES & ATTRIBUTIONS H3/H4 STYLING  */
 #content .h3-styling {
   color: #077fab;
   font-family: "proxima-nova", sans-serif;
@@ -477,6 +479,7 @@ div#wrap {
   margin-bottom: 12px;
   text-transform: uppercase;
 }
+
 .difficulty {
 	float: right;
 	font-weight: 600;
@@ -774,8 +777,13 @@ ol li li::before, ol li li li::before {
 .chapter-content {
   margin: 30px 20px 20px 0; /* QUESTIONABLE... */
 }
-.chapter-content h3 {
-  margin-bottom: 16px;
+.chapter-content .heading {
+  color: #000;
+  margin-bottom: 0.5em;
+  font-size: 1.1em;
+  font-weight: 600;
+  text-transform: capitalize;
+  text-align: left;
 }
 .chapter-links {
   border: none;
@@ -802,4 +810,18 @@ ol li li::before, ol li li li::before {
 }
 .license-attribution {
   background: #fafafa;
+}
+
+
+/*  IMAGES WITH CAPTIONS  */
+.wp-caption {
+  background: #eee;
+  position: relative;
+}
+.wp-caption img {
+  display: block;
+  margin: 0 auto;
+}
+.wp-caption-text {
+  line-height: 1.3;
 }
