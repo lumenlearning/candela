@@ -367,14 +367,12 @@ ul.lti-mapping {
 
 div.expanded {
 	padding-left: 46px;
-	background:  url("/wp-includes/images/toggle-arrow-2x.png") 0 -46px no-repeat;
 	height: 46px;
 	line-height: 46px;
 }
 
 div.collapsed {
 	padding-left: 46px;
-	background:  url("/wp-includes/images/toggle-arrow-2x.png") 0 0 no-repeat;
 	height: 46px;
 	line-height: 46px;
 }
