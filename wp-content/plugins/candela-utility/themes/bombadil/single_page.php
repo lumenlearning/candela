@@ -16,7 +16,7 @@
 	<?php if ( $citation = CandelaCitation::renderCitation( $post->ID ) ): ?>
 		<section role="contentinfo">
 			<div class="post-citations sidebar">
-				<div role="button" aria-pressed="false" id="citation-header-<?php print $post->ID; ?>" class="collapsed h3-styling"><?php _e('Licenses and Attributions'); ?></div>
+				<div role="button" aria-pressed="false" id="citation-header-<?php print $post->ID; ?>" class="collapsed license-attribution-dropdown"><?php _e('Licenses and Attributions'); ?></div>
 				<div id="citation-list-<?php print $post->ID; ?>" style="display:none;">
 					<?php print $citation ?>
 				</div>
