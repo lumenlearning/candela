@@ -498,13 +498,14 @@ div#wrap {
 
 .difficulty {
 	float: right;
+  text-transform: uppercase;
 	font-weight: 600;
 	letter-spacing: 0.1em;
 	color: #D43900;
 	font-size: 0.9em;
 	position: absolute;
-	right: 2.5em;
-	top: 1.75em;
+  right: 2.75em;
+  top: 2.1em;
 }
 .bcc-box.bcc-success h3,
 .linkitup h3,
@@ -641,10 +642,6 @@ h3.type-3 {
 	font-size: 0.8em;
 	color: #959595;
 	margin-top: 0.25em;
-}
-.difficulty {
-  right: 2.75em;
-  top: 2.1em;
 }
 img.type-icon {
 	float: left;
