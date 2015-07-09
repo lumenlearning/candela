@@ -1,0 +1,688 @@
+/*************/
+/*  GLOBALS  */
+/*************/
+
+html {
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+
+body {
+	font: 1em/1.4em "proxima-nova", sans-serif !important;
+	font-family: "proxima-nova", sans-serif !important;
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+
+body.home {
+	background: #fff;
+}
+
+a {
+  color: #6c64ad;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: #0288d1;
+	font-family: "proxima-nova", sans-serif;
+	font-weight: 600;
+}
+
+ul li {
+	list-style-type: none;
+}
+
+.btn .red {
+	background-color: #a51b1b;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(179, 56, 56)), to(rgb(165, 27, 27)));
+	background-image: -webkit-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	background-image: -moz-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	background-image: -o-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	background-image: -ms-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	background-image: linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#b33838', EndColorStr='#a51b1b');
+}
+
+
+/*********************/
+/*  SKIP NAVIGATION  */
+/*********************/
+
+.skip-to-content {
+  display: block;
+}
+
+.skip-to-content a {
+  position: absolute;
+  top: -40px;
+  left: 0px;
+  padding: 8px;
+  overflow: hidden;
+  z-index: 1000;
+  background-color: #077fab;
+  color: #fff;
+  text-decoration: none;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  border-bottom-right-radius: 6px;
+  opacity: 0.3;
+  transition: .5s ease-out;
+}
+
+.skip-to-content a:focus {
+  top: 0;
+  width: auto;
+  height: auto;
+  opacity: 1;
+  transition: .2s ease-in;
+}
+
+
+/****************/
+/*  NAVIGATION  */
+/****************/
+
+nav {
+	/*background: transparent;*/
+	background: #077fab;
+	-moz-box-shadow: none;
+	-o-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	position: relative;
+	width: 100%;
+	min-height: 70px;
+	z-index: 100;
+}
+
+.book-title {
+  position: relative;
+  top: 50%;
+  transform: translateY(20%);
+  font: 1.2em/1.6em "proxima-nova", serif;
+	font-family: "proxima-nova", sans-serif;
+	text-align: left;
+	padding: 10px 0;
+	font-weight: 500;
+  margin: 0 auto;
+  width: 520px;
+}
+
+.book-title a {
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: none;
+}
+
+.pressbooks-logo {
+
+	font-family: "proxima-nova", sans-serif;
+	font-weight: 400;
+	text-transform: none;
+	font-size: 1em;
+	margin-right: 3em;
+	padding-top: 1em;
+  color: #ffffff;
+}
+
+/*.nav {
+	top: 48%;
+}
+
+.nav span.previous {
+	left: 3em;
+}
+
+.nav span.next {
+	right: 3em;
+}*/
+
+.nav-container {
+	background: #077fab;
+	margin-bottom: 0;
+}
+
+
+/*********************/
+/*  SUBNAV & SEARCH  */
+/*********************/
+
+.sub-nav {
+  margin: 0;
+  height: 40px;
+  background-color: #fafafa;
+  border-bottom: 1px solid #6d6d6d;
+}
+
+.sub-nav #searchform {
+  width: 250px;
+  margin: 2px 0 0 0;
+}
+
+.sub-nav input {
+  display: inline;
+  border-radius: 2px;
+  background-color: #fff;
+  border: 1px solid #6d6d6d;
+}
+
+.sub-nav input#s {
+  width: 60%;
+  height: 22px;
+  margin: 0;
+  vertical-align: bottom;
+  font-size: 13px;
+}
+
+.sub-nav input#searchsubmit {
+  height: 22px;
+  color: #6d6d6d;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+
+
+
+
+
+.book-info-container {
+	background: #077fab;
+}
+
+.book-info-container h1, .book-info-container h2, .book-info-container h3, .book-info-container h4, .book-info-container h5 {
+	font-family: "proxima-nova", sans-serif;
+	font-weight: 600;
+}
+
+.book-info-container {
+	font: 16px/1.5 'proxima-nova', serif !important;
+	z-index: -9;
+	padding-bottom: 2em;
+}
+
+.book-cover img {
+	background-color: transparent;
+	box-shadow: none;
+	max-width: 12em;
+	float: left;
+	border: 0.25em solid #fafafa;
+	margin-top: 1.75em;
+}
+
+.book-info .book-author {
+	display: none;
+}
+
+.book-info {
+    margin-top: 0;
+}
+
+.call-to-action {
+	margin-top: 0;
+}
+
+.book-info h1 {
+	font-size: 1.75em;
+}
+.book-info h1 a {
+	color: #fff;
+}
+.second-block-wrap {
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    padding: 2em 0 3em 0;
+    text-align: center;
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+.second-block-wrap h2 {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    text-align: center;
+    margin: 1em auto 2em auto;
+    color: #959595;
+}
+.description-book-info {
+	float: left;
+	margin-right: 0;
+	max-width: 100%;
+	width: 100%;
+	text-align: center;
+}
+#share {
+	font-family: "proxima-nova", sans-serif;
+	width: 50%;
+	margin: 0 auto;
+}
+.sharrre {
+	margin-top: 0;
+}
+.third-block-wrap {
+    background: #fff;
+    padding: 1.75em 0.5em 2em 0.5em;
+    border: none;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    margin-top: -3em;
+    z-index: 9999;
+    border-radius: 6px;
+}
+.third-block-wrap ul {
+	font-size: 1.1em;
+}
+.third-block {
+	color: #333;
+	font-family: "proxima-nova", sans-serif;
+	font-size: 0.8em;
+}
+.third-block h2 {
+    font-size: 1em;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    text-align: center;
+    margin: 0em auto 2.25em auto;
+    color: #959595;
+    border-bottom: 1px solid #e1e1e1;
+    padding-bottom: 2em;
+}
+.third-block ul li {
+	margin-bottom: 0.6em;
+}
+.third-block-wrap a {
+    color: #1d1d1d;
+}
+.third-block-wrap a:hover {
+    color: #077fab;
+}
+.third-block-wrap h4 {
+    font-size: 1.1em;
+    margin-top: 1em;
+    margin-bottom: 0.75em;
+    text-transform: none;
+    font-weight: 600 !important;
+}
+.third-block-wrap h4 a {
+	font-weight: 600 !important;
+}
+.third-block-wrap ul {
+    line-height: 1.3 !important;
+}
+
+
+
+
+h1.book-title {
+  font-family: "proxima nova", sans-serif;
+  text-align: left;
+  padding: 10px 0;
+  font-weight: 600;
+}
+
+
+
+#sidebar {
+	top: 0;
+	margin-top: 5.5em;
+	margin-right: 42px;
+}
+#toc {
+	background: #fff;
+	-moz-border-radius: 0;
+	-o-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	-moz-box-shadow: none;
+	-o-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+  	padding: 1em;
+}
+#toc ul li {
+	line-height: 1.3;
+	margin-bottom: 0.25em;
+}
+#toc ul li a {
+	font-size: 0.75em;
+	line-height: 1.1;
+}
+#booknav {
+	background: #ffffff;
+	-moz-border-radius: 0;
+	-o-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	-moz-box-shadow: none;
+	-o-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+#booknav li {
+	border: 2px solid #fff;
+	background: #eee;
+}
+#booknav li:last-child {
+	margin-top: -1px;
+}
+.entry-title {
+	margin: 1.75em auto 1em auto;
+}
+h1.entry-title {
+	text-align: center;
+	font-size: 1.5em;
+	margin-top: 0;
+	margin-left: 0.5em;
+	padding-top: 1em !important;
+	color: #1d1d1d;
+	font-weight: 600;
+	border-bottom: solid 1px #e1e1e1;
+	padding-bottom: 1em;
+}
+.content-header {
+    color: white;
+    padding: 0 0 3.5em 0;
+}
+.content-header h1,
+.content-header h2,
+.content-header h4,
+.content-header a {
+    color: #1d1d1d;
+}
+.content-header h1 {
+    margin-bottom: 0em;
+}
+.content-header h2 {
+    margin-bottom: 0.25em;
+}
+.content-header a {
+    text-decoration: underline;
+}
+.content-header a:hover {
+    text-decoration: none;
+}
+#content {
+	max-width: 895px;
+	background-color: #fff;
+	border: none;
+	-moz-box-shadow: none;
+	-o-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	margin: 3em auto 0 auto;
+	padding: 0.25em 3em 3em 3em;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	border-radius: 6px;
+}
+#content ol li, #content ul li {
+	margin-bottom: 0.5em;
+}
+div#wrap {
+	min-height: 8em !important;
+}
+#content h2 {
+	font-size: 1.5em;
+	margin-bottom: 1em;
+}
+#content h3 {
+	font-size: 1em;
+	text-transform: uppercase;
+	margin-top: 1em;
+  text-align: left;
+}
+
+#content h4 {
+	font-size: 0.9em;
+	font-weight: 600;
+	text-transform: uppercase;
+	color: #6c64ad;
+}
+
+#content h5 {
+	font-size: 0.8em;
+	font-weight: 400;
+	text-transform: uppercase;
+	color: #6c64ad;
+}
+#content img {
+	margin-top: 0.5em auto;
+}
+#content ul li {
+	list-style-type: disc;
+	margin-left: 1em;
+}
+#content blockquote {
+	padding: 2em 2em 2em 4em;
+}
+#content .bcc-box {
+	padding: 0 3% 2% 3%;
+	margin-bottom: 15px;
+	border-radius: 4px;
+}
+#content .bcc-box h3 {
+	margin-top: 0;
+  text-align: center;
+}
+.difficulty {
+	float: right;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	color: #d43900;
+	font-size: 0.9em;
+	position: absolute;
+	right: 2.5em;
+	top: 1.75em;
+}
+#content .bcc-success {
+	background-color: #e1f4ff;
+	margin-bottom: 1.5em;
+}
+.bcc-box.bcc-success h3 {
+	background-color: #077fab;
+}
+.bcc-box h3:first-child {
+	text-align: center;
+	margin: -2% -3% 15px;
+	color: #ffffff;
+	padding: 15px 0 15px;
+}
+#content iframe {
+    min-width: 100%;
+    max-width: 100%;
+    margin: 1em auto;
+}
+#content table {
+	margin: 1em 0;
+}
+.footer {
+    text-align: center;
+    background: #fafafa;
+    padding: 2em;
+    border-top: 1px solid #e1e1e1;
+    margin-top: 3em;
+    color: #959595;
+    font-family: "proxima-nova", sans-serif;
+    font-size: 0.9em;
+}
+.footer a {
+	color: #077fab !important;
+}
+.license-attribution img {
+    margin-bottom: 0.5em;
+    margin-top: 1em;
+}
+.footer table td {
+	padding: 0.5em !important;
+}
+
+.lti-mapping {
+    display: none;
+}
+
+/* temporary for may faculty review */
+/*.footer{
+    display: none;
+}
+
+.second-block-wrap{
+    border: none;
+    border-top: 1px solid #e1e1e1;
+}
+
+.description-book-info{
+    display: none;
+}*/
+
+/* Styles added May 20 */
+/*.title-area {
+	border-bottom: 1px solid #e1e1e1;
+	text-align: center;
+}
+h2.entry-title-1 {
+	text-align: center;
+	font-size: 1.5em;
+	margin-top: 0;
+	margin-left: 0em;
+	margin-bottom: 0.1em !important;
+	padding-top: 1em !important;
+	color: #1d1d1d;
+	font-weight: 600;
+	border-bottom: none;
+	padding-bottom: 0;
+}
+h3.type-1 {
+	text-transform: uppercase;
+	color: #959595;
+	margin-top: 0 !important;
+	font-size: 0.9em !important;
+	letter-spacing: 0.05em;
+	margin-bottom: 1.4em;
+	font-weight: 400;
+}
+
+h2.entry-title-2 {
+	text-align: left;
+	font-size: 1.5em;
+	margin-top: 0;
+	margin-left: 0em;
+	margin-bottom: 0 !important;
+	padding-top: 1em !important;
+	color: #1d1d1d;
+	font-weight: 600;
+	border-bottom: none;
+	padding-bottom: 0;
+	width: 85%;
+	line-height: 1.2;
+}
+h3.type-2 {
+	text-transform: uppercase;
+	color: #646464;
+	line-height: 1.3;
+	margin-top: 0.2em !important;
+	font-size: 0.9em !important;
+	letter-spacing: 0.05em;
+	margin-bottom: 1.4em;
+	font-weight: 400;
+	text-align: left;
+	width: 80%;
+}
+h2.entry-title-3 {
+	text-align: left;
+	font-size: 1.5em;
+	margin-top: 0;
+	margin-left: 0em;
+	margin-bottom: 0 !important;
+	padding-top: 1em !important;
+	color: #1d1d1d;
+	font-weight: 600;
+	border-bottom: none;
+	padding-bottom: 0;
+}
+h3.type-3 {
+	text-transform: uppercase;
+	color: #959595;
+	margin-top: 0 !important;
+	font-size: 0.9em !important;
+	letter-spacing: 0.05em;
+	margin-bottom: 0.5em;
+	font-weight: 400;
+	text-align: left;
+}
+.progress {
+	margin-bottom: 1.25em;
+}
+.course-progress {
+	background: #e1e1e1;
+	border: none;
+	padding: 0;
+	height: 0.4em;
+}
+.progress.success .meter {
+	background: #6c64ad;
+}
+.progress-description {
+	font-size: 0.8em;
+	color: #959595;
+	margin-top: 0.25em;
+}
+.difficulty {
+  right: 2.75em;
+  top: 2.1em;
+}
+img.type-icon {
+	float: left;
+	max-width: 2.6em;
+	background: none;
+	margin-right: 0.4em;
+}
+
+ol li li::before, ol li li li::before {
+	 list-style-position: outside;
+content: none;
+counter-increment: none;
+}*/
+
+
+
+
+/*****************************/
+/*  EDIT TAB (LEFT OF PAGE)  */
+/*****************************/
+
+span.edit-link {
+  margin: 120px 0 0 -86px;
+}
+
+span.edit-link a {
+  color: #03a9f4;
+}
+
+span.edit-link a:hover {
+  color: #fff;
+  background-color: #03a9f4;
+}
+
+
+/****************************/
+/*  ATTRIBUTES HEADERS FIX  */
+/****************************/
+
+#content .h3-styling {
+  color: #0288d1;
+  font-family: "proxima-nova", sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 1em;
+  padding-bottom: 2em;
+}
+
+#content .h4-styling {
+    color: #1abc9c;
+    font-family: "proxima-nova", sans-serif;
+    font-size: 0.9em;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding-bottom: 0.8em;
+}

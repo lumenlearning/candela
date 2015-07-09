@@ -166,7 +166,7 @@ class CandelaCitation {
       $types = CandelaCitation::getOptions('type');
       foreach ( $types as $type => $info ) {
         if ( ! empty( $grouped[$type] ) ) {
-          $output .= '<div class="h4-styling">' . $info['label'] . '</div>';
+          $output .= '<div class="license-attribution-dropdown-subheading">' . $info['label'] . '</div>';
           $output .= '<ul class="citation-list"><li>';
           $output .= implode('</li><li>', $grouped[$type] );
           $output .= '</li></ul>';
