@@ -732,13 +732,16 @@ ol li li::before, ol li li li::before {
 .title-row-content, .subheader-content {
   position: absolute;
   top: 50%;
-  margin: 0 100px;
+  /*margin: 0 100px;*/
 }
 .title-row-content {
   transform: translateY(-45%);
 }
 .subheader-content {
   transform: translateY(-50%);
+  display: block;
+  position: absolute;
+  margin: 0 auto;
 }
 .subheader {
   margin: 0;
@@ -757,6 +760,7 @@ ol li li::before, ol li li li::before {
 .content-description {
   margin-top: 20px;
   width: 750px;
+  /*line-height: 2em;*/
 }
 #why-it-matters, #putting-it-together {
   background-color: #007A7C;

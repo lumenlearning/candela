@@ -8,7 +8,7 @@
     font-size: 1.2em;
     text-transform: capitalize;
     color: #000;
-    line-height: 0.5em;
+    line-height: 1em;
   }
   p {
     font-size: 0.9em;
@@ -17,6 +17,10 @@
   }
   img {
     background: transparent;
+  }
+  a {
+    color: #fff;
+    text-decoration: none;
   }
   #sidebar {
     display: none;
