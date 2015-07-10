@@ -5,10 +5,9 @@
 /************/
 
   h1, h2, h3 {
-    font-size: 1.2em;
+    font-size: 1.4em;
     text-transform: capitalize;
     color: #000;
-    line-height: 1em;
   }
   p {
     font-size: 0.9em;
@@ -36,6 +35,7 @@
     padding: 0;
     margin: 0;
   }
+
 
 </style>
 
