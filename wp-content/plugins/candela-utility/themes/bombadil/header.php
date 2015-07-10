@@ -92,7 +92,7 @@
 
             <!-- Logo -->
             <div class="sub-nav-left" aria-hidden="true">
-              <div class="pressbooks-logo"><?php echo get_site_option('site_name'); ?></div>
+              <div class="pressbooks-logo">Lumen Mastery</div>
             </div>
           </nav>
         </div>
