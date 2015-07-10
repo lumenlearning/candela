@@ -41,7 +41,7 @@
 
 	<!-- EDIT PAGE BUTTON -->
 	<div class="edit-page-btn">
-		<a id="edit" href="<?php echo get_edit_post_link( $id, $context ); ?>">Edit This Page</a>
+		<a id="edit" href="<?php echo get_edit_post_link( $id ); ?>">Edit This Page</a>
 	</div>
 
 	<!-- PAGE NAVIGATION BUTTONS -->

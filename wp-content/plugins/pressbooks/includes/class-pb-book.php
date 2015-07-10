@@ -185,6 +185,7 @@ class Book {
 				'order' => 'ASC',
 				'no_found_rows' => true,
 				'cache_results' => true,
+				'update_post_meta_cache' => false,
 			);
 
 			$results = $q->query( $args );

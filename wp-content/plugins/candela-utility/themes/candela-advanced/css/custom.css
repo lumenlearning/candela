@@ -389,6 +389,9 @@ div#wrap {
     margin-bottom: 0.5em;
     margin-top: 1em;
 }
+.license-attribution {
+	display: none;
+}
 .footer table td {
 	padding: 0.5em !important;
 }

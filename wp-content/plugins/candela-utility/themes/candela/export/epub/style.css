@@ -180,6 +180,9 @@ div.license-attribution{
 	text-align: center;
 	margin-bottom: 1em;
 }
+.license-attribution {
+	display: none;
+}
 
 /* TABLE OF CONTENTS
 ======================= */

@@ -855,7 +855,7 @@ ol li li::before, ol li li li::before {
 
 
 .license-attribution {
-  background: #fafafa;
+  display: none;
 }
 
 
