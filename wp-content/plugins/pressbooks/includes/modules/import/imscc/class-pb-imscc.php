@@ -17,14 +17,14 @@ class IMSCC extends Import {
       return FALSE;
     }
 
-    list($chapters, $ispart) = $imscc->getImportableContent();
+    list($chapters, $posttypes) = $imscc->getImportableContent();
     
     $option = array(
       'file' => $upload['file'],
       'file_type' => $upload['type'],
       'type_of' => 'imscc',
       'chapters' => $chapters,
-      'is_part' => $ispart,
+      'post_types' => $posttypes,
       'allow_parts' => true
     );
     $imscc->cleanUp();
@@ -45,6 +45,7 @@ class IMSCC extends Import {
 
     $items = $imscc->manifestGetItems();
     $match_ids = array_flip( array_keys( $current_import['chapters'] ) );
+    $total = 0;
     if (!empty($items)) {
       $current_post_parent = -1;
       foreach ($items as $id => $item) {
@@ -120,8 +121,8 @@ class IMSCCParser {
   // Cache discovered importable content.
   private $content;
   
-  // Cache whether content appears to be section header
-  private $content_ispart;
+  // Cache whether content appears to be a part or chapter
+  private $content_posttype;
   
   function __construct($file) {
     try {
@@ -375,14 +376,14 @@ class IMSCCParser {
   function getImportableContent() {
     if ( empty( $this->content ) ) {
       $this->content = array();
-      $this->content_ispart = array();
+      $this->content_posttype = array();
       foreach ( $this->items as $id => $item ) {
-        $this->content[$item['identifier']] = $item['title'];
-        $this->content_ispart[$item['identifier']] = !isset($item['identifierref']);
+        $this->content[$item['identifier']] = (!empty($item['title']))?$item['title']:'';
+        $this->content_posttype[$item['identifier']] = (isset($item['identifierref']))?'chapter':'part';
       }
     }
 
-    return array($this->content, $this->content_ispart);
+    return array($this->content, $this->content_posttype);
   }
 
     /**
@@ -411,6 +412,9 @@ class IMSCCParser {
   }
 
   function getPayload($item) {
+    if ( empty($item['type']) ) {
+    	    return '';
+    }
     switch($item['type']) {
       case 'webLink':
         return '<a href="' . $item['href'] . '">' . $item['title'] . '</a>';
