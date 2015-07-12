@@ -128,7 +128,14 @@ class CandelaLTI {
       wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['page_id'] . "&content_only" );
       exit;
     }
-    error_log("_not_ redirecting to page id");
+
+    // allows deep links with an LTI custom parameter like:
+    // custom_page_id=10
+    if ( ! empty($wp->query_vars['custom_page_id'] ) && is_numeric($wp->query_vars['custom_page_id']) ) {
+      switch_to_blog((int)$wp->query_vars['blog']);
+      wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['custom_page_id'] . "&content_only" );
+      exit;
+    }
 
     if ( ! empty($wp->query_vars['resource_link_id'] ) ) {
       $map = CandelaLTI::get_lti_map($wp->query_vars['resource_link_id']);
@@ -356,6 +363,8 @@ class CandelaLTI {
     $query_vars[] = 'action';
     $query_vars[] = 'ID';
     $query_vars[] = 'candela-lti-nonce';
+    $query_vars[] = 'custom_page_id';
+
     return $query_vars;
   }
 

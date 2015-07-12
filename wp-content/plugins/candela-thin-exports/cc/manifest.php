@@ -34,7 +34,7 @@ class Manifest extends Base
     ],
   ];
 
-  public static $available_options = ['inline', 'include_fm', 'include_bm', 'export_flagged_only'];
+  public static $available_options = ['inline', 'include_fm', 'include_bm', 'export_flagged_only', 'use_custom_vars'];
 
   public function __construct($structure, $options=[])
   {
@@ -132,7 +132,9 @@ XML;
 
   private function get_base_url(){
     $blog_id = get_current_blog_id();
-    if ( $this->use_page_name_launch_url ) {
+    if( $this->options['use_custom_vars'] ){
+      return get_site_url(1) . '/api/lti/' . $blog_id;
+    } else if ( $this->use_page_name_launch_url ) {
       return get_site_url(1) . '/api/lti/' . $blog_id . '?page_title=chapter%%2F%s';
     }else{
       return get_site_url(1) . '/api/lti/' . $blog_id . '?page_id=%s';
@@ -140,7 +142,9 @@ XML;
   }
 
   private function create_launch_url($page){
-    if ( $this->use_page_name_launch_url ) {
+    if( $this->options['use_custom_vars'] ) {
+      return $this->get_base_url();
+    } else if ( $this->use_page_name_launch_url ) {
       return sprintf($this->get_base_url(), $page['post_name']);
     }else{
       return sprintf($this->get_base_url(), $page['ID']);
@@ -157,8 +161,7 @@ XML;
     foreach ($this->book_structure['part'] as $part) {
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)){
-          $launch_url = $this->create_launch_url($chapter);
-          $resources .= sprintf("\n" . $template, $this->identifier($chapter), sprintf("\n" . $this->link_template, $chapter['post_title'], $launch_url));
+          $resources .= sprintf("\n" . $template, $this->identifier($chapter), $this->link_xml($chapter));
         }
       }
     }
@@ -188,11 +191,26 @@ XML;
     foreach ($this->book_structure['part'] as $part) {
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)) {
-          $launch_url = $this->create_launch_url($chapter);
-          $zip->addFromString($this->identifier($chapter) . '.xml', sprintf('<?xml version="1.0" encoding="UTF-8"?>' . "\n" . $this->link_template, $chapter['post_title'], $launch_url));
+          $zip->addFromString($this->identifier($chapter) . '.xml', $this->link_xml($chapter, true));
         }
       }
     }
+  }
+
+  private function link_xml($page, $add_xml_header=false){
+    $launch_url = $this->create_launch_url($page);
+    $template = "\n" . $this->link_template;
+    if($add_xml_header){
+      $template = '<?xml version="1.0" encoding="UTF-8"?>' . $template;
+    }
+
+    if( $this->options['use_custom_vars'] ){
+      $custom_variables = '<blti:custom><lticm:property name="page_id">' . $page['ID'] . '</lticm:property></blti:custom>';
+    } else {
+      $custom_variables = '';
+    }
+
+    return sprintf($template, $page['post_title'], $launch_url, $custom_variables);
   }
 
   private function export_page($page){
