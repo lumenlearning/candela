@@ -240,6 +240,9 @@ function register_oembed_providers() {
 		'oea.herokuapp.com' => array(
 			'regex' => '#https?://(oea\.herokuapp\.com)/assessments/(.*)#i',
 		),
+		'assessments.lumenlearning.com' => array(
+			'regex' => '#https?://(assessments\.lumenlearning\.com)/assessments/(.*)#i',
+		),
 	);
 
 	foreach ($providers as $id => $info ) {
