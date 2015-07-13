@@ -73,12 +73,12 @@ class FocusRating{
 
     /*********** SAVE *****/
     public static function save_focus_meta($post_id) {
-        $focus_select = $_POST['focus_select'];
+        $focus_select = isset($_POST['focus_select']);
         if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
         return $post_id;
 
         // VALIDATE USER
-        if ( 'page' == $_POST['post_type'] ) {
+        if ( 'page' == isset($_POST['post_type']) ) {
             if ( ! current_user_can( 'edit_page', $post_id ) )
                 return $post_id;
         } else {
