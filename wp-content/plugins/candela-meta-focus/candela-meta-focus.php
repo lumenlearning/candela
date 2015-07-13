@@ -11,37 +11,35 @@
 * GitHub Plugin URI: https://github.com/lumenlearning/candela/
 */
 
+// If file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-
-/***********  ACTION: INSTANTIATE, THEN TRIGGER METHODS *****/
-function instantiate_FocusRating()
-{
-  if (!defined('CANDELA_FOCUS_META')) {
-    define('CANDELA_FOCUS_META', 'candela_focus_meta');
-  }
-  new FocusRating();
-}
-
-if (is_admin()) {
-  add_action('load-post.php', 'instantiate_FocusRating');
-  add_action('load-post-new.php', 'instantiate_FocusRating');
-}
+// new FocusRating();
+FocusRating::init();
 
 class FocusRating{
 
-    /** Hook into the appropriate actions when the class is constructed. */
-	public function __construct() {
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
-		add_action( 'save_post', array( $this, 'save_focus_meta' ) ); /* WP's example. */
-	}
+    /***********  ACTION: INSTANTIATE, THEN TRIGGER METHODS *****/
+    public static function init() {
+        if (!defined('CANDELA_FOCUS_META')) {
+        define('CANDELA_FOCUS_META', 'candela_focus_meta');
+        }
+        // if (is_admin()) {
+		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ) );
+		add_action( 'save_post', array( __CLASS__, 'save_focus_meta' ) );
+        add_action('load-post.php', array( __CLASS__, 'init') );
+        add_action('load-post-new.php', array( __CLASS__, 'init') );
+        add_filter( 'pb_import_metakeys', array( __CLASS__, 'get_import_metakeys') );
+        // }
+    }
 
   /***********  ADD METABOX  *****/
-	public function add_meta_box( $post_type ) {
+	public static function add_meta_box( $post_type ) {
         $post_types = array('back-matter', 'chapter', 'front-matter');
         if ( in_array( $post_type, $post_types )) {
             add_meta_box('focus', //(ID, title, callback, screen, context, priority, cb args)
             __('Focus Level', 'textdomain'),
-            array($this, 'focus_metabox_render'),
+            array(__CLASS__, 'focus_metabox_render'),
             $post_type,
             'normal',
             'high'
@@ -50,7 +48,7 @@ class FocusRating{
 	}
 
     /***********  RENDER METABOX  *****/
-    public function focus_metabox_render($post) {
+    public static function focus_metabox_render($post) {
         $set_focus_rating = get_post_meta($post->ID, CANDELA_FOCUS_META, true);
         ?>
         <div class="inside">
@@ -65,8 +63,16 @@ class FocusRating{
         <?php
     }
 
+    /**
+     * Add Focus to to-import meta
+     */
+    public static function get_import_metakeys( $fields ) {
+        $fields[] = 'candela_focus_meta';
+        return $fields;
+    }
+
     /*********** SAVE *****/
-    public function save_focus_meta($post_id) {
+    public static function save_focus_meta($post_id) {
         $focus_select = $_POST['focus_select'];
         if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
         return $post_id;
