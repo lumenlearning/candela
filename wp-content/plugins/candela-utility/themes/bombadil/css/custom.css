@@ -774,10 +774,14 @@ ol li li::before, ol li li li::before {
 #quiz .content-description {
   color: #fff;
 }
+#why-it-matters .content-description a,
+#quiz .content-description a {
+  color: #fff;
+}
 .content-description-title {
   margin: 30px 0 10px 0;
   font-weight: 400;
-  text-decoration: underline;
+  /*text-decoration: underline;*/
   text-transform: capitalize;
   font-size: 1.5em;
   padding: 8px 0 4px 0;
@@ -825,8 +829,11 @@ ol li li::before, ol li li li::before {
   padding: 30px 0 10px 0;
   text-decoration: none;
 }
-.chapter-content .content-description-long {
-
+.chapter-content .content-description-long p {
+  font-size: 0.9em;
+}
+td a {
+  font-weight: 400;
 }
 /*.chapter-links {
   border: none;

@@ -10,15 +10,13 @@
     color: #000;
   }
   p {
-    font-size: 0.9em;
-    color: #000;
     margin: 0;
   }
   img {
     background: transparent;
   }
   a {
-    color: #fff;
+    color: #000;
     text-decoration: none;
   }
   #sidebar {
