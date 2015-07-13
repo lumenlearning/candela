@@ -824,6 +824,14 @@ ol li li::before, ol li li li::before {
 .chapter-content .content-image img {
   margin-top: 30px;
 }
+.chapter-content .content-image p {
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #D43900;
+  font-size: 0.9em;
+  text-align: center;
+}
 .chapter-content .content-description {
   position: relative;
   left: 210px;
@@ -832,6 +840,7 @@ ol li li::before, ol li li li::before {
   margin: 0;
   padding: 30px 0 10px 0;
   text-decoration: none;
+  line-height: 1em;
 }
 .chapter-content .content-description-long p {
   font-size: 0.9em;
@@ -839,32 +848,6 @@ ol li li::before, ol li li li::before {
 td a {
   font-weight: 400;
 }
-/*.chapter-links {
-  border: none;
-  border-collapse: separate;
-  padding: 0;
-  margin: 5px 0 0 0;
-  max-width: 600px;
-  width: 600px;
-  outline: 0;
-}
-.chapter-links td {
-  font-size: 0.7em;
-  padding: 0;
-}
-.chapter-links .left-column {
-  width: 435px;
-}
-.chapter-links a {
-  text-decoration: underline;
-  color: #3498db;
-}
-.chapter-content h5 {
-  line-height: 1.5em;
-}*/
-
-
-
 .license-attribution {
   display: none;
 }
