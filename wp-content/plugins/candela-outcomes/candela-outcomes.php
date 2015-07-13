@@ -65,3 +65,10 @@ function candela_outcomes_save_meta_value($id) {
         delete_post_meta($id, 'CANDELA_OUTCOMES_GUID');
     }
 }
+//Add Candela Outcomes to import meta
+  add_filter( 'pb_import_metakeys', 'get_import_metakeys' );
+
+  function get_import_metakeys( $fields ) {
+      $fields[] = 'CANDELA_OUTCOMES_GUID';
+      return $fields;
+  }
