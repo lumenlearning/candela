@@ -790,6 +790,10 @@ ol li li::before, ol li li li::before {
   text-transform: capitalize;
   font-weight: 400;
 }
+.content-description-title p {
+  text-transform: none;
+  /*font-weight: 400;*/
+}
 .content-description-long {
   font-size: 14px;
 }
