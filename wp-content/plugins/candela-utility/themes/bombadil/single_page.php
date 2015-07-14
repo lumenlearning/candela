@@ -2,8 +2,7 @@
 <main id="main-content">
 	<?php the_title('<h1 class="entry-title">', '</h1>'); ?>
 	<div class="difficulty">
-		<?php // echo 'focus'; ?> <!-- <<<<<< Placeholder -->
-		<?php do_action('display_difficulty_rating', $post->ID); ?> <!-- <<<<< Difficulty GUID -->
+		<?php do_action('display_difficulty_rating', $post->ID); ?>
 	</div>
 
 	<div id="post-<?php the_ID(); ?>" <?php post_class( pb_get_section_type( $post ) ); ?>>
