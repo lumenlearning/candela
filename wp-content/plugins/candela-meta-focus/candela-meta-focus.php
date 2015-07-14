@@ -14,7 +14,6 @@
 // If file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-// new FocusRating();
 FocusRating::init();
 
 class FocusRating{
@@ -24,20 +23,20 @@ class FocusRating{
         if (!defined('CANDELA_FOCUS_META')) {
         define('CANDELA_FOCUS_META', 'candela_focus_meta');
         }
-        // if (is_admin()) {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ) );
 		add_action( 'save_post', array( __CLASS__, 'save_focus_meta' ) );
         add_action('load-post.php', array( __CLASS__, 'init') );
         add_action('load-post-new.php', array( __CLASS__, 'init') );
+        //client-side functionality
+        add_action('display_focus_rating', 'display_focus_rating');
         add_filter( 'pb_import_metakeys', array( __CLASS__, 'get_import_metakeys') );
-        // }
     }
 
   /***********  ADD METABOX  *****/
 	public static function add_meta_box( $post_type ) {
         $post_types = array('back-matter', 'chapter', 'front-matter');
         if ( in_array( $post_type, $post_types )) {
-            add_meta_box('focus', //(ID, title, callback, screen, context, priority, cb args)
+            add_meta_box('focus',
             __('Focus Level', 'textdomain'),
             array(__CLASS__, 'focus_metabox_render'),
             $post_type,
@@ -63,22 +62,16 @@ class FocusRating{
         <?php
     }
 
-    /**
-     * Add Focus to to-import meta
-     */
-    public static function get_import_metakeys( $fields ) {
-        $fields[] = 'candela_focus_meta';
-        return $fields;
-    }
-
     /*********** SAVE *****/
     public static function save_focus_meta($post_id) {
-        $focus_select = isset($_POST['focus_select']);
+        if( isset($_POST['focus_select']) ){
+            $focus_select = $_POST['focus_select'];
+        }
         if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
         return $post_id;
 
         // VALIDATE USER
-        if ( 'page' == isset($_POST['post_type']) ) {
+        if ( isset($_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
             if ( ! current_user_can( 'edit_page', $post_id ) )
                 return $post_id;
         } else {
@@ -95,10 +88,28 @@ class FocusRating{
         if (!isset($post_id))
         $post_id = (int) $_REQUEST['post_ID'];
 
+        // SAVE
         if (isset($focus_select)) {
             update_post_meta($post_id, CANDELA_FOCUS_META, $focus_select); //($id, $meta_key, $meta_value...)
         } else {
             delete_post_meta($post_id, CANDELA_FOCUS_META);
         }
     }
+
+    /* ************************************************************************** */
+    /* ***********************  CLIENT-SIDE FUNCTIONALITY *********************** */
+
+        /** Add Focus to to-import meta */
+        public static function get_import_metakeys( $fields ) {
+            $fields[] = 'candela_focus_meta';
+            return $fields;
+        }
+
+        public static function display_focus_rating($post_id){
+            $focus_rating = get_post_meta($post_id, CANDELA_FOCUS_META, true);
+            if($focus_rating === 'focus'){
+                print('Focus');
+            }
+        }
+
 }

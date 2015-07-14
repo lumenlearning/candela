@@ -2,7 +2,7 @@
 <main id="main-content">
 	<?php the_title('<h1 class="entry-title">', '</h1>'); ?>
 	<div class="difficulty">
-		<?php do_action('display_difficulty_rating', $post->ID); ?>
+		<?php FocusRating::display_focus_rating($post->ID); ?>
 	</div>
 
 	<div id="post-<?php the_ID(); ?>" <?php post_class( pb_get_section_type( $post ) ); ?>>
