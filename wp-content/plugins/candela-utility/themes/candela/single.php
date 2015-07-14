@@ -32,6 +32,9 @@
 				<!-- place hidden GUIDs on applicable pages -->
 				<?php do_action('display_outcome_html', $post->ID); ?>
 
+				<!-- place hidden user LTI id on applicable pages -->
+				<?php do_action('display_user_lti_id', $current_user->ID); ?>
+
 				<?php if ( $citation = CandelaCitation::renderCitation( $post->ID ) ): ?>
 					<section role="contentinfo">
 						<div class="post-citations sidebar">

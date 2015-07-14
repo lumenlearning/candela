@@ -83,6 +83,23 @@ function outcome_display_html($id){
     <?php
     }
 }
+
+//Display user lti html
+add_action('display_user_lti_id', '\Candela\Outcomes\display_user_id_html', 10, 1);
+
+function display_user_id_html( $user_id ) {
+    switch_to_blog(1);
+    $external_id = get_user_meta( $user_id, 'candelalti_external_userid', TRUE );
+    restore_current_blog();
+    if(!empty($external_id)){
+    ?>
+        <div id="lti_user_id" style='display:none'
+          data-user-id='<?php print $external_id; ?>'>
+        </div>
+    <?php
+    }
+}
+
 //Add Candela Outcomes to import meta
   add_filter( 'pb_import_metakeys', 'get_import_metakeys' );
 
