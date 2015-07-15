@@ -14,6 +14,12 @@
 // If file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+// session_start() called in pressbooks.php
+if (!isset($_SESSION['LTI_session'])) {
+    session_start();
+    $_SESSION['LTI_session'] = array();
+}
+
 // Do our necessary plugin setup and add_action routines.
 CandelaLTI::init();
 
@@ -114,10 +120,10 @@ class CandelaLTI {
       } else {
         $slash = '/';
       }
-
+//-REMOVE DEFUNCT(?) 'content_only' REDIRECTS?
       // todo make all the hide_* parameters copy over?
       // If it's a deep LTI link default to showing content_only
-      wp_redirect( get_bloginfo('wpurl') . $slash . $page . "?content_only" );
+//-     wp_redirect( get_bloginfo('wpurl') . $slash . $page . "?content_only" );
       exit;
     }
 
@@ -125,7 +131,7 @@ class CandelaLTI {
     // candela/api/lti/BLOGID?page_id=10
     if ( ! empty($wp->query_vars['page_id'] ) && is_numeric($wp->query_vars['page_id']) ) {
       switch_to_blog((int)$wp->query_vars['blog']);
-      wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['page_id'] . "&content_only" );
+//-     wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['page_id'] . "&content_only" );
       exit;
     }
 
@@ -133,7 +139,7 @@ class CandelaLTI {
     // custom_page_id=10
     if ( ! empty($wp->query_vars['custom_page_id'] ) && is_numeric($wp->query_vars['custom_page_id']) ) {
       switch_to_blog((int)$wp->query_vars['blog']);
-      wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['custom_page_id'] . "&content_only" );
+//-     wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['custom_page_id'] . "&content_only" );
       exit;
     }
 
@@ -643,4 +649,3 @@ class CandelaLTI {
   }
 
 }
-

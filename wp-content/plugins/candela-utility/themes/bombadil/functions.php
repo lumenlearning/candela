@@ -123,3 +123,7 @@ function add_iframe_resize_message() {
   );
 
 }
+
+function LTI_display_header() {
+    isset($_SESSION['LTI_session']);
+}

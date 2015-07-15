@@ -80,7 +80,7 @@
           <a href="#main-content">Skip to main content</a>
         </div>
 
-        <?php if (!isset($_GET['content_only'])) { ?>
+        <?php if(!LTI_display_header()){ ?>
         <div class="row">
           <nav role="navigation">
             <!-- Book Title -->
