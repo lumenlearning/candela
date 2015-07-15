@@ -81,29 +81,20 @@
         </div>
 
         <?php if (!isset($_GET['content_only'])) { ?>
-        <div class="row">
           <nav role="navigation">
-            <!-- Book Title -->
-            <div class="book-title">
-              <a href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home">
-                <?php bloginfo('name'); ?>
-              </a>
+            <div class="header-nav">
+              <div class="pressbooks-logo">Lumen Mastery</div>
+              <a class="book-title" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a>
             </div>
 
-            <!-- Logo -->
-            <div class="sub-nav-left" aria-hidden="true">
-              <div class="pressbooks-logo">Lumen Mastery</div>
+            <div class="sub-nav">
+              <div class="center-subtext-search">
+                <div class="sub-nav-subtext">Primary Learning Outcomes</div>
+    				    <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
+              </div>
             </div>
           </nav>
-        </div>
         <?php } ?>
-
-        <div class="sub-nav">
-          <div class="center-subtext-search">
-            <div class="sub-nav-subtext">Primary Learning Outcomes</div>
-				    <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
-          </div>
-			  </div>
 
 		  </div> <!-- end .nav-container -->
 

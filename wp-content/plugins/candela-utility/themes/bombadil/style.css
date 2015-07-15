@@ -12,73 +12,58 @@ and is used under a CC BY License.
 
 @import url("../../../pressbooks/themes-book/pressbooks-book/style.css");
 
-/********************
-	@Font-Face
-*********************/
-/* Google fonts included via functions.php */
 
-body {
-	font-family: "Crimson","Times New Roman", serif;
-	line-height: 1.5em;
+/* ------------------------------------------------------------------------ *
+ * GLOBALS
+ * ------------------------------------------------------------------------ */
+
+html {
+  -webkit-font-smoothing: subpixel-antialiased;
 }
-
+body {
+	font: 1em/1.5em "proxima-nova", sans-serif !important;
+	font-family: "proxima-nova", sans-serif !important;
+	background: #fff;
+}
 a {
-	text-decoration: none;
-
+	color: #6c64ad;
+	text-decoration: underline;
+	font-weight: 600;
 }
 h1, h2, h3, h4, h5, h6 {
-	font-family: "Roboto Condensed", sans-serif;
-	font-variant: normal;
-	font-weight: normal;
-}
-h1 {
-	font-size: 1.3em;
-}
-h1, h2 {
+	color: #077fab;
+	font-family: "proxima-nova", sans-serif;
+	font-weight: 600;
 	text-align: left;
 }
-h2 {
-	font-size: 1.2em;
-}
-h2, h3, h4 {
-	font-style: normal;
-}
-h3, h4 {
-	text-transform: uppercase;
-}
-
-h1 + p,
-h2 + p,
-h3 + p,
-h4 + p,
-h5 + p,
-h6 + p {
-	margin-top: -5px;
-	margin-bottom: 15px;
-}
-
-ol.alphalist{
+ol.alphalist {
 	list-style-type: lower-alpha;
 	list-style-position: inside;
 	margin-left: 25px;
 }
-
-ol.alphalist li::before{
+ol.alphalist li::before {
 	content: normal;
 }
-
-.pullleft{
+ul li {
+	list-style-type: none;
+}
+img {
+	border: none;
+}
+.pullleft {
 	margin-right: 4%;
 }
-/****************************************
-	Cover page
-*****************************************/
+
+
+/* ------------------------------------------------------------------------ *
+ * COVER PAGE
+ * ------------------------------------------------------------------------ */
+
 .alt-formats{
 	float: left;
 	max-width: 340px;
 	width: 35%;
 }
-
 .alt-formats h4{
 	border-bottom-color: #FFFFFF;
 	border-bottom-style: solid;
@@ -86,12 +71,249 @@ ol.alphalist li::before{
 	padding-bottom: 10px;
 	width: 100%;
 }
+.log-wrap a {
+  text-decoration: none;
+}
+.book-info-container {
+	font: 16px/1.5 'proxima-nova', serif !important;
+	background: #077fab;
+	padding-bottom: 2em;
+	z-index: -9;
+}
+.book-info-container h1,
+.book-info-container h2,
+.book-info-container h3,
+.book-info-container h4,
+.book-info-container h5 {
+	font-family: "proxima-nova", sans-serif;
+	font-weight: 600;
+}
+.book-cover img {
+	background-color: transparent;
+	box-shadow: none;
+	max-width: 12em;
+	float: left;
+	border: 0.25em solid #fafafa;
+	margin-top: 1.75em;
+}
+.book-info .book-author {
+	display: none;
+}
+.book-info {
+	margin-top: 0;
+}
+.call-to-action {
+	margin-top: 0;
+}
+.book-info h1 {
+	font-size: 1.75em;
+}
+.book-info h1 a {
+	color: #fff;
+}
+.second-block-wrap {
+  background: #fff;
+  border: 1px solid #e1e1e1;
+  padding: 2em 0 3em 0;
+  text-align: center;
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+.second-block-wrap h2 {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  text-align: center;
+  margin: 1em auto 2em auto;
+  color: #959595;
+}
+.description-book-info {
+	float: left;
+	margin-right: 0;
+	max-width: 100%;
+	width: 100%;
+	text-align: center;
+}
+.third-block-wrap {
+  background: #fff;
+  padding: 1.75em 0.5em 2em 0.5em;
+  border: none;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  margin-top: -3em;
+  z-index: 9999;
+  border-radius: 6px;
+}
+.third-block-wrap ul {
+	font-size: 1.1em;
+}
+.third-block {
+	color: #333;
+	font-family: "proxima-nova", sans-serif;
+	font-size: 0.8em;
+}
+.third-block h2 {
+  font-size: 1em;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  text-align: center;
+  margin: 0em auto 2.25em auto;
+  color: #959595;
+  border-bottom: 1px solid #e1e1e1;
+  padding-bottom: 2em;
+}
+.third-block ul li {
+	margin-bottom: 0.6em;
+}
+.third-block-wrap a {
+  color: #1d1d1d;
+}
+.third-block-wrap a:hover {
+  color: #077fab;
+}
+.third-block-wrap h4 {
+  font-size: 1.1em;
+  margin-top: 1em;
+  margin-bottom: 0.75em;
+  text-transform: none;
+  font-weight: 600 !important;
+}
+.third-block-wrap h4 a {
+	font-weight: 600 !important;
+}
+.third-block-wrap ul {
+  line-height: 1.3 !important;
+}
 
 
+#study-guide-heading {
+  height: 105px;
+  position: relative;
+}
+#study-guide-heading-content {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+#study-guide-heading-content h1 {
+  font-weight: 400;
+  margin: 0;
+}
+#why-it-matters,
+#what-you-know,
+#putting-it-together,
+#quiz {
+  height: 160px;
+}
+#why-it-matters, #putting-it-together {
+  background-color: #007a7c;
+}
+#what-you-know {
+  background-color: #eee;
+}
+#quiz {
+  background-color: #077fab;
+}
+.content-image {
+  float: left;
+  height: 130px;
+  width: 180px;
+}
+.content-image img {
+  height: 100px;
+  width: 100px;
+  margin: 0 40px;
+  padding: 0;
+}
+.content-description {
+  position: relative;
+  left: 30px;
+  line-height: 1.2em;
+}
+#why-it-matters .content-description,
+#quiz .content-description {
+  color: #fff;
+}
+#why-it-matters .content-description a,
+#quiz .content-description a {
+  color: #fff;
+}
+.content-description-title {
+  margin: 30px 0 10px 0;
+  font-weight: 400;
+  text-transform: capitalize;
+  font-size: 1.5em;
+  padding: 8px 0 4px 0;
+}
+.content-description-title a {
+  text-transform: capitalize;
+  font-weight: 400;
+}
+.content-description-title p {
+  text-transform: none;
+}
+.content-description-long {
+  font-size: 14px;
+}
 
-/****************************************
-	TOC, Author page, Book Page
-*****************************************/
+
+/* ------------------------------------------------------------------------ *
+ * STUDY PLAN PAGE
+ * ------------------------------------------------------------------------ */
+
+.chapters {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  background-color: #fff;
+}
+.chapter-content {
+  min-height: 160px;
+  margin: 30px 0 20px 0;
+  line-height: 1.2em;
+  position: relative;
+}
+.chapter-content .content-image {
+  position: absolute;
+  height: 100% !important;
+  background: #eee;
+  border-radius: 6px 0 0 6px;
+  margin-left: 15px;
+}
+.chapter-content .content-image img {
+  margin-top: 30px;
+}
+.chapter-content .content-image p {
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #D43900;
+  font-size: 0.9em;
+  text-align: center;
+}
+.chapter-content .content-description {
+  position: relative;
+  left: 210px;
+}
+.chapter-content .content-description-title {
+  margin: 0;
+  padding: 30px 0 10px 0;
+  text-decoration: none;
+  line-height: 1em;
+}
+.chapter-content .content-description-long p {
+  font-size: 0.9em;
+}
+td a {
+  font-weight: 400;
+}
+.license-attribution {
+  display: none;
+}
+
+
+/* ------------------------------------------------------------------------ *
+ * ToC, AUTHOR PAGE, BOOK PAGE
+ * ------------------------------------------------------------------------ */
 
 #inline-toc h4 {
 	font-family: inherit;
@@ -103,23 +325,107 @@ ol.alphalist li::before{
 .page-title {
 	font-weight: normal;
 }
-/****************************************
-	Structure
-*****************************************/
 
-#content table.bcc-shrink tr th, #content table.bcc-shrink thead th{
+
+/* ------------------------------------------------------------------------ *
+ * STRUCTURE
+ * ------------------------------------------------------------------------ */
+
+#content table.bcc-shrink tr th,
+#content table.bcc-shrink tr td,
+#content table.bcc-shrink thead th {
 	padding-right: 4px;
 	padding-left: 4px;
 }
-
-#content table.bcc-shrink tr td {
-	padding-left: 4px;
-	padding-right: 4px;
+#sidebar {
+	display: none;
 }
 
-/****************************************
-	Title, Subtitle, Authors & Aphorism
-*****************************************/
+
+/* ------------------------------------------------------------------------ *
+ * NAVIGATION & HEADER
+ * ------------------------------------------------------------------------ */
+
+.nav-container {
+	margin-bottom: 0;
+}
+nav {
+	background: #077fab;
+	position: relative;
+  height: 105px;
+	width: 100%;
+	z-index: 100;
+	box-shadow: none;
+	-o-box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+}
+.header-nav {
+	max-width: 940px;
+	margin: 0 auto;
+}
+.pressbooks-logo {
+	font-family: "proxima-nova", sans-serif;
+	font-weight: 600;
+	text-transform: none;
+	font-size: 1.6em;
+  color: #fff;
+	padding: 2px 35px 0 30px;
+}
+.book-title {
+  font-size: 1.4em;
+  font-weight: 400;
+  color: #fff;
+	text-align: left;
+  text-decoration: none;
+  text-transform: none;
+  margin: 50% auto;
+  /*  DO NOT MOVE LAST 3 LINES - CENTERS BOOKTITLE TEXT  */
+  height: 70px;
+  line-height: 70px;
+  white-space: nowrap;
+}
+.book-title:hover {
+	color: #fff;
+}
+.sub-nav {
+  margin: 0;
+  max-height: 35px;
+  background-color: #fafafa;
+	padding: 4px;
+	border-bottom: 1px #000 solid;
+}
+.center-subtext-search {
+	max-width: 940px;
+	margin: 0 auto;
+}
+.sub-nav-subtext {
+  font-size: 14px;
+  color: #6d6d6d;
+  float: left;
+	padding-left: 30px;
+}
+.search-form {
+  width: 220px;
+  float: right;
+}
+.search-form .search-field {
+  width: 150px;
+  height: 24px;
+  display: inline-block;
+}
+.search-form .search-button {
+  height: 24px;
+  width: 50px;
+  font-size: 0.7em;
+  vertical-align: middle;
+}
+
+
+/* ------------------------------------------------------------------------ *
+ * TITLE, SUBTITLE, AUTHORS & APHORISM
+ * ------------------------------------------------------------------------ */
+
 .entry-title {
 	font-weight: normal;
 	text-align: left;
@@ -160,19 +466,23 @@ ol.alphalist li::before{
 	float: none;
 }
 
-/*************************
-	Footnotes & Endnote
-**************************/
+
+/* ------------------------------------------------------------------------ *
+ * FOOTNOTES & ENDNOTES
+ * ------------------------------------------------------------------------ */
+
 .endnotes h3 {
 	text-align: left;
 	text-indent: 0;
 	text-transform: none;
 }
 
-/*************************
-	Footer
-**************************/
-p.cc-block{
+
+/* ------------------------------------------------------------------------ *
+ * FOOTER
+ * ------------------------------------------------------------------------ */
+
+p.cc-block {
 	background-color: #f9f9f9 !important;
 	border: 1px solid #dddddd !important;
 	font-size: small;
@@ -180,199 +490,510 @@ p.cc-block{
 	width: 100% !important;
 	margin: 30px auto 8px !important;
 	border-radius: 4px;
-
 }
-
-.screen-reader-text{
+.screen-reader-text {
 	display:none;
 }
+.footer {
+  text-align: center;
+  background: #fafafa;
+  padding: 2em;
+  border-top: 1px solid #e1e1e1;
+  margin-top: 3em;
+  color: #959595;
+  font-family: "proxima-nova", sans-serif;
+  font-size: 0.9em;
+}
+.footer a {
+	color: #077fab !important;
+}
+.license-attribution img {
+  margin-bottom: 0.5em;
+  margin-top: 1em;
+}
+.footer table td {
+	padding: 0.5em !important;
+}
+.end-page-heading-section {
+  margin-top: -18px;
+  border-bottom: solid 1px #e1e1e1;
+  display: block;
+}
+.end-page-heading-section .type-icon {
+  width: 31px;
+  padding: 0;
+}
+.lumen-footer-logo {
+  background: #fafafa;
+  margin-bottom: -.3em;
+  padding: 0;
+	border: none;
+}
 
-/*******************************
-	Textbook specific styles
-********************************/
 
-.bcc-box{
-	/*	width: 100%;*/
+/* ------------------------------------------------------------------------ *
+ * TEXTBOOK SPECIFIC STYLES
+ * ------------------------------------------------------------------------ */
+
+.difficulty {
+	float: right;
+  text-transform: uppercase;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	color: #D43900;
+	font-size: 0.9em;
+	position: absolute;
+  right: 2.75em;
+  top: 2.1em;
+}
+.bcc-box {
 	padding: 2% 3%;
 	margin-bottom: 15px;
 	border-radius: 4px;
 }
-
-.bcc-box h3:first-child{
+.bcc-box h3:first-child {
 	text-align: center;
 	margin: -2% -3% 15px;
 	color: #ffffff;
 	padding: 15px 0 15px;
-
 }
-
-.bcc-highlight{
+.bcc-highlight {
 	background-color: #f7f7f9;
 }
-
-.bcc-box.bcc-highlight h3{
+.bcc-box .bcc-highlight h3 {
 	background-color: #111111;
 }
-
-.bcc-success{
+.bcc-success {
 	background-color: #eaf5ea;
 }
-
-.bcc-box.bcc-success h3{
+.bcc-box .bcc-success h3 {
 	background-color: #3a7a33;
 }
-
-.bcc-info{
+.bcc-info {
 	background-color: #e3eff6;
 }
-
-.bcc-box.bcc-info h3{
+.bcc-box .bcc-info h3 {
 	background-color: #0b6396;
 }
-
 .bcc-warning {
 	background-color: #fcf8e3;
 }
-
-.bcc-box.bcc-warning h3{
+.bcc-box .bcc-warning h3 {
 	background-color: #c09853;
 }
-
-span.export-file-icon{
+.bcc-box.bcc-success h3,
+.linkitup h3,
+.keytakeaways h3,
+.tryit h3 {
+	background-color: #077fab;
+}
+.bcc-box h3:first-child,
+.linkitup h3:first-child,
+.keytakeaways h3:first-child,
+.tryit h3:first-child {
+	text-align: center;
+	margin: -2% -3% 15px;
+	color: #ffffff;
+	padding: 15px 0 15px;
+}
+span.export-file-icon {
 	width: 36px;
 	height: 36px;
 	background-size: 36px 36px;
 	display: inline-block;
 	margin: 0 5px 0 0;
 }
-
 span.small.epub {
 	background: url(../../../pressbooks/assets/images/epub-36.png) -0 0 no-repeat;
-
 }
-
 span.small.epub3 {
 	background: url(../../../pressbooks/assets/images/epub3-36.png) -0 0 no-repeat;
-
 }
-
 span.small.hpub {
 	background: url(../../../pressbooks/assets/images/hpub-36.png) -0 0 no-repeat;
-
 }
-
 span.small.icml {
 	background: url(../../../pressbooks/assets/images/icml-36.png) -0 0 no-repeat;
-
 }
-
 span.small.mobi {
 	background: url(../../../pressbooks/assets/images/mobi-36.png) -0 0 no-repeat;
-
 }
-
 span.small.pdf {
 	background: url(../../../pressbooks/assets/images/pdf-36.png) -0 0 no-repeat;
-
 }
-
 span.small.wxr {
 	background: url(../../../pressbooks/assets/images/wxr-36-red.png) -0 0 no-repeat;
-
 }
-
 span.small.vanillawxr {
 	background: url(../../../pressbooks/assets/images/vanillawxr-36.png) -0 0 no-repeat;
-
 }
-
 span.small.xhtml {
 	background: url(../../../pressbooks/assets/images/xhtml-36.png) -0 0 no-repeat;
+}
+#toc {
+	background: #fff;
+	-moz-border-radius: 0;
+	-o-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	-moz-box-shadow: none;
+	-o-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+	padding: 1em;
+}
+#toc ul li {
+	line-height: 1.3;
+	margin-bottom: 0.25em;
+}
+#toc ul li a {
+	font-size: 0.75em;
+	line-height: 1.1;
+}
+#booknav {
+	background: #ffffff;
+	-moz-border-radius: 0;
+	-o-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	-moz-box-shadow: none;
+	-o-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+#booknav li {
+	border: 2px solid #fff;
+	background: #eee;
+}
+#booknav li:last-child {
+	margin-top: -1px;
+}
+.entry-title {
+	text-align: left;
+  text-transform: uppercase;
+	font-size: 1.5em;
+	margin-top: 0;
+  margin-bottom: 0;
+	padding-top: 1em !important;
+	padding-bottom: 1em;
+	color: #1d1d1d;
+  line-height: 1.2;
+	font-weight: 600;
+}
+.content-header {
+  color: white;
+  padding: 0 0 3.5em 0;
+}
+.content-header h1, .content-header h2, .content-header h4, .content-header a {
+  color: #1d1d1d;
+}
+.content-header h1 {
+  margin-bottom: 0em;
+}
+.content-header h2 {
+  margin-bottom: 0.25em;
+}
+.content-header a {
+  text-decoration: underline;
+}
+.content-header a:hover {
+  text-decoration: none;
+}
+#content {
+	max-width: 895px;
+	background-color: #fff;
+	border: none;
+	-moz-box-shadow: none;
+	-o-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	margin: 3em auto 0 auto;
+	padding: 0.25em 3em 3em 3em;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	border-radius: 6px;
+}
+#content ol li, #content ul li {
+	margin-bottom: 0.5em;
+}
+div#wrap {
+	min-height: 8em !important;
+}
+#content h2 {
+	font-size: 1.25em;
+	margin-bottom: 1em;
+  text-transform: uppercase;
+}
+#content h3 {
+	font-size: 1em;
+	text-transform: uppercase;
+	margin-top: 1em;
+	text-align: left;
+  color: #6c64ad;
+}
+#content h4 {
+	font-size: 0.9em;
+	font-weight: 600;
+	text-transform: capitalize;
+	color: #6c64ad;
+}
+#content h5 {
+	font-size: 0.7em;
+	font-weight: 400;
+	text-transform: capitalize;
+	color: #6c64ad;
+}
+#content h6 {
+	font-size: 0.6em;
+	font-weight: 400;
+	text-transform: capitalize;
+	color: #6c64ad;
+}
+#content img {
+	margin-top: 0.5em auto;
+}
+#content ul li {
+	list-style-type: disc;
+	margin-left: 1em;
+}
+#content blockquote {
+  margin: 1.5em 0;
+	padding: 2em 2em 2em 4em;
 
 }
+#content .bcc-box,
+#content .linkitup,
+#content .keytakeaways,
+#content .tryit {
+	padding: 0 2.6% 2% 2.6%;
+	margin: 1.5em;
+	border-radius: 4px;
+  background-color: #e1f4ff;
+}
+#content .linkitup {
+  background-color: #fffbe1;
+}
 
-/*************************
-	Media queries
-**************************/
+#content .keytakeaways {
+  background-color: #e1e5ff;
+}
+#content .bcc-box h3,
+#content .linkitup h3,
+#content .keytakeaways h3,
+#content .tryit h3 {
+	margin-top: 0;
+  padding: 7px 0;
+	text-align: center;
+  color: #fff;
+}
+#content .bcc-box .wp-caption p,
+#content .linkitup .wp-caption p,
+#content .keytakeaways .wp-caption p,
+#content .tryit .wp-caption p {
+  line-height: 1.3;
+  margin: 0;
+  padding: 5px 0 0 0;
+  color: #000;
+  font-size: 0.75em;
+}
+#content .bcc-box p,
+#content .linkitup p,
+#content .keytakeaways p,
+#content .tryit p {
+  font-size: 0.95em;
+  color: #6f6f6f;
+  padding: 0 20px 0 10px;
+  margin: 10px 15px 5px 15px;
+  line-height: 1.3;
+}
+#content iframe {
+  min-width: 100%;
+  max-width: 100%;
+  margin: 1em auto;
+}
+#content table {
+	margin: 1em 0;
+  border: none;
+}
+.wp-caption {
+  background: #f5f5f5;
+  position: relative;
+  padding: 5px;
+}
+.wp-caption img {
+  display: block;
+  margin: 0 auto;
+}
+.wp-caption-text {
+  line-height: 1.3;
+  margin-bottom: 0;
+}
+
+
+/* ------------------------------------------------------------------------ *
+ * BUTTONS
+ * ------------------------------------------------------------------------ */
+
+.btn {
+  box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  color: #fff;
+  display: inline-block;
+  font-family: 'Oswald', sans-serif;
+  margin: 0 10px;
+  padding: 7px 20px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 120px;
+}
+.btn .red {
+	background-color: #a51b1b;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(179, 56, 56)), to(rgb(165, 27, 27)));
+	background-image: -webkit-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	background-image: -moz-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	background-image: -o-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	background-image: -ms-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	background-image: linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#b33838', EndColorStr='#a51b1b');
+}
+.skip-to-content {
+  display: block;
+}
+.skip-to-content a {
+  position: absolute;
+  top: -40px;
+  left: 0px;
+  padding: 8px;
+  overflow: hidden;
+  z-index: 1000;
+  background-color: #077fab;
+  color: #fff;
+  text-decoration: none;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  border-bottom-right-radius: 6px;
+  opacity: 0.3;
+  transition: .5s ease-out;
+}
+.skip-to-content a:focus {
+  top: 0;
+  width: auto;
+  height: auto;
+  opacity: 1;
+  transition: .2s ease-in;
+}
+.citation-list {
+	font-size: 0.9em;
+	list-style: disc inside;
+}
+#content .license-attribution-dropdown {
+  cursor: pointer;
+  color: #077fab;
+  font-size: 0.9em;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: left;
+  margin-top: 1em;
+  padding: 0;
+}
+#content .license-attribution-dropdown-subheading {
+  color: #6c64ad;
+  font-size: 0.8em;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+div.expanded,
+div.collapsed {
+	padding-left: 46px;
+	height: 46px;
+	line-height: 46px;
+}
+ul.lti-mapping {
+	list-style: none;
+}
+.edit-page-btn {
+	padding-top: 15px;
+  padding-bottom: 35px;
+  min-height: 34px;
+}
+#edit {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #26a69a;
+  text-decoration: none;
+  border: 2px solid #26a69a;
+  border-radius: 7px;
+  background-color: rgba(38, 166, 154, 0.1);
+  padding: 9px 23px;
+  text-align: center;
+  text-decoration: none;
+}
+.bottom-nav-buttons {
+  height: 38px;
+  margin-bottom: 30px;
+  padding: 30px 0 0 0;
+  border-top: 1px solid #6d6d6d;
+}
+.page-nav-btn {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #077fab;
+  text-decoration: none;
+  border: 2px solid #077fab;
+  border-radius: 7px;
+  padding: 5px 25px;
+  width: 135px;
+  text-align: center;
+}
+#prev {
+  float: left;
+}
+#next {
+  float: right;
+}
+
+
+/* ------------------------------------------------------------------------ *
+ * MEDIA QUERIES
+ * ------------------------------------------------------------------------ */
 
 @media screen and (min-width: 940px) {
-	#content{
+	#content {
 		width: 720px;
 	}
-
-	.nav{
+	.nav {
 		width: 900px;
 		margin-left: -450px;
 	}
-
-	#sidebar{
+	#sidebar {
 		margin-right: -24px;
 	}
 }
-
-@media screen and (max-width: 990px ){
-	.alt-formats{
+@media screen and (max-width: 990px ) {
+	.alt-formats {
 		float: none;
+		margin-top: 2em;
+		margin-right: auto;
 		margin-bottom: 2em;
 		margin-left: auto;
-		margin-right: auto;
-		margin-top: 2em;
 		max-width: 80%;
 		overflow-x: hidden;
 		overflow-y: hidden;
 		width: auto;
 	}
 }
-
-@media screen and (max-width: 780px){
-	.alt-formats{
+@media screen and (max-width: 780px) {
+	.alt-formats {
+		margin-top: 10px;
+		margin-right: auto;
 		margin-bottom: 0;
 		margin-left: auto;
-		margin-right: auto;
-		margin-top: 10px;
 		max-width: 75%;
 		width: auto;
 	}
 }
-
-@media screen and (max-width: 620px){
-	.alt-formats{
+@media screen and (max-width: 620px) {
+	.alt-formats {
 		max-width: 95%;
 	}
-}
-
-/*************************
-       Buttons
-**************************/
-.btn {
-       box-shadow: 0 2px 2px rgba(0,0,0,0.1);
-       border-radius: 4px;
-       color: #fff;
-       display: inline-block;
-       font-family: 'Oswald', sans-serif;
-       margin: 0 10px;
-       padding: 7px 20px;
-       text-align: center;
-       text-transform: uppercase;
-       width: 120px;
-}
-
-.citation-list {
-	list-style: disc inside;
-}
-
-ul.lti-mapping {
-	list-style: none;
-}
-
-div.expanded {
-	padding-left: 46px;
-	height: 46px;
-	line-height: 46px;
-}
-
-div.collapsed {
-	padding-left: 46px;
-	height: 46px;
-	line-height: 46px;
 }
