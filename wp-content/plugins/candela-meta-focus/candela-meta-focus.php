@@ -63,6 +63,8 @@ class FocusRating{
         <?php
     }
 
+
+
     /**
      * Add Focus to to-import meta
      */
@@ -73,12 +75,15 @@ class FocusRating{
 
     /*********** SAVE *****/
     public static function save_focus_meta($post_id) {
-        $focus_select = isset($_POST['focus_select']);
+        if( isset($_POST['focus_select']) ){
+            $focus_select = $_POST['focus_select'];
+        error_log('FLAMMO! $focus_select == '. $focus_select);
+        }
         if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
         return $post_id;
 
         // VALIDATE USER
-        if ( 'page' == isset($_POST['post_type']) ) {
+        if ( isset($_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
             if ( ! current_user_can( 'edit_page', $post_id ) )
                 return $post_id;
         } else {
