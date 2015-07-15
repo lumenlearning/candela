@@ -186,6 +186,10 @@ img {
 }
 
 
+/* ------------------------------------------------------------------------ *
+ * STUDY PLAN PAGE
+ * ------------------------------------------------------------------------ */
+
 #study-guide-heading {
   height: 105px;
   position: relative;
@@ -255,12 +259,6 @@ img {
 .content-description-long {
   font-size: 14px;
 }
-
-
-/* ------------------------------------------------------------------------ *
- * STUDY PLAN PAGE
- * ------------------------------------------------------------------------ */
-
 .chapters {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   border-radius: 6px;
@@ -367,10 +365,13 @@ nav {
 .pressbooks-logo {
 	font-family: "proxima-nova", sans-serif;
 	font-weight: 600;
-	text-transform: none;
 	font-size: 1.6em;
+	text-transform: none;
   color: #fff;
-	padding: 2px 35px 0 30px;
+	padding: 0 0 0 34px;
+	height: 70px;
+	line-height: 70px;
+	white-space: nowrap;
 }
 .book-title {
   font-size: 1.4em;
@@ -379,7 +380,8 @@ nav {
 	text-align: left;
   text-decoration: none;
   text-transform: none;
-  margin: 50% auto;
+	padding: 0 0 0 35px;
+  /*margin: 50% auto;*/
   /*  DO NOT MOVE LAST 3 LINES - CENTERS BOOKTITLE TEXT  */
   height: 70px;
   line-height: 70px;
@@ -845,7 +847,7 @@ div#wrap {
   text-transform: uppercase;
   width: 120px;
 }
-.btn .red {
+/*.btn .red {
 	background-color: #a51b1b;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(179, 56, 56)), to(rgb(165, 27, 27)));
 	background-image: -webkit-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
@@ -854,7 +856,7 @@ div#wrap {
 	background-image: -ms-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
 	background-image: linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#b33838', EndColorStr='#a51b1b');
-}
+}*/
 .skip-to-content {
   display: block;
 }
@@ -991,9 +993,41 @@ ul.lti-mapping {
 		max-width: 75%;
 		width: auto;
 	}
+	.pressbooks-logo {
+		font-size: 1.2em;
+	}
+	.book-title {
+		font-size: 1em;
+	}
 }
 @media screen and (max-width: 620px) {
 	.alt-formats {
 		max-width: 95%;
+	}
+	.pressbooks-logo {
+		font-size: 1.5em;
+		float: none;
+		display: block;
+		width: 100%;
+		padding: 0;
+		text-align: center;
+		height: 35px;
+		line-height: 40px;
+	}
+	.book-title {
+		float: none;
+		display: block;
+		width: 100%;
+		padding: 0;
+		text-align: center;
+		height: 35px;
+		line-height: 25px;
+	}
+	.sub-nav-subtext {
+		display: none;
+	}
+	.search-form {
+		float: none;
+		margin: 0 auto;
 	}
 }

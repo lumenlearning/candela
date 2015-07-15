@@ -7,7 +7,6 @@
 function bombadil_theme_styles() {
   wp_enqueue_style('foundation', get_stylesheet_directory_uri() . '/css/foundation.min.css');
   wp_enqueue_style('normalize', get_stylesheet_directory_uri() . '/css/normalize.css');
-  // wp_enqueue_style('custom', get_stylesheet_directory_uri() . '/css/custom.css');
   wp_enqueue_style('style', get_stylesheet_directory_uri() . '/style.css');
 }
 add_action( 'wp_print_styles', 'bombadil_theme_styles' );
