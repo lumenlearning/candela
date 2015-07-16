@@ -86,6 +86,7 @@
               <div class="pressbooks-logo">Lumen Mastery</div>
               <a class="book-title" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a>
             </div>
+        <?php } ?>
 
             <div class="sub-nav">
               <div class="center-subtext-search">
@@ -94,7 +95,6 @@
               </div>
             </div>
           </nav>
-        <?php } ?>
 
 		  </div> <!-- end .nav-container -->
 
