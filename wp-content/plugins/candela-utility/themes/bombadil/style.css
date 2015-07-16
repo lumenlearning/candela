@@ -195,9 +195,7 @@ img {
   position: relative;
 }
 #study-guide-heading-content {
-  position: absolute;
-  top: 50%;
-  transform: translate(0, -50%);
+	margin-top: 2.5em;
 }
 #study-guide-heading-content h1 {
   font-weight: 400;
