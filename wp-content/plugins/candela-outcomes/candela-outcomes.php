@@ -84,7 +84,7 @@ function outcome_display_html($id){
     }
 }
 //Add Candela Outcomes to import meta
-  add_filter( 'pb_import_metakeys', 'get_import_metakeys' );
+  add_filter( 'pb_import_metakeys', '\Candela\Outcomes\get_import_metakeys' );
 
   function get_import_metakeys( $fields ) {
       $fields[] = 'CANDELA_OUTCOMES_GUID';
