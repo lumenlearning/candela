@@ -11,6 +11,7 @@ jQuery(document).ready(function($) {
                 include_bm: $form.find( 'input[name="include_bm"]:checked' ).val(),
                 export_flagged_only: $form.find( 'input[name="export_flagged_only"]:checked' ).val(),
 				use_custom_vars: $form.find( 'input[name="use_custom_vars"]:checked' ).val(),
+                include_parts: $form.find( 'input[name="include_parts"]:checked' ).val(),
 				download: 0
 			};
 			

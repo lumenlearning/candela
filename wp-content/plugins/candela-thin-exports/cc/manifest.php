@@ -34,7 +34,8 @@ class Manifest extends Base
     ],
   ];
 
-  public static $available_options = ['inline', 'include_fm', 'include_bm', 'export_flagged_only', 'use_custom_vars'];
+  public static $available_options = ['inline', 'include_fm', 'include_bm', 'export_flagged_only',
+                                      'use_custom_vars', 'include_parts'];
 
   public function __construct($structure, $options=[])
   {
@@ -112,6 +113,12 @@ XML;
         </item>
 XML;
 
+    // The part link comes first
+    if($this->options['include_parts']) {
+      $items .= sprintf($template, $this->identifier($part, "I_"), $this->identifier($part), $part['post_title']);
+    }
+
+    // Then each of the pages
     foreach ($part['chapters'] as $chapter) {
       if($this->export_page($chapter)) {
         $items .= sprintf($template, $this->identifier($chapter, "I_"), $this->identifier($chapter), $chapter['post_title']);
@@ -159,6 +166,11 @@ XML;
 XML;
 
     foreach ($this->book_structure['part'] as $part) {
+
+      if($this->options['include_parts']) {
+        $resources .= sprintf("\n" . $template, $this->identifier($part), $this->link_xml($part));
+      }
+
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)){
           $resources .= sprintf("\n" . $template, $this->identifier($chapter), $this->link_xml($chapter));
@@ -177,6 +189,9 @@ XML;
         </resource>
 XML;
     foreach ($this->book_structure['part'] as $part) {
+      if($this->options['include_parts']) {
+        $resources .= sprintf("\n" . $template, $this->identifier($part), $this->identifier($part));
+      }
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)) {
           $resources .= sprintf("\n" . $template, $this->identifier($chapter), $this->identifier($chapter));
@@ -189,6 +204,9 @@ XML;
 
   private function add_lti_link_files($zip){
     foreach ($this->book_structure['part'] as $part) {
+      if($this->options['include_parts']) {
+        $zip->addFromString($this->identifier($part) . '.xml', $this->link_xml($part, true));
+      }
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)) {
           $zip->addFromString($this->identifier($chapter) . '.xml', $this->link_xml($chapter, true));

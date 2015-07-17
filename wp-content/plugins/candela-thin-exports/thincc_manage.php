@@ -33,6 +33,7 @@ global $wpdb;
           <div class="options">
             <div><input name="export_flagged_only" id="export_only" type="checkbox" checked/><label for="export_only">Only pages marked as export</label> </div>
             <div><input name="use_custom_vars" type="checkbox" /><label for="export_only">Sakai compatibility (use custom_param instead of query param)</label> </div>
+            <div><input name="include_parts" type="checkbox" /><label for="include_parts">Include links to Parts (Include study plans)</label> </div>
 <!--            <div><input name="include_fm" id="include_fm" type="checkbox"/><label for="include_fm">Include Front Matter</label> </div>-->
 <!--            <div><input name="include_bm" id="include_bm" type="checkbox"/><label for="include_bm">Include Back Matter</label> </div>-->
 <!--            <div><label for="cc_version_selector">CC Version:</label>-->
