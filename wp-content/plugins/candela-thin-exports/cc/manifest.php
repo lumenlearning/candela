@@ -96,7 +96,7 @@ XML;
     foreach ($this->book_structure['part'] as $part) {
       $item_pages = $this->item_pages($part);
       if($item_pages != ''){
-        $items .= sprintf($template, $this->identifier($part, "I_"), $part['post_title'], $item_pages);
+        $items .= sprintf($template, $this->identifier($part, "IM_"), $part['post_title'], $item_pages);
       }
     }
 

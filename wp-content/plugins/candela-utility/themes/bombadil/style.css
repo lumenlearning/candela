@@ -916,7 +916,7 @@ ul.lti-mapping {
   padding-bottom: 35px;
   min-height: 34px;
 }
-#edit {
+.edit-page-btn a {
   font-size: 10pt;
   font-weight: 600;
   color: #26a69a;

@@ -39,12 +39,12 @@
 	<?php endif; ?>
 
 	<!-- EDIT PAGE BUTTON -->
-	<div class="edit-page-btn">
-		<a id="edit" href="<?php echo get_edit_post_link( $id ); ?>">Edit This Page</a>
-	</div>
+    <?php edit_post_link(__('Edit This Page', 'lumen'), '<div class="edit-page-btn">', '</div>'); ?>
 
 	<!-- PAGE NAVIGATION BUTTONS -->
-	<?php ca_get_links(); ?>
+	<?php if(!isset($_GET['content_only'])) {
+    ca_get_links();
+  } ?>
 
 </div><!-- END CONTENT -->
 
