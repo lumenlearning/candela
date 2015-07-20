@@ -405,16 +405,16 @@ nav {
   float: left;
 	padding-left: 30px;
 }
-.search-form {
+.searchform {
   width: 220px;
   float: right;
 }
-.search-form .search-field {
+.searchform #s {
   width: 150px;
   height: 24px;
   display: inline-block;
 }
-.search-form .search-button {
+.searchform #searchsubmit {
   height: 24px;
   width: 50px;
   font-size: 0.7em;
@@ -1024,7 +1024,7 @@ ul.lti-mapping {
 	.sub-nav-subtext {
 		display: none;
 	}
-	.search-form {
+	.searchform {
 		float: none;
 		margin: 0 auto;
 	}
