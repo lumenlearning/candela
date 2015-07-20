@@ -400,10 +400,14 @@ nav {
 	margin: 0 auto;
 }
 .sub-nav-subtext {
+  width: 40%;
   font-size: 14px;
   color: #6d6d6d;
   float: left;
 	padding-left: 30px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .searchform {
   width: 220px;
