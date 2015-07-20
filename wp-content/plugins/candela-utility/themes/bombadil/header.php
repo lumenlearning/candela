@@ -90,7 +90,7 @@
 
             <div class="sub-nav">
               <div class="center-subtext-search">
-                <div class="sub-nav-subtext">Primary Learning Outcomes</div>
+                <div class="sub-nav-subtext"><?php echo get_the_title($post->post_parent); ?></div>
     				    <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
               </div>
             </div>
