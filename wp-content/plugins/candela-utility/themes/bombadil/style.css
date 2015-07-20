@@ -426,18 +426,18 @@ nav {
  * TITLE, SUBTITLE, AUTHORS & APHORISM
  * ------------------------------------------------------------------------ */
 
-.entry-title {
+/*.entry-title {
 	font-weight: normal;
 	text-align: left;
 	margin: 100px 0 80px;
 	text-transform: none;
-}
-.entry-title span {
+}*/
+/*.entry-title span {
 	border-bottom: 1px solid #333;
 	padding: 0 0.2em 0.3em;
 	text-align: center;
 	width: 20%;
-}
+}*/
 .chapter_subtitle {
 	font-size: 1em;
 	font-style: italic;
@@ -717,6 +717,16 @@ span.small.xhtml {
 }
 div#wrap {
 	min-height: 8em !important;
+}
+#content h1 {
+  font-size: 1.5em;
+  margin-top: 0;
+  margin-bottom: 1em;
+	padding-top: 1em !important;
+	padding-bottom: 1em;
+	color: #1d1d1d;
+  line-height: 1.2;
+	font-weight: 600;
 }
 #content h2 {
 	font-size: 1.25em;
