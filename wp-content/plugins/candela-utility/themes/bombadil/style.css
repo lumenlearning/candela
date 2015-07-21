@@ -195,11 +195,11 @@ img {
   position: relative;
 }
 #study-guide-heading-content {
-	margin-top: 2.5em;
+  margin-top: 14px;
 }
 #study-guide-heading-content h1 {
   font-weight: 400;
-  margin: 0;
+  margin-bottom: 0 !important;
 }
 #why-it-matters,
 #what-you-know,
