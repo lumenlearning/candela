@@ -9,9 +9,9 @@
 	<?php } ?>
 
 	</div><!-- #wrap -->
-	<div class="push"></div>
+	<!-- <div class="push"></div> -->
 
-	</div><!-- .wrapper for sitting footer at the bottom of the page -->
+	<!--</div> .wrapper for sitting footer at the bottom of the page -->
 <?php } ?>
 
 <div class="footer">

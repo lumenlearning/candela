@@ -503,7 +503,7 @@ p.cc-block {
   /*height: 2em;*/
   text-align: center;
   background: #fff;
-  margin-top: 2.75em;
+  /*margin-top: 2.75em;*/
   padding: 1em;
   color: #959595;
   font-family: "proxima-nova", sans-serif;
@@ -725,9 +725,9 @@ div#wrap {
 	min-height: 8em !important;
   margin-bottom: 0;
 }
-.push {
+/*.push {
   min-height: 2.75em;
-}
+}*/
 #content h2 {
 	font-size: 1.25em;
 	margin-bottom: 1em;
