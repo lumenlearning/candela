@@ -193,8 +193,11 @@ img {
  * STUDY PLAN PAGE
  * ------------------------------------------------------------------------ */
 
+.header {
+  height: 100%;
+}
 #study-guide-heading {
-  height: 105px;
+  min-height: 105px;
   position: relative;
 }
 #study-guide-heading-content {
@@ -208,7 +211,7 @@ img {
 #what-you-know,
 #putting-it-together,
 #quiz {
-  height: 160px;
+  min-height: 160px;
 }
 #why-it-matters, #putting-it-together {
   background-color: #007a7c;
@@ -233,11 +236,9 @@ img {
 .content-description {
   position: relative;
   left: 30px;
-  /*margin-left: 130px;*/
   line-height: 1.2em;
-  /*width: 100%;
-  max-width: 90%;*/
   padding-right: 50px;
+  padding-bottom: 15px;
 }
 #why-it-matters .content-description,
 #quiz .content-description {
@@ -1029,6 +1030,11 @@ ul.lti-mapping {
 	.book-title {
 		font-size: 1em;
 	}
+}
+@media screen and (max-width: 768px) {
+  #wrap {
+    padding-top: 0;
+  }
 }
 @media screen and (max-width: 620px) {
 	.alt-formats {
