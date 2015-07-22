@@ -506,11 +506,10 @@ p.cc-block {
 	display:none;
 }
 .footer {
+  min-height: 1em;
   text-align: center;
-  background: #fafafa;
-  padding: 2em;
-  border-top: 1px solid #e1e1e1;
-  margin-top: 3em;
+  background: #fff;
+  padding: 1em;
   color: #959595;
   font-family: "proxima-nova", sans-serif;
   font-size: 0.9em;
@@ -535,7 +534,8 @@ p.cc-block {
   padding: 0;
 }
 .lumen-footer-logo {
-  background: #fafafa;
+  width: 120px;
+  background: transparent;
   margin-bottom: -.3em;
   padding: 0;
 	border: none;
@@ -728,6 +728,8 @@ span.small.xhtml {
 }
 div#wrap {
 	min-height: 8em !important;
+  margin-top: 0;
+  margin-bottom: 5px;
 }
 #content h1 {
   font-size: 1.5em;
