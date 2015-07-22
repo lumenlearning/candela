@@ -19,6 +19,9 @@ and is used under a CC BY License.
 
 html {
   -webkit-font-smoothing: subpixel-antialiased;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 body {
 	font: 1em/1.5em "proxima-nova", sans-serif !important;
@@ -195,11 +198,11 @@ img {
   position: relative;
 }
 #study-guide-heading-content {
-	margin-top: 2.5em;
+  margin-top: 14px;
 }
 #study-guide-heading-content h1 {
   font-weight: 400;
-  margin: 0;
+  margin-bottom: 0 !important;
 }
 #why-it-matters,
 #what-you-know,
@@ -230,7 +233,11 @@ img {
 .content-description {
   position: relative;
   left: 30px;
+  /*margin-left: 130px;*/
   line-height: 1.2em;
+  /*width: 100%;
+  max-width: 90%;*/
+  padding-right: 50px;
 }
 #why-it-matters .content-description,
 #quiz .content-description {
@@ -983,7 +990,12 @@ ul.lti-mapping {
 		margin-right: -24px;
 	}
 }
-@media screen and (max-width: 990px ) {
+@media screen and (max-width: 1024px) {
+  .chapter-content .content-description {
+    padding-right: 260px;
+  }
+}
+@media screen and (max-width: 990px) {
 	.alt-formats {
 		float: none;
 		margin-top: 2em;
