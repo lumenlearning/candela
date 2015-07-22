@@ -835,8 +835,11 @@ div#wrap {
   margin: 1em auto;
 }
 #content table {
-	margin: 1em 0;
+  display: table;
+  width: 90%;
+	margin: 1em auto;
   border: none;
+  background-color: #fff;
 }
 .wp-caption {
   background: #f5f5f5;
