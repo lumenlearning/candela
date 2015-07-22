@@ -176,8 +176,8 @@ class Pdf extends Export {
 		    'links' => true,
 		    'toc-bookmarkText' => 'toc',
 		    'toc-preHTML' => '<h1 class="toc">Contents</h1>',
-		    'toc-margin-left' => 34,
-		    'toc-margin-right' => 42,
+		    'toc-margin-left' => 15,
+		    'toc-margin-right' => 15,
 		);
 		$this->mpdf->TOCpagebreakByArray( $options );
 	}
@@ -203,10 +203,10 @@ class Pdf extends Export {
 		// Dedication and Epigraph (In that order!)
 		$this->addFrontMatterByType( 'dedication', $contents );
 		$this->addFrontMatterByType( 'epigraph', $contents );
-		// Table of Contents : commented out if statement because always want TOC
-		// if ( 1 == $this->options['mpdf_include_toc'] ) {
-		$this->addToc();
-		// }
+		// Table of Contents
+		if ( 1 == $this->options['mpdf_include_toc'] ) {
+			$this->addToc();
+		}
 	}
 
 	/**
@@ -215,8 +215,8 @@ class Pdf extends Export {
 	function addCover() {
 		$page_options = array(
 		    'suppress' => 'on',
-		    'margin-left' => 34,
-		    'margin-right' => 42,
+		    'margin-left' => 15,
+		    'margin-right' => 15,
 		);
 		$content .= '<div id="half-title-page">';
 		$content .=  '<h1 class="title">' . $this->bookTitle . '</h1>';
@@ -243,8 +243,8 @@ class Pdf extends Export {
 	function addBookInfo() {
 		$page_options = array(
 		    'suppress' => 'on',
-		    'margin-left' => 34,
-		    'margin-right' => 42,
+		    'margin-left' => 15,
+		    'margin-right' => 15,
 		);
 
 		$content .= '<div id="title-page">';
@@ -296,8 +296,8 @@ class Pdf extends Export {
 		$options = $this->globalOptions;
 		$page_options = array(
 		    'suppress' => 'on',
-		    'margin-left' => 34,
-		    'margin-right' => 42,
+		    'margin-left' => 15,
+		    'margin-right' => 15,
 		);
 
 		if ( isset( $this->bookMeta['pb_copyright_year'] ) || isset( $this->bookMeta['pb_copyright_holder'] ) ) {
@@ -372,8 +372,8 @@ class Pdf extends Export {
 		$first_iteration = true;
 		$page_options = array(
 		    'pagenumstyle' => 'i',
-		    'margin-left' => 34,
-		    'margin-right' => 42,
+		    'margin-left' => 15,
+		    'margin-right' => 15,
 		);
 
 		foreach ( $contents as $front_matter ) {
@@ -459,19 +459,10 @@ class Pdf extends Export {
 			} else {
 				$title = '<h2 class="entry-title">' . $page['post_title'] . '</h2>';
 			}
-
-			$citations = \CandelaCitation::renderCitation($page['ID']);
-			if ( ! empty ($citations)){
-				$content .= $class
-					. $title
-					. $this->getFilteredContent( $page['post_content'] ) . '</div>'
-					. '<div><h6 class="bcc-box bcc-info citations">' . $citations . '</h6></div>';
-				}
-			if ( empty ($citations)){
-				$content .= $class
-					. $title
-					. $this->getFilteredContent( $page['post_content'] ) . '</div>';
-				}
+			$content .= $class
+				. $title
+				. $this->getFilteredContent( $page['post_content'] )
+				. '</div>';
 
 			// TODO Make this hookable.
 			$this->mpdf->WriteHTML( $content );
