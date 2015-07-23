@@ -59,7 +59,7 @@ class IMSCC extends Import {
           $new_post['post_parent'] = $this->getChapterParent();
         }
 
-        $pid = wp_insert_post( $new_post );
+        $pid = wp_insert_post( add_magic_quotes( $new_post ) );
 
         // @todo postmeta like author
 
