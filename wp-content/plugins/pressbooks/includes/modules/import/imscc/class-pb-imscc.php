@@ -71,7 +71,7 @@ class IMSCC extends Import {
           }
         }
 
-        $pid = wp_insert_post( $new_post );
+        $pid = wp_insert_post( add_magic_quotes( $new_post ) );
         
         //store part post ID to use as parent for subsequent chapters
         if ( 'part' == $post_type ) {
