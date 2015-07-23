@@ -199,7 +199,9 @@ var extend = function(obj) {
 
 var renderMathInElement = function(elem, options) {
     if (!elem) {
-        throw new Error("No element provided to render");
+    	//let's not throw errors if there's nothing to render.
+        return;
+        //throw new Error("No element provided to render");
     }
 
     options = extend({}, defaultOptions, options);
