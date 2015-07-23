@@ -40,7 +40,7 @@ class PBLatex {
 		add_filter( 'the_content', array( &$this, 'inlineToShortcode' ), 8 );
 		if ( $this->options['method'] == 'katex' ) {
 			wp_enqueue_script( 'jquery' );
-			wp_enqueue_script( 'pb_mathjax', 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML.js');
+			wp_enqueue_script( 'pb_mathjax', 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML.js&delayStartupUntil=configured' );
 			wp_enqueue_script( 'pb_asciimathteximg', plugins_url( 'ASCIIMathTeXImg.js', __FILE__ ) );
 			wp_enqueue_script( 'pb_katex', plugins_url( 'katex.min.js', __FILE__ ) );
 			wp_enqueue_style( 'pb_katex_css', plugins_url( 'katex.min.css', __FILE__ ) );
@@ -62,6 +62,9 @@ class PBLatex {
     skipStartupTypeset: true,
     TeX: { extensions: ["cancel.js"] }
   });  
+</script>
+<script type="text/javascript">
+   MathJax.Hub.Configured();
 </script>
 <?php
 
