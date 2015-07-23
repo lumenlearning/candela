@@ -45,6 +45,7 @@ class PBLatex {
 			wp_enqueue_script( 'pb_katex', plugins_url( 'katex.min.js', __FILE__ ) );
 			wp_enqueue_style( 'pb_katex_css', plugins_url( 'katex.min.css', __FILE__ ) );
 			wp_enqueue_script( 'pb_katex_autorender', plugins_url( 'auto-render.js', __FILE__ ), array( 'pb_katex' , 'pb_mathjax' , 'jquery') );
+			add_shortcode( 'latex', array( &$this, 'katexshortCode' ) );
 		} else {
 			add_shortcode( 'latex', array( &$this, 'shortCode' ) );
 		}
@@ -103,7 +104,18 @@ class PBLatex {
 
 		return "<img src='$url' alt='$alt' title='$alt' class='latex' />";
 	}
+	
+	//shortcode handling for katex output. Just clean up messy entities
+	function katexshortCode( $_atts, $latex ) {
+		$latex = preg_replace( array( '#<br\s*/?>#i', '#</?p>#i' ), ' ', $latex );
 
+		$latex = str_replace(
+			array( '&quot;', '&#8220;', '&#8221;', '&#039;', '&#8125;', '&#8127;', '&#8217;', '&#038;', '&amp;', "\n", "\r", "\xa0", '&#8211;' ), array( '"', '``', "''", "'", "'", "'", "'", '&', '&', ' ', ' ', ' ', '-' ), $latex
+		);
+
+		return "[latex]".$latex."[/latex]";
+	}
+	
 	function sanitizeColor( $color ) {
 		$color = substr( preg_replace( '/[^0-9a-f]/i', '', $color ), 0, 6 );
 		if ( 6 > $l = strlen( $color ) ) $color .= str_repeat( '0', 6 - $l );
