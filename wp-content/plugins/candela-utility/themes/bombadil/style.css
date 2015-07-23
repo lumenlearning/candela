@@ -420,17 +420,21 @@ nav {
 .searchform {
   width: 220px;
   float: right;
+  position: relative;
 }
 .searchform #s {
   width: 150px;
   height: 24px;
   display: inline-block;
+  vertical-align: bottom;
 }
 .searchform #searchsubmit {
+  position: absolute;
   height: 24px;
   width: 50px;
   font-size: 0.7em;
-  vertical-align: middle;
+  display: inline-block;
+  vertical-align: bottom;
   background-color: #077fab;
   color: #fff;
   border: none;
