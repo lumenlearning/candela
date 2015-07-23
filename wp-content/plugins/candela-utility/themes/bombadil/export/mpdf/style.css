@@ -29,8 +29,8 @@
 }
 body {
 	font:  10pt/1.1  "Cardo","Times New Roman", serif;
-	margin-top: 22mm; /* per Nate */
-	margin-bottom: 50mm; /* per Nate */
+	margin-top: 22mm;
+	margin-bottom: 50mm;
 }
 
 a {
@@ -630,6 +630,7 @@ span.mpdf_toc_p_level_2 {	/* Page no. level 2 - may be inside <a> */
 	font-family: "Ostrich Sans";
 }*/
 h2 { /* <h2> and Page Title: Decour Semibold, 36pt, line space 43pt */
+	text-align: left;
 	color: orange;
 	font-size: 36px;
 	line-height: 43px;
