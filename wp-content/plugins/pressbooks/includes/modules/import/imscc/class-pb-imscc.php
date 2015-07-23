@@ -17,11 +17,15 @@ class IMSCC extends Import {
       return FALSE;
     }
 
+    list($chapters, $posttypes) = $imscc->getImportableContent();
+    
     $option = array(
-        'file' => $upload['file'],
-        'file_type' => $upload['type'],
-        'type_of' => 'imscc',
-        'chapters' => $imscc->getImportableContent(),
+      'file' => $upload['file'],
+      'file_type' => $upload['type'],
+      'type_of' => 'imscc',
+      'chapters' => $chapters,
+      'post_types' => $posttypes,
+      'allow_parts' => true
     );
     $imscc->cleanUp();
 
@@ -41,7 +45,9 @@ class IMSCC extends Import {
 
     $items = $imscc->manifestGetItems();
     $match_ids = array_flip( array_keys( $current_import['chapters'] ) );
+    $total = 0;
     if (!empty($items)) {
+      $current_post_parent = -1;
       foreach ($items as $id => $item) {
         // Skip
         if ( ! $this->flaggedForImport( $id ) ) continue;
@@ -49,22 +55,37 @@ class IMSCC extends Import {
 
         $post_type = $this->determinePostType( $id );
         $new_post = array(
-            'post_title' => wp_strip_all_tags( $item['title'] ),
-            'post_content' => $imscc->getContent( $id ),
-            'post_type' => $post_type,
-            'post_status' => 'draft',
+          'post_title' => wp_strip_all_tags( $item['title'] ),
+          'post_type' => $post_type,
+          'post_status' => ( 'part' == $post_type )?'publish':'draft',
         );
+        if ( 'part' != $post_type ) {
+          $new_post['post_content'] = $imscc->getContent( $id );
+        }
 
         if ( 'chapter' == $post_type ) {
-          $new_post['post_parent'] = $this->getChapterParent();
+          if ($current_post_parent==-1) {
+            $new_post['post_parent'] = $this->getChapterParent();
+          } else {
+            $new_post['post_parent'] = $current_post_parent;
+          }
         }
 
         $pid = wp_insert_post( $new_post );
+        
+        //store part post ID to use as parent for subsequent chapters
+        if ( 'part' == $post_type ) {
+          $current_post_parent = $pid;
+        }
 
         // @todo postmeta like author
 
         update_post_meta( $pid, 'pb_show_title', 'on' );
         update_post_meta( $pid, 'pb_export', 'on' );
+        
+        if ( 'part' == $post_type && $imscc->getContent( $id ) ) {
+          update_post_meta( $pid, 'pb_part_content', $imscc->getContent( $id ) );
+        }
 
         Book::consolidatePost( $pid, get_post( $pid ) );
         ++$total;
@@ -99,7 +120,10 @@ class IMSCCParser {
 
   // Cache discovered importable content.
   private $content;
-
+  
+  // Cache whether content appears to be a part or chapter
+  private $content_posttype;
+  
   function __construct($file) {
     try {
       $this->unzip($file);
@@ -283,7 +307,8 @@ class IMSCCParser {
     }
     else {
       // Figure out what to do.
-      $content = '<pre>' . var_export($item, 1) . '</pre>';
+      //seeing this isn't useful
+      //$content = '<pre>' . var_export($item, 1) . '</pre>';
     }
 
     return $content;
@@ -314,7 +339,7 @@ class IMSCCParser {
         case '#text':
         case 'text':
           $text = $element->nodeValue;
-          if ( ! empty( trim( $text ) ) ) {
+          if ( trim( $text ) ) {
             $info['text'] = $text;
           }
           break;
@@ -351,15 +376,17 @@ class IMSCCParser {
   function getImportableContent() {
     if ( empty( $this->content ) ) {
       $this->content = array();
+      $this->content_posttype = array();
       foreach ( $this->items as $id => $item ) {
-        $this->content[$item['identifier']] = $item['title'];
+        $this->content[$item['identifier']] = (!empty($item['title']))?$item['title']:'';
+        $this->content_posttype[$item['identifier']] = (isset($item['identifierref']))?'chapter':'part';
       }
     }
 
-    return $this->content;
+    return array($this->content, $this->content_posttype);
   }
 
-  /**
+    /**
    * Given an item identifier return its corresponding content.
    *
    * This will do the necessary dereferencing of identifierref and
@@ -385,6 +412,9 @@ class IMSCCParser {
   }
 
   function getPayload($item) {
+    if ( empty($item['type']) ) {
+    	    return '';
+    }
     switch($item['type']) {
       case 'webLink':
         return '<a href="' . $item['href'] . '">' . $item['title'] . '</a>';
@@ -405,12 +435,14 @@ class IMSCCParser {
               $xpath = new \DOMXPath($doc);
               $body = $xpath->query('/html/body');
               $html = $doc->saveHTML($body->item(0));
+              // Prefix element IDs with special meaning to prevent conflicts
+              $html = preg_replace('/id="(wrap|content|sidebar|booknav|toc)"/','id="page_$1"',$html);
               return $html;
               break;
             default:
               $file = array(
-                  'name' => basename($filepath),
-                  'tmp_name' => $filepath,
+                'name' => basename($filepath),
+                'tmp_name' => $filepath,
               );
               $id = media_handle_sideload($file, 0);
               $src = wp_get_attachment_url($id);
