@@ -753,15 +753,15 @@ div#wrap {
 }
 #content h2 {
 	font-size: 1.25em;
-  margin-top: 33px;
-	margin-bottom: 22px;
+  margin-top: 1.5em;
+	margin-bottom: 1em;
   text-transform: uppercase;
 }
 #content h3 {
 	font-size: 1em;
 	text-transform: uppercase;
-  margin-top: 33px;
-	margin-bottom: 22px;
+  margin-top: 1.75em;
+	margin-bottom: 1.25em;
 	text-align: left;
   color: #6c64ad;
 }
