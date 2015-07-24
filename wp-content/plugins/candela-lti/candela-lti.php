@@ -44,6 +44,9 @@ class CandelaLTI {
     add_action( 'lti_launch', array( __CLASS__, 'lti_launch') );
 
     add_action('admin_menu', array( __CLASS__, 'admin_menu'));
+
+    define('CANDELA_LTI_TEACHERS_ONLY', 'candela_lti_teachers_only');
+    add_option( CANDELA_LTI_TEACHERS_ONLY, false );
 	}
 
   /**
@@ -231,7 +234,9 @@ class CandelaLTI {
     // Associate the user with this blog as a subscriber if not already associated.
     $blog = (int)$wp->query_vars['blog'];
     if ( ! empty( $blog ) && ! is_user_member_of_blog( $user->ID, $blog ) ) {
-      add_user_to_blog( $blog, $user->ID, 'subscriber');
+      if( CandelaLTI::is_lti_user_allowed_to_subscribe($blog)){
+        add_user_to_blog( $blog, $user->ID, 'subscriber');
+      }
     }
   }
 
@@ -246,6 +251,30 @@ class CandelaLTI {
     switch_to_blog(1);
     update_user_meta( $user_id, CANDELA_LTI_USERMETA_EXTERNAL_KEY, $external_id );
     restore_current_blog();
+  }
+
+  /**
+   * Checks if the settings of the book allow this user to subscribe
+   * That means that either all LTI users are, or only teachers/admins
+   *
+   * If the blog's CANDELA_LTI_TEACHERS_ONLY option is 1 then only teachers
+   * are allowed
+   *
+   * @param $blog
+   */
+  public static function is_lti_user_allowed_to_subscribe($blog){
+    $role = CandelaLTI::highest_lti_context_role();
+    if( $role == 'admin' || $role == 'teacher' ) {
+      return true;
+    } else {
+      // Switch to the target blog to get the correct option value
+      $curr = get_current_blog_id();
+      switch_to_blog($blog);
+      $teacher_only = get_option(CANDELA_LTI_TEACHERS_ONLY);
+      switch_to_blog($curr);
+
+      return $teacher_only != 1;
+    }
   }
 
   /**
@@ -293,34 +322,70 @@ class CandelaLTI {
       return;
     }
 
-    $roles = [];
-    if( isset($_POST['ext_roles']) ) {
-      $roles = $_POST['ext_roles'];
-    } elseif (isset($_POST['roles'])){
-      $roles = $_POST['roles'];
-    } else {
-      return;
-    }
+    $role = CandelaLTI::highest_lti_context_role();
 
-    $roles = explode(",", $roles);
-    $roles = array_filter(array_map('trim', $roles));
-
-    $is_teacher = in_array('urn:lti:role:ims/lis/Instructor', $roles) || in_array('Instructor', $roles);
-    $is_admin = in_array('urn:lti:instrole:ims/lis/Administrator', $roles) || in_array('Administrator', $roles);
-
-    if( $is_teacher || $is_admin ){
+    if( $role == 'admin' || $role == 'teacher' ){
       $userdata = ['ID' => $user->ID];
       if( !empty($_POST['lis_person_name_family']) || !empty($_POST['lis_person_name_given']) ){
         $userdata['last_name'] = $_POST['lis_person_name_family'];
         $userdata['first_name'] = $_POST['lis_person_name_given'];
       } elseif( empty($user->last_name) && empty($user->first_name) ) {
-        $userdata['last_name'] = $is_admin ? 'Admin' : 'Instructor';
+        $userdata['last_name'] = $role == 'admin' ? 'Admin' : 'Instructor';
       }
 
       if( !empty($userdata['last_name']) || !empty($userdata['first_name']) ) {
         wp_update_user($userdata);
       }
     }
+  }
+
+  /**
+   * Parses the LTI roles into an array
+   *
+   * @return array
+   */
+  public static function get_current_launch_roles(){
+    $roles = [];
+    if( isset($_POST['ext_roles']) ) {
+      // Canvas' more correct roles values are here
+      $roles = $_POST['ext_roles'];
+    } elseif (isset($_POST['roles'])){
+      $roles = $_POST['roles'];
+    } else {
+      return $roles;
+    }
+
+    $roles = explode(",", $roles);
+    return array_filter(array_map('trim', $roles));
+  }
+
+  /**
+   * Returns the user's highest role, which in this context is defined by this order:
+   *
+   * Admin
+   * Teacher
+   * Designer
+   * TA
+   * Student
+   * Other
+   *
+   * @return string admin|teacher|designer|ta|learner|other
+   */
+  public static function highest_lti_context_role(){
+    $roles = CandelaLTI::get_current_launch_roles();
+    if (in_array('urn:lti:instrole:ims/lis/Administrator', $roles) || in_array('Administrator', $roles)):
+      return "admin";
+    elseif (in_array('urn:lti:role:ims/lis/Instructor', $roles) || in_array('Instructor', $roles)):
+      return "teacher";
+    elseif (in_array('urn:lti:role:ims/lis/ContentDeveloper', $roles) || in_array('ContentDeveloper', $roles)):
+      return "designer";
+    elseif (in_array('urn:lti:role:ims/lis/TeachingAssistant', $roles) || in_array('TeachingAssistant', $roles)):
+      return "ta";
+    elseif (in_array('urn:lti:role:ims/lis/Learner', $roles) || in_array('Learner', $roles)):
+      return "learner";
+    else:
+      return "other";
+    endif;
   }
 
   public static function find_user_by_external_id( $id ) {
