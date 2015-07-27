@@ -150,7 +150,7 @@ class CandelaLTI {
     // Currently just redirect to the blog/site homepage.
     if ( ! ( empty( $wp->query_vars['blog'] ) ) ){
       switch_to_blog((int)$wp->query_vars['blog']);
-      wp_redirect( get_bloginfo('wpurl') . '/table-of-contents' );
+      wp_redirect( get_bloginfo('wpurl') . '/?content_only' );
       exit;
     }
 
