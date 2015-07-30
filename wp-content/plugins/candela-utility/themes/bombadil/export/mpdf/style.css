@@ -662,6 +662,6 @@ p {  /*  <p> and all normal body text: Decour Light, 10pt, line space 13 pt -see
 	text-align: center;
 }
 
-/*.citations {
-	color: red;
-}*/
+.citations {
+text-align: left;
+}
