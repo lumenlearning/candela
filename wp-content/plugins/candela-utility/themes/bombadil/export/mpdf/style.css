@@ -619,7 +619,7 @@ span.mpdf_toc_p_level_2 {	/* Page no. level 2 - may be inside <a> */
 h2 { /* <h2> and Page Title: Decour Semibold, 36pt, line space 43pt */
 	text-align: left;
 	/*color: orange;*/
-	font-size: 36px;
+	font-size: 30px;//changed from 36px
 	line-height: 43px;
 	font-family: "DejaVuSans";
 }

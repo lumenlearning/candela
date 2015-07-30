@@ -176,8 +176,8 @@ class Pdf extends Export {
 		    'links' => true,
 		    'toc-bookmarkText' => 'toc',
 		    'toc-preHTML' => '<h1 class="toc">Contents</h1>',
-		    'toc-margin-left' => 34,
-		    'toc-margin-right' => 42,
+		    'toc-margin-left' => 17,
+		    'toc-margin-right' => 21,
 		);
 		$this->mpdf->TOCpagebreakByArray( $options );
 	}
@@ -215,8 +215,8 @@ class Pdf extends Export {
 	function addCover() {
 		$page_options = array(
 		    'suppress' => 'on',
-		    'margin-left' => 34,
-		    'margin-right' => 42,
+		    'margin-left' => 17,
+		    'margin-right' => 21,
 		);
 		$content .= '<div id="half-title-page">';
 		$content .=  '<h1 class="title">' . $this->bookTitle . '</h1>';
@@ -243,8 +243,8 @@ class Pdf extends Export {
 	function addBookInfo() {
 		$page_options = array(
 		    'suppress' => 'on',
-		    'margin-left' => 34,
-		    'margin-right' => 42,
+		    'margin-left' => 17,
+		    'margin-right' => 21,
 		);
 
 		$content .= '<div id="title-page">';
@@ -296,8 +296,8 @@ class Pdf extends Export {
 		$options = $this->globalOptions;
 		$page_options = array(
 		    'suppress' => 'on',
-		    'margin-left' => 34,
-		    'margin-right' => 42,
+		    'margin-left' => 17,
+		    'margin-right' => 21,
 		);
 
 		if ( isset( $this->bookMeta['pb_copyright_year'] ) || isset( $this->bookMeta['pb_copyright_holder'] ) ) {
@@ -372,8 +372,8 @@ class Pdf extends Export {
 		$first_iteration = true;
 		$page_options = array(
 		    'pagenumstyle' => 'i',
-		    'margin-left' => 34,
-		    'margin-right' => 42,
+		    'margin-left' => 17,
+		    'margin-right' => 21,
 		);
 
 		foreach ( $contents as $front_matter ) {
