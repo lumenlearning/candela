@@ -47,7 +47,7 @@ function thincc_ajax()
   if(isset($_POST['download']) && $_POST['download'] == '0') {
     $options['version'] = 'thin';
     $options['inline'] = true;
-    $manifest = new \CC\Manifest(\PressBooks\Book::getBookStructure(), $options);
+    $manifest = new \CC\Manifest(\PressBooks\Book::getBookStructure('', false), $options);
     $manifest->build_manifest();
 
     header('Content-Description: File Transfer');
@@ -59,7 +59,7 @@ function thincc_ajax()
     if( !isset($options['version']) ){
       $options['version'] = '1.2';
     }
-    $manifest = new \CC\Manifest(\PressBooks\Book::getBookStructure(), $options);
+    $manifest = new \CC\Manifest(\PressBooks\Book::getBookStructure('', false), $options);
     $manifest->build_manifest();
     $file = $manifest->build_zip();
 
