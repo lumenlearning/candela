@@ -13,6 +13,7 @@ add_action( 'wp_print_styles', 'bombadil_theme_styles' );
 
 function bombadil_theme_scripts() {
   wp_enqueue_script('foundation', get_stylesheet_directory_uri() . '/js/foundation.min.js', array('jquery'), '', true);
+  wp_enqueue_script('iframe_resizer', get_stylesheet_directory_uri() . '/js/iframe_resizer.js', array('jquery'), '', true);
 }
 add_action( 'wp_enqueue_scripts', 'bombadil_theme_scripts' );
 
@@ -109,15 +110,17 @@ function add_iframe_resize_message() {
 
   printf(
       '<script>
-    // get rid of double iframe scrollbars
-    var default_height = Math.max(
-        document.body.scrollHeight, document.body.offsetHeight,
-        document.documentElement.clientHeight, document.documentElement.scrollHeight,
-        document.documentElement.offsetHeight);
-    parent.postMessage(JSON.stringify({
-        subject: "lti.frameResize",
-        height: default_height
-    }), "*");
+    if(self != top){
+      // get rid of double iframe scrollbars
+      var default_height = Math.max(
+          document.body.scrollHeight, document.body.offsetHeight,
+          document.documentElement.clientHeight, document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight);
+      parent.postMessage(JSON.stringify({
+          subject: "lti.frameResize",
+          height: default_height
+      }), "*");
+    }
 </script>'
   );
 
