@@ -271,7 +271,7 @@ class CandelaCitation {
           break;
         default:
           $row[$key] = array(
-            'widget' => '<input name="' . $id . '" id="' . $id . '" type="' . $widget['type'] . '" value="' . esc_attr( $widget['value'] ) . '" pattern="[^\x22]+"  title="Sorry, no quotes. Don\'t ask.">',
+            'widget' => '<input name="' . $id . '" id="' . $id . '" type="' . $widget['type'] . '" value="' . esc_attr( $widget['value'] ) . '" pattern="[^\x22]+"  title="Sorry, no quotes. Do not ask.">',
             'label' => $widget['label'],
             'label-html' => '<label for="citation-' . esc_attr($key) . '[%%INDEX%%]">' . $widget['label'] . '</label>',
           );
