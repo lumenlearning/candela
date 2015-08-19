@@ -105,7 +105,7 @@ class CandelaLTI {
    */
   public static function lti_launch() {
     global $wp;
-
+    setcookie('content_only', 1, time()+3600, COOKIEPATH, COOKIE_DOMAIN);
     // allows deep links with an LTI launch urls like:
     // candela/api/lti/BLOGID?page_title=page_name
     // candela/api/lti/BLOGID?page_title=section_name%2Fpage_name
@@ -120,7 +120,7 @@ class CandelaLTI {
 
       // todo make all the hide_* parameters copy over?
       // If it's a deep LTI link default to showing content_only
-      wp_redirect( get_bloginfo('wpurl') . $slash . $page . "?content_only" );
+      wp_redirect( get_bloginfo('wpurl') . $slash . $page );
       exit;
     }
 
@@ -128,7 +128,7 @@ class CandelaLTI {
     // candela/api/lti/BLOGID?page_id=10
     if ( ! empty($wp->query_vars['page_id'] ) && is_numeric($wp->query_vars['page_id']) ) {
       switch_to_blog((int)$wp->query_vars['blog']);
-      wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['page_id'] . "&content_only" );
+      wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['page_id'] );
       exit;
     }
 
@@ -136,7 +136,7 @@ class CandelaLTI {
     // custom_page_id=10
     if ( ! empty($wp->query_vars['custom_page_id'] ) && is_numeric($wp->query_vars['custom_page_id']) ) {
       switch_to_blog((int)$wp->query_vars['blog']);
-      wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['custom_page_id'] . "&content_only" );
+      wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['custom_page_id'] );
       exit;
     }
 
@@ -708,4 +708,3 @@ class CandelaLTI {
   }
 
 }
-

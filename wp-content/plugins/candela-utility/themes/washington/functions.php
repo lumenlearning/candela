@@ -124,3 +124,6 @@ function add_iframe_resize_message() {
   );
 
 }
+	function LTI_header_display() {
+		isset($_COOKIE['content_only']);
+	}

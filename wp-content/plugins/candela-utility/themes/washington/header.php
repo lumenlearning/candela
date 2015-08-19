@@ -76,7 +76,7 @@ if ( is_front_page() ) {
           <a href="#main-content">Skip to main content</a>
         </div>
 
-        <?php if (!isset($_GET['content_only'])) { ?>
+        <?php if (LTI_header_display()) { ?>
         <div class="row">
           <nav role="navigation">
             <!-- Book Title -->
