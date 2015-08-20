@@ -291,19 +291,19 @@ class CandelaCitation {
             'label' => __('Choose citation type'),
           ),
           'original' => array(
-            'label' => __('Original CC licensed content'),
+            'label' => __('CC licensed content, Original'),
           ),
           'cc' => array(
-            'label' => __('Preexisting CC licensed content'),
+            'label' => __('CC licensed content, Shared previously'),
+          ),
+          'cc-attribution' => array(
+            'label' => __('CC licensed content, Specific attribution'),
           ),
           'copyrighted_video' => array(
             'label' => __('Copyrighted video content'),
           ),
           'pd' => array(
             'label' => __('Public domain content'),
-          ),
-          'cc-attribution' => array(
-            'label' => __('CC with specific attribution'),
           ),
           'lumen' => array(
             'label' => __('Lumen Learning authored content'),
