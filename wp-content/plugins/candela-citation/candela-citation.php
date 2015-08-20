@@ -138,7 +138,7 @@ class CandelaCitation {
           switch ($field) {
             case 'license':
               if ( ! empty($license[$citation[$field]]['link'] ) ) {
-                $parts[] = $info['prefix'] . '<a href="' . $license[$citation[$field]]['link'] . '">' .  esc_html($license[$citation[$field]]['label']) . '</a>' .  $info['suffix'];
+                $parts[] = $info['prefix'] . '<a rel="license" href="' . $license[$citation[$field]]['link'] . '">' .  esc_html($license[$citation[$field]]['label']) . '</a>' .  $info['suffix'];
               }
               else {
                 $parts[] = $info['prefix'] . esc_html($license[$citation[$field]]['label']) . $info['suffix'];
@@ -291,10 +291,10 @@ class CandelaCitation {
             'label' => __('Choose citation type'),
           ),
           'original' => array(
-            'label' => __('Original content'),
+            'label' => __('Original CC licensed content'),
           ),
           'cc' => array(
-            'label' => __('CC licensed content'),
+            'label' => __('Preexisting CC licensed content'),
           ),
           'copyrighted_video' => array(
             'label' => __('Copyrighted video content'),
@@ -329,7 +329,7 @@ class CandelaCitation {
             'link' => 'https://creativecommons.org/licenses/by-sa/4.0/',
           ),
           'cc-by-nd' => array(
-            'label' => __( 'CC BY-ND: Attribution-NoDerivs' ),
+            'label' => __( 'CC BY-ND: Attribution-NoDerivatives' ),
             'link' => 'https://creativecommons.org/licenses/by-nd/4.0/',
           ),
           'cc-by-nc' => array(
@@ -341,7 +341,7 @@ class CandelaCitation {
             'link' => 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
           ),
           'cc-by-nc-nd' => array(
-            'label' => __( 'CC BY-NC-ND: Attribution-NonCommercial-NoDerivs ' ),
+            'label' => __( 'CC BY-NC-ND: Attribution-NonCommercial-NoDerivatives ' ),
             'link' => 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
           ),
           'arr' => array(
