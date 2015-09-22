@@ -427,6 +427,7 @@ nav {
   height: 24px;
   display: inline-block;
   vertical-align: bottom;
+  padding: 0 0.5rem 0 0.5rem;
 }
 .searchform #searchsubmit {
   position: absolute;
