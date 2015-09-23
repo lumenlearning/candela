@@ -7,8 +7,12 @@
 function fitzgerald_enqueue_styles() {
 	wp_enqueue_style( 'fitzgerald-fonts', 'http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700|Roboto+Condensed:400,300,300italic,400italic' );
 }
-
 add_action( 'wp_print_styles', 'fitzgerald_enqueue_styles' );
+
+function fitzgerald_theme_scripts() {
+  wp_enqueue_script('embedded_audio', get_stylesheet_directory_uri() . '/js/audio_behavior.js', array('jquery'), '', true);
+}
+add_action( 'wp_enqueue_scripts', 'fitzgerald_theme_scripts' );
 
 /**
  * Returns an html blog of meta elements
