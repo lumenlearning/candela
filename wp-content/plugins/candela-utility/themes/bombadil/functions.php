@@ -127,23 +127,28 @@ function add_iframe_resize_message() {
 
 }
 
-// allow script & iframe tag within posts
+// allow iframe tag within posts
 function allow_post_tags( $allowedposttags ){
-    $allowedposttags['script'] = array(
-        'type' => true,
-        'src' => true,
-        'height' => true,
-        'width' => true,
-    );
     $allowedposttags['iframe'] = array(
-        'src' => true,
-        'width' => true,
-        'height' => true,
+        'align' => true,
+        'allowFullScreen' => true,
         'class' => true,
         'frameborder' => true,
-        'webkitAllowFullScreen' => true,
+        'height' => true,
+        'id' => true,
+        'longdesc' => true,
+        'marginheight' => true,
+        'marginwidth' => true,
         'mozallowfullscreen' => true,
-        'allowFullScreen' => true
+        'name' => true,
+        'sandbox' => true,
+        'seamless' => true,
+        'scrolling' => true,
+        'src' => true,
+        'srcdoc' => true,
+        'style' => true,
+        'width' => true,
+        'webkitAllowFullScreen' => true
     );
     return $allowedposttags;
 }
