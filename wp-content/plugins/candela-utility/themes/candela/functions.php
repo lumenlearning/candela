@@ -97,3 +97,30 @@ function add_iframe_resize_message() {
   );
 
 }
+
+// allow iframe tag within posts
+function allow_post_tags( $allowedposttags ){
+    $allowedposttags['iframe'] = array(
+        'align' => true,
+        'allowFullScreen' => true,
+        'class' => true,
+        'frameborder' => true,
+        'height' => true,
+        'id' => true,
+        'longdesc' => true,
+        'marginheight' => true,
+        'marginwidth' => true,
+        'mozallowfullscreen' => true,
+        'name' => true,
+        'sandbox' => true,
+        'seamless' => true,
+        'scrolling' => true,
+        'src' => true,
+        'srcdoc' => true,
+        'style' => true,
+        'width' => true,
+        'webkitAllowFullScreen' => true
+    );
+    return $allowedposttags;
+}
+add_filter('wp_kses_allowed_html','allow_post_tags', 1);
