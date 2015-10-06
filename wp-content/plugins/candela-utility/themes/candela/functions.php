@@ -93,3 +93,25 @@ function add_iframe_resize_message() {
   );
 
 }
+
+// allow script & iframe tag within posts
+function allow_post_tags( $allowedposttags ){
+    $allowedposttags['script'] = array(
+        'type' => true,
+        'src' => true,
+        'height' => true,
+        'width' => true,
+    );
+    $allowedposttags['iframe'] = array(
+        'src' => true,
+        'width' => true,
+        'height' => true,
+        'class' => true,
+        'frameborder' => true,
+        'webkitAllowFullScreen' => true,
+        'mozallowfullscreen' => true,
+        'allowFullScreen' => true
+    );
+    return $allowedposttags;
+}
+add_filter('wp_kses_allowed_html','allow_post_tags', 1);
