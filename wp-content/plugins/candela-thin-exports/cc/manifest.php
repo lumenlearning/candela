@@ -17,20 +17,20 @@ class Manifest extends Base
 
   private static $templates = [
     "1.1" => [
-      'manifest' => '../templates/cc_1_1/manifest.xml',
-      'lti_link' => '../templates/cc_1_2/lti_link.xml',
+      'manifest' => '/templates/cc_1_1/manifest.xml',
+      'lti_link' => '/templates/cc_1_2/lti_link.xml',
     ],
     "1.2" => [
-      'manifest' => '../templates/cc_1_2/manifest.xml',
-      'lti_link' => '../templates/cc_1_2/lti_link.xml',
+      'manifest' => '/templates/cc_1_2/manifest.xml',
+      'lti_link' => '/templates/cc_1_2/lti_link.xml',
     ],
     "1.3" => [
-      'manifest' => '../templates/cc_1_3/manifest.xml',
-      'lti_link' => '../templates/cc_1_3/lti_link.xml',
+      'manifest' => '/templates/cc_1_3/manifest.xml',
+      'lti_link' => '/templates/cc_1_3/lti_link.xml',
     ],
     "thin" => [
-      'manifest' => '../templates/thin/manifest.xml',
-      'lti_link' => '../templates/cc_1_3/lti_link.xml',
+      'manifest' => '/templates/thin/manifest.xml',
+      'lti_link' => '/templates/cc_1_3/lti_link.xml',
     ],
   ];
 
@@ -245,11 +245,12 @@ XML;
   }
 
   private function get_manifest_template(){
-    return file_get_contents(plugins_url(self::$templates[$this->version]['manifest'], __FILE__));
+    //   return file_get_contents(plugins_url(self::$templates[$this->version]['manifest'], dirname(__DIR__)));
+    return file_get_contents(dirname(__DIR__) . "/" . plugin_basename(self::$templates[$this->version]['manifest']));
   }
 
   private function get_lti_link_template(){
-    return file_get_contents(plugins_url(self::$templates[$this->version]['lti_link'], __FILE__));
+    return file_get_contents(dirname(__DIR__) . "/" . plugin_basename(self::$templates[$this->version]['lti_link']));
   }
 
 }
