@@ -246,11 +246,11 @@ XML;
 
   private function get_manifest_template(){
     //   return file_get_contents(plugins_url(self::$templates[$this->version]['manifest'], dirname(__DIR__)));
-    return file_get_contents(dirname(__DIR__) . "/" . plugin_basename(self::$templates[$this->version]['manifest']));
+    return file_get_contents(dirname(__DIR__) . DIRECTORY_SEPARATOR . plugin_basename(self::$templates[$this->version]['manifest']));
   }
 
   private function get_lti_link_template(){
-    return file_get_contents(dirname(__DIR__) . "/" . plugin_basename(self::$templates[$this->version]['lti_link']));
+    return file_get_contents(dirname(__DIR__) . DIRECTORY_SEPARATOR . plugin_basename(self::$templates[$this->version]['lti_link']));
   }
 
 }
