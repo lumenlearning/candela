@@ -35,7 +35,7 @@ class Manifest extends Base
   ];
 
   public static $available_options = ['inline', 'include_fm', 'include_bm', 'export_flagged_only',
-                                      'use_custom_vars', 'include_parts'];
+                                      'use_custom_vars', 'include_parts', 'include_guids'];
 
   public function __construct($structure, $options=[])
   {
@@ -161,7 +161,9 @@ XML;
   private function inline_lti_resources(){
     $resources = "";
     $template = <<<XML
-        <resource identifier="%s" type="imsbasiclti_xmlv1p0">%s
+        <resource identifier="%s" type="imsbasiclti_xmlv1p0">
+        %s
+        %s
         </resource>
 XML;
 
@@ -173,12 +175,29 @@ XML;
 
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)){
-          $resources .= sprintf("\n" . $template, $this->identifier($chapter), $this->link_xml($chapter));
+          if($this->options['include_guids']){
+            $resources .= sprintf("\n" . $template, $this->identifier($chapter), $this->guids_xml($chapter), $this->link_xml($chapter));
+          } else {
+            $resources .= sprintf("\n" . $template, $this->identifier($chapter), '', $this->link_xml($chapter));
+          }
         }
       }
     }
 
     return $resources;
+  }
+
+  private function guids_xml($page){
+    $guids = '';
+    $dataguid = get_post_meta($page['ID'], 'CANDELA_OUTCOMES_GUID');
+
+    foreach ($dataguid as $data) {
+      $explode_guid = explode(',', $data);
+      foreach ($explode_guid as $guid) {
+        $guids .= "<guid>" . $guid . "</guid>\n\t";
+      }
+    }
+    return $guids;
   }
 
   private function referenced_lti_resources(){
@@ -245,7 +264,6 @@ XML;
   }
 
   private function get_manifest_template(){
-    //   return file_get_contents(plugins_url(self::$templates[$this->version]['manifest'], dirname(__DIR__)));
     return file_get_contents(dirname(__DIR__) . DIRECTORY_SEPARATOR . plugin_basename(self::$templates[$this->version]['manifest']));
   }
 
