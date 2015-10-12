@@ -162,8 +162,15 @@ XML;
     $resources = "";
     $template = <<<XML
         <resource identifier="%s" type="imsbasiclti_xmlv1p0">
-        %s
-        %s
+          <metadata>
+            <curriculumStandardsMetadataSet xmlns=/xsd/imscsmetadata_v1p0>
+              <curriculumStandardsMetadata providerId="lumenlearning.com">
+                <setOfGUIDs>%s
+                </setOfGUIDs>
+              </curriculumStandardsMetadata>
+            </curriculumStandardsMetadataSet>
+          </metadata>
+          %s
         </resource>
 XML;
 
@@ -188,15 +195,25 @@ XML;
   }
 
   private function guids_xml($page){
-    $guids = '';
-    $dataguid = get_post_meta($page['ID'], 'CANDELA_OUTCOMES_GUID');
+    $guids = "";
+    $guids_array = get_post_meta($page['ID'], 'CANDELA_OUTCOMES_GUID');
+    $template = <<<XML
+                  <labelledGUID>
+                    <GUID>
+                      %s
+                    </GUID>
+                  </labelledGUID>
+XML;
 
-    foreach ($dataguid as $data) {
-      $explode_guid = explode(',', $data);
-      foreach ($explode_guid as $guid) {
-        $guids .= "<guid>" . $guid . "</guid>\n\t";
+    if(!empty($guids_array)){
+      foreach ($guids_array as $data){
+        $explode_guid = explode(",", $data);
+        foreach ($explode_guid as $guid){
+          $guids .= sprintf("\n" . $template, $guid);
+        }
       }
     }
+
     return $guids;
   }
 
@@ -204,16 +221,17 @@ XML;
     $resources = '';
     $template = <<<XML
         <resource identifier="%s" type="imsbasiclti_xmlv1p0">
+            %s
             <file href="%s.xml"/>
         </resource>
 XML;
     foreach ($this->book_structure['part'] as $part) {
       if($this->options['include_parts']) {
-        $resources .= sprintf("\n" . $template, $this->identifier($part), $this->identifier($part));
+        $resources .= sprintf("\n" . $template, $this->identifier($part), $this->guids_xml($part), $this->identifier($part));
       }
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)) {
-          $resources .= sprintf("\n" . $template, $this->identifier($chapter), $this->identifier($chapter));
+          $resources .= sprintf("\n" . $template, $this->identifier($chapter), $this->guids_xml($part), $this->identifier($chapter));
         }
       }
     }
