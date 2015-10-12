@@ -158,34 +158,55 @@ XML;
     }
   }
 
+  private function template_check($page) {
+    $template = "";
+    $guids_array = get_post_meta($page['ID'], 'CANDELA_OUTCOMES_GUID');
+
+    if(!empty($guids_array)){
+      $template = <<<XML
+          <resource identifier="%s" type="imsbasiclti_xmlv1p0">
+            <metadata>
+              <curriculumStandardsMetadataSet xmlns=/xsd/imscsmetadata_v1p0>
+                <curriculumStandardsMetadata providerId="lumenlearning.com">
+                  <setOfGUIDs>%s
+                  </setOfGUIDs>
+                </curriculumStandardsMetadata>
+              </curriculumStandardsMetadataSet>
+            </metadata>
+            %s
+          </resource>
+XML;
+    } else {
+      $template = <<<XML
+          <resource identifier="%s" type="imsbasiclti_xmlv1p0">
+            %s
+            %s
+          </resource>
+XML;
+    }
+
+    return $template;
+  }
+
   private function inline_lti_resources(){
     $resources = "";
-    $template = <<<XML
-        <resource identifier="%s" type="imsbasiclti_xmlv1p0">
-          <metadata>
-            <curriculumStandardsMetadataSet xmlns=/xsd/imscsmetadata_v1p0>
-              <curriculumStandardsMetadata providerId="lumenlearning.com">
-                <setOfGUIDs>%s
-                </setOfGUIDs>
-              </curriculumStandardsMetadata>
-            </curriculumStandardsMetadataSet>
-          </metadata>
-          %s
-        </resource>
-XML;
 
     foreach ($this->book_structure['part'] as $part) {
 
       if($this->options['include_parts']) {
-        $resources .= sprintf("\n" . $template, $this->identifier($part), $this->link_xml($part));
+        if($this->options['include_guids']){
+          $resources .= sprintf("\n" . $this->template_check($part), $this->identifier($part), $this->guids_xml($part), $this->link_xml($part));
+        } else {
+          $resources .= sprintf("\n" . $this->template_check($part), $this->identifier($part), '', $this->link_xml($part));
+        }
       }
 
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)){
           if($this->options['include_guids']){
-            $resources .= sprintf("\n" . $template, $this->identifier($chapter), $this->guids_xml($chapter), $this->link_xml($chapter));
+            $resources .= sprintf("\n" . $this->template_check($chapter), $this->identifier($chapter), $this->guids_xml($chapter), $this->link_xml($chapter));
           } else {
-            $resources .= sprintf("\n" . $template, $this->identifier($chapter), '', $this->link_xml($chapter));
+            $resources .= sprintf("\n" . $this->template_check($chapter), $this->identifier($chapter), '', $this->link_xml($chapter));
           }
         }
       }
