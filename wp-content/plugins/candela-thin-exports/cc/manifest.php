@@ -219,11 +219,9 @@ XML;
     $guids = "";
     $guids_array = get_post_meta($page['ID'], 'CANDELA_OUTCOMES_GUID');
     $template = <<<XML
-                  <labelledGUID>
-                    <GUID>
-                      %s
-                    </GUID>
-                  </labelledGUID>
+                    <labelledGUID>
+                      <GUID>%s</GUID>
+                    </labelledGUID>
 XML;
 
     if(!empty($guids_array)){
@@ -263,19 +261,50 @@ XML;
   private function add_lti_link_files($zip){
     foreach ($this->book_structure['part'] as $part) {
       if($this->options['include_parts']) {
-        $zip->addFromString($this->identifier($part) . '.xml', $this->link_xml($part, true));
+        $zip->addFromString($this->identifier($part) . '.xml', $this->link_xml($part, true, true));
       }
       foreach ($part['chapters'] as $chapter) {
         if($this->export_page($chapter)) {
-          $zip->addFromString($this->identifier($chapter) . '.xml', $this->link_xml($chapter, true));
+          $zip->addFromString($this->identifier($chapter) . '.xml', $this->link_xml($chapter, true, true));
         }
       }
     }
   }
 
-  private function link_xml($page, $add_xml_header=false){
+  private function link_xml($page, $add_guids=false, $add_xml_header=false){
     $launch_url = $this->create_launch_url($page);
     $template = "\n" . $this->link_template;
+    $guids = "\n";
+
+    $guids_array = get_post_meta($page['ID'], 'CANDELA_OUTCOMES_GUID');
+
+    if($add_guids){
+      $guids .= "
+<metadata>
+  <curriculumStandardsMetadataSet xmlns=/xsd/imscsmetadata_v1p0>
+    <curriculumStandardsMetadata providerId='lumenlearning.com'>
+      <setOfGUIDs>";
+
+    foreach ($guids_array as $data){
+      $explode_guid = explode(",", $data);
+      foreach ($explode_guid as $guid){
+        $guids .= "
+        <labelledGUID>
+          <GUID>" . $guid . "</GUID>
+        </labelledGUID>";
+      }
+    }
+
+      $guids .= "
+      </setOfGUIDs>
+    </curriculumStandardsMetadata>
+  </curriculumStandardsMetadataSet>
+</metadata>
+";
+
+      $template = $guids . $template;
+    }
+
     if($add_xml_header){
       $template = '<?xml version="1.0" encoding="UTF-8"?>' . $template;
     }
