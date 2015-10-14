@@ -12,6 +12,7 @@ class Manifest extends Base
   private $is_inline = false;
   private $use_page_name_launch_url = false;
   private $options = null;
+  private $guids_cache = null;
 
   private $tmp_file = null;
 
@@ -217,7 +218,7 @@ XML;
 
   private function guids_xml($page){
     $guids = "";
-    $guids_array = get_post_meta($page['ID'], 'CANDELA_OUTCOMES_GUID');
+    $guids_array = array($this->get_guids($page));
     $template = <<<XML
                     <labelledGUID>
                       <GUID>%s</GUID>
@@ -226,14 +227,33 @@ XML;
 
     if(!empty($guids_array)){
       foreach ($guids_array as $data){
-        $explode_guid = explode(",", $data);
-        foreach ($explode_guid as $guid){
+        foreach ($data as $guid){
           $guids .= sprintf("\n" . $template, $guid);
         }
       }
+
+      return $guids;
+    } else {
+      return "";
+    }
+  }
+
+  private function get_guids($page){
+    if($this->guids_cache === null){
+      $this->guids_cache = array();
+
+      global $wpdb;
+      $sql = $wpdb->prepare( "SELECT post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s", 'CANDELA_OUTCOMES_GUID' );
+
+      foreach ( $wpdb->get_results( $sql, ARRAY_A ) as $val ) {
+        // Strips whitespace from meta_value
+        $val['meta_value'] = str_replace(' ', '', $val['meta_value']);
+        // creates an array of values from a string split on comma
+        $this->guids_cache[$val['post_id']] = explode(",", $val['meta_value']);
+      }
     }
 
-    return $guids;
+    return $this->guids_cache[$page['ID']] ? $this->guids_cache[$page['ID']] : [];
   }
 
   private function referenced_lti_resources(){
@@ -260,12 +280,14 @@ XML;
 
   private function add_lti_link_files($zip){
     foreach ($this->book_structure['part'] as $part) {
+      $add_part_guids = !empty($this->get_guids($part)) ? true : false; // This may be evil...
       if($this->options['include_parts']) {
-        $zip->addFromString($this->identifier($part) . '.xml', $this->link_xml($part, true, true));
+        $zip->addFromString($this->identifier($part) . '.xml', $this->link_xml($part, $add_part_guids, true));
       }
       foreach ($part['chapters'] as $chapter) {
+        $add_chapter_guids = !empty($this->get_guids($chapter)) ? true : false; // This may be evil...
         if($this->export_page($chapter)) {
-          $zip->addFromString($this->identifier($chapter) . '.xml', $this->link_xml($chapter, true, true));
+          $zip->addFromString($this->identifier($chapter) . '.xml', $this->link_xml($chapter, $add_chapter_guids, true));
         }
       }
     }
@@ -276,7 +298,7 @@ XML;
     $template = "\n" . $this->link_template;
     $guids = "\n";
 
-    $guids_array = get_post_meta($page['ID'], 'CANDELA_OUTCOMES_GUID');
+    $guids_array = $this->get_guids($page);
 
     if($add_guids){
       $guids .= "
@@ -285,15 +307,12 @@ XML;
     <curriculumStandardsMetadata providerId='lumenlearning.com'>
       <setOfGUIDs>";
 
-    foreach ($guids_array as $data){
-      $explode_guid = explode(",", $data);
-      foreach ($explode_guid as $guid){
+      foreach ($guids_array as $guid){
         $guids .= "
         <labelledGUID>
           <GUID>" . $guid . "</GUID>
         </labelledGUID>";
       }
-    }
 
       $guids .= "
       </setOfGUIDs>
