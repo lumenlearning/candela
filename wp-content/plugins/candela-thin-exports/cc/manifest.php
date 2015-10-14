@@ -50,8 +50,7 @@ class Manifest extends Base
     $this->options = $options;
   }
 
-  public function build_manifest()
-  {
+  public function build_manifest(){
     $this->manifest = str_replace('{course_name}', get_bloginfo('name'), $this->manifest);
     $this->manifest = str_replace('{course_description}', get_bloginfo('description'), $this->manifest);
     $this->manifest = str_replace('{organization_items}', $this->item_parts(), $this->manifest);
@@ -83,8 +82,7 @@ class Manifest extends Base
     $this->cleanup();
   }
 
-  private function item_parts()
-  {
+  private function item_parts(){
     $items = '';
     $template = <<<XML
 
@@ -104,8 +102,7 @@ XML;
     return $items;
   }
 
-  private function item_pages($part)
-  {
+  private function item_pages($part){
     $items = '';
     $template = <<<XML
 
@@ -129,13 +126,8 @@ XML;
     return $items;
   }
 
-  private function item_resources()
-  {
-    if($this->options['inline']) {
-      return $this->inline_lti_resources();
-    }else {
-      return $this->referenced_lti_resources();
-    }
+  private function item_resources(){
+    return $this->lti_resources();
   }
 
   private function get_base_url(){
@@ -159,13 +151,36 @@ XML;
     }
   }
 
-  private function template_check($page) {
-    $template = "";
-    $guids_array = get_post_meta($page['ID'], 'CANDELA_OUTCOMES_GUID');
+  private function lti_resources(){
+    $resources = '';
 
-    if(!empty($guids_array)){
+    $template = <<<XML
+
+        <resource identifier="%s" type="imsbasiclti_xmlv1p0">%s
+          %s
+        </resource>
+XML;
+
+    foreach ($this->book_structure['part'] as $part) {
+      if($this->options['include_parts']) {
+          $resources .= sprintf($template, $this->identifier($part), $this->guid_xml($part), $this->lti_resource_helper($part));
+
+      }
+
+      foreach ($part['chapters'] as $chapter) {
+        if($this->export_page($chapter)){
+            $resources .= sprintf($template, $this->identifier($chapter), $this->guid_xml($chapter), $this->lti_resource_helper($chapter));
+        }
+      }
+    }
+
+    return $resources;
+  }
+
+  private function guid_xml($page){
+    if($this->options['include_guids'] && !empty($this->get_guids($page))){
       $template = <<<XML
-          <resource identifier="%s" type="imsbasiclti_xmlv1p0">
+
             <metadata>
               <curriculumStandardsMetadataSet xmlns=/xsd/imscsmetadata_v1p0>
                 <curriculumStandardsMetadata providerId="lumenlearning.com">
@@ -174,50 +189,25 @@ XML;
                 </curriculumStandardsMetadata>
               </curriculumStandardsMetadataSet>
             </metadata>
-            %s
-          </resource>
 XML;
-    } else {
-      $template = <<<XML
-          <resource identifier="%s" type="imsbasiclti_xmlv1p0">
-            %s
-            %s
-          </resource>
-XML;
+      return sprintf($template, $this->guids_xml($page));
     }
-
-    return $template;
+    else {
+      return '';
+    }
   }
 
-  private function inline_lti_resources(){
-    $resources = "";
-
-    foreach ($this->book_structure['part'] as $part) {
-
-      if($this->options['include_parts']) {
-        if($this->options['include_guids']){
-          $resources .= sprintf("\n" . $this->template_check($part), $this->identifier($part), $this->guids_xml($part), $this->link_xml($part));
-        } else {
-          $resources .= sprintf("\n" . $this->template_check($part), $this->identifier($part), '', $this->link_xml($part));
-        }
-      }
-
-      foreach ($part['chapters'] as $chapter) {
-        if($this->export_page($chapter)){
-          if($this->options['include_guids']){
-            $resources .= sprintf("\n" . $this->template_check($chapter), $this->identifier($chapter), $this->guids_xml($chapter), $this->link_xml($chapter));
-          } else {
-            $resources .= sprintf("\n" . $this->template_check($chapter), $this->identifier($chapter), '', $this->link_xml($chapter));
-          }
-        }
-      }
+  private function lti_resource_helper($page){
+    if(!$this->options['inline']){
+      return '<file href="' . $page['ID'] . '.xml"/>';
     }
-
-    return $resources;
+    else if($this->options['inline']){
+      return $this->link_xml($page);
+    }
   }
 
   private function guids_xml($page){
-    $guids = "";
+    $guids = '';
     $guids_array = array($this->get_guids($page));
     $template = <<<XML
                     <labelledGUID>
@@ -240,8 +230,6 @@ XML;
 
   private function get_guids($page){
     if($this->guids_cache === null){
-      $this->guids_cache = array();
-
       global $wpdb;
       $sql = $wpdb->prepare( "SELECT post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s", 'CANDELA_OUTCOMES_GUID' );
 
@@ -256,73 +244,22 @@ XML;
     return $this->guids_cache[$page['ID']] ? $this->guids_cache[$page['ID']] : [];
   }
 
-  private function referenced_lti_resources(){
-    $resources = '';
-    $template = <<<XML
-        <resource identifier="%s" type="imsbasiclti_xmlv1p0">
-            %s
-            <file href="%s.xml"/>
-        </resource>
-XML;
-    foreach ($this->book_structure['part'] as $part) {
-      if($this->options['include_parts']) {
-        $resources .= sprintf("\n" . $template, $this->identifier($part), $this->guids_xml($part), $this->identifier($part));
-      }
-      foreach ($part['chapters'] as $chapter) {
-        if($this->export_page($chapter)) {
-          $resources .= sprintf("\n" . $template, $this->identifier($chapter), $this->guids_xml($part), $this->identifier($chapter));
-        }
-      }
-    }
-
-    return $resources;
-  }
-
   private function add_lti_link_files($zip){
     foreach ($this->book_structure['part'] as $part) {
-      $add_part_guids = !empty($this->get_guids($part)) ? true : false; // This may be evil...
       if($this->options['include_parts']) {
-        $zip->addFromString($this->identifier($part) . '.xml', $this->link_xml($part, $add_part_guids, true));
+        $zip->addFromString($this->identifier($part) . '.xml', $this->link_xml($part, true));
       }
       foreach ($part['chapters'] as $chapter) {
-        $add_chapter_guids = !empty($this->get_guids($chapter)) ? true : false; // This may be evil...
         if($this->export_page($chapter)) {
-          $zip->addFromString($this->identifier($chapter) . '.xml', $this->link_xml($chapter, $add_chapter_guids, true));
+          $zip->addFromString($this->identifier($chapter) . '.xml', $this->link_xml($chapter, true));
         }
       }
     }
   }
 
-  private function link_xml($page, $add_guids=false, $add_xml_header=false){
+  private function link_xml($page, $add_xml_header=false){
     $launch_url = $this->create_launch_url($page);
     $template = "\n" . $this->link_template;
-    $guids = "\n";
-
-    $guids_array = $this->get_guids($page);
-
-    if($add_guids){
-      $guids .= "
-<metadata>
-  <curriculumStandardsMetadataSet xmlns=/xsd/imscsmetadata_v1p0>
-    <curriculumStandardsMetadata providerId='lumenlearning.com'>
-      <setOfGUIDs>";
-
-      foreach ($guids_array as $guid){
-        $guids .= "
-        <labelledGUID>
-          <GUID>" . $guid . "</GUID>
-        </labelledGUID>";
-      }
-
-      $guids .= "
-      </setOfGUIDs>
-    </curriculumStandardsMetadata>
-  </curriculumStandardsMetadataSet>
-</metadata>
-";
-
-      $template = $guids . $template;
-    }
 
     if($add_xml_header){
       $template = '<?xml version="1.0" encoding="UTF-8"?>' . $template;
