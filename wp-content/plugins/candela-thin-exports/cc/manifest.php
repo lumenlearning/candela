@@ -161,6 +161,11 @@ XML;
         </resource>
 XML;
 
+    foreach ($this->book_structure['front-matter'] as $fm) {
+      if ($this->options['include_fm']) {
+        $resources .= sprintf($template, $this->identifier($fm), $this->guid_xml($fm), $this->lti_resource_helper($fm));
+      }
+    }
     foreach ($this->book_structure['part'] as $part) {
       if ($this->options['include_parts']) {
         $resources .= sprintf($template, $this->identifier($part), $this->guid_xml($part), $this->lti_resource_helper($part));
@@ -169,6 +174,11 @@ XML;
         if ($this->export_page($chapter)) {
           $resources .= sprintf($template, $this->identifier($chapter), $this->guid_xml($chapter), $this->lti_resource_helper($chapter));
         }
+      }
+    }
+    foreach ($this->book_structure['back-matter'] as $bm) {
+      if ($this->options['include_bm']) {
+        $resources .= sprintf($template, $this->identifier($bm), $this->guid_xml($bm), $this->lti_resource_helper($bm));
       }
     }
     return $resources;
