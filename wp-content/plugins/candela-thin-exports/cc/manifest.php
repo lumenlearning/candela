@@ -161,29 +161,30 @@ XML;
         </resource>
 XML;
 
-    foreach ($this->book_structure['front-matter'] as $fm) {
-      if ($this->options['include_fm']) {
-        $resources .= sprintf($template, $this->identifier($fm), $this->guid_xml($fm), $this->lti_resource_helper($fm));
+    if ($this->options['include_fm']) {
+      foreach ($this->book_structure['front-matter'] as $fm) {
+        $resources .= sprintf($template, $this->identifier($fm), $this->guid_xml($fm), $this->file_or_link_xml($fm));
       }
     }
     foreach ($this->book_structure['part'] as $part) {
       if ($this->options['include_parts']) {
-        $resources .= sprintf($template, $this->identifier($part), $this->guid_xml($part), $this->lti_resource_helper($part));
+        $resources .= sprintf($template, $this->identifier($part), $this->guid_xml($part), $this->file_or_link_xml($part));
       }
       foreach ($part['chapters'] as $chapter) {
         if ($this->export_page($chapter)) {
-          $resources .= sprintf($template, $this->identifier($chapter), $this->guid_xml($chapter), $this->lti_resource_helper($chapter));
+          $resources .= sprintf($template, $this->identifier($chapter), $this->guid_xml($chapter), $this->file_or_link_xml($chapter));
         }
       }
     }
-    foreach ($this->book_structure['back-matter'] as $bm) {
-      if ($this->options['include_bm']) {
-        $resources .= sprintf($template, $this->identifier($bm), $this->guid_xml($bm), $this->lti_resource_helper($bm));
+    if ($this->options['include_bm']) {
+      foreach ($this->book_structure['back-matter'] as $bm) {
+        $resources .= sprintf($template, $this->identifier($bm), $this->guid_xml($bm), $this->file_or_link_xml($bm));
       }
     }
     return $resources;
   }
 
+  // Generates CC GUID metadata based on: http://www.imsglobal.org/cc/ccv1p3/imscc_Implementation-v1p3.html#toc-55
   private function guid_xml($page) {
     if ($this->options['include_guids'] && !empty($this->get_guids($page))) {
       $template = <<<XML
@@ -197,14 +198,14 @@ XML;
               </curriculumStandardsMetadataSet>
             </metadata>
 XML;
-      return sprintf($template, $this->guids_xml($page));
+      return sprintf($template, $this->inner_guid_labels_xml($page));
     }
     else {
       return '';
     }
   }
 
-  private function lti_resource_helper($page) {
+  private function file_or_link_xml($page) {
     if(!$this->options['inline']) {
       return '<file href="' . $this->identifier($page) . '.xml"/>';
     }
@@ -213,7 +214,7 @@ XML;
     }
   }
 
-  private function guids_xml($page) {
+  private function inner_guid_labels_xml($page) {
     $guids = '';
     $guids_array = array($this->get_guids($page));
     $template = <<<XML
