@@ -189,7 +189,7 @@ XML;
       $template = <<<XML
 
             <metadata>
-              <curriculumStandardsMetadataSet xmlns=/xsd/imscsmetadata_v1p0>
+              <curriculumStandardsMetadataSet xmlns="/xsd/imscsmetadata_v1p0">
                 <curriculumStandardsMetadata providerId="lumenlearning.com">
                   <setOfGUIDs>%s
                   </setOfGUIDs>
@@ -206,7 +206,7 @@ XML;
 
   private function lti_resource_helper($page) {
     if(!$this->options['inline']) {
-      return '<file href="' . $page['ID'] . '.xml"/>';
+      return '<file href="' . $this->identifier($page) . '.xml"/>';
     }
     else if($this->options['inline']) {
       return $this->link_xml($page);
