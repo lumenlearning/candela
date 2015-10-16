@@ -246,7 +246,7 @@ XML;
         $this->guids_cache[$val['post_id']] = explode(",", $val['meta_value']);
       }
     }
-    return $this->guids_cache[$page['ID']] ? $this->guids_cache[$page['ID']] : [];
+    return array_key_exists($page['ID'], $this->guids_cache) ? $this->guids_cache[$page['ID']] : [];
   }
 
   private function add_lti_link_files($zip) {
