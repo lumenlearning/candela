@@ -91,10 +91,23 @@ class Manifest extends Base
     </item>
 XML;
 
-    foreach ($this->book_structure['part'] as $part) {
-      $item_pages = $this->item_pages($part);
-      if ($item_pages != '') {
-        $items .= sprintf($template, $this->identifier($part, "IM_"), $part['post_title'], $item_pages);
+    if ($this->options['include_fm']) {
+      $fm = $this->book_structure['front-matter'];
+      if ($this->item_pages($fm) != '') {
+        $items .= sprintf($template, 'frontmatter', 'Front Matter', $this->item_pages($fm));
+      }
+    }
+    if ($this->options['include_parts']) {
+      foreach ($this->book_structure['part'] as $part) {
+        if ($this->item_pages($part) != '') {
+          $items .= sprintf($template, $this->identifier($part, "IM_"), $part['post_title'], $this->item_pages($part));
+        }
+      }
+    }
+    if ($this->options['include_bm']) {
+      $bm = $this->book_structure['back-matter'];
+      if ($this->item_pages($bm) != '') {
+        $items .= sprintf($template, 'backmatter', 'Back Matter', $this->item_pages($bm));
       }
     }
     return $items;
@@ -109,17 +122,22 @@ XML;
         </item>
 XML;
 
-    // The part link comes first
-    if ($this->options['include_parts']) {
-      $items .= sprintf($template, $this->identifier($part, "I_"), $this->identifier($part), $part['post_title']);
-    }
-
-    // Then each of the pages
-    foreach ($part['chapters'] as $chapter) {
-      if ($this->export_page($chapter)) {
-        $items .= sprintf($template, $this->identifier($chapter, "I_"), $this->identifier($chapter), $chapter['post_title']);
+    if ($part == $this->book_structure['front-matter'] || $part == $this->book_structure['back-matter']) {
+      foreach ($part as $data) {
+        $items .= sprintf($template, $this->identifier($data, "I_"), $this->identifier($data), $data['post_title']);
       }
     }
+    else if ($part == $this->book_structure['part']) {
+      $items .= sprintf($template, $this->identifier($part, "I_"), $this->identifier($part), $part['post_title']);
+    }
+    else {
+      foreach ($part['chapters'] as $chapter) {
+        if ($this->export_page($chapter)) {
+          $items .= sprintf($template, $this->identifier($chapter, "I_"), $this->identifier($chapter), $chapter['post_title']);
+        }
+      }
+    }
+
     return $items;
   }
 
@@ -250,6 +268,11 @@ XML;
   }
 
   private function add_lti_link_files($zip) {
+    if ($this->options['include_fm']) {
+      foreach ($this->book_structure['front-matter'] as $fm) {
+        $zip->addFromString($this->identifier($fm) . '.xml', $this->link_xml($fm, true));
+      }
+    }
     foreach ($this->book_structure['part'] as $part) {
       if ($this->options['include_parts']) {
         $zip->addFromString($this->identifier($part) . '.xml', $this->link_xml($part, true));
@@ -258,6 +281,11 @@ XML;
         if ($this->export_page($chapter)) {
           $zip->addFromString($this->identifier($chapter) . '.xml', $this->link_xml($chapter, true));
         }
+      }
+    }
+    if ($this->options['include_bm']) {
+      foreach ($this->book_structure['back-matter'] as $bm) {
+        $zip->addFromString($this->identifier($bm) . '.xml', $this->link_xml($bm, true));
       }
     }
   }
