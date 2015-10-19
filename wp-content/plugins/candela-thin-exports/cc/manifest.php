@@ -186,7 +186,7 @@ XML;
 
   // Generates CC GUID metadata based on: http://www.imsglobal.org/cc/ccv1p3/imscc_Implementation-v1p3.html#toc-55
   private function guid_xml($page) {
-    if ($this->options['include_guids'] && !empty($this->get_guids($page))) {
+    if ($this->options['include_guids'] && !empty($this->get_guids($page)) && $this->get_guids($page) !== array("")) {
       $template = <<<XML
 
             <metadata>
