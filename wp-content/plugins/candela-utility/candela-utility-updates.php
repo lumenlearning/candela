@@ -138,4 +138,3 @@ function output_details_000($update, $noaction) {
     }
   }
 }
-
