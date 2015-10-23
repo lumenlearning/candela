@@ -725,16 +725,16 @@ span.small.xhtml {
   text-decoration: none;
 }
 #content {
-	max-width: 895px;
+	max-width: 1100px;
 	background-color: #fff;
 	border: none;
 	-moz-box-shadow: none;
 	-o-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-	margin: 3em auto 0 auto;
-	padding: 0.25em 3em 3em 3em;
-	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	margin: 0 auto;
+	/*padding: 0.25em 3em 3em 3em;*/
+	/*box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);*/
 	border-radius: 6px;
 }
 #content ol li, #content ul li {
@@ -748,16 +748,17 @@ div#wrap {
 }
 #content h1 {
   font-size: 1.5em;
+  text-transform: capitalize;
   margin-top: 0;
   margin-bottom: 1em;
 	padding-top: 1em !important;
-	padding-bottom: 1em;
+	padding-bottom: 0;
 	color: #1d1d1d;
   line-height: 1.2;
 	font-weight: 600;
 }
 #content h2 {
-	font-size: 1.25em;
+	font-size: 1.15em;
   margin-top: 1.5em;
 	margin-bottom: 1em;
   text-transform: uppercase;
@@ -1000,9 +1001,11 @@ ul.lti-mapping {
  * MEDIA QUERIES
  * ------------------------------------------------------------------------ */
 
-@media screen and (min-width: 940px) {
+@media screen {
 	#content {
-		width: 720px;
+		width: 90%;
+    /*padding: 0.25em 3em 3em 3em;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);*/
 	}
 	.nav {
 		width: 900px;
@@ -1015,6 +1018,9 @@ ul.lti-mapping {
 @media screen and (max-width: 1024px) {
   .chapter-content .content-description {
     padding-right: 260px;
+  }
+  #content {
+    font-size: 100%;
   }
 }
 @media screen and (max-width: 990px) {
