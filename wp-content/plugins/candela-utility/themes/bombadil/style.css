@@ -401,7 +401,7 @@ nav {
   max-height: 35px;
   background-color: #fafafa;
 	padding: 4px;
-	border-bottom: 1px #000 solid;
+	border-bottom: 1px #afafaf solid;
 }
 .center-subtext-search {
 	max-width: 940px;
@@ -847,7 +847,7 @@ div#wrap {
   line-height: 1.3;
 }
 #content iframe {
-  min-width: 100%;
+  /*min-width: 100%;*/
   max-width: 100%;
   margin: 1em auto;
 }
