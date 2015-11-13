@@ -97,13 +97,13 @@ XML;
         $items .= sprintf($template, 'frontmatter', 'Front Matter', $this->item_pages($fm));
       }
     }
-    if ($this->options['include_parts']) {
-      foreach ($this->book_structure['part'] as $part) {
-        if ($this->item_pages($part) != '') {
-          $items .= sprintf($template, $this->identifier($part, "IM_"), $part['post_title'], $this->item_pages($part));
-        }
+
+    foreach ($this->book_structure['part'] as $part) {
+      if ($this->item_pages($part) != '') {
+        $items .= sprintf($template, $this->identifier($part, "IM_"), $part['post_title'], $this->item_pages($part));
       }
     }
+
     if ($this->options['include_bm']) {
       $bm = $this->book_structure['back-matter'];
       if ($this->item_pages($bm) != '') {
@@ -127,10 +127,12 @@ XML;
         $items .= sprintf($template, $this->identifier($data, "I_"), $this->identifier($data), $data['post_title']);
       }
     }
-    else if ($part == $this->book_structure['part']) {
-      $items .= sprintf($template, $this->identifier($part, "I_"), $this->identifier($part), $part['post_title']);
-    }
     else {
+      // The part link comes first
+      if($this->options['include_parts']) {
+        $items .= sprintf($template, $this->identifier($part, "I_"), $this->identifier($part), $part['post_title']);
+      }
+
       foreach ($part['chapters'] as $chapter) {
         if ($this->export_page($chapter)) {
           $items .= sprintf($template, $this->identifier($chapter, "I_"), $this->identifier($chapter), $chapter['post_title']);
