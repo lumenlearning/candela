@@ -77,6 +77,11 @@
       <?php if (!isset($_GET['content_only']) || !isset($_GET['hide_search'])) { ?>
 			<div class="nav-container">
 
+<!-- hide header content always -->
+
+
+<!-- add option to re-enable nav and/or search at this point on functions.php in pressbooks plugins-->
+
         <?php if (!isset($_GET['content_only']) && !isset($_GET['hide_search'])) { ?>
           <div class="skip-to-content">
             <a href="#main-content">Skip to main content</a>

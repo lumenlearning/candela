@@ -153,3 +153,46 @@ function allow_post_tags( $allowedposttags ){
     return $allowedposttags;
 }
 add_filter('wp_kses_allowed_html','allow_post_tags', 1);
+
+
+// kelly faking it to create theme options page
+function bombadil_register_settings() {
+  register_setting( 'bombadil_theme_options', 'bombadil_options', 'bombadil_validate_options' );
+}
+
+add_action( 'admin_init', 'bombadil_register_settings' );
+
+$settings = get_option( 'bombadil_options', $bombadil_options );
+
+$bombadil_options = array (
+  'default_no_header' =>  get_bloginfo('wpurl') . '/' . $page . "?hide_search",
+  'something_else' => ''
+ );
+// no idea what is going on here...
+    // $bombadil_categories[0] = array(
+    //   'value' => 0,
+    //   'label' => ''
+    // ); //void first array key to disable feature
+    // $bombadil_cats = get_categories();
+    // foreach( $bombadil_cats as $bombadil_cat ) :
+    //   $bombadil_categories[$bombadil_cat->cat_ID] = array(
+    //     'value' => $bombadil_cat->cat_ID,
+    //     'label' => $bombadil_cat->cat_name
+    //   );
+    // endforeach;
+
+$bombadil_header = array(
+  'default' => array(
+    'value' => "get_bloginfo('wpurl') . '/' . $page . '?hide_search'",
+    'label' => 'Content Only'
+  ),
+  'show_header' => array(
+    'value' => "get_bloginfo('wpurl') . '/' . $page . '/'",
+    'label' => 'Show Header'
+
+  ),
+  'show_search' => array(
+    'value' => "get_bloginfo('wpurl') . '/' . $page . '/'",
+    'label' => 'Show Search Bar'
+  )
+);
