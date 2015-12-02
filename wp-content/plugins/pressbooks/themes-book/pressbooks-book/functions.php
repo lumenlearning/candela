@@ -90,7 +90,7 @@ function pb_enqueue_scripts() {
 	if ( is_single() ) {
 		wp_enqueue_script( 'pb-pop-out-toc', get_template_directory_uri() . '/js/pop-out.js', array( 'jquery' ), '1.0', false );
 	}
-	
+
 	$options = get_option( 'pressbooks_theme_options_web' );
 	if ( @$options['toc_collapse'] ) {
 		wp_enqueue_script( 'pressbooks_toc_collapse',	get_template_directory_uri() . '/js/toc_collapse.js', array( 'jquery' ) );
@@ -329,6 +329,14 @@ function pressbooks_theme_options_display() { ?>
 		<?php } ?>
 		<a href="?page=pressbooks_theme_options&tab=ebook_options" class="nav-tab <?php echo $active_tab == 'ebook_options' ? 'nav-tab-active' : ''; ?>">Ebook Options</a>
 		</h2>
+
+		<!-- Some sort of code that says if you're on the bombadil theme style, the navigation and search options
+				can be enabled on per-book basis
+				Otherwise are hidden by default (has ?content_only&?hide_search at end of url)-->
+				<!-- for nav (with search) button enabling- remove from end of url ?content_only -->
+				<!-- for search button enabling- remove ?hide_search from end of url -->
+
+
 		<!-- Create the form that will be used to render our options -->
 		<form method="post" action="options.php">
 			<?php if( $active_tab == 'global_options' ) {
@@ -620,7 +628,7 @@ function pressbooks_theme_pressbooks_global_typography_sanitize( $input ) {
  * ------------------------------------------------------------------------ */
 
 function pressbooks_theme_options_web_init() {
-	
+
 	$_page = $_option = 'pressbooks_theme_options_web';
 	$_section = 'web_options_section';
 	$defaults = array(
@@ -632,26 +640,26 @@ function pressbooks_theme_options_web_init() {
 	}
 
 	add_settings_section(
-		$_section, 
-		__( 'Web Options', 'pressbooks' ), 
-		'pressbooks_theme_options_web_callback', 
+		$_section,
+		__( 'Web Options', 'pressbooks' ),
+		'pressbooks_theme_options_web_callback',
 		$_page
 	);
 
 	add_settings_field(
-		'toc_collapse', 
-		__( 'Collapsable TOC', 'pressbooks' ), 
-		'pressbooks_theme_toc_collapse_callback', 
-		$_page, 
-		$_section, 
+		'toc_collapse',
+		__( 'Collapsable TOC', 'pressbooks' ),
+		'pressbooks_theme_toc_collapse_callback',
+		$_page,
+		$_section,
 		array(
-		    __( 'Make webbook TOC collapsable', 'pressbooks' ) 
+		    __( 'Make webbook TOC collapsable', 'pressbooks' )
 		)
 	);
-	
+
 	add_settings_field(
-		'accessibility_fontsize', 
-		__( 'Increase Font Size', 'pressbooks' ), 
+		'accessibility_fontsize',
+		__( 'Increase Font Size', 'pressbooks' ),
 		'pressbooks_theme_accessibility_fontsize_callback',
 		$_page,
 		$_section,
@@ -671,8 +679,8 @@ function pressbooks_theme_options_web_init() {
 		)
 	);
 	register_setting(
-		$_option, 
-		$_option, 
+		$_option,
+		$_option,
 		'pressbooks_theme_options_web_sanitize'
 	);
 }
@@ -685,14 +693,14 @@ function pressbooks_theme_options_web_callback() {
 // Web Options Field Callback
 function pressbooks_theme_accessibility_fontsize_callback( $args ){
 	$options = get_option( 'pressbooks_theme_options_web' );
-	
+
 	if ( ! isset( $options['accessibility_fontsize'] ) ) {
 		$options['accessibility_fontsize'] = 0;
 	}
 	$html = '<input type="checkbox" id="accessibility_fontsize" name="pressbooks_theme_options_web[accessibility_fontsize]" value="1" ' . checked( 1, $options['accessibility_fontsize'], false ) . '/>';
 	$html .= '<label for="accessibility_fontsize"> ' . $args[0] . '</label>';
-	echo $html;	
-	
+	echo $html;
+
 }
 
 // Web Options Field Callback
@@ -729,7 +737,7 @@ function pressbooks_theme_options_web_sanitize( $input ) {
 	} else {
 		$options['toc_collapse'] = 1;
 	}
-	
+
 	if ( ! isset( $input['accessibility_fontsize'] ) || $input['accessibility_fontsize'] != '1' ) {
 		$options['accessibility_fontsize'] = 0;
 	} else {
@@ -1073,13 +1081,13 @@ function pressbooks_theme_pdf_orphans_callback( $args ) {
 
 //PDF Options Field Callback
 function pressbooks_theme_pdf_fontsize_callback( $args ) {
-	
+
 	$options = get_option( 'pressbooks_theme_options_pdf' );
-	
+
 	if ( ! isset( $options['pdf_fontsize'] ) ){
 		$options['pdf_fontsize'] = 0;
 	}
-	
+
 	$html = '<input type="checkbox" id="pdf_fontsize" name="pressbooks_theme_options_pdf[pdf_fontsize]" value="1" ' . checked( 1, $options['pdf_fontsize'], false ) . '/>';
 	$html .= '<label for="pdf_fontsize"> ' . $args[0] . '</label>';
 	echo $html;
@@ -1237,7 +1245,7 @@ function pressbooks_theme_options_mpdf_init() {
 			 __( 'Display cover image', 'pressbooks' )
 		)
 	);
-	
+
 	add_settings_field(
 		'mpdf_include_toc',
 		__( 'Table of Contents', 'pressbooks' ),
@@ -1248,7 +1256,7 @@ function pressbooks_theme_options_mpdf_init() {
 			 __( 'Display table of contents', 'pressbooks' )
 		)
 	);
-	
+
 	add_settings_field(
 		'mpdf_indent_paragraphs',
 		__( 'Indent paragraphs', 'pressbooks' ),
@@ -1259,7 +1267,7 @@ function pressbooks_theme_options_mpdf_init() {
 			 __( 'Indent paragraphs', 'pressbooks' )
 		)
 	);
-	
+
 	add_settings_field(
 		'mpdf_hyphens',
 		__( 'Hyphens', 'pressbooks' ),
@@ -1404,13 +1412,13 @@ function pressbooks_theme_mpdf_hyphens_callback( $args ) {
 }
 
 function pressbooks_theme_mpdf_fontsize_callback( $args ) {
-	
+
 	$options = get_option( 'pressbooks_theme_options_mpdf' );
-	
+
 	if ( ! isset( $options['mpdf_fontsize'] ) ){
 		$options['mpdf_fontsize'] = 0;
 	}
-	
+
 	$html = '<input type="checkbox" id="mpdf_fontsize" name="pressbooks_theme_options_mpdf[mpdf_fontsize]" value="1" ' . checked( 1, $options['mpdf_fontsize'], false ) . '/>';
 	$html .= '<label for="mpdf_fontsize"> ' . $args[0] . '</label>';
 	echo $html;
@@ -1430,11 +1438,11 @@ function pressbooks_theme_options_mpdf_sanitize ( $input ){
 		if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
 		else $options[$val] = 1;
 	}
-	
-	// nothing to do, select list 
+
+	// nothing to do, select list
 	$options['mpdf_page_size'] = $input['mpdf_page_size'];
 
-	return $options;	
+	return $options;
 }
 
 /* ------------------------------------------------------------------------ *
@@ -1653,7 +1661,7 @@ function pressbooks_theme_pdf_css_override( $scss ) {
 	} else {
 		$scss .= 'p { orphans: 1; }' . "\n";
 	}
-	
+
 	if ( @$options['pdf_fontsize'] ){
 		$scss .= 'body {font-size: 1.3em; line-height: 1.3; }' . "\n";
 	}
