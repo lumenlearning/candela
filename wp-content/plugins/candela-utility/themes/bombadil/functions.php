@@ -190,5 +190,9 @@ $bombadil_header = array(
     'value' => "get_bloginfo('wpurl') . '/' . $page . '/'",
     'label' => 'Show Header'
 
+  ),
+  'show_search' => array(
+    'value' => "get_bloginfo('wpurl') . '/' . $page . '/'",
+    'label' => 'Show Search Bar'
   )
 );

@@ -65,7 +65,7 @@ function pb_enqueue_scripts() {
 		wp_register_style( 'pressbooks', PB_PLUGIN_URL . 'themes-book/pressbooks-book/style.css', array(), null, 'screen, print' );
 		wp_enqueue_style( 'pressbooks' );
 		// Use default stylesheet as base (to avoid horribly broken webbook)
-		$deps = array( 'pressbooks' );		
+		$deps = array( 'pressbooks' );
 		if ( get_stylesheet() !== 'pressbooks-book' ) { // If not pressbooks-book, we need to register and enqueue the theme stylesheet too
 			$fullpath = \PressBooks\Container::get('Sass')->pathToUserGeneratedCss() . '/style.css';
 			if ( is_file( $fullpath ) ) { // Custom webbook style has been generated
@@ -78,10 +78,10 @@ function pb_enqueue_scripts() {
 		}
 
 	}
-	
-	
-	
-	
+
+
+
+
 	if (! is_front_page() ) {
 		wp_enqueue_script( 'pressbooks-script', get_template_directory_uri() . "/js/script.js", array( 'jquery' ), '1.0', false );
 	}
@@ -328,6 +328,7 @@ function pressbooks_theme_options_display() { ?>
 		<a href="?page=pressbooks_theme_options&tab=mpdf_options" class="nav-tab <?php echo $active_tab == 'mpdf_options' ? 'nav-tab-active' : ''; ?>">mPDF Options</a>
 		<?php } ?>
 		<a href="?page=pressbooks_theme_options&tab=ebook_options" class="nav-tab <?php echo $active_tab == 'ebook_options' ? 'nav-tab-active' : ''; ?>">Ebook Options</a>
+		<a href="?page=pressbooks_theme_options&tab=navigation_options" class="nav-tab <?php echo $active_tab == 'navigation_options' ? 'nav-tab-active' : ''; ?>">Navigation Options</a>
 		</h2>
 
 		<!-- Some sort of code that says if you're on the bombadil theme style, the navigation and search options
@@ -354,6 +355,9 @@ function pressbooks_theme_options_display() { ?>
 			} elseif( $active_tab == 'ebook_options' ) {
 				settings_fields( 'pressbooks_theme_options_ebook' );
 				do_settings_sections( 'pressbooks_theme_options_ebook' );
+			} elseif( $active_tab == 'navigation_options' ) {
+				settings_fields( 'pressbooks_theme_options_navigation' );
+				do_settings_sections( 'pressbooks_theme_options_navigation' );
 			} ?>
 			<?php submit_button(); ?>
 		</form>
@@ -437,7 +441,7 @@ function pressbooks_theme_options_global_init() {
 		$_option,
 		'pressbooks_theme_options_global_sanitize'
 	);
-	
+
 	register_setting(
 		$_page,
 		'pressbooks_enable_chapter_types',
@@ -456,7 +460,7 @@ function pressbooks_theme_options_global_init() {
 				 __( 'Include fonts to support the following languages:', 'pressbooks' )
 			)
 		);
-		
+
 		register_setting(
 			$_page,
 			'pressbooks_global_typography',
@@ -509,7 +513,7 @@ function pressbooks_theme_chapter_types_callback( $args ) {
 			update_option( 'pressbooks_chapter_types_initialized', 1 );
 		}
 	}
-	
+
 	$html = '<input type="checkbox" id="enable-chapter-types" name="pressbooks_enable_chapter_types" value="1"' . checked( 1, $enable_chapter_types, false ) . '/>';
 	$html .= '<label for="enable-chapter-types"> ' . __( 'Enable chapter types taxonomy.', 'pressbooks' ) . '</label>';
 
@@ -547,7 +551,7 @@ function pressbooks_theme_copyright_license_callback( $args ) {
 
 // Global Options Field Callback
 function pressbooks_theme_global_typography_callback( $args ) {
-	
+
 	$foreign_languages = get_option( 'pressbooks_global_typography' );
 
 	if ( ! $foreign_languages ) {
@@ -557,7 +561,7 @@ function pressbooks_theme_global_typography_callback( $args ) {
 	$languages = \PressBooks\Container::get( 'GlobalTypography' )->getSupportedLanguages();
 	$already_supported_languages = \PressBooks\Container::get( 'GlobalTypography' )->getThemeSupportedLanguages();
 	$already_supported_languages_string = '';
-	
+
 	$i = 1;
 	$c = count( $already_supported_languages );
 	foreach ( $already_supported_languages as $lang ) {
@@ -578,7 +582,7 @@ function pressbooks_theme_global_typography_callback( $args ) {
 		$html .= '<option value="' . $key . '" ' . $selected . '>' . $value . '</option>';
 	}
 	$html .= '</select>';
-	
+
 	if ( $already_supported_languages_string ) {
 		$html .= '<br /><br />' . sprintf( __( 'This theme includes built-in support for %s.', 'pressbooks' ), $already_supported_languages_string );
 	}
@@ -608,7 +612,7 @@ function pressbooks_theme_options_global_sanitize( $input ) {
 	} else {
 		$options['copyright_license'] = 1;
 	}
-	
+
 	return $options;
 }
 
@@ -669,8 +673,8 @@ function pressbooks_theme_options_web_init() {
 	);
 
 	add_settings_field(
-		'social_media_buttons', 
-		__( 'Enable Social Media', 'pressbooks' ), 
+		'social_media_buttons',
+		__( 'Enable Social Media', 'pressbooks' ),
 		'pressbooks_theme_social_media_callback',
 		$_page,
 		$_section,
@@ -743,13 +747,13 @@ function pressbooks_theme_options_web_sanitize( $input ) {
 	} else {
 		$options['accessibility_fontsize'] = 1;
 	}
-	
+
 	if ( ! isset( $input['social_media'] ) || $input['social_media'] != '1' ) {
 		$options['social_media'] = 0;
 	} else {
 		$options['social_media'] = 1;
-	}	
-	
+	}
+
 	return $options;
 }
 
@@ -1523,6 +1527,88 @@ function pressbooks_theme_ebook_paragraph_separation_callback( $args ) {
 	echo $html;
 }
 
+
+// I added this navigation options stuff
+/* ------------------------------------------------------------------------ *
+ * Navigation Options Tab
+ * ------------------------------------------------------------------------ */
+
+// Navigation Options Registration
+function pressbooks_theme_options_navigation_init() {
+
+	$_page = $_option = 'pressbooks_theme_options_navigation';
+	$_section = 'navigation_options_section';
+	$defaults = array(
+		'navigation_paragraph_separation' => 1,
+		'navigation_compress_images' => 0,
+	);
+
+	if ( false == get_option( $_option ) ) {
+		add_option( $_option, $defaults );
+	}
+
+	add_settings_section(
+		$_section,
+		__( 'Navigation Options', 'pressbooks' ),
+		'pressbooks_theme_options_navigation_callback',
+		$_page
+	);
+
+	add_settings_field(
+		'navigation_paragraph_separation',
+		__( 'Paragraph Separation', 'pressbooks' ),
+		'pressbooks_theme_navigation_paragraph_separation_callback',
+		$_page,
+		$_section,
+		array(
+			 __( 'Indent paragraphs', 'pressbooks' ),
+			 __( 'Skip lines between paragraphs', 'pressbooks' )
+		)
+	);
+
+	add_settings_field(
+		'navigation_compress_images',
+		__( 'Compress images', 'pressbooks' ),
+		'pressbooks_theme_navigation_compress_images_callback',
+		$_page,
+		$_section,
+		array(
+			__( 'Reduce image size and quality', 'pressbooks' )
+		)
+	);
+
+	register_setting(
+		$_option,
+		$_option,
+		'pressbooks_theme_options_navigation_sanitize'
+	);
+}
+add_action( 'admin_init', 'pressbooks_theme_options_navigation_init' );
+
+
+// Navigation Options Section Callback
+function pressbooks_theme_options_navigation_callback() {
+	echo '<p>' . __( 'These options apply to navigation exports.', 'pressbooks' ) . '</p>';
+}
+
+// Navigation Options Field Callbacks
+function pressbooks_theme_navigation_paragraph_separation_callback( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_navigation' );
+
+	if ( ! isset( $options['navigation_paragraph_separation'] ) ) {
+		$options['navigation_paragraph_separation'] = 1;
+	}
+
+	$html = '<input type="radio" id="paragraph_indent" name="pressbooks_theme_options_navigation[navigation_paragraph_separation]" value="1"' . checked( 1, $options['navigation_paragraph_separation'], false ) . '/> ';
+	$html .= '<label for="paragraph_indent">' . $args[0] . '</label><br />';
+	$html .= '<input type="radio" id="paragraph_skiplines" name="pressbooks_theme_options_navigation[navigation_paragraph_separation]" value="2"' . checked( 2, $options['navigation_paragraph_separation'], false ) . '/> ';
+	$html .= '<label for="paragraph_skiplines">' . $args[1] . '</label>';
+	echo $html;
+}
+// it ends here
+
+
 // PDF Options Field Callback
 function pressbooks_theme_ebook_compress_images_callback( $args ) {
 
@@ -1665,7 +1751,7 @@ function pressbooks_theme_pdf_css_override( $scss ) {
 	if ( @$options['pdf_fontsize'] ){
 		$scss .= 'body {font-size: 1.3em; line-height: 1.3; }' . "\n";
 	}
-		
+
 	// --------------------------------------------------------------------
 	// Luther features we inject ourselves, (not user options, this theme not child)
 
@@ -1725,7 +1811,7 @@ function pressbooks_theme_ebook_css_override( $scss ) {
 	if ( 2 == @$options['ebook_paragraph_separation'] ) {
 		$scss .= "p + p, .indent, div.ugc p.indent { text-indent: 0; margin-top: 1em; } \n";
 	}
-	
+
 	// --------------------------------------------------------------------
 	// Luther features we inject ourselves, (not user options, this theme not child)
 
