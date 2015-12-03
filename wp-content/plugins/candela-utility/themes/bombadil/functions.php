@@ -15,9 +15,34 @@ function bombadil_theme_scripts() {
   wp_enqueue_script('foundation', get_stylesheet_directory_uri() . '/js/foundation.min.js', array('jquery'), '', true);
   wp_enqueue_script('iframe_resizer', get_stylesheet_directory_uri() . '/js/iframe_resizer.js', array('jquery'), '', true);
   wp_enqueue_script('embedded_audio', get_stylesheet_directory_uri() . '/js/audio_behavior.js', array('jquery'), '', true);
+
+  wp_register_script('sage_math', 'https://sagecell.sagemath.org/static/embedded_sagecell.js');
+  wp_enqueue_script('sage_math', array('jquery'), '', true);
 }
 add_action( 'wp_enqueue_scripts', 'bombadil_theme_scripts' );
 
+function my_filter_cdata( $content ) {
+  $content = str_replace( '// <![CDATA[', '', $content );
+  $content = str_replace( '// ]]>', '', $content );
+  return $content;
+}
+add_filter( 'content_save_pre', 'my_filter_cdata', 9, 1 );
+
+
+/*
+<?php function remove_bad_things(){ ?>
+<script>
+
+jQuery('#content-html').click(function(){
+  jQuery('textarea[name=content]').val( jQuery('textarea[name=content]').val().replace('// <![CDATA[','') );
+  jQuery('textarea[name=content]').val( jQuery('textarea[name=content]').val().replace('// ]]>','') );
+});
+
+</script>
+<?php }
+
+add_action('admin_footer','remove_bad_things');
+*/
 
 /**
  * Returns an html blog of meta elements
