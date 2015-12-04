@@ -165,22 +165,12 @@ add_action( 'admin_init', 'bombadil_register_settings' );
 $settings = get_option( 'bombadil_options', $bombadil_options );
 
 $bombadil_options = array (
-  'default_no_header' =>  get_bloginfo('wpurl') . '/' . $page . "?hide_search",
-  'something_else' => ''
+  'default_no_header' =>  "get_bloginfo('wpurl') . '/' . $page . '?hide_search'",
+  'show_header' => "get_bloginfo('wpurl') . '/' . $page . '/'",
+  'show_search' => "get_bloginfo('wpurl') . '/' . $page . '/'",
  );
-// no idea what is going on here...
-    // $bombadil_categories[0] = array(
-    //   'value' => 0,
-    //   'label' => ''
-    // ); //void first array key to disable feature
-    // $bombadil_cats = get_categories();
-    // foreach( $bombadil_cats as $bombadil_cat ) :
-    //   $bombadil_categories[$bombadil_cat->cat_ID] = array(
-    //     'value' => $bombadil_cat->cat_ID,
-    //     'label' => $bombadil_cat->cat_name
-    //   );
-    // endforeach;
 
+// or something using this kind of thing?
 $bombadil_header = array(
   'default' => array(
     'value' => "get_bloginfo('wpurl') . '/' . $page . '?hide_search'",
@@ -196,3 +186,5 @@ $bombadil_header = array(
     'label' => 'Show Search Bar'
   )
 );
+
+// or would you assign a value of 1, 2, 3 for the options then say if that value, then wpurl= the blogurl we want?

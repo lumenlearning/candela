@@ -1529,6 +1529,11 @@ function pressbooks_theme_ebook_paragraph_separation_callback( $args ) {
 
 
 // I added this navigation options stuff
+// questions:
+// 	how to save the chosen option when selected,
+// 	what does sanitize do in these?
+// 	need to make so is either option but not both- maybe radio buttons
+// 	can this all happen just withn the functions.php file in bombadil (line 158+)
 /* ------------------------------------------------------------------------ *
  * Navigation Options Tab
  * ------------------------------------------------------------------------ */
@@ -1539,8 +1544,8 @@ function pressbooks_theme_options_navigation_init() {
 	$_page = $_option = 'pressbooks_theme_options_navigation';
 	$_section = 'navigation_options_section';
 	$defaults = array(
-		'navigation_show_header_and_search' => 1,
-
+		'navigation_show_header_and_search' => 0,
+		'navigation_show_search_only' => 1
 	);
 
 	if ( false == get_option( $_option ) ) {
@@ -1562,6 +1567,16 @@ function pressbooks_theme_options_navigation_init() {
 		$_section,
 		array(
 			 __( 'Enable Full Header with Search Bar', 'pressbooks' ),
+		)
+	);
+
+	add_settings_field(
+		'navigation_show_search_only',
+		__( 'Show Search Only', 'pressbooks' ),
+		'pressbooks_theme_navigation_show_search_only_callback',
+		$_page,
+		$_section,
+		array(
 			 __( 'Enable Only Search Bar', 'pressbooks' )
 		)
 	);
@@ -1577,7 +1592,7 @@ add_action( 'admin_init', 'pressbooks_theme_options_navigation_init' );
 
 // Navigation Options Section Callback
 function pressbooks_theme_options_navigation_callback() {
-	echo '<p>' . __( 'These options apply to navigation.', 'pressbooks' ) . '</p>';
+	echo '<p>' . __( 'These options apply to navigation view.', 'pressbooks' ) . '</p>';
 }
 
 // Navigation Options Field Callbacks
@@ -1586,15 +1601,26 @@ function pressbooks_theme_navigation_show_header_and_search_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
 	if ( ! isset( $options['navigation_show_header_and_search'] ) ) {
-		$options['navigation_show_header_and_search'] = 1;
+		$options['navigation_show_header_and_search'] = 0;
 	}
 
-	$html = '<input type="radio" id="show_header_and_search" name="pressbooks_theme_options_navigation[navigation_show_header_and_search]" value="1"' . checked( 1, $options['navigation_show_header_and_search'], false ) . '/> ';
+	$html = '<input type="checkbox" id="show_header_and_search" name="pressbooks_theme_options_navigation[navigation_show_header_and_search]" value="1"' . checked( 1, $options['navigation_show_header_and_search'], false ) . '/> ';
 	$html .= '<label for="show_header_and_search">' . $args[0] . '</label><br />';
-	$html .= '<input type="radio" id="show_header_and_search" name="pressbooks_theme_options_navigation[navigation_show_header_and_search]" value="2"' . checked( 2, $options['navigation_show_header_and_search'], false ) . '/> ';
-	$html .= '<label for="show_header_and_search">' . $args[1] . '</label>';
 	echo $html;
 }
+function pressbooks_theme_navigation_show_search_only_callback( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_navigation' );
+
+	if ( ! isset( $options['navigation_show_search_only'] ) ) {
+		$options['navigation_show_search_only'] = 0;
+	}
+
+	$html .= '<input type="checkbox" id="show_search_only" name="pressbooks_theme_options_navigation[navigation_show_search_only]" value="1"' . checked( 1, $options['navigation_show_search_only'], false ) . '/> ';
+	$html .= '<label for="show_header_and_search">' . $args[0] . '</label><br />';
+	echo $html;
+}
+
 // it ends here
 
 
