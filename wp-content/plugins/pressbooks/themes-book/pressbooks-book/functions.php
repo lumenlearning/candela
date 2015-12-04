@@ -1529,6 +1529,11 @@ function pressbooks_theme_ebook_paragraph_separation_callback( $args ) {
 
 
 // I added this navigation options stuff
+// questions:
+// 	how to save the chosen option when selected,
+// 	what does sanitize do in these?
+// 	need to make so is either option but not both- maybe radio buttons
+// 	can this all happen just withn the functions.php file in bombadil (line 158+)
 /* ------------------------------------------------------------------------ *
  * Navigation Options Tab
  * ------------------------------------------------------------------------ */

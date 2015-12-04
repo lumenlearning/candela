@@ -77,10 +77,19 @@
       <?php if (!isset($_GET['content_only']) || !isset($_GET['hide_search'])) { ?>
 			<div class="nav-container">
 
+<!-- I messed with this next part -->
 <!-- hide header content always -->
 
 
 <!-- add option to re-enable nav and/or search at this point on functions.php in pressbooks plugins-->
+<?php
+$navigation = get_option( 'pressbooks_theme_options_navigation' );
+
+            if ( true == $navigation['navigation_show_header_and_search'] ) {
+            then set what will happen with view of navigation
+            }
+	?>
+
 
         <?php if (!isset($_GET['content_only']) && !isset($_GET['hide_search'])) { ?>
           <div class="skip-to-content">
