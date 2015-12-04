@@ -1539,8 +1539,8 @@ function pressbooks_theme_options_navigation_init() {
 	$_page = $_option = 'pressbooks_theme_options_navigation';
 	$_section = 'navigation_options_section';
 	$defaults = array(
-		'navigation_paragraph_separation' => 1,
-		'navigation_compress_images' => 0,
+		'navigation_show_header_and_search' => 1,
+
 	);
 
 	if ( false == get_option( $_option ) ) {
@@ -1555,25 +1555,14 @@ function pressbooks_theme_options_navigation_init() {
 	);
 
 	add_settings_field(
-		'navigation_paragraph_separation',
-		__( 'Paragraph Separation', 'pressbooks' ),
-		'pressbooks_theme_navigation_paragraph_separation_callback',
+		'navigation_show_header_and_search',
+		__( 'Show Header and Search Bar', 'pressbooks' ),
+		'pressbooks_theme_navigation_show_header_and_search_callback',
 		$_page,
 		$_section,
 		array(
-			 __( 'Indent paragraphs', 'pressbooks' ),
-			 __( 'Skip lines between paragraphs', 'pressbooks' )
-		)
-	);
-
-	add_settings_field(
-		'navigation_compress_images',
-		__( 'Compress images', 'pressbooks' ),
-		'pressbooks_theme_navigation_compress_images_callback',
-		$_page,
-		$_section,
-		array(
-			__( 'Reduce image size and quality', 'pressbooks' )
+			 __( 'Enable Full Header with Search Bar', 'pressbooks' ),
+			 __( 'Enable Only Search Bar', 'pressbooks' )
 		)
 	);
 
@@ -1588,22 +1577,22 @@ add_action( 'admin_init', 'pressbooks_theme_options_navigation_init' );
 
 // Navigation Options Section Callback
 function pressbooks_theme_options_navigation_callback() {
-	echo '<p>' . __( 'These options apply to navigation exports.', 'pressbooks' ) . '</p>';
+	echo '<p>' . __( 'These options apply to navigation.', 'pressbooks' ) . '</p>';
 }
 
 // Navigation Options Field Callbacks
-function pressbooks_theme_navigation_paragraph_separation_callback( $args ) {
+function pressbooks_theme_navigation_show_header_and_search_callback( $args ) {
 
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
-	if ( ! isset( $options['navigation_paragraph_separation'] ) ) {
-		$options['navigation_paragraph_separation'] = 1;
+	if ( ! isset( $options['navigation_show_header_and_search'] ) ) {
+		$options['navigation_show_header_and_search'] = 1;
 	}
 
-	$html = '<input type="radio" id="paragraph_indent" name="pressbooks_theme_options_navigation[navigation_paragraph_separation]" value="1"' . checked( 1, $options['navigation_paragraph_separation'], false ) . '/> ';
-	$html .= '<label for="paragraph_indent">' . $args[0] . '</label><br />';
-	$html .= '<input type="radio" id="paragraph_skiplines" name="pressbooks_theme_options_navigation[navigation_paragraph_separation]" value="2"' . checked( 2, $options['navigation_paragraph_separation'], false ) . '/> ';
-	$html .= '<label for="paragraph_skiplines">' . $args[1] . '</label>';
+	$html = '<input type="radio" id="show_header_and_search" name="pressbooks_theme_options_navigation[navigation_show_header_and_search]" value="1"' . checked( 1, $options['navigation_show_header_and_search'], false ) . '/> ';
+	$html .= '<label for="show_header_and_search">' . $args[0] . '</label><br />';
+	$html .= '<input type="radio" id="show_header_and_search" name="pressbooks_theme_options_navigation[navigation_show_header_and_search]" value="2"' . checked( 2, $options['navigation_show_header_and_search'], false ) . '/> ';
+	$html .= '<label for="show_header_and_search">' . $args[1] . '</label>';
 	echo $html;
 }
 // it ends here
