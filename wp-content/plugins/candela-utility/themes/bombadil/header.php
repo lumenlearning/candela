@@ -85,10 +85,13 @@
 <?php
 $navigation = get_option( 'pressbooks_theme_options_navigation' );
 
-            if ( true == $navigation['navigation_show_header_and_search'] ) {
-            then set what will happen with view of navigation
-            }
+            if (!isset($navigation['navigation_show_header_and_search'] )) { ?>
+             <!-- then set what will happen with view of navigation -->
+            <div class="skip-to-content">
+            </div>
+            <?php }
 	?>
+<!-- ends here -->
 
 
         <?php if (!isset($_GET['content_only']) && !isset($_GET['hide_search'])) { ?>
