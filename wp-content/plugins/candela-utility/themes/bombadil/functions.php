@@ -155,36 +155,36 @@ function allow_post_tags( $allowedposttags ){
 add_filter('wp_kses_allowed_html','allow_post_tags', 1);
 
 
-// kelly faking it to create theme options page
-function bombadil_register_settings() {
-  register_setting( 'bombadil_theme_options', 'bombadil_options', 'bombadil_validate_options' );
-}
-
-add_action( 'admin_init', 'bombadil_register_settings' );
-
-$settings = get_option( 'bombadil_options', $bombadil_options );
-
-$bombadil_options = array (
-  'default_no_header' =>  "get_bloginfo('wpurl') . '/' . $page . '?hide_search'",
-  'show_header' => "get_bloginfo('wpurl') . '/' . $page . '/'",
-  'show_search' => "get_bloginfo('wpurl') . '/' . $page . '/'",
- );
-
-// or something using this kind of thing?
-$bombadil_header = array(
-  'default' => array(
-    'value' => "get_bloginfo('wpurl') . '/' . $page . '?hide_search'",
-    'label' => 'Content Only'
-  ),
-  'show_header' => array(
-    'value' => "get_bloginfo('wpurl') . '/' . $page . '/'",
-    'label' => 'Show Header'
-
-  ),
-  'show_search' => array(
-    'value' => "get_bloginfo('wpurl') . '/' . $page . '/'",
-    'label' => 'Show Search Bar'
-  )
-);
+// // kelly faking it to create theme options page
+// function bombadil_register_settings() {
+//   register_setting( 'bombadil_theme_options', 'bombadil_options', 'bombadil_validate_options' );
+// }
+//
+// add_action( 'admin_init', 'bombadil_register_settings' );
+//
+// $settings = get_option( 'bombadil_options', $bombadil_options );
+//
+// $bombadil_options = array (
+//   'default_no_header' =>  "get_bloginfo('wpurl') . '/' . $page . '?hide_search'",
+//   'show_header' => "get_bloginfo('wpurl') . '/' . $page . '/'",
+//   'show_search' => "get_bloginfo('wpurl') . '/' . $page . '/'",
+//  );
+//
+// // or something using this kind of thing?
+// $bombadil_header = array(
+//   'default' => array(
+//     'value' => "get_bloginfo('wpurl') . '/' . $page . '?hide_search'",
+//     'label' => 'Content Only'
+//   ),
+//   'show_header' => array(
+//     'value' => "get_bloginfo('wpurl') . '/' . $page . '/'",
+//     'label' => 'Show Header'
+//
+//   ),
+//   'show_search' => array(
+//     'value' => "get_bloginfo('wpurl') . '/' . $page . '/'",
+//     'label' => 'Show Search Bar'
+//   )
+// );
 
 // or would you assign a value of 1, 2, 3 for the options then say if that value, then wpurl= the blogurl we want?

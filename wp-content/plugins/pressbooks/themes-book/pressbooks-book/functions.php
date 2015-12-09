@@ -1533,7 +1533,7 @@ function pressbooks_theme_ebook_paragraph_separation_callback( $args ) {
 // 	how to save the chosen option when selected,
 // 	what does sanitize do in these?
 // 	need to make so is either option but not both- maybe radio buttons
-// 	can this all happen just withn the functions.php file in bombadil (line 158+)
+// 	can this all happen just within the functions.php file in bombadil (line 158+)
 /* ------------------------------------------------------------------------ *
  * Navigation Options Tab
  * ------------------------------------------------------------------------ */
@@ -1551,7 +1551,8 @@ function pressbooks_theme_options_navigation_init() {
 	if ( false == get_option( $_option ) ) {
 		add_option( $_option, $defaults );
 	}
-
+error_log("setup options");
+error_log(print_r(get_option( $_option ),true));
 	add_settings_section(
 		$_section,
 		__( 'Navigation Options', 'pressbooks' ),
@@ -1603,9 +1604,10 @@ function pressbooks_theme_navigation_show_header_and_search_callback( $args ) {
 	if ( ! isset( $options['navigation_show_header_and_search'] ) ) {
 		$options['navigation_show_header_and_search'] = 0;
 	}
-
-	$html = '<input type="checkbox" id="show_header_and_search" name="pressbooks_theme_options_navigation[navigation_show_header_and_search]" value="1"' . checked( 1, $options['navigation_show_header_and_search'], false ) . '/> ';
-	$html .= '<label for="show_header_and_search">' . $args[0] . '</label><br />';
+error_log("callback options");
+error_log(print_r($options,true));
+	$html = '<input type="checkbox" id="navigation_show_header_and_search" name="pressbooks_theme_options_navigation[navigation_show_header_and_search]" value="1"' . checked( 1, $options['navigation_show_header_and_search'], false ) . '/> ';
+	$html .= '<label for="navigation_show_header_and_search">' . $args[0] . '</label><br />';
 	echo $html;
 }
 function pressbooks_theme_navigation_show_search_only_callback( $args ) {
@@ -1615,12 +1617,30 @@ function pressbooks_theme_navigation_show_search_only_callback( $args ) {
 	if ( ! isset( $options['navigation_show_search_only'] ) ) {
 		$options['navigation_show_search_only'] = 0;
 	}
-
-	$html .= '<input type="checkbox" id="show_search_only" name="pressbooks_theme_options_navigation[navigation_show_search_only]" value="1"' . checked( 1, $options['navigation_show_search_only'], false ) . '/> ';
-	$html .= '<label for="show_header_and_search">' . $args[0] . '</label><br />';
+	$html = '<input type="checkbox" id="navigation_show_search_only" name="pressbooks_theme_options_navigation[navigation_show_search_only]" value="1"' . checked( 1, $options['navigation_show_search_only'], false ) . '/> ';
+	$html .= '<label for="navigation_show_search_only">' . $args[0] . '</label><br />';
 	echo $html;
 }
 
+// Navigation Options Input Sanitization
+function pressbooks_theme_options_navigation_sanitize( $input ) {
+
+	$options = get_option( 'pressbooks_theme_options_navigation' );
+
+	// Absint
+	foreach ( array( 'navigation_show_header_and_search' ) as $val ) {
+		if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
+		else $options[$val] = 1;
+	}
+
+	// Checkmarks
+	foreach ( array( 'navigation_show_search_only' ) as $val ) {
+		if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
+		else $options[$val] = 1;
+	}
+
+	return $options;
+}
 // it ends here
 
 
