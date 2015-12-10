@@ -68,18 +68,15 @@
   <!-- home page wrap -->
 
 
-<!-- what do I call the -get_header_preference() function on here? -->
 		<span itemscope itemtype="http://schema.org/Book" itemref="about alternativeHeadline author copyrightHolder copyrightYear datePublished description editor
 		      image inLanguage keywords publisher audience educationalAlignment educationalUse interactivityType learningResourceType typicalAgeRange">
 			<div class="book-info-container hfeed">
 
 		<?php else: ?>
-
 		<span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">
       <?php if (should_show_header()) { ?>
 			<div class="nav-container">
-
-
+<!-- just to show nav is being grabbed correctly -->
         <?php if (should_show_content_only()) { ?>
           <div class="skip-to-content">
             <a href="#main-content">Skip to main content</a>
