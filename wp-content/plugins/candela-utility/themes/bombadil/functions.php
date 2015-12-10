@@ -155,35 +155,64 @@ function allow_post_tags( $allowedposttags ){
 add_filter('wp_kses_allowed_html','allow_post_tags', 1);
 
 
-// Where to call this function...
-  $navigation = get_option( 'pressbooks_theme_options_navigation' );
-  $header_preference = should_show_content_only();
 // error_log(print_r($navigation['navigation_show_header_and_search']));
 // error_log(print_r($navigation['navigation_show_search_only']));
-      if (!isset($navigation['navigation_show_header_and_search']) && !isset($navigation['navigation_show_search_only'])) {
-        $header_preference = should_show_header();
-        } elseif (isset($navigation['navigation_show_header_and_search'] )) {
+      // if (!isset($navigation['navigation_show_header_and_search']) && !isset($navigation['navigation_show_search_only'])) {
+      //   $header_preference = should_show_header();
+      //   } elseif (isset($navigation['navigation_show_header_and_search'] )) {
         // <!-- (should_show_content_only()); -->
         // } elseif ($navigation['navigation_show_search_only'] == 1) {
         // // <!-- (should_show_search_only()); -->
-        }
-      return $header_preference;
+        // }
+      // return $header_preference;
 
 
 function should_show_header(){
-  return (!isset($_GET['content_only']) || !isset($_GET['hide_search']));
-}  // works in header.php
+  $navigation = get_option( 'pressbooks_theme_options_navigation' );
+
+  if (($navigation['navigation_show_header_and_search'] == 1) && ($navigation['navigation_show_search_only'] == 0)) {
+//     error_log(print_r("FULL HEADER:  "));
+//     error_log(print_r("  show_header_and_search:  "));
+//     error_log(print_r($navigation['navigation_show_header_and_search']));
+//     error_log(print_r("  show_search_only:  "));
+//     error_log(print_r($navigation['navigation_show_search_only']));
+    return (!isset($_GET['content_only']) || !isset($_GET['hide_search']));
+//   } else {
+//     echo "exit at: should show full header and search";
+  }
+}
+
+function should_show_content_only(){
+//   $navigation = get_option( 'pressbooks_theme_options_navigation' );
+//
+//   if (($navigation['navigation_show_header_and_search'] == 0) && ($navigation['navigation_show_search_only'] == 0)) {
+//     error_log(print_r("  CONTENT ONLY:  "));
+//     error_log(print_r("  show_header_and_search:  "));
+//     error_log(print_r($navigation['navigation_show_header_and_search']));
+//     error_log(print_r("  show_search_only:  "));
+//     error_log(print_r($navigation['navigation_show_search_only']));
+    return (!isset($_GET['content_only']) && !isset($_GET['hide_search']));
+//   } else {
+//     echo "exit at: should show content only";
+//   }
+}
 
 function should_show_search_only(){
   $navigation = get_option( 'pressbooks_theme_options_navigation' );
-  if ($navigation['navigation_show_search_only'] == 1) {
-    return (isset($_GET['content_only']) && !isset($_GET['hide_search']));
-  }
-}  // works in header.php
 
-function should_show_content_only(){
-    return (!isset($_GET['content_only']) && !isset($_GET['hide_search']));
-}  // works in header.php, but this one doesn't make sense to me- maybe due to lack of sleep
+  if (($navigation['navigation_show_search_only'] == 1) && ($navigation['navigation_show_header_and_search'] == 0)) {
+//     error_log(print_r("   JUST SEARCH:  "));
+//     error_log(print_r("  show_header_and_search:  "));
+//     error_log(print_r($navigation['navigation_show_header_and_search']));
+//     error_log(print_r("  show_search_only:  "));
+//     error_log(print_r($navigation['navigation_show_search_only']));
+    return (isset($_GET['content_only']) && !isset($_GET['hide_search']));
+//   } else {
+//     echo "exit at: should show search only";
+  }
+}
+
+
 /* ------------------------------------------------------------------------ *
  * Navigation Options Tab
  * ------------------------------------------------------------------------ */
