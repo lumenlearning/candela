@@ -155,6 +155,146 @@ function allow_post_tags( $allowedposttags ){
 add_filter('wp_kses_allowed_html','allow_post_tags', 1);
 
 
+// I added this next part
+function get_header_preference() {
+  $navigation = get_option( 'pressbooks_theme_options_navigation' );
+
+      if (!isset($navigation['navigation_show_header_and_search']) && !isset($navigation['navigation_show_search_only'])) { ?>
+      <!-- then set what will happen with view of navigation -->
+        <div class="skip-to-content"> <!--?hide_search -->
+        </div>
+      <?php } elseif (isset($navigation['navigation_show_header_and_search'] )) { ?>
+        <div class="header-nav"> <!--  /   -->
+        </div>
+      <?php } elseif (isset($navigation['navigation_show_search_only'] )) { ?>
+        <div class="sub-nav"> <!-- ?content_only -->
+        </div>
+      <?php }
+
+}
+
+function should_show_header(){
+  return (!isset($_GET['content_only']) || !isset($_GET['hide_search']));
+}  // works in header.php
+
+function should_show_search_only(){
+  return (isset($_GET['content_only']) && !isset($_GET['hide_search']));
+}  // works in header.php
+
+function should_show_content_only(){
+  return (!isset($_GET['content_only']) && !isset($_GET['hide_search']));
+}  // works in header.php, but this one doesn't make sense to me
+/* ------------------------------------------------------------------------ *
+ * Navigation Options Tab
+ * ------------------------------------------------------------------------ */
+
+// Navigation Options Registration
+function pressbooks_theme_options_navigation_init() {
+
+	$_page = $_option = 'pressbooks_theme_options_navigation';
+	$_section = 'navigation_options_section';
+	$defaults = array(
+		'navigation_show_header_and_search' => 0,
+		'navigation_show_search_only' => 1
+	);
+
+	if ( false == get_option( $_option ) ) {
+		add_option( $_option, $defaults );
+	}
+error_log("setup options");
+error_log(print_r(get_option( $_option ),true));
+	add_settings_section(
+		$_section,
+		__( 'Navigation Options', 'pressbooks' ),
+		'pressbooks_theme_options_navigation_callback',
+		$_page
+	);
+
+	add_settings_field(
+		'navigation_show_header_and_search',
+		__( 'Show Header and Search Bar', 'pressbooks' ),
+		'pressbooks_theme_navigation_show_header_and_search_callback',
+		$_page,
+		$_section,
+		array(
+			 __( 'Enable Full Header with Search Bar', 'pressbooks' ),
+		)
+	);
+
+	add_settings_field(
+		'navigation_show_search_only',
+		__( 'Show Search Only', 'pressbooks' ),
+		'pressbooks_theme_navigation_show_search_only_callback',
+		$_page,
+		$_section,
+		array(
+			 __( 'Enable Only Search Bar', 'pressbooks' )
+		)
+	);
+
+	register_setting(
+		$_option,
+		$_option,
+		'pressbooks_theme_options_navigation_sanitize'
+	);
+}
+add_action( 'admin_init', 'pressbooks_theme_options_navigation_init' );
+
+
+// Navigation Options Section Callback
+function pressbooks_theme_options_navigation_callback() {
+	echo '<p>' . __( 'These options apply to navigation view.', 'pressbooks' ) . '</p>';
+}
+
+// Navigation Options Field Callbacks
+function pressbooks_theme_navigation_show_header_and_search_callback( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_navigation' );
+
+	if ( ! isset( $options['navigation_show_header_and_search'] ) ) {
+		$options['navigation_show_header_and_search'] = 0;
+	}
+error_log("callback options");
+error_log(print_r($options,true));
+	$html = '<input type="checkbox" id="navigation_show_header_and_search" name="pressbooks_theme_options_navigation[navigation_show_header_and_search]" value="1"' . checked( 1, $options['navigation_show_header_and_search'], false ) . '/> ';
+	$html .= '<label for="navigation_show_header_and_search">' . $args[0] . '</label><br />';
+	echo $html;
+}
+function pressbooks_theme_navigation_show_search_only_callback( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_navigation' );
+
+	if ( ! isset( $options['navigation_show_search_only'] ) ) {
+		$options['navigation_show_search_only'] = 0;
+	}
+	$html = '<input type="checkbox" id="navigation_show_search_only" name="pressbooks_theme_options_navigation[navigation_show_search_only]" value="1"' . checked( 1, $options['navigation_show_search_only'], false ) . '/> ';
+	$html .= '<label for="navigation_show_search_only">' . $args[0] . '</label><br />';
+	echo $html;
+}
+
+// Navigation Options Input Sanitization
+function pressbooks_theme_options_navigation_sanitize( $input ) {
+
+	$options = get_option( 'pressbooks_theme_options_navigation' );
+
+	// Absint
+	foreach ( array( 'navigation_show_header_and_search' ) as $val ) {
+		if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
+		else $options[$val] = 1;
+	}
+
+	// Checkmarks
+	foreach ( array( 'navigation_show_search_only' ) as $val ) {
+		if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
+		else $options[$val] = 1;
+	}
+
+	return $options;
+}
+// it ends here
+
+
+
 // // kelly faking it to create theme options page
 // function bombadil_register_settings() {
 //   register_setting( 'bombadil_theme_options', 'bombadil_options', 'bombadil_validate_options' );
