@@ -67,6 +67,8 @@
 
   <!-- home page wrap -->
 
+
+<!-- what do I call the -get_header_preference() function on here? -->
 		<span itemscope itemtype="http://schema.org/Book" itemref="about alternativeHeadline author copyrightHolder copyrightYear datePublished description editor
 		      image inLanguage keywords publisher audience educationalAlignment educationalUse interactivityType learningResourceType typicalAgeRange">
 			<div class="book-info-container hfeed">
@@ -74,27 +76,11 @@
 		<?php else: ?>
 
 		<span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">
-      <?php if (!isset($_GET['content_only']) || !isset($_GET['hide_search'])) { ?>
+      <?php if (should_show_header()) { ?>
 			<div class="nav-container">
 
-<!-- I messed with this next part -->
-<!-- hide header content always -->
 
-
-<!-- add option to re-enable nav and/or search at this point on functions.php in pressbooks plugins-->
-<?php
-$navigation = get_option( 'pressbooks_theme_options_navigation' );
-
-            if (!isset($navigation['navigation_show_header_and_search'] )) { ?>
-             <!-- then set what will happen with view of navigation -->
-            <div class="skip-to-content">
-            </div>
-            <?php }
-	?>
-<!-- ends here -->
-
-
-        <?php if (!isset($_GET['content_only']) && !isset($_GET['hide_search'])) { ?>
+        <?php if (should_show_content_only()) { ?>
           <div class="skip-to-content">
             <a href="#main-content">Skip to main content</a>
           </div>
@@ -111,7 +97,7 @@ $navigation = get_option( 'pressbooks_theme_options_navigation' );
                 </div>
               </div>
             </nav>
-        <?php } elseif (isset($_GET['content_only']) && !isset($_GET['hide_search'])){ ?>
+        <?php } elseif (should_show_search_only()){ ?>
             <div class="sub-nav">
               <div class="center-subtext-search">
                 <div class="sub-nav-subtext"><?php echo get_the_title($post->post_parent); ?></div>

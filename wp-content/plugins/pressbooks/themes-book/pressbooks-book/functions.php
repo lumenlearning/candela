@@ -331,12 +331,6 @@ function pressbooks_theme_options_display() { ?>
 		<a href="?page=pressbooks_theme_options&tab=navigation_options" class="nav-tab <?php echo $active_tab == 'navigation_options' ? 'nav-tab-active' : ''; ?>">Navigation Options</a>
 		</h2>
 
-		<!-- Some sort of code that says if you're on the bombadil theme style, the navigation and search options
-				can be enabled on per-book basis
-				Otherwise are hidden by default (has ?content_only&?hide_search at end of url)-->
-				<!-- for nav (with search) button enabling- remove from end of url ?content_only -->
-				<!-- for search button enabling- remove ?hide_search from end of url -->
-
 
 		<!-- Create the form that will be used to render our options -->
 		<form method="post" action="options.php">
@@ -1526,123 +1520,6 @@ function pressbooks_theme_ebook_paragraph_separation_callback( $args ) {
 	$html .= '<label for="paragraph_skiplines">' . $args[1] . '</label>';
 	echo $html;
 }
-
-
-// I added this navigation options stuff
-// questions:
-// 	how to save the chosen option when selected,
-// 	what does sanitize do in these?
-// 	need to make so is either option but not both- maybe radio buttons
-// 	can this all happen just within the functions.php file in bombadil (line 158+)
-/* ------------------------------------------------------------------------ *
- * Navigation Options Tab
- * ------------------------------------------------------------------------ */
-
-// Navigation Options Registration
-function pressbooks_theme_options_navigation_init() {
-
-	$_page = $_option = 'pressbooks_theme_options_navigation';
-	$_section = 'navigation_options_section';
-	$defaults = array(
-		'navigation_show_header_and_search' => 0,
-		'navigation_show_search_only' => 1
-	);
-
-	if ( false == get_option( $_option ) ) {
-		add_option( $_option, $defaults );
-	}
-error_log("setup options");
-error_log(print_r(get_option( $_option ),true));
-	add_settings_section(
-		$_section,
-		__( 'Navigation Options', 'pressbooks' ),
-		'pressbooks_theme_options_navigation_callback',
-		$_page
-	);
-
-	add_settings_field(
-		'navigation_show_header_and_search',
-		__( 'Show Header and Search Bar', 'pressbooks' ),
-		'pressbooks_theme_navigation_show_header_and_search_callback',
-		$_page,
-		$_section,
-		array(
-			 __( 'Enable Full Header with Search Bar', 'pressbooks' ),
-		)
-	);
-
-	add_settings_field(
-		'navigation_show_search_only',
-		__( 'Show Search Only', 'pressbooks' ),
-		'pressbooks_theme_navigation_show_search_only_callback',
-		$_page,
-		$_section,
-		array(
-			 __( 'Enable Only Search Bar', 'pressbooks' )
-		)
-	);
-
-	register_setting(
-		$_option,
-		$_option,
-		'pressbooks_theme_options_navigation_sanitize'
-	);
-}
-add_action( 'admin_init', 'pressbooks_theme_options_navigation_init' );
-
-
-// Navigation Options Section Callback
-function pressbooks_theme_options_navigation_callback() {
-	echo '<p>' . __( 'These options apply to navigation view.', 'pressbooks' ) . '</p>';
-}
-
-// Navigation Options Field Callbacks
-function pressbooks_theme_navigation_show_header_and_search_callback( $args ) {
-
-	$options = get_option( 'pressbooks_theme_options_navigation' );
-
-	if ( ! isset( $options['navigation_show_header_and_search'] ) ) {
-		$options['navigation_show_header_and_search'] = 0;
-	}
-error_log("callback options");
-error_log(print_r($options,true));
-	$html = '<input type="checkbox" id="navigation_show_header_and_search" name="pressbooks_theme_options_navigation[navigation_show_header_and_search]" value="1"' . checked( 1, $options['navigation_show_header_and_search'], false ) . '/> ';
-	$html .= '<label for="navigation_show_header_and_search">' . $args[0] . '</label><br />';
-	echo $html;
-}
-function pressbooks_theme_navigation_show_search_only_callback( $args ) {
-
-	$options = get_option( 'pressbooks_theme_options_navigation' );
-
-	if ( ! isset( $options['navigation_show_search_only'] ) ) {
-		$options['navigation_show_search_only'] = 0;
-	}
-	$html = '<input type="checkbox" id="navigation_show_search_only" name="pressbooks_theme_options_navigation[navigation_show_search_only]" value="1"' . checked( 1, $options['navigation_show_search_only'], false ) . '/> ';
-	$html .= '<label for="navigation_show_search_only">' . $args[0] . '</label><br />';
-	echo $html;
-}
-
-// Navigation Options Input Sanitization
-function pressbooks_theme_options_navigation_sanitize( $input ) {
-
-	$options = get_option( 'pressbooks_theme_options_navigation' );
-
-	// Absint
-	foreach ( array( 'navigation_show_header_and_search' ) as $val ) {
-		if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
-		else $options[$val] = 1;
-	}
-
-	// Checkmarks
-	foreach ( array( 'navigation_show_search_only' ) as $val ) {
-		if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
-		else $options[$val] = 1;
-	}
-
-	return $options;
-}
-// it ends here
-
 
 // PDF Options Field Callback
 function pressbooks_theme_ebook_compress_images_callback( $args ) {
