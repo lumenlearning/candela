@@ -169,21 +169,50 @@ add_filter('wp_kses_allowed_html','allow_post_tags', 1);
 
 function should_show_header(){
   $navigation = get_option( 'pressbooks_theme_options_navigation' );
-  if (($navigation['navigation_show_header_and_search'] == 0) && ($navigation['navigation_show_search_only'] == 0)) {
+
+  if (($navigation['navigation_show_header_and_search'] == 1) && ($navigation['navigation_show_search_only'] == 0)) {
+//     error_log(print_r("FULL HEADER:  "));
+//     error_log(print_r("  show_header_and_search:  "));
+//     error_log(print_r($navigation['navigation_show_header_and_search']));
+//     error_log(print_r("  show_search_only:  "));
+//     error_log(print_r($navigation['navigation_show_search_only']));
     return (!isset($_GET['content_only']) || !isset($_GET['hide_search']));
+//   } else {
+//     echo "exit at: should show full header and search";
   }
-}  // works in header.php
+}
+
+function should_show_content_only(){
+//   $navigation = get_option( 'pressbooks_theme_options_navigation' );
+//
+//   if (($navigation['navigation_show_header_and_search'] == 0) && ($navigation['navigation_show_search_only'] == 0)) {
+//     error_log(print_r("  CONTENT ONLY:  "));
+//     error_log(print_r("  show_header_and_search:  "));
+//     error_log(print_r($navigation['navigation_show_header_and_search']));
+//     error_log(print_r("  show_search_only:  "));
+//     error_log(print_r($navigation['navigation_show_search_only']));
+    return (!isset($_GET['content_only']) && !isset($_GET['hide_search']));
+//   } else {
+//     echo "exit at: should show content only";
+//   }
+}
 
 function should_show_search_only(){
   $navigation = get_option( 'pressbooks_theme_options_navigation' );
-  if ($navigation['navigation_show_search_only'] == 1) {
-    return (isset($_GET['content_only']) && !isset($_GET['hide_search']));
-  }
-}  // works in header.php
 
-function should_show_content_only(){
-    return (!isset($_GET['content_only']) && !isset($_GET['hide_search']));
-}  // works in header.php, but this one doesn't make sense to me- maybe due to lack of sleep
+  if (($navigation['navigation_show_search_only'] == 1) && ($navigation['navigation_show_header_and_search'] == 0)) {
+//     error_log(print_r("   JUST SEARCH:  "));
+//     error_log(print_r("  show_header_and_search:  "));
+//     error_log(print_r($navigation['navigation_show_header_and_search']));
+//     error_log(print_r("  show_search_only:  "));
+//     error_log(print_r($navigation['navigation_show_search_only']));
+    return (isset($_GET['content_only']) && !isset($_GET['hide_search']));
+//   } else {
+//     echo "exit at: should show search only";
+  }
+}
+
+
 /* ------------------------------------------------------------------------ *
  * Navigation Options Tab
  * ------------------------------------------------------------------------ */
