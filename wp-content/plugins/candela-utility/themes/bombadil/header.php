@@ -74,10 +74,10 @@
 
 		<?php else: ?>
 		<span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">
-      <?php if (should_show_header()) { ?>
-			<div class="nav-container">
-<!-- just to show nav is being grabbed correctly -->
-        <?php if (should_show_content_only()) { ?>
+      <?php if (show_nav_container()) { ?>
+			  <div class="nav-container">
+      <?php } ?>
+        <?php if (show_header()) { ?>
           <div class="skip-to-content">
             <a href="#main-content">Skip to main content</a>
           </div>
@@ -87,22 +87,19 @@
                 <div class="pressbooks-logo">Lumen Mastery</div>
                 <a class="book-title" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a>
               </div>
+        <?php } ?>
+        <?php if (show_search()) { ?>
               <div class="sub-nav">
                 <div class="center-subtext-search">
                   <div class="sub-nav-subtext"><?php echo get_the_title($post->post_parent); ?></div>
                   <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
                 </div>
               </div>
-            </nav>
-        <?php } elseif (should_show_search_only()){ ?>
-            <div class="sub-nav">
-              <div class="center-subtext-search">
-                <div class="sub-nav-subtext"><?php echo get_the_title($post->post_parent); ?></div>
-                <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
-              </div>
-            </div>
         <?php } ?>
-
+        <?php if (show_header()) { ?>
+            </nav>
+        <?php } ?>
+      <?php if (show_nav_container()) { ?>
         </div> <!-- end .nav-container -->
       <?php } ?>
 
