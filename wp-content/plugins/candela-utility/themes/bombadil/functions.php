@@ -186,6 +186,19 @@ function show_small_title(){
   }
 }
 
+function show_edit_button(){
+  $navigation = get_option( 'pressbooks_theme_options_navigation' );
+  if ($navigation['navigation_show_edit_button'] == 1) {
+    return true;
+  }
+}
+
+function show_navigation_buttons(){
+  $navigation = get_option( 'pressbooks_theme_options_navigation' );
+  if ($navigation['navigation_show_navigation_buttons'] == 1) {
+    return true;
+  }
+}
 /* ------------------------------------------------------------------------ *
  * Navigation Options Tab
  * ------------------------------------------------------------------------ */
@@ -197,10 +210,10 @@ function pressbooks_theme_options_navigation_init() {
 	$_section = 'navigation_options_section';
 	$defaults = array(
 		'navigation_show_header' => 0,
-		'navigation_show_search' => 1,
-    'navigation_show_small_title' => 2,
-    'navigation_show_edit_button' => 3,
-    'navigation_show_navigation_buttons' => 4
+		'navigation_show_search' => 0,
+    'navigation_show_small_title' => 0,
+    'navigation_show_edit_button' => 1,
+    'navigation_show_navigation_buttons' => 0
 	);
 
 	if ( false == get_option( $_option ) ) {
@@ -239,7 +252,7 @@ function pressbooks_theme_options_navigation_init() {
   add_settings_field(
     'navigation_show_small_title',
     __( 'Show Small Title', 'pressbooks' ),
-		'pressbooks_theme_navigation_show_small_title',
+		'pressbooks_theme_navigation_show_small_title_callback',
 		$_page,
 		$_section,
 		array(
@@ -250,7 +263,7 @@ function pressbooks_theme_options_navigation_init() {
   add_settings_field(
     'navigation_show_edit_button',
     __( 'Show Edit Button', 'pressbooks' ),
-		'pressbooks_theme_navigation_show_edit_button',
+		'pressbooks_theme_navigation_show_edit_button_callback',
 		$_page,
 		$_section,
 		array(
@@ -261,7 +274,7 @@ function pressbooks_theme_options_navigation_init() {
   add_settings_field(
     'navigation_show_navigation_buttons',
     __( 'Show Navigation Buttons', 'pressbooks' ),
-		'pressbooks_theme_navigation_show_navigation_buttons',
+		'pressbooks_theme_navigation_show_navigation_buttons_callback',
 		$_page,
 		$_section,
 		array(
@@ -283,19 +296,20 @@ function pressbooks_theme_options_navigation_callback() {
 	echo '<p>' . __( 'These options apply to navigation view.', 'pressbooks' ) . '</p>';
 }
 
-// Navigation Options Field Callbacks
+// Navigation Options Field Callback
 function pressbooks_theme_navigation_show_header_callback( $args ) {
 
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
 	if ( ! isset( $options['navigation_show_header'] ) ) {
-		$options['navigation_show_header'] = 0;
+		$options['navigation_show_header'] = 1;
 	}
 	$html = '<input type="checkbox" id="navigation_show_header" name="pressbooks_theme_options_navigation[navigation_show_header]" value="1"' . checked( 1, $options['navigation_show_header'], false ) . '/> ';
 	$html .= '<label for="navigation_show_header">' . $args[0] . '</label><br />';
 	echo $html;
 }
 
+// Navigation Options Field Callback
 function pressbooks_theme_navigation_show_search_callback( $args ) {
 
 	$options = get_option( 'pressbooks_theme_options_navigation' );
@@ -308,7 +322,8 @@ function pressbooks_theme_navigation_show_search_callback( $args ) {
 	echo $html;
 }
 
-function pressbooks_theme_navigation_show_small_title( $args ) {
+// Navigation Options Field Callback
+function pressbooks_theme_navigation_show_small_title_callback( $args ) {
 
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
@@ -320,19 +335,20 @@ function pressbooks_theme_navigation_show_small_title( $args ) {
 	echo $html;
 }
 
-function pressbooks_theme_navigation_show_edit_button( $args ) {
+// Navigation Options Field Callback
+function pressbooks_theme_navigation_show_edit_button_callback( $args ) {
 
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
 	if ( ! isset( $options['navigation_show_edit_button'] ) ) {
-		$options['navigation_show_edit_button'] = 0;
+		$options['navigation_show_edit_button'] = 1;
 	}
 	$html = '<input type="checkbox" id="navigation_show_edit_button" name="pressbooks_theme_options_navigation[navigation_show_edit_button]" value="1"' . checked( 1, $options['navigation_show_edit_button'], false ) . '/> ';
 	$html .= '<label for="navigation_show_edit_button">' . $args[0] . '</label><br />';
 	echo $html;
 }
 
-function pressbooks_theme_navigation_show_navigation_buttons( $args ) {
+function pressbooks_theme_navigation_show_navigation_buttons_callback( $args ) {
 
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
@@ -377,5 +393,3 @@ function pressbooks_theme_options_navigation_sanitize( $input ) {
 
   return $options;
   }
-
-// it ends here
