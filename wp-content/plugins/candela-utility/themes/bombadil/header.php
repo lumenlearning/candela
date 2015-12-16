@@ -88,11 +88,15 @@
                 <a class="book-title" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a>
               </div>
         <?php } ?>
-        <?php if (show_search()) { ?>
+        <?php if (show_search() || (show_small_title())) { ?>
               <div class="sub-nav">
                 <div class="center-subtext-search">
-                  <!-- <div class="sub-nav-subtext"><?php echo get_the_title($post->post_parent); ?></div> -->
-                  <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
+                  <?php if (show_search()) { ?>
+                    <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
+                  <?php } ?>
+                  <?php if (show_small_title()) { ?>
+                    <div class="sub-nav-subtext"><?php echo get_the_title($post->post_parent); ?></div>
+                  <?php } ?>
                 </div>
               </div>
         <?php } ?>
