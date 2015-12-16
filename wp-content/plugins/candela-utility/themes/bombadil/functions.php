@@ -159,45 +159,53 @@ add_filter('wp_kses_allowed_html','allow_post_tags', 1);
 function show_nav_container(){
   $navigation = get_option( 'pressbooks_theme_options_navigation' );
   if (($navigation['navigation_show_header'] == 1) || ($navigation['navigation_show_search'] == 1)) {
-
     return true;
+  }
+}
+
+function show_nav_options($selected_option){
+  $via_LTI_launch = isset($_GET['content_only']);
+  if($via_LTI_launch){
+    $navigation = get_option( 'pressbooks_theme_options_navigation' );
+    if ($navigation[$selected_option] == 1) {
+      return true;
+    }
   }
 }
 
 function show_header(){
-  $navigation = get_option( 'pressbooks_theme_options_navigation' );
-  if ($navigation['navigation_show_header'] == 1) {
-
-    return true;
-  }
+  // $navigation = get_option( 'pressbooks_theme_options_navigation' );
+  // if ($navigation['navigation_show_header'] == 1) {
+    return show_nav_options('navigation_show_header');
+  // }
 }
 
 function show_search(){
-  $navigation = get_option( 'pressbooks_theme_options_navigation' );
-  if ($navigation['navigation_show_search'] == 1) {
-    return true;
-  }
+  // $navigation = get_option( 'pressbooks_theme_options_navigation' );
+  // if ($navigation['navigation_show_search'] == 1) {
+    return show_nav_options('navigation_show_search');
+  // }
 }
 
 function show_small_title(){
-  $navigation = get_option( 'pressbooks_theme_options_navigation' );
-  if ($navigation['navigation_show_small_title'] == 1) {
-    return true;
-  }
+  // $navigation = get_option( 'pressbooks_theme_options_navigation' );
+  // if ($navigation['navigation_show_small_title'] == 1) {
+    return show_nav_options('navigation_show_small_title');
+  // }
 }
 
 function show_edit_button(){
-  $navigation = get_option( 'pressbooks_theme_options_navigation' );
-  if ($navigation['navigation_show_edit_button'] == 1) {
-    return true;
-  }
+  // $navigation = get_option( 'pressbooks_theme_options_navigation' );
+  // if ($navigation['navigation_show_edit_button'] == 1) {
+    return show_nav_options('navigation_show_edit_button');
+  // }
 }
 
 function show_navigation_buttons(){
-  $navigation = get_option( 'pressbooks_theme_options_navigation' );
-  if ($navigation['navigation_show_navigation_buttons'] == 1) {
-    return true;
-  }
+  // $navigation = get_option( 'pressbooks_theme_options_navigation' );
+  // if ($navigation['navigation_show_navigation_buttons'] == 1) {
+    return show_nav_options('navigation_show_navigation_buttons');
+  // }
 }
 /* ------------------------------------------------------------------------ *
  * Navigation Options Tab
@@ -234,7 +242,7 @@ function pressbooks_theme_options_navigation_init() {
 		$_page,
 		$_section,
 		array(
-			 __( 'Enable Header', 'pressbooks' ),
+			 __( 'Display Header Bar with Course Title', 'pressbooks' ),
 		)
 	);
 
@@ -256,7 +264,7 @@ function pressbooks_theme_options_navigation_init() {
 		$_page,
 		$_section,
 		array(
-			 __( 'Enable Small Title', 'pressbooks' )
+			 __( 'Display Module Title', 'pressbooks' )
 		)
   );
 
@@ -293,7 +301,7 @@ add_action( 'admin_init', 'pressbooks_theme_options_navigation_init' );
 
 // Navigation Options Section Callback
 function pressbooks_theme_options_navigation_callback() {
-	echo '<p>' . __( 'These options apply to navigation view.', 'pressbooks' ) . '</p>';
+	echo '<p>' . __( 'These options allow customization of the page navigation and are only available when logged in via LTI launch.', 'pressbooks' ) . '</p>';
 }
 
 // Navigation Options Field Callback
