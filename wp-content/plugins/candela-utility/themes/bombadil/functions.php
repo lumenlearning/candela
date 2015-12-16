@@ -155,21 +155,10 @@ function allow_post_tags( $allowedposttags ){
 add_filter('wp_kses_allowed_html','allow_post_tags', 1);
 
 
-// error_log(print_r($navigation['navigation_show_header_and_search']));
-// error_log(print_r($navigation['navigation_show_search_only']));
-      // if (!isset($navigation['navigation_show_header_and_search']) && !isset($navigation['navigation_show_search_only'])) {
-      //   $header_preference = should_show_header();
-      //   } elseif (isset($navigation['navigation_show_header_and_search'] )) {
-        // <!-- (should_show_content_only()); -->
-        // } elseif ($navigation['navigation_show_search_only'] == 1) {
-        // // <!-- (should_show_search_only()); -->
-        // }
-      // return $header_preference;
-
 // to show appropriate header parts
 function show_nav_container(){
   $navigation = get_option( 'pressbooks_theme_options_navigation' );
-  if (($navigation['navigation_show_header_and_search'] == 1) || ($navigation['navigation_show_search_only'] == 1)) {
+  if (($navigation['navigation_show_header'] == 1) || ($navigation['navigation_show_search'] == 1)) {
 
     return true;
   }
@@ -177,7 +166,7 @@ function show_nav_container(){
 
 function show_header(){
   $navigation = get_option( 'pressbooks_theme_options_navigation' );
-  if ($navigation['navigation_show_header_and_search'] == 1) {
+  if ($navigation['navigation_show_header'] == 1) {
 
     return true;
   }
@@ -185,7 +174,7 @@ function show_header(){
 
 function show_search(){
   $navigation = get_option( 'pressbooks_theme_options_navigation' );
-  if ($navigation['navigation_show_search_only'] == 1) {
+  if ($navigation['navigation_show_search'] == 1) {
     return true;
   }
 }
@@ -201,8 +190,8 @@ function pressbooks_theme_options_navigation_init() {
 	$_page = $_option = 'pressbooks_theme_options_navigation';
 	$_section = 'navigation_options_section';
 	$defaults = array(
-		'navigation_show_header_and_search' => 0,
-		'navigation_show_search_only' => 1
+		'navigation_show_header' => 0,
+		'navigation_show_search' => 1
 	);
 
 	if ( false == get_option( $_option ) ) {
@@ -218,26 +207,59 @@ error_log(print_r(get_option( $_option ),true));
 	);
 
 	add_settings_field(
-		'navigation_show_header_and_search',
-		__( 'Show Header and Search Bar', 'pressbooks' ),
-		'pressbooks_theme_navigation_show_header_and_search_callback',
+		'navigation_show_header',
+		__( 'Show Header', 'pressbooks' ),
+		'pressbooks_theme_navigation_show_header_callback',
 		$_page,
 		$_section,
 		array(
-			 __( 'Enable Full Header with Search Bar', 'pressbooks' ),
+			 __( 'Enable Header', 'pressbooks' ),
 		)
 	);
 
 	add_settings_field(
-		'navigation_show_search_only',
-		__( 'Show Search Only', 'pressbooks' ),
-		'pressbooks_theme_navigation_show_search_only_callback',
+		'navigation_show_search',
+		__( 'Show Search', 'pressbooks' ),
+		'pressbooks_theme_navigation_show_search_callback',
 		$_page,
 		$_section,
 		array(
-			 __( 'Enable Only Search Bar', 'pressbooks' )
+			 __( 'Enable Search Bar', 'pressbooks' )
 		)
 	);
+
+  add_settings_field(
+    'navigation_show_small_title',
+    __( 'Show Small Title', 'pressbooks' ),
+		'pressbooks_theme_navigation_show_small_title',
+		$_page,
+		$_section,
+		array(
+			 __( 'Enable Small Title', 'pressbooks' )
+		)
+  );
+
+  add_settings_field(
+    'navigation_show_edit_button',
+    __( 'Show Small Title', 'pressbooks' ),
+		'pressbooks_theme_navigation_show_edit_button',
+		$_page,
+		$_section,
+		array(
+			 __( 'Enable Edit Button', 'pressbooks' )
+		)
+  );
+
+  add_settings_field(
+    'navigation_show_navigation_buttons',
+    __( 'Show Small Title', 'pressbooks' ),
+		'pressbooks_theme_navigation_show_navigation_buttons',
+		$_page,
+		$_section,
+		array(
+			 __( 'Enable Navigation Buttons', 'pressbooks' )
+		)
+  );
 
 	register_setting(
 		$_option,
@@ -254,28 +276,73 @@ function pressbooks_theme_options_navigation_callback() {
 }
 
 // Navigation Options Field Callbacks
-function pressbooks_theme_navigation_show_header_and_search_callback( $args ) {
+function pressbooks_theme_navigation_show_header_callback( $args ) {
 
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
-	if ( ! isset( $options['navigation_show_header_and_search'] ) ) {
-		$options['navigation_show_header_and_search'] = 0;
+	if ( ! isset( $options['navigation_show_header'] ) ) {
+		$options['navigation_show_header'] = 0;
 	}
 error_log("callback options");
 error_log(print_r($options,true));
-	$html = '<input type="checkbox" id="navigation_show_header_and_search" name="pressbooks_theme_options_navigation[navigation_show_header_and_search]" value="1"' . checked( 1, $options['navigation_show_header_and_search'], false ) . '/> ';
-	$html .= '<label for="navigation_show_header_and_search">' . $args[0] . '</label><br />';
+	$html = '<input type="checkbox" id="navigation_show_header" name="pressbooks_theme_options_navigation[navigation_show_header]" value="1"' . checked( 1, $options['navigation_show_header'], false ) . '/> ';
+	$html .= '<label for="navigation_show_header">' . $args[0] . '</label><br />';
 	echo $html;
 }
-function pressbooks_theme_navigation_show_search_only_callback( $args ) {
+function pressbooks_theme_navigation_show_search_callback( $args ) {
 
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
-	if ( ! isset( $options['navigation_show_search_only'] ) ) {
-		$options['navigation_show_search_only'] = 0;
+	if ( ! isset( $options['navigation_show_search'] ) ) {
+		$options['navigation_show_search'] = 0;
 	}
-	$html = '<input type="checkbox" id="navigation_show_search_only" name="pressbooks_theme_options_navigation[navigation_show_search_only]" value="1"' . checked( 1, $options['navigation_show_search_only'], false ) . '/> ';
-	$html .= '<label for="navigation_show_search_only">' . $args[0] . '</label><br />';
+	$html = '<input type="checkbox" id="navigation_show_search" name="pressbooks_theme_options_navigation[navigation_show_search]" value="1"' . checked( 1, $options['navigation_show_search'], false ) . '/> ';
+	$html .= '<label for="navigation_show_search">' . $args[0] . '</label><br />';
+	echo $html;
+}
+function pressbooks_theme_navigation_show_small_title( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_navigation' );
+
+	if ( ! isset( $options['navigation_show_small_title'] ) ) {
+		$options['navigation_show_small_title'] = 0;
+	}
+  error_log("callback options");
+  error_log(print_r($options,true));
+
+
+	$html = '<input type="checkbox" id="navigation_show_small_title" name="pressbooks_theme_options_navigation[navigation_show_small_title]" value="1"' . checked( 1, $options['navigation_show_small_title'], false ) . '/> ';
+	$html .= '<label for="navigation_show_small_title">' . $args[0] . '</label><br />';
+	echo $html;
+}
+function pressbooks_theme_navigation_show_edit_button( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_navigation' );
+
+	if ( ! isset( $options['navigation_show_edit_button'] ) ) {
+		$options['navigation_show_edit_button'] = 0;
+	}
+  error_log("callback options");
+  error_log(print_r($options,true));
+
+
+	$html = '<input type="checkbox" id="navigation_show_edit_button" name="pressbooks_theme_options_navigation[navigation_show_edit_button]" value="1"' . checked( 1, $options['navigation_show_edit_button'], false ) . '/> ';
+	$html .= '<label for="navigation_show_edit_button">' . $args[0] . '</label><br />';
+	echo $html;
+}
+function pressbooks_theme_navigation_show_navigation_buttons( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_navigation' );
+
+	if ( ! isset( $options['navigation_show_navigation_buttons'] ) ) {
+		$options['navigation_show_navigation_buttons'] = 0;
+	}
+  error_log("callback options");
+  error_log(print_r($options,true));
+
+
+	$html = '<input type="checkbox" id="navigation_show_navigation_buttons" name="pressbooks_theme_options_navigation[navigation_show_navigation_buttons]" value="1"' . checked( 1, $options['navigation_show_navigation_buttons'], false ) . '/> ';
+	$html .= '<label for="navigation_show_navigation_buttons">' . $args[0] . '</label><br />';
 	echo $html;
 }
 
@@ -284,54 +351,33 @@ function pressbooks_theme_options_navigation_sanitize( $input ) {
 
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
-	// Absint
-	foreach ( array( 'navigation_show_header_and_search' ) as $val ) {
-		if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
-		else $options[$val] = 1;
-	}
-
 	// Checkmarks
-	foreach ( array( 'navigation_show_search_only' ) as $val ) {
+	foreach ( array( 'navigation_show_header' ) as $val ) {
 		if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
 		else $options[$val] = 1;
 	}
 
-	return $options;
-}
+	foreach ( array( 'navigation_show_search' ) as $val ) {
+		if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
+		else $options[$val] = 1;
+	}
+
+  foreach ( array( 'navigation_show_small_title' ) as $val ) {
+    if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
+    else $options[$val] = 1;
+  }
+
+  foreach ( array( 'navigation_show_edit_button' ) as $val ) {
+    if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
+    else $options[$val] = 1;
+  }
+
+  foreach ( array( 'navigation_show_navigation_buttons' ) as $val ) {
+    if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
+    else $options[$val] = 1;
+  }
+
+  return $options;
+  }
+
 // it ends here
-
-
-
-// // kelly faking it to create theme options page
-// function bombadil_register_settings() {
-//   register_setting( 'bombadil_theme_options', 'bombadil_options', 'bombadil_validate_options' );
-// }
-//
-// add_action( 'admin_init', 'bombadil_register_settings' );
-//
-// $settings = get_option( 'bombadil_options', $bombadil_options );
-//
-// $bombadil_options = array (
-//   'default_no_header' =>  "get_bloginfo('wpurl') . '/' . $page . '?hide_search'",
-//   'show_header' => "get_bloginfo('wpurl') . '/' . $page . '/'",
-//   'show_search' => "get_bloginfo('wpurl') . '/' . $page . '/'",
-//  );
-//
-// // or something using this kind of thing?
-// $bombadil_header = array(
-//   'default' => array(
-//     'value' => "get_bloginfo('wpurl') . '/' . $page . '?hide_search'",
-//     'label' => 'Content Only'
-//   ),
-//   'show_header' => array(
-//     'value' => "get_bloginfo('wpurl') . '/' . $page . '/'",
-//     'label' => 'Show Header'
-//
-//   ),
-//   'show_search' => array(
-//     'value' => "get_bloginfo('wpurl') . '/' . $page . '/'",
-//     'label' => 'Show Search Bar'
-//   )
-// );
-
-// or would you assign a value of 1, 2, 3 for the options then say if that value, then wpurl= the blogurl we want?
