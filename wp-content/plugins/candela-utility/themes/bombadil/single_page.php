@@ -39,8 +39,9 @@
 	<?php endif; ?>
 
 	<!-- EDIT PAGE BUTTON -->
+	<?php if (show_edit_button()) { ?>
     <?php edit_post_link(__('Edit This Page', 'lumen'), '<div class="edit-page-btn">', '</div>'); ?>
-
+	<?php } ?>
 	<!-- PAGE NAVIGATION BUTTONS -->
 	<?php if(!isset($_GET['content_only'])) {
     ca_get_links();

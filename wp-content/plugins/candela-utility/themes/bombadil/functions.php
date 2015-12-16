@@ -186,7 +186,12 @@ function show_small_title(){
   }
 }
 
-/* ------------------------------------------------------------------------ *
+function show_edit_button(){
+  $navigation = get_option( 'pressbooks_theme_options_navigation' );
+  if ($navigation['navigation_show_edit_button'] == 1) {
+    return true;
+  }
+}/* ------------------------------------------------------------------------ *
  * Navigation Options Tab
  * ------------------------------------------------------------------------ */
 
