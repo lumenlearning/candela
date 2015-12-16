@@ -478,6 +478,8 @@ function pressbooks_theme_chapter_numbers_callback( $args ) {
 
 	$options = get_option( 'pressbooks_theme_options_global' );
 
+
+// THIS IS WHERE DEFAULT IS SET
 	if ( ! isset( $options['chapter_numbers'] ) ) {
 		$options['chapter_numbers'] = 1;
 	}
