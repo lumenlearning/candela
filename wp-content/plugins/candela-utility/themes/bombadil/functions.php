@@ -191,7 +191,10 @@ function pressbooks_theme_options_navigation_init() {
 	$_section = 'navigation_options_section';
 	$defaults = array(
 		'navigation_show_header' => 0,
-		'navigation_show_search' => 1
+		'navigation_show_search' => 1,
+    'navigation_show_small_title' => 2,
+    'navigation_show_edit_button' => 3,
+    'navigation_show_navigation_buttons' => 4
 	);
 
 	if ( false == get_option( $_option ) ) {
@@ -241,7 +244,7 @@ error_log(print_r(get_option( $_option ),true));
 
   add_settings_field(
     'navigation_show_edit_button',
-    __( 'Show Small Title', 'pressbooks' ),
+    __( 'Show Edit Button', 'pressbooks' ),
 		'pressbooks_theme_navigation_show_edit_button',
 		$_page,
 		$_section,
@@ -252,7 +255,7 @@ error_log(print_r(get_option( $_option ),true));
 
   add_settings_field(
     'navigation_show_navigation_buttons',
-    __( 'Show Small Title', 'pressbooks' ),
+    __( 'Show Navigation Buttons', 'pressbooks' ),
 		'pressbooks_theme_navigation_show_navigation_buttons',
 		$_page,
 		$_section,
