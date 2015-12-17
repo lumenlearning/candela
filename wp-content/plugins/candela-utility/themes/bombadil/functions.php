@@ -242,7 +242,7 @@ function pressbooks_theme_options_navigation_init() {
 		$_page,
 		$_section,
 		array(
-			 __( 'Enable Header', 'pressbooks' ),
+			 __( 'Display Header Bar with Course Title', 'pressbooks' ),
 		)
 	);
 
@@ -264,7 +264,7 @@ function pressbooks_theme_options_navigation_init() {
 		$_page,
 		$_section,
 		array(
-			 __( 'Enable Small Title', 'pressbooks' )
+			 __( 'Display Module Title', 'pressbooks' )
 		)
   );
 
@@ -301,7 +301,7 @@ add_action( 'admin_init', 'pressbooks_theme_options_navigation_init' );
 
 // Navigation Options Section Callback
 function pressbooks_theme_options_navigation_callback() {
-	echo '<p>' . __( 'These options apply to navigation view.', 'pressbooks' ) . '</p>';
+	echo '<p>' . __( 'These options allow customization of the page navigation and are only available when logged in via LTI launch.', 'pressbooks' ) . '</p>';
 }
 
 // Navigation Options Field Callback
