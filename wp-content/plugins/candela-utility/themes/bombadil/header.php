@@ -85,7 +85,9 @@
             <nav role="navigation">
               <div class="header-nav">
                 <div class="pressbooks-logo">Lumen Mastery</div>
-                <a class="book-title" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a>
+                <?php if (show_header_link()) { ?>
+                  <a class="book-title" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a>
+                <?php } ?>
               </div>
         <?php } ?>
         <?php if (show_search() || (show_small_title())) { ?>
