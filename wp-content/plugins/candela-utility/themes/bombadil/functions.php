@@ -173,7 +173,7 @@ function show_nav_options($selected_option){
       return false;
     }
   } else {
-    return false;
+    return true;
   }
 }
 
@@ -210,12 +210,14 @@ function pressbooks_theme_options_navigation_init() {
 	$_page = $_option = 'pressbooks_theme_options_navigation';
 	$_section = 'navigation_options_section';
 	$defaults = array(
-		'navigation_show_header' => 0,
-    'naviagation_show_header_link' => 1,
+		'navigation_show_header' => 1,
+    'navigation_show_header_link' => 0,
 		'navigation_show_search' => 0,
     'navigation_show_small_title' => 0,
     'navigation_show_edit_button' => 1,
-    'navigation_show_navigation_buttons' => 0
+    'navigation_show_navigation_buttons' => 0,
+    'navigation_show_waymaker_logo' => 0
+
 	);
 
 	if ( false == get_option( $_option ) ) {
@@ -247,7 +249,7 @@ function pressbooks_theme_options_navigation_init() {
   		$_page,
   		$_section,
   		array(
-  			 __( 'Enable Link to Table of Contents', 'pressbooks' ),
+  			 __( 'Make Course Title a Clickable Link to Table of Contents (Header must be selected)', 'pressbooks' ),
   		)
   	);
 
@@ -269,7 +271,7 @@ function pressbooks_theme_options_navigation_init() {
 		$_page,
 		$_section,
 		array(
-			 __( 'Display Part Title', 'pressbooks' )
+			 __( 'Display Part/Module/Chapter Title', 'pressbooks' )
 		)
   );
 
@@ -295,12 +297,24 @@ function pressbooks_theme_options_navigation_init() {
 		)
   );
 
+  add_settings_field(
+    'navigation_show_waymaker_logo',
+    __( 'Waymaker Logo', 'pressbooks' ),
+		'pressbooks_theme_navigation_show_waymaker_logo_callback',
+		$_page,
+		$_section,
+		array(
+			 __( 'Enable Waymaker Logo (Candela Logo is default)', 'pressbooks' )
+		)
+  );
+
 	register_setting(
 		$_option,
 		$_option,
 		'pressbooks_theme_options_navigation_sanitize'
 	);
 }
+
 add_action( 'admin_init', 'pressbooks_theme_options_navigation_init' );
 
 
@@ -315,7 +329,7 @@ function pressbooks_theme_navigation_show_header_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
 	if ( ! isset( $options['navigation_show_header'] ) ) {
-		$options['navigation_show_header'] = 1;
+		$options['navigation_show_header'] = 0;
 	}
 	$html = '<input type="checkbox" id="navigation_show_header" name="pressbooks_theme_options_navigation[navigation_show_header]" value="1"' . checked( 1, $options['navigation_show_header'], false ) . '/> ';
 	$html .= '<label for="navigation_show_header">' . $args[0] . '</label><br />';
@@ -328,7 +342,7 @@ function pressbooks_theme_navigation_show_header_link_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
 	if ( ! isset( $options['navigation_show_header_link'] ) ) {
-		$options['navigation_show_header_link'] = 1;
+		$options['navigation_show_header_link'] = 0;
 	}
 	$html = '<input type="checkbox" id="navigation_show_header_link" name="pressbooks_theme_options_navigation[navigation_show_header_link]" value="1"' . checked( 1, $options['navigation_show_header_link'], false ) . '/> ';
 	$html .= '<label for="navigation_show_header_link">' . $args[0] . '</label><br />';
@@ -354,7 +368,7 @@ function pressbooks_theme_navigation_show_small_title_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
 	if ( ! isset( $options['navigation_show_small_title'] ) ) {
-		$options['navigation_show_small_title'] = 0;
+		$options['navigation_show_small_title'] = 1;
 	}
 	$html = '<input type="checkbox" id="navigation_show_small_title" name="pressbooks_theme_options_navigation[navigation_show_small_title]" value="1"' . checked( 1, $options['navigation_show_small_title'], false ) . '/> ';
 	$html .= '<label for="navigation_show_small_title">' . $args[0] . '</label><br />';
@@ -383,6 +397,18 @@ function pressbooks_theme_navigation_show_navigation_buttons_callback( $args ) {
 	}
 	$html = '<input type="checkbox" id="navigation_show_navigation_buttons" name="pressbooks_theme_options_navigation[navigation_show_navigation_buttons]" value="1"' . checked( 1, $options['navigation_show_navigation_buttons'], false ) . '/> ';
 	$html .= '<label for="navigation_show_navigation_buttons">' . $args[0] . '</label><br />';
+	echo $html;
+}
+
+function pressbooks_theme_navigation_show_waymaker_logo_callback( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_navigation' );
+
+	if ( ! isset( $options['navigation_show_waymaker_logo'] ) ) {
+		$options['navigation_show_waymaker_logo'] = 0;
+	}
+	$html = '<input type="checkbox" id="navigation_show_waymaker_logo" name="pressbooks_theme_options_navigation[navigation_show_waymaker_logo]" value="1"' . checked( 1, $options['navigation_show_waymaker_logo'], false ) . '/> ';
+	$html .= '<label for="navigation_show_waymaker_logo">' . $args[0] . '</label><br />';
 	echo $html;
 }
 
@@ -422,5 +448,28 @@ function pressbooks_theme_options_navigation_sanitize( $input ) {
     else $options[$val] = 1;
   }
 
+  foreach ( array( 'navigation_show_waymaker_logo' ) as $val ) {
+    if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
+    else $options[$val] = 1;
+  }
+
   return $options;
+  }
+
+  function choose_logo($selected_option){
+      $navigation = get_option( 'pressbooks_theme_options_navigation' );
+      if ($navigation[$selected_option] == 1) {
+        return true;
+      } else {
+        return false;
+      }
+  }
+
+// Footer logo options
+  function show_waymaker_logo(){
+      return choose_logo('navigation_show_waymaker_logo');
+  }
+  // not currently being called
+  function no_logo(){
+      return choose_logo('no_logo');
   }
