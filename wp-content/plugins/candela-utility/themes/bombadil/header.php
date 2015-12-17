@@ -84,9 +84,11 @@
 
             <nav role="navigation">
               <div class="header-nav">
-                <div class="pressbooks-logo">Lumen Mastery</div>
+                <div class="pressbooks-logo">Lumen</div>
                 <?php if (show_header_link()) { ?>
                   <a class="book-title" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a>
+                <?php } else { ?>
+                  <span class="book-title" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></span>
                 <?php } ?>
               </div>
         <?php } ?>
@@ -101,6 +103,9 @@
                   <?php } ?>
                 </div>
               </div>
+        <?php } ?>
+        <?php if (!(show_search()) && !(show_small_title())) { ?>
+              <div class="no-sub-nav"></div>
         <?php } ?>
         <?php if (show_header()) { ?>
             </nav>

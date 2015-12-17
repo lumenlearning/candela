@@ -479,7 +479,6 @@ function pressbooks_theme_chapter_numbers_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_global' );
 
 
-// THIS IS WHERE DEFAULT IS SET
 	if ( ! isset( $options['chapter_numbers'] ) ) {
 		$options['chapter_numbers'] = 1;
 	}
@@ -537,7 +536,7 @@ function pressbooks_theme_copyright_license_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_global' );
 
 	if ( ! isset( $options['copyright_license'] ) ) {
-		$options['copyright_license'] = 0;
+		$options['copyright_license'] = 1;
 	}
 
 	$html = '<input type="checkbox" id="copyright_license" name="pressbooks_theme_options_global[copyright_license]" value="1" ' . checked( 1, $options['copyright_license'], false ) . '/>';
@@ -695,7 +694,7 @@ function pressbooks_theme_accessibility_fontsize_callback( $args ){
 	$options = get_option( 'pressbooks_theme_options_web' );
 
 	if ( ! isset( $options['accessibility_fontsize'] ) ) {
-		$options['accessibility_fontsize'] = 0;
+		$options['accessibility_fontsize'] = 1;
 	}
 	$html = '<input type="checkbox" id="accessibility_fontsize" name="pressbooks_theme_options_web[accessibility_fontsize]" value="1" ' . checked( 1, $options['accessibility_fontsize'], false ) . '/>';
 	$html .= '<label for="accessibility_fontsize"> ' . $args[0] . '</label>';
