@@ -210,12 +210,12 @@ function pressbooks_theme_options_navigation_init() {
 	$_page = $_option = 'pressbooks_theme_options_navigation';
 	$_section = 'navigation_options_section';
 	$defaults = array(
-		'navigation_show_header' => 0,
-    'naviagation_show_header_link' => 1,
+		'navigation_show_header' => 1,
+    'navigation_show_header_link' => 0,
 		'navigation_show_search' => 0,
     'navigation_show_small_title' => 0,
     'navigation_show_edit_button' => 1,
-    'navigation_show_navigation_buttons' => 0
+    'navigation_show_navigation_buttons' => 0,
 	);
 
 	if ( false == get_option( $_option ) ) {
@@ -301,6 +301,7 @@ function pressbooks_theme_options_navigation_init() {
 		'pressbooks_theme_options_navigation_sanitize'
 	);
 }
+
 add_action( 'admin_init', 'pressbooks_theme_options_navigation_init' );
 
 
@@ -315,7 +316,7 @@ function pressbooks_theme_navigation_show_header_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
 	if ( ! isset( $options['navigation_show_header'] ) ) {
-		$options['navigation_show_header'] = 1;
+		$options['navigation_show_header'] = 0;
 	}
 	$html = '<input type="checkbox" id="navigation_show_header" name="pressbooks_theme_options_navigation[navigation_show_header]" value="1"' . checked( 1, $options['navigation_show_header'], false ) . '/> ';
 	$html .= '<label for="navigation_show_header">' . $args[0] . '</label><br />';
@@ -328,7 +329,7 @@ function pressbooks_theme_navigation_show_header_link_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
 	if ( ! isset( $options['navigation_show_header_link'] ) ) {
-		$options['navigation_show_header_link'] = 1;
+		$options['navigation_show_header_link'] = 0;
 	}
 	$html = '<input type="checkbox" id="navigation_show_header_link" name="pressbooks_theme_options_navigation[navigation_show_header_link]" value="1"' . checked( 1, $options['navigation_show_header_link'], false ) . '/> ';
 	$html .= '<label for="navigation_show_header_link">' . $args[0] . '</label><br />';
@@ -354,7 +355,7 @@ function pressbooks_theme_navigation_show_small_title_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_navigation' );
 
 	if ( ! isset( $options['navigation_show_small_title'] ) ) {
-		$options['navigation_show_small_title'] = 0;
+		$options['navigation_show_small_title'] = 1;
 	}
 	$html = '<input type="checkbox" id="navigation_show_small_title" name="pressbooks_theme_options_navigation[navigation_show_small_title]" value="1"' . checked( 1, $options['navigation_show_small_title'], false ) . '/> ';
 	$html .= '<label for="navigation_show_small_title">' . $args[0] . '</label><br />';

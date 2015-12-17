@@ -479,9 +479,8 @@ function pressbooks_theme_chapter_numbers_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_global' );
 
 
-// THIS IS WHERE DEFAULT IS SET
 	if ( ! isset( $options['chapter_numbers'] ) ) {
-		$options['chapter_numbers'] = 1;
+		$options['chapter_numbers'] = 1; // BAFFLED - This CHANGES IT
 	}
 
 	$html = '<input type="checkbox" id="chapter_numbers" name="pressbooks_theme_options_global[chapter_numbers]" value="1" ' . checked( 1, $options['chapter_numbers'], false ) . '/>';
@@ -523,7 +522,7 @@ function pressbooks_theme_parse_sections_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_global' );
 
 	if ( ! isset( $options['parse_sections'] ) ) {
-		$options['parse_sections'] = 0;
+		$options['parse_sections'] = 0; // BAFFLED - This CHANGES IT
 	}
 
 	$html = '<input type="checkbox" id="parse_sections" name="pressbooks_theme_options_global[parse_sections]" value="1" ' . checked( 1, $options['parse_sections'], false ) . '/>';
@@ -537,7 +536,7 @@ function pressbooks_theme_copyright_license_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_global' );
 
 	if ( ! isset( $options['copyright_license'] ) ) {
-		$options['copyright_license'] = 0;
+		$options['copyright_license'] = 1; // BAFFLED - This CHANGES NOTHING
 	}
 
 	$html = '<input type="checkbox" id="copyright_license" name="pressbooks_theme_options_global[copyright_license]" value="1" ' . checked( 1, $options['copyright_license'], false ) . '/>';
@@ -695,7 +694,7 @@ function pressbooks_theme_accessibility_fontsize_callback( $args ){
 	$options = get_option( 'pressbooks_theme_options_web' );
 
 	if ( ! isset( $options['accessibility_fontsize'] ) ) {
-		$options['accessibility_fontsize'] = 0;
+		$options['accessibility_fontsize'] = 1; // BAFFLED- This CHANGES IT
 	}
 	$html = '<input type="checkbox" id="accessibility_fontsize" name="pressbooks_theme_options_web[accessibility_fontsize]" value="1" ' . checked( 1, $options['accessibility_fontsize'], false ) . '/>';
 	$html .= '<label for="accessibility_fontsize"> ' . $args[0] . '</label>';
@@ -708,7 +707,7 @@ function pressbooks_theme_toc_collapse_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_web' );
 
 	if ( ! isset( $options['toc_collapse'] ) ) {
-		$options['toc_collapse'] = 0;
+		$options['toc_collapse'] = 0;  // BAFFLED- This CHANGES NOTHING
 	}
 	$html = '<input type="checkbox" id="toc_collapse" name="pressbooks_theme_options_web[toc_collapse]" value="1" ' . checked( 1, $options['toc_collapse'], false ) . '/>';
 	$html .= '<label for="toc_collapse"> ' . $args[0] . '</label>';
