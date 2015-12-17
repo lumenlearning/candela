@@ -173,7 +173,7 @@ function show_nav_options($selected_option){
       return false;
     }
   } else {
-    return false;
+
   }
 }
 
