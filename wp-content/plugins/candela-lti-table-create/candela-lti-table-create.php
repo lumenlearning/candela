@@ -24,6 +24,8 @@ class Candela_LTI_Table_Create
     add_action( 'init', array( __CLASS__, 'create_db_table' ) );
     add_action( 'init', array( __CLASS__, 'my_session' ) );
     add_action( 'wp_loaded', array( __CLASS__, 'insert_row' ) );
+    // add_action( 'wp_loaded', array( __CLASS__, 'get_external_id_by_userid' ) );
+
   }
 
   public static function create_db_table()
@@ -66,7 +68,14 @@ class Candela_LTI_Table_Create
 
   public static function insert_row()
   {
-    if (!is_admin()) {
+    // Check to see if current page is a login style page
+    if ( !function_exists( 'is_login_page' )) {
+      function is_login_page() {
+        return in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'));
+      }
+    }
+
+    if (!is_admin() && !is_login_page()) {
       global $wp_session;
 
       if (isset($wp_session['user_id'])) {
@@ -87,6 +96,13 @@ class Candela_LTI_Table_Create
         $wpdb->insert( $table_name, $data );
       }
     }
+  }
+
+  public static function get_external_id_by_userid( $user_id ) {
+    switch_to_blog(1);
+    $external_id = get_user_meta( $user_id, CANDELA_LTI_USERMETA_EXTERNAL_KEY, TRUE );
+    restore_current_blog();
+    return $external_id;
   }
 
 }
