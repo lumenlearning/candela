@@ -243,6 +243,7 @@ var $defaultheaderline;
 var $defaultfooterfontsize;
 var $defaultfooterfontstyle;
 var $defaultfooterline;
+var $hidefooter;
 var $header_line_spacing;
 var $footer_line_spacing;
 
@@ -13605,6 +13606,9 @@ function SetHeader($Harray=array(),$side='',$write=false) {
 
 
 function SetFooter($Farray=array(),$side='') {
+  if ($this->hidefooter){
+    return;
+  }
   $oddhtml = '';
   $evenhtml = '';
   if (is_string($Farray)) {

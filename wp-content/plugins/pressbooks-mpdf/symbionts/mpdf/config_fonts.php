@@ -14,7 +14,7 @@
 // More than 1 font can be specified but each will add to the processing time of the script
 
 // $this->backupSubsFont = array('dejavusanscondensed','arialunicodems','sun-exta');	// this will recognise most scripts
-$this->backupSubsFont = array('dejavusanscondensed','freeserif');
+$this->backupSubsFont = array('ostrichsans', 'dejavusanscondensed','freeserif');
 
 // Optionally set a font (name as defined below in $this->fontdata) to use for CJK characters
 // in Plane 2 Unicode (> U+20000) when using useSubstitutions. 
@@ -83,6 +83,14 @@ starting at 1, as they appear in the .ttc file e.g.
 */
 
 $this->fontdata = array(
+	"ostrichsans" => array(
+		'R' => "ostrich-regular.ttf",
+		'B' => "ostrich-bold.ttf",
+	),
+	"robotocondensed" => array(
+		'R' => "RobotoCondensed-Regular.ttf",
+		'I' => "RobotoCondensed-Italic.ttf",
+	),
 	"dejavusanscondensed" => array(
 		'R' => "DejaVuSansCondensed.ttf",
 		'B' => "DejaVuSansCondensed-Bold.ttf",
@@ -318,7 +326,7 @@ $this->BMPonly = array(
 //     (Otherwise the order is irrelevant)
 // Use the mPDF font-family names i.e. lowercase and no spaces (after any translations in $fonttrans)
 // Always include "sans-serif", "serif" and "monospace" etc.
-$this->sans_fonts = array('dejavusanscondensed','sans','sans-serif','cursive','fantasy','dejavusans','freesans','liberationsans', 
+$this->sans_fonts = array('ostrichsans','dejavusanscondensed','sans','sans-serif','cursive','fantasy','dejavusans','freesans','liberationsans',
 				'arial','helvetica','verdana','geneva','lucida','arialnarrow','arialblack','arialunicodems',
 				'franklin','franklingothicbook','tahoma','garuda','calibri','trebuchet','lucidagrande','microsoftsansserif',
 				'trebuchetms','lucidasansunicode','franklingothicmedium','albertusmedium','xbriyaz','albasuper','quillscript',
