@@ -3,10 +3,10 @@
  * Copyright 2014 Brad Payne. GPL v2, of course.
  * 
  * This plugin is forked from the original WP Latex v1.8 http://wordpress.org/plugins/wp-latex/ (c) Sidney Markowitz, Automattic, Inc.
- * It modifies the plugin to work with Pressbooks, strips unwanted features, adds others — activated at the network level
+ * It modifies the plugin to work with PressBooks, strips unwanted features, adds others — activated at the network level
  *
  */
-
+error_reporting(E_ALL);
 if ( !defined('ABSPATH') ) exit;
 
 class PBLatexAdmin extends PBLatex {
@@ -244,6 +244,8 @@ tr.pb-latex-method-<?php echo $current_method; ?> {
 			<td>
 				<ul id="pb-latex-method-switch">
 					<li><label for="pb-latex-method-wpcom"><input type="radio" name="pb_latex[method]" id="pb-latex-method-wpcom" value='Automattic_Latex_WPCOM'<?php checked( 'Automattic_Latex_WPCOM', $values['method'] ); ?> /> <?php printf( _x( '%s LaTeX server (recommended)|WordPress.com LaTeX Server (recommended)', 'pb-latex' ), '<a href="http://wordpress.com/" target="_blank">WordPress.com</a>' ); ?></label></li>
+					<li><label for="pb-latex-method-momcom"><input type="radio" name="pb_latex[method]" id="pb-latex-method-momcom" value='Automattic_Latex_MOMCOM'<?php checked( 'Automattic_Latex_MOMCOM', $values['method'] ); ?> /> <?php printf( _x( '%s MimeTeX server', 'pb-latex' ), 'MyOpenMath.com' ); ?></label></li>
+					<li><label for="pb-latex-method-katex"><input type="radio" name="pb_latex[method]" id="pb-latex-method-katex" value='katex'<?php checked( 'katex', $values['method'] ); ?> /> <?php printf( _x( 'KaTeX + MathJax in-browser', 'pb-latex' ) ); ?></label></li>
 				</ul>
 			</td>
 		</tr>
@@ -264,7 +266,7 @@ tr.pb-latex-method-<?php echo $current_method; ?> {
 			</td>
 		</tr>
 		
-	<?php foreach ( $default_wrappers as $method => $default_wrapper ) : ?>
+	<?php /*foreach ( $default_wrappers as $method => $default_wrapper ) : ?>
 		<tr class="pb-latex-method pb-latex-method-<?php echo $method; ?>">
 			<th></th>
 			<td>
@@ -272,7 +274,7 @@ tr.pb-latex-method-<?php echo $current_method; ?> {
 				<div class="pre"><code><?php echo $default_wrapper; ?></code></div>
 			</td>
 		</tr>
-	<?php endforeach; ?>
+	<?php endforeach; */?>
 	</tbody>
 	</table>
 	
