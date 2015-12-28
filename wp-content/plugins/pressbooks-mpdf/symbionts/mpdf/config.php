@@ -3,7 +3,7 @@
 
 
 // PAGING
-$this->mirrorMargins = 0;
+$this->mirrorMargins = 1;
 $this->forcePortraitMargins = false;
 $this->displayDefaultOrientation = false;
 $this->printers_info = false; 	// Adds date and page info for printer when using @page and "marks:crop;"
@@ -196,6 +196,7 @@ $this->CSSselectMedia='print';		// screen, print, or any other CSS @media type (
 // PAGE HEADERS & FOOTERS
 $this->forcePortraitHeaders = false;
 // Values used if simple FOOTER/HEADER given i.e. not array
+$this->hidefooter = false;
 $this->defaultheaderfontsize = 8;	// pt
 $this->defaultheaderfontstyle = 'BI';	// '', or 'B' or 'I' or 'BI'
 $this->defaultheaderline = 1;		// 1 or 0 - line under the header
