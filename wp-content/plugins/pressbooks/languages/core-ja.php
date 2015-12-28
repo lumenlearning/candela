@@ -2,7 +2,7 @@
 /**
  * Change core WordPress strings using $overrides array.
  *
- * @author  PressBooks <code@pressbooks.com>
+ * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  * @see     pressbooks/includes/pb-l10n.php
  */
@@ -18,7 +18,6 @@ $overrides = array(
 );
 
 if ( \PressBooks\Book::isBook() ) {
-	$overrides['Settings'] = '公益事業';
 	$overrides['Visit Site'] = 'ブックをご覧ください';
 	$overrides['Edit Site'] = 'ブックをご覧ください';
 }

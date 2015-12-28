@@ -80,19 +80,19 @@ function pressbooks_publisher_fonts_url() {
     * supported by Oswald, translate this to 'off'. Do not translate
     * into your own language.
     */
-	$oswald = _x( 'on', 'Oswald font: on or off', 'pressbooks-publisher' );
+	$oswald = _x( 'on', 'Oswald font: on or off', 'pressbooks' );
 
 	/* Translators: If there are characters in your language that are not
     * supported by Droid Serif, translate this to 'off'. Do not translate
     * into your own language.
     */
-	$droid_serif = _x( 'on', 'Droid Serif font: on or off', 'pressbooks-publisher' );
+	$droid_serif = _x( 'on', 'Droid Serif font: on or off', 'pressbooks' );
 	
 	/* Translators: If there are characters in your language that are not
     * supported by Droid Sans, translate this to 'off'. Do not translate
     * into your own language.
     */
-	$droid_sans = _x( 'on', 'Droid Sans font: on or off', 'pressbooks-publisher' );	
+	$droid_sans = _x( 'on', 'Droid Sans font: on or off', 'pressbooks' );	
 
 	if ( 'off' !== $oswald || 'off' !== $droid_serif || 'off' !== $droid_sans ) {
 		$font_families = array();
@@ -166,6 +166,22 @@ function pressbooks_publisher_scripts() {
 add_action( 'wp_enqueue_scripts', 'pressbooks_publisher_scripts' );
 
 /**
+ * Add Pressbooks branding to login screen.
+ */
+
+add_action( 'login_head', create_function('', 'echo \'<link rel="stylesheet" type="text/css" href="' . PB_PLUGIN_URL . 'assets/css/colors-pb.css" media="screen" />\';') );
+
+/**
+ * Change login logo URL.
+ */
+
+function custom_login_url( $url ) {
+	return get_bloginfo( 'url' );
+} 
+
+add_filter( 'login_headerurl', 'custom_login_url' );
+
+/**
  * Custom template tags for this theme.
  */
 require get_template_directory() . '/inc/template-tags.php';
@@ -183,7 +199,9 @@ require get_template_directory() . '/inc/customizer.php';
 /**
  * Load site-logo file
  */
-require get_template_directory() . '/inc/site-logo.php';
+
+if ( !function_exists( 'site_logo_init' ) ) // Jetpack is not installed and activated.
+	require PB_PLUGIN_DIR . 'symbionts/site-logo/site-logo.php';
 
 /**
  * Hide the admin bar.
@@ -209,6 +227,8 @@ function pressbooks_publisher_menu() {
 
 	remove_submenu_page( 'themes.php', 'themes.php' );
 	remove_submenu_page( 'themes.php', 'nav-menus.php' );
+	$submenu['themes.php'][6][4] = 'customize-support'; // Fix empty submenu by overriding css. See line ~152 in: ./wp-admin/menu.php
+
 	remove_menu_page( 'plugins.php' );
 	remove_menu_page( 'users.php' );
 	remove_menu_page( 'tools.php' );
@@ -249,7 +269,7 @@ function pressbooks_publisher_update_catalog() {
 add_action( 'wp_ajax_pressbooks_publisher_update_catalog', 'pressbooks_publisher_update_catalog' );
 
 function pressbooks_publisher_catalog_columns( $columns ) {
-	$columns[ 'in_catalog' ] = __( 'In Catalog', 'pressbooks-publisher' );
+	$columns[ 'in_catalog' ] = __( 'In Catalog', 'pressbooks' );
 	return $columns;
 }
 

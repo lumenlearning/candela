@@ -1,11 +1,11 @@
 === Pressbooks ===
 
 Contributors: Pressbooks <code@pressbooks.com>
-Version: 2.5
+Version: 3.1.1
 Tags: ebooks, publishing, webbooks
-Requires at least: 4.2.2
-Tested up to: 4.2.2
-Stable tag: trunk
+Requires at least: 4.4
+Tested up to: 4.4
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ like Pressbooks to run a dedicated instance for you on our servers. You can reac
 
 == Communication ==
 
-Our main communication channel for the Pressbooks plugin is [Google Groups](http://groups.google.com/group/pressbooks).
+Our main communication channel for the Pressbooks plugin is [GitHub](https://github.com/pressbooks/pressbooks/issues). You can post issues or ask questions there.
 
 == Contributors ==
 
@@ -34,7 +34,11 @@ in source code headers.
 IMPORTANT!
 
  * Do not install Pressbooks on an existing WordPress blog -- create a new WordPress install instead.
- * Pressbooks works with PHP 5.4.x and WordPress 4.2.2. Lower versions are not supported.
+ * Pressbooks works with PHP 5.6.x and WordPress 4.4. Lower versions are not supported. If you wish to run Pressbooks in an environment where PHP < 5.6, you can add a line to wp-config.php as follows:
+ 
+	$pb_minimum_php = '5.4';
+	
+However, we encourage you to upgrade your environment instead as [PHP 5.4 is no longer supported](http://php.net/supported-versions.php).
 
 *Part 1, WordPress generic:*
 
@@ -92,14 +96,16 @@ IMPORTANT!
 
 *Part 3, Pressbooks dependencies:*
 
- * For PDF export install [Prince](http://pressbooks.com/prince) (note: this is not free software) - Version 9.0
- * For PDF export via mPDF ensure that the following folders have write access and/or they are owned by the appropriate user.See http://codex.wordpress.org/Changing_File_Permissions for more details on adjusting file permissions.
-   + wp-content/plugins/pressbooks/symbionts/mpdf/ttfontdata
-   + wp-content/plugins/pressbooks/symbionts/mpdf/tmp
-   + wp-content/plugins/pressbooks/symbionts/mpdf/graph_cache
+ * For PDF export install [Prince](http://pressbooks.com/prince) (note: this is not free software) - Version 10r5
+ * For PDF export via mPDF install the [Pressbooks mPDF plugin](https://wordpress.org/plugins/pressbooks-mpdf). You will also need to ensure that the following folders have write access and/or they are owned by the appropriate user. See http://codex.wordpress.org/Changing_File_Permissions for more details on adjusting file permissions.
+   + wp-content/plugins/pressbooks-mpdf/symbionts/mpdf/ttfontdata
+   + wp-content/plugins/pressbooks-mpdf/symbionts/mpdf/tmp
+   + wp-content/plugins/pressbooks-mpdf/symbionts/mpdf/graph_cache
  * For MOBI export install [KindleGen](http://www.amazon.com/gp/feature.html?docId=1000765211) - Version 2.9
- * For EPUB validation install [EpubCheck](http://code.google.com/p/epubcheck/) - Version 3.0.1
+ * For EPUB validation install [EpubCheck](https://github.com/idpf/epubcheck) - Version 4.0
  * For XML validation install [xmllint](http://xmlsoft.org/xmllint.html) - Version 20800
+ * It is recommended that you install [sassphp](https://github.com/sensational/sassphp) for SASS compilation; however, Pressbooks includes a bundled compiler, [scssphp](https://github.com/leafo/scssphp/), and will fall back to this if sassphp is absent.
+ * Certain Linux installations do not ship with the php5-xsl library enabled by default.  If you attempt to export an ePub and get a either a white screen with minimal text, or a "Fatal error: Class 'XSLTProcessor' not found" error, you may need to run a command like "apt-get install php5-xsl" 
 
 Unlisted versions are not supported. Upgrade/downgrade accordingly.
 
@@ -146,7 +152,7 @@ Example config files for a dev site hosted at http://localhost/~dac514/textopres
 	 */
 	define( 'PB_PRINCE_COMMAND', '/usr/bin/prince' );
 	define( 'PB_KINDLEGEN_COMMAND', '/home/dac514/bin/kindlegen' );
-	define( 'PB_EPUBCHECK_COMMAND', '/usr/bin/java -jar /home/dac514/bin/epubcheck-3.0-RC-1/epubcheck-3.0-RC-1.jar' );
+	define( 'PB_EPUBCHECK_COMMAND', '/usr/bin/java -jar /home/dac514/bin/epubcheck-4.0/epubcheck-4.0.jar' );
 	define( 'PB_XMLLINT_COMMAND', '/usr/bin/xmllint' );
 
 	/**
@@ -190,9 +196,147 @@ TK.
 
 == Upgrade Notice ==
 
-TK.
+Pressbooks 3.0 adds support for book themes built with SASS, dynamic support of non-Latin character sets in any theme, and the EPUB 3 standard. Please note that Pressbooks 3.0 requires PHP 5.6.
 
 == Changelog ==
+
+= 3.1.1 =
+* Fixed an issue where custom web book themes would not be properly loaded.
+* Updated the PB_PLUGIN_VERSION constant, which slipped under our radar when we released Pressbooks 3.1.
+
+= 3.1 =
+* Requires WordPress 4.4.
+* Added a new Textboxes menu in TinyMCE which supports some new types of textboxes in addition to standard and shaded.
+* Added support for assigning classes to tables within the TinyMCE Table Editor and removed some unnecessary features from it.
+* Added a new Greek language font.
+* Moved the mPDF library to an external plugin, [Pressbooks mPDF](https://wordpress.org/plugins/pressbooks-mpdf).
+* Localized strings within some of our TinyMCE plugins. More to come.
+* Improved SCSS theme structure and SCSS compilation routines.
+* Improved XSL file for ODT export.
+* Improved some TinyMCE styles.
+* Fixed an issue where activating a non-SCSS theme would cause an error.
+* Fixed an issue where loading the Search and Replace tool would cause an error (props to @rootl for the bug report).
+* Updated some assets.
+
+= 3.0 =
+* SASS-y themes: book themes are now built with SASS (specifically the SCSS variant) and compiled for export or web display using either the bundled scssphp compiler (https://github.com/leafo/scssphp/) or the SASS PHP extension if installed (https://github.com/sensational/sassphp). See `/docs/themes-book.txt` for details if you are developing your own themes.
+* Global Typography: users can add fonts to display Ancient Greek, Arabic, Biblical Hebrew, Chinese (Simplified or Traditional), Coptic, Gujarati, Japanese, Korean, Syriac, Tamil or Tibetan in any theme across all standard export formats via the Theme Options page.
+* EPUB 3: the current version of the EPUB standard is now fully supported and will soon become Pressbooks' default EPUB export format.
+* Added support for importing book information from a Pressbooks XML file.
+* Added support for persistent export format selections on the Export page.
+* Added the ability to show or hide front matter, chapter and back matter titles on the Organize page.
+* Added initial support for unit testing.
+* Requires PHP 5.6 (this can be overridden by setting `$pb_minimum_php` in wp-config.php, but we do not encourage this).
+* Updated the Prince command line wrapper to support Prince 10r5.
+* Updated export icons to support Retina screens.
+* Fixed an issue where Norwegian localization files were not being properly loaded.
+* Fixed an issue where the xml:lang attribute would set to `en` regardless of the book language.
+* Fixed an issue that prevented Prince from loading its built-in hyphenation dictionaries.
+* Fixed an issue with Kindle exports in bundled book themes.
+* Fixed an issue with multi-level TOC styling in bundled book themes.
+* Fixed an issue with EPUB images.
+* Fixed some PHP warnings.
+* Refactored some code for consistent namespacing and other improvements.
+* Various localization updates.
+* Various performance enhancements.
+
+= 2.7.2 =
+* Requires WordPress 4.3.1.
+* Added MCE Anchor Button (migrated from Pressbooks Textbook, props to @bdolor).
+* Fixed an issue where the book language could be incorrectly set to Afrikaans if the network language was undefined.
+* Fixed an issue where loading a user's catalog would call memory-intensive functions repeatedly (props to @connerbw).
+* Suppressed unhelpful errors when calling getSubsections() function (props to @connerbw).
+
+= 2.7.1 =
+* Fixed an issue where changes made with the Search & Replace tool would not be saved (props to @connerbw).
+* Fixed an issue where users without super admin privileges would be incorrectly prevented from using the Import or Search & Replace tools.
+* Fixed a display bug in recent builds of Google Chrome (props to @connerbw).
+
+= 2.7 =
+* Major cleanup of the administration interface.
+
+= 2.6.7 =
+* Added the ability to edit a table's class in the MCE Table Button's properties editor.
+* Fixed an issue where Chinese would appear as the default user interface language.
+* Fixed an issue where disabling social media sharing buttons would only disable Facebook (props to @colomet for the bug report).
+* Updated localizations.
+
+= 2.6.6 =
+* Exporting a MOBI file no longer requires you to export an EPUB file also.
+
+= 2.6.5 =
+* Fixed a number of issues with multi-level TOC parsing.
+* Fixed an issue where internal links on subdirectory installs were not being properly modified for PDF output (props to @bdolor).
+
+= 2.6.4 =
+* Added support for audio shortcodes in EPUB3 (props to @jflowers45).
+* Modified login buttons to redirect users to the page they were viewing after login rather than force redirecting them to their dashboard (props to @marcusschiesser for the feature request).
+* Fixed an issue where PDF exports were not respecting user-defined widow and orphan settings.
+* Fixed an issue where unsupported @font-face declarations where being used in mPDF exports (props to @jflowers45 for the bug report and @bdolor for fixing it).
+* Fixed an issue where updating a book's URL would break permalinks to front matter, back matter and parts (props to @programmieraffe for the bug report).
+* Removed the WordPress contextual help button to avoid confusion on the dashboard (props to @colomet for noting its presence).
+
+= 2.6.3 =
+* Fixed issue with self-closing tags introduced in 2.6.1.
+
+= 2.6.2 =
+* Fixed issues with character encoding and improperly formed <br /> tags introduced in 2.6.1.
+
+= 2.6.1 =
+* Fixed issues with subsection parsing where <h1> tags had inline styles or were wrapped in other block elements.
+* Fixed an issue where changing a book's language to "English" as opposed to "English (United States)" would fail to override the network's language setting.
+* Updated documentation.
+
+= 2.6 =
+* Requires WordPress 4.3.
+* The language selected on the book info page now applies to the book's webbook display.
+* The language selected on the network settings page now applies automatically to new books and users.
+* The language selected on a user's profile now overrides the network and book languages when they view the Pressbooks dashboard.
+
+= 2.5.4 =
+* Requires WordPress 4.2.4.
+* Added Disable Comments (migrated from Pressbooks Textbook, props to @bdolor and the plugin's creators).
+* Added a warning message when users upload a cover image above the recommended size.
+* Optimized \PressBooks\Book::getBookStructure() so as to only fetch export status during export routines (props to @bracken).
+* Fixed a conflict with Jetpack (props to @programmieraffe for the bug report).
+* Fixed an issue where chapters were being number in mPDF TOCs regardless of user preference (props to @bdolor for the fix and to @sswettenham for the bug report).
+* Fixed an issue where sections would be parsed unnecessarily in webbooks (props to @bracken).
+* Fixed two issues related to permissive private content (props to @marcusschiesser for the bug reports).
+* Fixed an issue that caused a recursion during PDF export (props to @bseeger for the bug report).
+
+= 2.5.3 =
+* Added option to allow logged-in subscribers, contributors and authors to view a book's private content (props to @marcusschiesser for the feature request).
+* Fixed an issue where the webbook TOC would not be displayed for any user who was not logged in (props to @sswettenham for the bug report).
+* Fixed an issue where the media folder was not being deleted after ODT exports without a cover image.
+
+= 2.5.2 =
+* Added MCE Superscript & Subscript Buttons (migrated from Pressbooks Textbook, props to @bdolor and the plugin's creators).
+* Improved ODT export: temporary files are now deleted when export fails (props to @sswettenham for the bug report).
+* Improved user catalog: book covers are now clickable links (props to @kdv24).
+* Improved user catalog: sidebars are sized to fit content instead of being restricted to window height (props to @changemachine).
+* Fixed an issue where private chapters would appear in webbook TOC for logged-in users without the permissions to actually view them (props to @marcusschiesser for the bug report).
+
+= 2.5.1 =
+* Added MCE Table Editor (migrated from Pressbooks Textbook, props to @bdolor and the plugin's creators).
+* Added support for excluding root domains _and_ subdomains in `show_experimental_features()` function.
+* Added the ability to toggle social media integration on or off in webbooks (props to @bdolor).
+* Added the ability to restrict specific network administrators' access to some network administration pages.
+* Added a note in readme.txt indicating that `php5-xsl` is a required extension for certain exports (props to @jflowers45).
+* Added a function to intelligently load plugins in `/symbionts` so as to avoid conflicts (props to @bdolor and the Pressbooks Textbook team for providing the basis for this).
+* Forced Google webfonts to load via SSL (props to @bdolor).
+* Improved editor style so that large images fit the editing window (props to @hughmcguire).
+* Improved Javascript related to the sidebar table of contents in webbooks (props to @changemachine and @kdv24).
+* Improved logic related to maximum import size reporting (props to @jflowers45).
+* Improved styles associated with the accessibility plugin (props to @bdolor).
+* Improved XSL for ODT export.
+* Restored login screen branding in Pressbooks Publisher 2.0.
+* Restored user catalog links in Pressbooks Publisher 2.0.
+* Fixed a database error in user catalogs (props to @bdolor for the bug report).
+* Fixed an issue where books would overlap on the user catalog page (props to @bracken and @changemachine).
+* Fixed an issue where cover images and LaTex images would be omitted from ODT exports (props to @bdolor for the bug report and for assistance in solving this).
+* Fixed an issue where embedded audio files would be hidden in exports because of an inline style (props to @bdolor).
+* Fixed an issue where the `introduction` class would not be applied in certain exports.
+* Fixed an issue where exports would fail because the `get_user_by` function was being improperly namespaced (props to @borayeris for the bug report).
 
 = 2.5 =
 * Requires WordPress 4.2.2.
