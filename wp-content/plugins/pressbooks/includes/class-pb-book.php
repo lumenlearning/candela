@@ -4,14 +4,10 @@
  * complete representation of an idea, or set of ideas; emotion or set of emotions; and transmitted to readers in
  * various formats.
  *
- * @author  PressBooks <code@pressbooks.com>
+ * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  */
 namespace PressBooks;
-
-
-use \PressBooks\Catalog;
-use \PressBooks\Metadata;
 
 
 class Book {
@@ -101,7 +97,8 @@ class Book {
 				continue;
 
 			if ( false !== in_array( $key, $expected_the_content ) ) {
-				$val = apply_filters( 'the_content', $val );
+				$val = wptexturize( $val );
+				$val = wpautop( $val );
 			} else {
 				$val = htmlspecialchars( $val, ENT_NOQUOTES | ENT_XHTML, 'UTF-8', false );
 			}
@@ -115,6 +112,9 @@ class Book {
 		// Return our best guess if no book information has been entered.
 		if ( empty( $book_information ) ) {
 			$book_information['pb_title'] = get_bloginfo( 'name' );
+			if ( !function_exists( 'get_user_by' ) ) {
+			    include( ABSPATH . 'wp-includes/pluggable.php' ); 
+			}
 			$author = get_user_by( 'email', get_bloginfo( 'admin_email' ) );
 			$book_information['pb_author'] = $author->display_name;
 			$book_information['pb_cover_image'] = \PressBooks\Image\default_cover_url();
@@ -139,9 +139,11 @@ class Book {
 	 * with a minimum amount of fields. Data is raw and must be post-processed.
 	 *
 	 * @see bottom of this file for more info
+	 *
+	 * @param string $id
 	 * @return array
 	 */
-	static function getBookStructure( $id = '', $get_pb_export_meta=false ) {
+	static function getBookStructure( $id = '' ) {
 
 		// -----------------------------------------------------------------------------
 		// Is cached?
@@ -185,7 +187,6 @@ class Book {
 				'order' => 'ASC',
 				'no_found_rows' => true,
 				'cache_results' => true,
-				'update_post_meta_cache' => false,
 			);
 
 			$results = $q->query( $args );
@@ -193,12 +194,6 @@ class Book {
 			foreach ( $results as $post ) {
 
 				$post_name = static::fixSlug( $post->post_name );
-
-        if($get_pb_export_meta) {
-          $export = ( get_post_meta( $post->ID, 'pb_export', true ) ? true : false );
-        } else {
-          $export = false;
-        }
 
 				$book_structure[$type][] = array(
 					'ID' => $post->ID,
@@ -208,7 +203,7 @@ class Book {
 					'comment_count' => $post->comment_count,
 					'menu_order' => $post->menu_order,
 					'post_status' => $post->post_status,
-					'export' => $export,
+					'export' => ( get_post_meta( $post->ID, 'pb_export', true ) ? true : false ),
 					'post_parent' => $post->post_parent,
 				);
 			}
@@ -280,7 +275,7 @@ class Book {
 		if ( ! empty( $id ) && is_int( $id ) ) {
 			restore_current_blog();
 		}
-
+		
 		return $book_structure;
 	}
 
@@ -310,7 +305,7 @@ class Book {
 		// Precedence when using the + operator to merge arrays is from left to right
 		// -----------------------------------------------------------------------------
 
-		$book_contents = static::getBookStructure('', true);
+		$book_contents = static::getBookStructure();
 
 		foreach ( $book_contents as $type => $struct ) {
 
@@ -348,33 +343,87 @@ class Book {
 
 		global $blog_id;
 
-		wp_cache_delete( "book-inf-$blog_id", 'pb' );
-		wp_cache_delete( "book-str-$blog_id", 'pb' );
-		wp_cache_delete( "book-cnt-$blog_id", 'pb' );
-		( new Catalog() )->deleteCacheByBookId( $blog_id ); // PHP 5.4+
+		wp_cache_delete( "book-inf-$blog_id", 'pb' ); // getBookInfo()
+		wp_cache_delete( "book-str-$blog_id", 'pb' ); // getBookStructure()
+		wp_cache_delete( "book-cnt-$blog_id", 'pb' ); // getBookContents()
+		( new Catalog() )->deleteCacheByBookId( $blog_id );
 	}
-	
+
 	/**
 	 * Returns an array of subsections in front matter, back matter, or chapters.
 	 *
 	 * @param $id
-	 *
+	 * @return array|false
 	 */
 	static function getSubsections( $id ) {
+
+		libxml_use_internal_errors( true );
+
 		$parent = get_post( $id );
+		$type = $parent->post_type;
 		$output = array();
 		$s = 1;
-		$content = mb_convert_encoding(apply_filters( 'the_content', $parent->post_content ), 'HTML-ENTITIES', 'UTF-8');
-		$html = new \DOMDocument();
-		$html->loadHTML( $content );
-		$xpath = new \DOMXpath($html);
-		foreach( $xpath->query('/html/body/section/h1|/html/body/h1') as $node ) {
-			$output['section-' . $s] = $node->nodeValue;
+		$content = mb_convert_encoding( apply_filters( 'the_content', $parent->post_content ), 'HTML-ENTITIES', 'UTF-8' );
+
+		if ( empty( $content ) )
+			return false;
+
+		$doc = new \DOMDocument();
+		$doc->loadHTML( $content );
+		$sections = $doc->getElementsByTagName('h1');
+		foreach( $sections as $section ) {
+			$output[ $type . '-' . $id . '-section-' . $s ] = $section->textContent;
 			$s++;
 		}
+
+		$errors = libxml_get_errors(); // TODO: Handle errors gracefully
+		libxml_clear_errors();
+
 		if ( empty( $output ) )
-			$output = false;
+			return false;
+
 		return $output;
+	}
+
+	/**
+	 * Returns chapter, front or back matter content with section ID and classes added.
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	static function tagSubsections( $content, $id ) {
+
+		libxml_use_internal_errors( true );
+
+		$s = 1;
+		$parent = get_post( $id );
+		$type = $parent->post_type;
+		$content = mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' );
+		$content = str_replace( array( '<b></b>', '<i></i>', '<strong></strong>', '<em></em>' ), array( '', '', '', '' ), $content );
+
+		if ( empty( $content ) )
+			return false;
+
+		$doc = new \DOMDocument();
+		$doc->loadHTML( $content );
+		$sections = $doc->getElementsByTagName('h1');
+		foreach ( $sections as $section ) {
+		    $section->setAttribute( 'id', $type . '-' . $id . '-section-' . $s++ );
+		    $section->setAttribute( 'class', 'section-header' );
+		}
+		$xpath = new \DOMXPath( $doc );
+		while( ( $nodes = $xpath->query( '//*[not(text() or node() or self::br or self::hr or self::img)]' ) ) && $nodes->length > 0 ) {
+		    foreach ( $nodes as $node ) {
+		        $node->appendChild( new \DOMText('') );
+		    }
+		}
+		$html = $doc->saveXML( $doc->documentElement );
+
+		$errors = libxml_get_errors(); // TODO: Handle errors gracefully
+		libxml_clear_errors();
+
+		return preg_replace( '/^<!DOCTYPE.+?>/', '', str_replace( array ( '<html>', '</html>', '<body>', '</body>' ), array ( '', '', '', '' ), $html ) );
 	}
 
 	/**
@@ -513,6 +562,25 @@ class Book {
 	}
 	
 	/**
+	 * WP_Ajax hook. Updates a post's "show title" setting (show title in exports or not)
+	 */
+	static function updateShowTitleOptions() {
+
+		$valid_meta_keys = array(
+			'pb_show_title',
+		);
+
+		$post_id = absint( $_POST['post_id'] );
+		$meta_key = in_array( $_POST['type'], $valid_meta_keys ) ? $_POST['type'] : false;
+		$meta_value = ( $_POST['chapter_show_title'] ) ? 'on' : 0;
+
+		if ( current_user_can( 'edit_post', $post_id ) && $meta_key && check_ajax_referer( 'pb-update-book-show-title' ) ) {
+			update_post_meta( $post_id, $meta_key, $meta_value );
+			static::deleteBookObjectCache();
+		}
+	}
+
+	/**
 	 * WP_Ajax hook. Updates a post's privacy setting (whether the post is published or privately published)
 	 */
 	static function updatePrivacyOptions() {
@@ -580,7 +648,9 @@ class Book {
 		while ( $post_id = current( $pos ) ) {
 			if ( $order[$post_id]['post_status'] == 'publish' ) {
 				break;
-			} elseif ( current_user_can_for_blog( $blog_id, 'read' ) ) {
+			} elseif ( current_user_can_for_blog( $blog_id, 'read_private_posts' ) ) {
+				break;
+			} elseif ( get_option( 'permissive_private_content' ) && current_user_can_for_blog( $blog_id, 'read' ) ) {
 				break;
 			} else {
 				$what( $pos );
@@ -598,6 +668,8 @@ class Book {
 	 */
 	static function getFirst() {
 
+		global $blog_id;
+
 		$book_structure = static::getBookStructure();
 		$order = $book_structure['__order'];
 		$pos = array_keys( $order );
@@ -605,6 +677,10 @@ class Book {
 		reset( $pos );
 		while ( $first_id = current( $pos ) ) {
 			if ( $order[$first_id]['post_status'] == 'publish' ) {
+				break;
+			} elseif ( current_user_can_for_blog( $blog_id, 'read_private_posts' ) ) {
+				break;
+			} elseif ( get_option( 'permissive_private_content' ) && current_user_can_for_blog( $blog_id, 'read' ) ) {
 				break;
 			} else {
 				next( $pos );
@@ -770,7 +846,7 @@ class Book {
 /* --------------------------------------------------------------------------------------------------------------------
 
 getBookStructure() and getBookContents() will return a "super array" or a "book object" that contains everything
-PressBooks considers a book. This "book object" is returned in the correct order so that, with straightforward foreach()
+Pressbooks considers a book. This "book object" is returned in the correct order so that, with straightforward foreach()
 logic, a programmer or template designer can render a book however they see fit.
 
  * getBookStructure() returns a minimal subset of get_post( $post->ID, ARRAY_A ) plus our own custom key/values

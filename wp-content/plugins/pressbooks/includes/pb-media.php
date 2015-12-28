@@ -1,75 +1,66 @@
 <?php
 /**
- * @author  PressBooks <code@pressbooks.com>
+ * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  */
 namespace PressBooks\Media;
 
 /**
  * Filter to alter the list of acceptable file extensions
- * 
- * @see \PressBooks\Export\Epub3
+ *
+ * @see \get_allowed_mime_types
+ * @see \PressBooks\Modules\Export\Epub3
+ *
+ * @param array $existing_mimes
+ *
  * @return array
  */
-function addMimeTypes( $existing_mimes = array() ) {
-	
+function add_mime_types( $existing_mimes = array() ) {
+
 	$add_mimes = array(
-	    'mp4' => 'video/mp4',
-	    'webm' => 'video/webm',
-	    'ogv' => 'video/ogg',
-	    'ogg' => 'audio/ogg',
-	    'mp3' => 'audio/mpeg',
-	    'aac' => 'audio/x-aac',
-	    'vorbis' => 'audio/vorbis',
+		'mp4' => 'video/mp4',
+		'webm' => 'video/webm',
+		'ogv' => 'video/ogg',
+		'ogg' => 'audio/ogg',
+		'mp3' => 'audio/mpeg',
+		'aac' => 'audio/x-aac',
+		'vorbis' => 'audio/vorbis',
 	);
 
 	return array_merge( $add_mimes, $existing_mimes );
 }
 
 /**
- * Checks for file validity on import.
- * 
- * @param type $data
- * @param type $filename
+ * Checks for valid EPUB3 video or audio file names.
+ *
+ * @param string $pathToFile
+ * @param string $filename
+ *
  * @return boolean
  */
-function is_valid_media( $data, $filename ) {
-	
-	$mimes = array(
-	    'mp4' => 'video/mp4',
-	    'webm' => 'video/webm',
-	    'ogv' => 'video/ogg',
-	    'ogg' => 'audio/ogg',
-	    'mp3' => 'audio/mpeg',
-	    'aac' => 'audio/x-aac',
-	    'vorbis' => 'audio/vorbis',
-	);
-	
-	$validate = wp_check_filetype( $filename, $mimes );
+function is_valid_media( $pathToFile, $filename ) {
 
-	// check the file extension
-	if ( ! array_key_exists( $validate['ext'], $mimes ) ) {
+	$validate = wp_check_filetype( $filename, add_mime_types() );
+
+	if ( false === $validate['ext'] || false === $validate['type'] ) {
 		return false;
 	}
 
-	// check the mimetype
-	if ( ! in_array( $validate['type'], $mimes ) ) {
-		return false;
-	}
-	
 	return true;
 }
 
 /**
- * Wraps images in div tags if they aren't captioned.
- * @param $content
+ * @param string $content
+ *
+ * @return string
  */
-
 function force_wrap_images( $content ) {
-	$pattern =  [
-		'/<p[^>]*>\\s*?(<img class=\"([a-z0-9\- ]*).*?>)?\\s*<\/p>/',
-		'/<p[^>]*>\\s*?(<a .*?><img class=\"([a-z0-9\- ]*).*?><\\/a>)?\\s*<\/p>/',
+
+	$pattern = [
+		'#<p[^>]*>\s*?(<img class=\"([a-z0-9\- ]*).*?>)?\s*</p>#',
+		'#<p[^>]*>\s*?(<a .*?><img class=\"([a-z0-9\- ]*).*?></a>)?\s*</p>#',
 	];
 	$replacement = '<div class="wp-nocaption $2">$1</div>';
-	return preg_replace($pattern, $replacement, $content);
+
+	return preg_replace( $pattern, $replacement, $content );
 }

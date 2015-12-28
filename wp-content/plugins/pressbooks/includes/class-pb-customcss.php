@@ -1,6 +1,6 @@
 <?php
 /**
- * @author  PressBooks <code@pressbooks.com>
+ * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  */
 namespace PressBooks;
@@ -125,7 +125,7 @@ class CustomCss {
 
 		$options = get_option( 'pressbooks_theme_options_pdf' );
 		
-		return ( @$options['pdf_romanize_parts'] );
+		return (bool) ( @$options['pdf_romanize_parts'] );
 	}
 
 
@@ -137,7 +137,7 @@ class CustomCss {
 	/**
 	 * Save custom CSS to database (and filesystem)
 	 *
-	 * @see pressbooks/admin/templates/custom-css.php
+	 * @see pressbooks/templates/admin/custom-css.php
 	 */
 	static function formSubmit() {
 

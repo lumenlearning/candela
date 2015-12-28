@@ -5,7 +5,7 @@
 	<div class="log-wrap">	<!-- Login/Logout -->
 	   <?php if (! is_single()): ?>
 	    	<?php if (!is_user_logged_in()): ?>
-				<a href="<?php echo wp_login_url(); ?>" class=""><?php _e('login', 'pressbooks'); ?></a>
+				<a href="<?php echo wp_login_url( get_permalink() ); ?>" class=""><?php _e('login', 'pressbooks'); ?></a>
 	   	 	<?php else: ?>
 				<a href="<?php echo  wp_logout_url(); ?>" class=""><?php _e('logout', 'pressbooks'); ?></a>
 				<?php if (is_super_admin() || is_user_member_of_blog()): ?>
@@ -15,7 +15,7 @@
 	    <?php endif; ?>
 	</div>   
 	<div class="right-block">
-		<a href="http://pressbooks.com" class="pressbooks-brand"><img src="<?php bloginfo('template_url'); ?>/images/pressbooks-branding-2x.png" alt="pressbooks-branding" width="186" height="123" /> <span><?php _e('Make your own books on PressBooks', 'pressbooks'); ?></span></a>
+		<a href="http://pressbooks.com" class="pressbooks-brand"><img src="<?php bloginfo('template_url'); ?>/images/pressbooks-branding-2x.png" alt="pressbooks-branding" width="186" height="123" /> <span><?php _e('Make your own books on Pressbooks', 'pressbooks'); ?></span></a>
 	</div>	
 						
 			<div class="book-info">

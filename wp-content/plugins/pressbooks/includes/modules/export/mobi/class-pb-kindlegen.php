@@ -1,12 +1,12 @@
 <?php
 /**
- * @author  PressBooks <code@pressbooks.com>
+ * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  */
-namespace PressBooks\Export\Mobi;
+namespace PressBooks\Modules\Export\Mobi;
 
 
-use PressBooks\Export\Export;
+use PressBooks\Modules\Export\Export;
 
 class Kindlegen extends Export {
 

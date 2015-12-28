@@ -1,6 +1,6 @@
 <?php
 /**
- * @author  PressBooks <code@pressbooks.com>
+ * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  */
 namespace PressBooks\Sanitize;
@@ -8,17 +8,18 @@ namespace PressBooks\Sanitize;
 
 /**
  * Convert HTML5 tags to XHTML11 divs.
+ *
  * Will give a converted tag two classes.
  * Example: <aside>Howdy</aside> will become <div class="bc-aside aside">Howdy</div> (bc = Backward Compatible)
  * This function is used by htmLawed's hook.
  *
- * @param $t
- * @param $C (optional) unused
- * @param $S (optional) unused
+ * @param string $html
+ * @param array $config (optional)
+ * @param array $spec (optional) Extra HTML specifications using the $spec parameter
  *
  * @return string
  */
-function html5_to_xhtml11( $t, $C = array(), $S = array() ) {
+function html5_to_xhtml11( $html, $config = array(), $spec = array() ) {
 
 	$html5 = array(
 		'article', 'aside', 'audio', 'bdi', 'canvas', 'command', 'data', 'datalist', 'details', 'embed', 'figcaption',
@@ -35,27 +36,24 @@ function html5_to_xhtml11( $t, $C = array(), $S = array() ) {
 		$replace_closed[] = '</div>';
 	}
 
-	$t = preg_replace( $search_open, $replace_open, str_replace( $search_closed, $replace_closed, $t ) );
+	$html = preg_replace( $search_open, $replace_open, str_replace( $search_closed, $replace_closed, $html ) );
 
-	return $t;
+	return $html;
 }
 
 /**
- * Convert HTML5 tags to XHTML5 divs
- * 
- * @param type $t
- * @param type $C
- * @param type $S
+ * Convert HTML5 to Epub3 compatible soup
+ *
+ * @param string $html
+ * @param array $config (optional)
+ * @param array $spec (optional) Extra HTML specifications using the $spec parameter
+ *
  * @return string
  */
-function html5_to_xhtml5( $t, $C = array(), $S = array() ) {
+function html5_to_epub3( $html, $config = array(), $spec = array() ) {
 
 	// HTML5 elements we don't want to deal with just yet
-	$html5 = array(
-	    'bdi', 'canvas', 'command', 'data', 'datalist', 'embed', 
-	    'keygen', 'mark', 'meter', 'nav', 'output', 'progress', 'rp', 'rt',
-	    'ruby', 'time', 'track', 'wbr',
-	);
+	$html5 = array( 'command', 'embed', 'track' );
 
 	$search_open = $replace_open = $search_closed = $replace_closed = array();
 
@@ -66,9 +64,23 @@ function html5_to_xhtml5( $t, $C = array(), $S = array() ) {
 		$replace_closed[] = '</div>';
 	}
 
-	$t = preg_replace( $search_open, $replace_open, str_replace( $search_closed, $replace_closed, $t ) );
+	$html = preg_replace( $search_open, $replace_open, str_replace( $search_closed, $replace_closed, $html ) );
 
-	return $t;
+	return $html;
+}
+
+/**
+ * Setup a filter that removes style from WP audio shortcode
+ *
+ * @see \wp_audio_shortcode (in /wp-includes/media.php line ~1658)
+ */
+function fix_audio_shortcode() {
+
+	add_filter( 'wp_audio_shortcode', function ( $html, $atts, $audio, $post_id, $library ) {
+		$html = str_replace( 'width: 100%; visibility: hidden;', '', $html );
+		return $html;
+	}, 10, 5 );
+
 }
 
 /**
@@ -94,6 +106,7 @@ function sanitize_xml_attribute( $slug ) {
 	$slug = trim( $slug );
 	$slug = html_entity_decode( $slug, ENT_COMPAT | ENT_XHTML, 'UTF-8' );
 	$slug = htmlspecialchars( $slug, ENT_COMPAT | ENT_XHTML, 'UTF-8', false );
+	$slug = str_replace( array( "\f" ), '', $slug );
 
 	return $slug;
 }
@@ -139,7 +152,7 @@ function remove_control_characters( $slug ) {
 
 
 /**
- * Force ASCII
+ * Force ASCII (no control characters)
  *
  * @param $slug
  *
@@ -147,7 +160,7 @@ function remove_control_characters( $slug ) {
  */
 function force_ascii( $slug ) {
 
-	$slug = preg_replace( '/[^(\x20-\x7F)]*/', '', $slug );
+	$slug = preg_replace( '/[^(\x20-\x7E)]*/', '', $slug );
 
 	return $slug;
 }
@@ -177,12 +190,11 @@ function decode( $slug ) {
  * @return string
  */
 function strip_br( $slug ) {
-	
-	$slug = str_replace( '&lt;br /&gt;', ' ', $slug );
-	$slug = str_replace( '<br />', ' ', $slug );
+
+	$slug = preg_replace( '/&lt;br\W*?\/&gt;/', ' ', $slug );
+	$slug = preg_replace('/<br\W*?\/>/', ' ', $slug);
 	
 	return $slug;
-
 }
 
 /**
@@ -215,7 +227,7 @@ function canonicalize_url( $url ) {
 	$url = rtrim( trim( $url ), '/' );
 
 	if ( preg_match( '#^mailto:#i', $url ) )
-		return $url;
+		return filter_var( $url, FILTER_SANITIZE_URL );
 	
 	// Add http:// if it's missing
 	if ( ! preg_match( '#^https?://#i', $url ) ) {

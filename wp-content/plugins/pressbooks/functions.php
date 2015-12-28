@@ -2,7 +2,7 @@
 /**
  * Shortcuts for template designers who don't use real namespaces, and other helper functions.
  *
- * @author  PressBooks <code@pressbooks.com>
+ * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  */
 
@@ -98,6 +98,17 @@ function pb_is_custom_theme() {
 }
 
 /**
+ * Shortcut to \PressBooks\Modules\Export::isScss();
+ *
+ * @return bool
+ */
+function pb_is_scss() {
+
+	return \PressBooks\Container::get('Sass')->isCurrentThemeCompatible();
+}
+
+
+/**
  * Shortcut to \PressBooks\Metadata::getSeoMetaElements();
  * 
  * @return string
@@ -164,42 +175,6 @@ function pb_custom_stylesheet_imports_base() {
 
 	return $_res;
 }
-
-
-/**
- * Get path to hyphenation dictionary in a book's language.
- *
- * @return bool|string
- */
-function pb_get_hyphens_path() {
-
-	$loc = false;
-	$compare_with = scandir( PB_PLUGIN_DIR . '/symbionts/dictionaries/' );
-
-	$book_lang = \PressBooks\Book::getBookInformation();
-	$book_lang = @$book_lang['pb_language'];
-
-	foreach ( $compare_with as $compare ) {
-
-		if ( strpos( $compare, 'hyph_' ) !== 0 ) continue; // Skip
-
-		$c = str_replace( 'hyph_', '', $compare );
-		list( $check_me ) = explode( '_', $c );
-
-		// We only care about the first two letters
-		if ( strpos( $book_lang, $check_me ) === 0 ) {
-			$loc = $compare;
-			break;
-		}
-	}
-
-	if ( $loc ) {
-		$loc = PB_PLUGIN_DIR . "symbionts/dictionaries/$loc";
-	}
-
-	return $loc;
-}
-
 
 /**
  * Get "real" chapter number
@@ -279,7 +254,18 @@ function pb_get_sections( $id ) {
  * @return boolean
  */
 function pb_should_parse_sections() {
-	return \PressBooks\Export\Export::shouldParseSections();
+	return \PressBooks\Modules\Export\Export::isParsingSections();
+}
+
+/**
+ * Tag the subsections
+ *
+ * @param $content string
+ *
+ * @return string
+ */
+function pb_tag_sections( $content, $id ) {
+	return \PressBooks\Book::tagSubsections( $content, $id );
 }
 
 /**
