@@ -19,6 +19,8 @@ class Candela_LTI_Table_Create
 {
   public static function init()
   {
+    define('CANDELA_LTI_USERMETA_EXTERNAL_KEY', 'candelalti_external_userid');
+
     register_activation_hook(__FILE__, array(__CLASS__, 'create_db_table' ));
 
     add_action( 'init', array( __CLASS__, 'create_db_table' ) );
@@ -75,6 +77,13 @@ class Candela_LTI_Table_Create
       }
     }
 
+    // function get_external_id_by_userid( $user_id ) {
+    //   switch_to_blog(1);
+    //   $external_id = get_user_meta( $user_id, CANDELA_LTI_USERMETA_EXTERNAL_KEY, TRUE );
+    //   restore_current_blog();
+    //   return $external_id;
+    // }
+
     if (!is_admin() && !is_login_page()) {
       global $wp_session;
 
@@ -85,24 +94,20 @@ class Candela_LTI_Table_Create
         $current_user = wp_get_current_user();
 
         $data = array(
-          'timestamp' => current_time( 'mysql' ), // this gives a timestamp that is 8 hours ahead
-          'lti_user_id' => $current_user->ID, // this is only wp user id...must get lti user id somehow
+          // this gives a timestamp that is 8 hours ahead in subdomains/books
+          'timestamp' => current_time( 'mysql' ),
+          // this is only wp user id...must get lti user id somehow
+          'lti_user_id' => $current_user->ID,
           'lti_course_id' => '4',
           'lti_account_id' => '4',
-          'blog_id' => '1',
-          'page_id' => '2'
+          'blog_id' => get_current_blog_id(),
+          // returns nothing
+          'page_id' => get_the_ID()
         );
 
         $wpdb->insert( $table_name, $data );
       }
     }
-  }
-
-  public static function get_external_id_by_userid( $user_id ) {
-    switch_to_blog(1);
-    $external_id = get_user_meta( $user_id, CANDELA_LTI_USERMETA_EXTERNAL_KEY, TRUE );
-    restore_current_blog();
-    return $external_id;
   }
 
 }
