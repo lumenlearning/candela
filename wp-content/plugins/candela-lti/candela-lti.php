@@ -128,7 +128,7 @@ class CandelaLTI {
     // candela/api/lti/BLOGID?page_id=10
     if ( ! empty($wp->query_vars['page_id'] ) && is_numeric($wp->query_vars['page_id']) ) {
       switch_to_blog((int)$wp->query_vars['blog']);
-      wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['page_id'] . "&content_only" );
+      wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['page_id'] . "&content_only&lti_context_id=" . $wp->query_vars['context_id'] );
       exit;
     }
 
@@ -136,7 +136,7 @@ class CandelaLTI {
     // custom_page_id=10
     if ( ! empty($wp->query_vars['custom_page_id'] ) && is_numeric($wp->query_vars['custom_page_id']) ) {
       switch_to_blog((int)$wp->query_vars['blog']);
-      wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['custom_page_id'] . "&content_only" );
+      wp_redirect( get_bloginfo('wpurl') . "?p=" . $wp->query_vars['custom_page_id'] . "&content_only&lti_context_id=" . $wp->query_vars['context_id'] );
       exit;
     }
 
@@ -427,11 +427,13 @@ class CandelaLTI {
     $query_vars[] = 'page_id';
     $query_vars[] = 'action';
     $query_vars[] = 'ID';
+    $query_vars[] = 'context_id';
     $query_vars[] = 'candela-lti-nonce';
     $query_vars[] = 'custom_page_id';
 
     return $query_vars;
   }
+
 
   /**
    * Update the database
@@ -708,4 +710,3 @@ class CandelaLTI {
   }
 
 }
-
