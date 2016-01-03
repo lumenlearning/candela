@@ -286,6 +286,7 @@ function lumen_asmnt_embed_handler( $matches, $attr, $url, $rawattr ) {
 
   switch_to_blog(1);
   $external_id = get_user_meta( wp_get_current_user()->ID, 'candelalti_external_userid', true );
+	$external_context_id = $_GET['lti_context_id'];
   restore_current_blog();
 
 	$parameters = array(
@@ -297,6 +298,7 @@ function lumen_asmnt_embed_handler( $matches, $attr, $url, $rawattr ) {
       'style=lumen_learning',
       'assessment_kind=formative',
       'external_user_id=' . esc_attr($external_id),
+			'external_context_id=' . esc_attr($external_context_id),
       sprintf('iframe_resize_id=lumen_assessment_%d', $assessment_id),
   );
 
