@@ -398,10 +398,17 @@ nav {
 }
 .sub-nav {
   margin: 0;
-  max-height: 35px;
+  height: 35px;
   background-color: #fafafa;
 	padding: 4px;
 	border-bottom: 1px #afafaf solid;
+}
+.no-sub-nav {
+  margin: 0;
+  height: 35px;
+  background-color: #fafafa;
+	padding: 4px;
+  border-bottom: 0px;
 }
 .center-subtext-search {
 	max-width: 940px;
@@ -445,7 +452,6 @@ nav {
 .searchform #searchsubmit:hover {
   background-color: #0897cb;
 }
-
 
 /* ------------------------------------------------------------------------ *
  * TITLE, SUBTITLE, AUTHORS & APHORISM

@@ -104,6 +104,9 @@
                 </div>
               </div>
         <?php } ?>
+        <?php if (!(show_search()) && !(show_small_title())) { ?>
+              <div class="no-sub-nav"></div>
+        <?php } ?>
         <?php if (show_header()) { ?>
             </nav>
         <?php } ?>
