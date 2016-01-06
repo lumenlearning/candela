@@ -269,7 +269,7 @@ function pressbooks_theme_options_navigation_init() {
 		$_page,
 		$_section,
 		array(
-			 __( 'Display Part Title', 'pressbooks' )
+			 __( 'Display Part/Module/Chapter Title', 'pressbooks' )
 		)
   );
 
