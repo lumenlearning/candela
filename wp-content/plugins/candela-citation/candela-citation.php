@@ -300,7 +300,7 @@ class CandelaCitation {
             'label' => __('CC licensed content, Specific attribution'),
           ),
           'copyrighted_video' => array(
-            'label' => __('Copyrighted video content'),
+            'label' => __('All rights reserved content'),
           ),
           'pd' => array(
             'label' => __('Public domain content'),
@@ -365,7 +365,7 @@ class CandelaCitation {
      */
      public static function get_import_metakeys( $fields ) {
          $fields[] = CANDELA_CITATION_FIELD;
-         return $fields; 
+         return $fields;
   }
 
   /**
