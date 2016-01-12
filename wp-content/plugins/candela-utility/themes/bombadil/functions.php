@@ -458,7 +458,7 @@ function pressbooks_theme_options_navigation_sanitize( $input ) {
 
   function choose_logo($selected_option){
       $navigation = get_option( 'pressbooks_theme_options_navigation' );
-      if ($navigation[$selected_option] == 1) {
+      if ((isset($navigation[$chosen_logo]) && ($navigation[$chosen_logo] == 1))) {
         return true;
       } else {
         return false;
