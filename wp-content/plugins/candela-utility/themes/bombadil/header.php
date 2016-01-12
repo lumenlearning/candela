@@ -67,17 +67,17 @@
 
   <!-- home page wrap -->
 
+
 		<span itemscope itemtype="http://schema.org/Book" itemref="about alternativeHeadline author copyrightHolder copyrightYear datePublished description editor
 		      image inLanguage keywords publisher audience educationalAlignment educationalUse interactivityType learningResourceType typicalAgeRange">
 			<div class="book-info-container hfeed">
 
 		<?php else: ?>
-
 		<span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">
-      <?php if (!isset($_GET['content_only']) || !isset($_GET['hide_search'])) { ?>
-			<div class="nav-container">
-
-        <?php if (!isset($_GET['content_only']) && !isset($_GET['hide_search'])) { ?>
+      <?php if (show_nav_container()) { ?>
+			  <div class="nav-container">
+      <?php } ?>
+        <?php if (show_header()) { ?>
           <div class="skip-to-content">
             <a href="#main-content">Skip to main content</a>
           </div>
@@ -85,24 +85,32 @@
             <nav role="navigation">
               <div class="header-nav">
                 <div class="pressbooks-logo">Lumen Mastery</div>
-                <a class="book-title" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a>
+                <?php if (show_header_link()) { ?>
+                  <a class="book-title" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a>
+                <?php } else { ?>
+                  <span class="book-title" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></span>
+                <?php } ?>
               </div>
+        <?php } ?>
+        <?php if (show_search() || (show_small_title())) { ?>
               <div class="sub-nav">
                 <div class="center-subtext-search">
-                  <div class="sub-nav-subtext"><?php echo get_the_title($post->post_parent); ?></div>
-                  <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
+                  <?php if (show_search()) { ?>
+                    <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
+                  <?php } ?>
+                  <?php if (show_small_title()) { ?>
+                    <div class="sub-nav-subtext"><?php echo get_the_title($post->post_parent); ?></div>
+                  <?php } ?>
                 </div>
               </div>
-            </nav>
-        <?php } elseif (isset($_GET['content_only']) && !isset($_GET['hide_search'])){ ?>
-            <div class="sub-nav">
-              <div class="center-subtext-search">
-                <div class="sub-nav-subtext"><?php echo get_the_title($post->post_parent); ?></div>
-                <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
-              </div>
-            </div>
         <?php } ?>
-
+        <?php if (!(show_search()) && !(show_small_title())) { ?>
+              <div class="no-sub-nav"></div>
+        <?php } ?>
+        <?php if (show_header()) { ?>
+            </nav>
+        <?php } ?>
+      <?php if (show_nav_container()) { ?>
         </div> <!-- end .nav-container -->
       <?php } ?>
 
