@@ -456,9 +456,9 @@ function pressbooks_theme_options_navigation_sanitize( $input ) {
   return $options;
   }
 
-  function choose_logo($selected_option){
+  function choose_logo($chosen_logo){
       $navigation = get_option( 'pressbooks_theme_options_navigation' );
-      if ($navigation[$selected_option] == 1) {
+      if ((isset($navigation[$chosen_logo]) && ($navigation[$chosen_logo] == 1))) {
         return true;
       } else {
         return false;
@@ -468,8 +468,4 @@ function pressbooks_theme_options_navigation_sanitize( $input ) {
 // Footer logo options
   function show_waymaker_logo(){
       return choose_logo('navigation_show_waymaker_logo');
-  }
-  // not currently being called
-  function no_logo(){
-      return choose_logo('no_logo');
   }
