@@ -200,6 +200,26 @@ function show_edit_button(){
 function show_navigation_buttons(){
     return show_nav_options('navigation_show_navigation_buttons');
 }
+
+
+function choose_logo($chosen_logo){
+    $navigation = get_option( 'pressbooks_theme_options_navigation' );
+    if ((isset($navigation[$chosen_logo]) && ($navigation[$chosen_logo] == 1))) {
+      return true;
+    } else {
+      return false;
+    }
+}
+
+// Footer logo options
+function show_waymaker_logo(){
+    return choose_logo('navigation_show_waymaker_logo');
+}
+
+function show_logo(){
+    return choose_logo('navigation_hide_logo');
+}
+
 /* ------------------------------------------------------------------------ *
  * Navigation Options Tab
  * ------------------------------------------------------------------------ */
@@ -210,13 +230,14 @@ function pressbooks_theme_options_navigation_init() {
 	$_page = $_option = 'pressbooks_theme_options_navigation';
 	$_section = 'navigation_options_section';
 	$defaults = array(
-		'navigation_show_header' => 1,
+		'navigation_show_header' => 0,
     'navigation_show_header_link' => 0,
-		'navigation_show_search' => 0,
+		'navigation_show_search' => 1,
     'navigation_show_small_title' => 0,
     'navigation_show_edit_button' => 1,
     'navigation_show_navigation_buttons' => 0,
-    'navigation_show_waymaker_logo' => 0
+    'navigation_show_waymaker_logo' => 0,
+    'navigation_hide_logo' => 1
 
 	);
 
@@ -306,6 +327,17 @@ function pressbooks_theme_options_navigation_init() {
 		array(
 			 __( 'Enable Waymaker Logo (Candela Logo is default)', 'pressbooks' )
 		)
+  );
+
+  add_settings_field(
+    'navigation_hide_logo',
+    __( 'Show Footer Logo', 'pressbooks' ),
+    'pressbooks_theme_navigation_hide_logo_callback',
+    $_page,
+    $_section,
+    array(
+       __( 'Show Footer Logo', 'pressbooks' )
+    )
   );
 
 	register_setting(
@@ -412,6 +444,18 @@ function pressbooks_theme_navigation_show_waymaker_logo_callback( $args ) {
 	echo $html;
 }
 
+function pressbooks_theme_navigation_hide_logo_callback( $args ) {
+
+	$options = get_option( 'pressbooks_theme_options_navigation' );
+
+	if ( ! isset( $options['navigation_hide_logo'] ) ) {
+		$options['navigation_hide_logo'] = 0;
+	}
+	$html = '<input type="checkbox" id="navigation_hide_logo" name="pressbooks_theme_options_navigation[navigation_hide_logo]" value="1"' . checked( 1, $options['navigation_hide_logo'], false ) . '/> ';
+	$html .= '<label for="navigation_hide_logo">' . $args[0] . '</label><br />';
+	echo $html;
+}
+
 // Navigation Options Input Sanitization
 function pressbooks_theme_options_navigation_sanitize( $input ) {
 
@@ -453,19 +497,10 @@ function pressbooks_theme_options_navigation_sanitize( $input ) {
     else $options[$val] = 1;
   }
 
+  foreach ( array( 'navigation_hide_logo' ) as $val ) {
+    if ( ! isset( $input[$val] ) || $input[$val] != '1' ) $options[$val] = 0;
+    else $options[$val] = 1;
+  }
+
   return $options;
-  }
-
-  function choose_logo($chosen_logo){
-      $navigation = get_option( 'pressbooks_theme_options_navigation' );
-      if ((isset($navigation[$chosen_logo]) && ($navigation[$chosen_logo] == 1))) {
-        return true;
-      } else {
-        return false;
-      }
-  }
-
-// Footer logo options
-  function show_waymaker_logo(){
-      return choose_logo('navigation_show_waymaker_logo');
   }
