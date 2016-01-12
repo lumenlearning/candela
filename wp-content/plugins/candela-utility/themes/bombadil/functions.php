@@ -311,12 +311,12 @@ function pressbooks_theme_options_navigation_init() {
 
   add_settings_field(
     'navigation_hide_logo',
-    __( 'Hide Logo', 'pressbooks' ),
+    __( 'Hide Footer Logo', 'pressbooks' ),
     'pressbooks_theme_navigation_hide_logo_callback',
     $_page,
     $_section,
     array(
-       __( 'Hide Logo', 'pressbooks' )
+       __( 'Hide Footer Logo', 'pressbooks' )
     )
   );
 
@@ -487,6 +487,8 @@ function pressbooks_theme_options_navigation_sanitize( $input ) {
 
   function choose_logo($chosen_logo){
       $navigation = get_option( 'pressbooks_theme_options_navigation' );
+      error_log(print_r($navigation,true));
+            error_log($chosen_logo);
       if ((isset($navigation[$chosen_logo]) && ($navigation[$chosen_logo] == 1))) {
         return true;
       } else {
@@ -500,6 +502,6 @@ function pressbooks_theme_options_navigation_sanitize( $input ) {
   }
 
   // not currently being called
-  function no_logo(){
-      return choose_logo('hide_logo');
+  function hide_logo(){
+      return choose_logo('navigation_hide_logo');
   }

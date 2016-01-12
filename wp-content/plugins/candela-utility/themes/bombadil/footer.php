@@ -46,10 +46,15 @@
 				<?php endif; ?>
 
         <!-- logo options -->
-        <?php if (show_waymaker_logo()) : ?>
-          <img class="lumen-footer-logo" src="<?php echo get_stylesheet_directory_uri(); ?>/images/FooterLumenWaymaker.png" alt="Footer Logo Lumen Waymaker" />
+        <?php if (hide_logo()) : ?>
+          <!-- // make show nothing -->
+          <img class="hidden" />
           <?php else : ?>
-          <img class="lumen-footer-logo" src="<?php echo get_stylesheet_directory_uri(); ?>/images/FooterLumenCandela.png" alt="Footer Logo Lumen Candela" />
+          <?php if (show_waymaker_logo()) : ?>
+            <img class="lumen-footer-logo" src="<?php echo get_stylesheet_directory_uri(); ?>/images/FooterLumenWaymaker.png" alt="Footer Logo Lumen Waymaker" />
+            <?php else : ?>
+            <img class="lumen-footer-logo" src="<?php echo get_stylesheet_directory_uri(); ?>/images/FooterLumenCandela.png" alt="Footer Logo Lumen Candela" />
+          <?php endif ?>
         <?php endif ?>
 
 				<?php echo pressbooks_copyright_license(); ?>
