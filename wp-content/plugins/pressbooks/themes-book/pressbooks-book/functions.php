@@ -349,9 +349,6 @@ function pressbooks_theme_options_display() { ?>
 			} elseif( $active_tab == 'ebook_options' ) {
 				settings_fields( 'pressbooks_theme_options_ebook' );
 				do_settings_sections( 'pressbooks_theme_options_ebook' );
-			} elseif( $active_tab == 'navigation_options' ) {
-				settings_fields( 'pressbooks_theme_options_navigation' );
-				do_settings_sections( 'pressbooks_theme_options_navigation' );
 			} ?>
 			<?php submit_button(); ?>
 		</form>

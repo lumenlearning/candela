@@ -504,3 +504,60 @@ function pressbooks_theme_options_navigation_sanitize( $input ) {
 
   return $options;
   }
+  /* ------------------------------------------------------------------------ *
+   * Theme Options Display (Appearance -> Theme Options)
+   * ------------------------------------------------------------------------ */
+
+  if ( ! function_exists( 'pressbooks_theme_options_display' ) ) :
+
+  /**
+   * Function called by the Pressbooks plugin when user is on [ Appearance → Theme Options ] page
+   */
+  function pressbooks_theme_options_display() { ?>
+  	<div class="wrap">
+  		<div id="icon-themes" class="icon32"></div>
+  		<h2><?php echo wp_get_theme(); ?> Theme Options</h2>
+  		<?php settings_errors(); ?>
+  		<?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'global_options'; ?>
+  		<h2 class="nav-tab-wrapper">
+  		<a href="?page=pressbooks_theme_options&tab=global_options" class="nav-tab <?php echo $active_tab == 'global_options' ? 'nav-tab-active' : ''; ?>">Global Options</a>
+  		<a href="?page=pressbooks_theme_options&tab=web_options" class="nav-tab <?php echo $active_tab == 'web_options' ? 'nav-tab-active' : ''; ?>">Web Options</a>
+  		<?php if( true == \PressBooks\Utility\check_prince_install() ){ ?>
+  		<a href="?page=pressbooks_theme_options&tab=pdf_options" class="nav-tab <?php echo $active_tab == 'pdf_options' ? 'nav-tab-active' : ''; ?>">PDF Options</a>
+  		<?php } ;?>
+  		<?php if ( true == \PressBooks\Modules\Export\Mpdf\Pdf::isInstalled() ) { ?>
+  		<a href="?page=pressbooks_theme_options&tab=mpdf_options" class="nav-tab <?php echo $active_tab == 'mpdf_options' ? 'nav-tab-active' : ''; ?>">mPDF Options</a>
+  		<?php } ?>
+  		<a href="?page=pressbooks_theme_options&tab=ebook_options" class="nav-tab <?php echo $active_tab == 'ebook_options' ? 'nav-tab-active' : ''; ?>">Ebook Options</a>
+  		<a href="?page=pressbooks_theme_options&tab=navigation_options" class="nav-tab <?php echo $active_tab == 'navigation_options' ? 'nav-tab-active' : ''; ?>">Navigation Options</a>
+  		</h2>
+
+
+  		<!-- Create the form that will be used to render our options -->
+  		<form method="post" action="options.php">
+  			<?php if( $active_tab == 'global_options' ) {
+  				settings_fields( 'pressbooks_theme_options_global' );
+  				do_settings_sections( 'pressbooks_theme_options_global' );
+  			} elseif( $active_tab == 'web_options' ) {
+  				settings_fields( 'pressbooks_theme_options_web' );
+  				do_settings_sections( 'pressbooks_theme_options_web' );
+  			} elseif( $active_tab == 'pdf_options' ) {
+  				settings_fields( 'pressbooks_theme_options_pdf' );
+  				do_settings_sections( 'pressbooks_theme_options_pdf' );
+  			} elseif( $active_tab == 'mpdf_options' ) {
+  				settings_fields( 'pressbooks_theme_options_mpdf' );
+  				do_settings_sections( 'pressbooks_theme_options_mpdf' );
+  			} elseif( $active_tab == 'ebook_options' ) {
+  				settings_fields( 'pressbooks_theme_options_ebook' );
+  				do_settings_sections( 'pressbooks_theme_options_ebook' );
+  			} elseif( $active_tab == 'navigation_options' ) {
+  				settings_fields( 'pressbooks_theme_options_navigation' );
+  				do_settings_sections( 'pressbooks_theme_options_navigation' );
+  			} ?>
+  			<?php submit_button(); ?>
+  		</form>
+  	</div>
+  <?php
+  }
+
+  endif;
