@@ -46,10 +46,9 @@
 				<?php endif; ?>
 
         <!-- logo options -->
-        <?php if (hide_logo()) : ?>
+        <?php if (show_logo()) : ?>
           <!-- // make show nothing -->
-          <img class="hidden" />
-          <?php else : ?>
+          <!-- <img class="hidden" /> -->
           <?php if (show_waymaker_logo()) : ?>
             <img class="lumen-footer-logo" src="<?php echo get_stylesheet_directory_uri(); ?>/images/FooterLumenWaymaker.png" alt="Footer Logo Lumen Waymaker" />
             <?php else : ?>

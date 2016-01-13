@@ -210,9 +210,9 @@ function pressbooks_theme_options_navigation_init() {
 	$_page = $_option = 'pressbooks_theme_options_navigation';
 	$_section = 'navigation_options_section';
 	$defaults = array(
-		'navigation_show_header' => 1,
+		'navigation_show_header' => 0,
     'navigation_show_header_link' => 0,
-		'navigation_show_search' => 0,
+		'navigation_show_search' => 1,
     'navigation_show_small_title' => 0,
     'navigation_show_edit_button' => 1,
     'navigation_show_navigation_buttons' => 0,
@@ -487,8 +487,6 @@ function pressbooks_theme_options_navigation_sanitize( $input ) {
 
   function choose_logo($chosen_logo){
       $navigation = get_option( 'pressbooks_theme_options_navigation' );
-      error_log(print_r($navigation,true));
-            error_log($chosen_logo);
       if ((isset($navigation[$chosen_logo]) && ($navigation[$chosen_logo] == 1))) {
         return true;
       } else {
@@ -502,6 +500,6 @@ function pressbooks_theme_options_navigation_sanitize( $input ) {
   }
 
   // not currently being called
-  function hide_logo(){
-      return choose_logo('navigation_hide_logo');
+  function show_logo(){
+      return !choose_logo('navigation_hide_logo');
   }
