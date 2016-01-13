@@ -328,7 +328,6 @@ function pressbooks_theme_options_display() { ?>
 		<a href="?page=pressbooks_theme_options&tab=mpdf_options" class="nav-tab <?php echo $active_tab == 'mpdf_options' ? 'nav-tab-active' : ''; ?>">mPDF Options</a>
 		<?php } ?>
 		<a href="?page=pressbooks_theme_options&tab=ebook_options" class="nav-tab <?php echo $active_tab == 'ebook_options' ? 'nav-tab-active' : ''; ?>">Ebook Options</a>
-		<a href="?page=pressbooks_theme_options&tab=navigation_options" class="nav-tab <?php echo $active_tab == 'navigation_options' ? 'nav-tab-active' : ''; ?>">Navigation Options</a>
 		</h2>
 
 
@@ -349,9 +348,6 @@ function pressbooks_theme_options_display() { ?>
 			} elseif( $active_tab == 'ebook_options' ) {
 				settings_fields( 'pressbooks_theme_options_ebook' );
 				do_settings_sections( 'pressbooks_theme_options_ebook' );
-			} elseif( $active_tab == 'navigation_options' ) {
-				settings_fields( 'pressbooks_theme_options_navigation' );
-				do_settings_sections( 'pressbooks_theme_options_navigation' );
 			} ?>
 			<?php submit_button(); ?>
 		</form>
