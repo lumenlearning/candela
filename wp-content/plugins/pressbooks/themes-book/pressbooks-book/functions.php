@@ -212,7 +212,7 @@ endif;
  * Copyright License
  * ------------------------------------------------------------------------ */
 
-function pressbooks_copyright_license() {
+function pressbooks_copyright_license($do_api_call=false) {
 
 	$option = get_option( 'pressbooks_theme_options_global' );
 	$book_meta = \PressBooks\Book::getBookInformation();
@@ -269,7 +269,7 @@ function pressbooks_copyright_license() {
 		}
 	}
 	// if the cache has expired, or the user changed the license
-	if ( false === $transient || true == $changed ) {
+	if ( $do_api_call && (false === $transient || true == $changed) ) {
 
 		// get xml response from API
 		$response = \PressBooks\Metadata::getLicenseXml( $license, $copyright_holder, $link, $title, $lang );
