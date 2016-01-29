@@ -1,7 +1,7 @@
 <?php
 /**
 * @wordpress-plugin
-* Plugin Name:       Candela Outcomes changes
+* Plugin Name:       Candela Outcomes changes omg
 * Description:       Add Outcomes meta field for coursework
 * Version:           0.1
 * Author:            Lumen Learning
