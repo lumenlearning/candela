@@ -91,13 +91,23 @@ function ca_get_links($echo=true) {
   $first_chapter = pb_get_first();
   $prev_chapter = pb_get_prev();
   $next_chapter = pb_get_next();
+
+  if(isset($_GET['content_only'])){
+    $next_chapter = add_query_arg( 'content_only', 1, $next_chapter );
+    $prev_chapter = add_query_arg( 'content_only', 1, $prev_chapter );
+  }
+  if(isset($_GET['lti_context_id'])){
+    $next_chapter = add_query_arg( 'lti_context_id', $_GET['lti_context_id'], $next_chapter );
+    $prev_chapter = add_query_arg( 'lti_context_id', $_GET['lti_context_id'], $prev_chapter );
+  }
+
   if ($echo):
     ?><div class="bottom-nav-buttons">
     <?php if ($prev_chapter != '/') : ?>
-    <a class="page-nav-btn" id="prev" href="<?php echo $prev_chapter; ?>"><?php _e('Previous', 'pressbooks'); ?></a>
+    <a class="page-nav-btn" id="prev" href="<?php echo esc_url($prev_chapter); ?>"><?php _e('Previous', 'pressbooks'); ?></a>
   <?php endif; ?>
     <?php if ($next_chapter != '/') : ?>
-    <a class="page-nav-btn" id="next" href="<?php echo $next_chapter; ?>"><?php _e('Next', 'pressbooks'); ?></a>
+    <a class="page-nav-btn" id="next" href="<?php echo esc_url($next_chapter); ?>"><?php _e('Next', 'pressbooks'); ?></a>
   <?php endif; ?>
     </div><?php
   endif;
