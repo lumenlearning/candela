@@ -6,7 +6,7 @@
    parent.postMessage(JSON.stringify({
       subject: "lti.frameResize",
       height: default_height,
-      iframe_resize_id: "lumen_assessment_1"
+      element_id: "lumen_assessment_1"
   }), "*");
 
  * The element_id needed is passed as a query parameter `iframe_resize_id`
