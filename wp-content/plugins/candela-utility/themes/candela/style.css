@@ -27,6 +27,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: "Roboto Condensed", sans-serif;
 	font-variant: normal;
 	font-weight: normal;
+	text-transform: none;
 }
 h1 {
 	font-size: 1.3em;
@@ -37,11 +38,11 @@ h1, h2 {
 h2 {
 	font-size: 1.2em;
 }
+h3 {
+	text-align: left;
+}
 h2, h3, h4 {
 	font-style: normal;
-}
-h3, h4 {
-	text-transform: uppercase;
 }
 
 h1 + p,
@@ -187,8 +188,115 @@ p.cc-block{
 	Textbook specific styles
 ********************************/
 
+/*
+These are identical to the native pressbooks .textbook set of classes. They
+are being applied here as .bcc-box to retroactively keep styles consistent
+with how content is being written currently (3.1.16). Success team will
+abandon .bcc-box in favor of pressbooks' native styling.
+ */
+
+.bcc-box {
+  border: 1px solid #000;
+  margin: 10px 0;
+  padding: 10px;
+}
+.bcc-box p {
+  margin-top: 0;
+}
+.bcc-box.shaded {
+  background-color: #eee;
+}
+.bcc-box {
+  border-radius: 4px;
+  margin-bottom: 15px;
+  padding: 2% 3%;
+  margin-inside: auto;
+  margin-outside: auto;
+  float: none;
+  background-color: #F7F7F9;
+}
+.bcc-box h3 {
+  color: #fff;
+  margin: -2% -3% 15px;
+  padding: 15px 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+.textbox h3 {
+  text-transform: uppercase;
+}
+.bcc-box.bcc-highlight h3 {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: #111111;
+}
+.bcc-box.bcc-success {
+  border-radius: 4px;
+  margin-bottom: 15px;
+  padding: 2% 3%;
+  margin-inside: auto;
+  margin-outside: auto;
+  float: none;
+  background-color: #EAF5EA;
+}
+.bcc-box.bcc-success h3 {
+  color: #fff;
+  margin: -2% -3% 15px;
+  padding: 15px 0;
+  text-align: center;
+}
+.bcc-box.bcc-success h3 {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: #3A7A33;
+}
+.bcc-box.bcc-info {
+  border-radius: 4px;
+  margin-bottom: 15px;
+  padding: 2% 3%;
+  margin-inside: auto;
+  margin-outside: auto;
+  float: none;
+  background-color: #E3EFF6;
+}
+.bcc-box.bcc-info h3 {
+  color: #fff;
+  margin: -2% -3% 15px;
+  padding: 15px 0;
+  text-align: center;
+}
+.bcc-box.bcc-info h3 {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: #0B6396;
+}
+.bcc-box.bcc-warning {
+  border-radius: 4px;
+  margin-bottom: 15px;
+  padding: 2% 3%;
+  margin-inside: auto;
+  margin-outside: auto;
+  float: none;
+  background-color: #F3E1E3;
+}
+.bcc-box.bcc-warning h3 {
+  color: #fff;
+  margin: -2% -3% 15px;
+  padding: 15px 0;
+  text-align: center;
+}
+.bcc-box.bcc-warning h3 {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: #7A333A;
+}
+.bcc-box-caption {
+  display: block;
+  font: bold 0.875em Helvetica, Arial;
+  margin: 0;
+}
+/*
 .bcc-box{
-	/*	width: 100%;*/
 	padding: 2% 3%;
 	margin-bottom: 15px;
 	border-radius: 4px;
@@ -233,7 +341,7 @@ p.cc-block{
 .bcc-box.bcc-warning h3{
 	background-color: #c09853;
 }
-
+*/
 span.export-file-icon{
 	width: 36px;
 	height: 36px;
