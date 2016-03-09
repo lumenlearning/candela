@@ -15,6 +15,7 @@ function bombadil_theme_scripts() {
   wp_enqueue_script('foundation', get_stylesheet_directory_uri() . '/js/foundation.min.js', array('jquery'), '', true);
   wp_enqueue_script('iframe_resizer', get_stylesheet_directory_uri() . '/js/iframe_resizer.js', array('jquery'), '', true);
   wp_enqueue_script('embedded_audio', get_stylesheet_directory_uri() . '/js/audio_behavior.js', array('jquery'), '', true);
+  wp_enqueue_script('lti_buttons', get_stylesheet_directory_uri() . '/js/lti_buttons.js', array('jquery'), '', true);
 }
 add_action( 'wp_enqueue_scripts', 'bombadil_theme_scripts' );
 
@@ -91,11 +92,11 @@ function ca_get_links($echo=true) {
   $first_chapter = pb_get_first();
   $prev_chapter = pb_get_prev();
   $next_chapter = pb_get_next();
-
   if(isset($_GET['content_only'])){
     $next_chapter = add_query_arg( 'content_only', 1, $next_chapter );
     $prev_chapter = add_query_arg( 'content_only', 1, $prev_chapter );
   }
+
   if(isset($_GET['lti_context_id'])){
     $next_chapter = add_query_arg( 'lti_context_id', $_GET['lti_context_id'], $next_chapter );
     $prev_chapter = add_query_arg( 'lti_context_id', $_GET['lti_context_id'], $prev_chapter );
@@ -114,6 +115,21 @@ function ca_get_links($echo=true) {
 }
 
 /**
+ * Render LTI Previous and next buttons, for LMS Integration
+ *
+ * @param bool $echo
+ */
+function lti_get_links($echo=true){
+  if ($echo): ?>
+    <div class="lti-bottom-nav-buttons">
+        <a class="lti-nav-btn" id="lti-prev"><span class="lti-btn-arrow">&#10094;</span><span class="lti-btn-text">Previous</span></a>
+        <a class="lti-nav-btn" id="lti-next"><span class="lti-btn-text">Next</span><span class="lti-btn-arrow">&#10095;</span></a>
+        <a class="lti-nav-btn" id="study-plan">Study Plan</a>
+    </div>
+  <?php endif;
+}
+
+/**
  * Sends a Window.postMessage to resize the iframe
  * (Only works in Canvas for now)
  */
@@ -121,18 +137,18 @@ function add_iframe_resize_message() {
 
   printf(
       '<script>
-    if(self != top){
-      // get rid of double iframe scrollbars
-      var default_height = Math.max(
-          document.body.scrollHeight, document.body.offsetHeight,
-          document.documentElement.clientHeight, document.documentElement.scrollHeight,
-          document.documentElement.offsetHeight);
-      parent.postMessage(JSON.stringify({
-          subject: "lti.frameResize",
-          height: default_height
-      }), "*");
-    }
-</script>'
+        if(self != top){
+          // get rid of double iframe scrollbars
+          var default_height = Math.max(
+              document.body.scrollHeight, document.body.offsetHeight,
+              document.documentElement.clientHeight, document.documentElement.scrollHeight,
+              document.documentElement.offsetHeight);
+          parent.postMessage(JSON.stringify({
+              subject: "lti.frameResize",
+              height: default_height
+          }), "*");
+        }
+      </script>'
   );
 
 }
@@ -187,6 +203,14 @@ function show_nav_options($selected_option){
   }
 }
 
+function show_lti_buttons(){
+  return isset($_GET['lti_nav']);
+}
+
+function show_navigation_buttons(){
+    return show_nav_options( 'navigation_show_navigation_buttons' );
+}
+
 function show_header(){
     return show_nav_options('navigation_show_header');
 }
@@ -205,10 +229,6 @@ function show_small_title(){
 
 function show_edit_button(){
     return show_nav_options('navigation_show_edit_button');
-}
-
-function show_navigation_buttons(){
-    return show_nav_options('navigation_show_navigation_buttons');
 }
 
 
