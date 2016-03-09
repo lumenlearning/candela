@@ -43,9 +43,11 @@
     <?php edit_post_link(__('Edit This Page', 'lumen'), '<div class="edit-page-btn">', '</div>'); ?>
 	<?php } ?>
 	<!-- PAGE NAVIGATION BUTTONS -->
-	<?php if(show_navigation_buttons()) {
-    ca_get_links();
-  } ?>
+	<?php if (show_lti_buttons()) {
+					lti_get_links();
+				} elseif (show_navigation_buttons()) {
+					ca_get_links();
+				} ?>
 
 </div><!-- END CONTENT -->
 
