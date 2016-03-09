@@ -218,10 +218,9 @@ p.cc-block{
   text-align: center;
   text-transform: uppercase;
 }
-/*.textbox h3 {
+.textbox h3 {
   text-transform: uppercase;
-	margin-top: 1px;
-}*/
+}
 .bcc-box.bcc-highlight h3 {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
