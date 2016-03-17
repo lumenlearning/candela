@@ -1,15 +1,24 @@
 /**
-  * LTI Navigation button functionality within LMS
-*/
+ * LTI Navigation button functionality within LMS
+ */
 
-jQuery("#lti-prev").click(function() {
-  console.log("previous");
+jQuery("#lti-prev").click(function () {
+    parent.postMessage(JSON.stringify({
+        subject: "lti.navigation",
+        location: "previous"
+    }), "*");
 });
 
-jQuery("#study-plan").click(function() {
-  console.log("study plan");
+jQuery("#study-plan").click(function () {
+    parent.postMessage(JSON.stringify({
+        subject: "lti.navigation",
+        location: "home"
+    }), "*");
 });
 
-jQuery("#lti-next").click(function() {
-  console.log("next");
+jQuery("#lti-next").click(function () {
+    parent.postMessage(JSON.stringify({
+        subject: "lti.navigation",
+        location: "next"
+    }), "*");
 });
