@@ -26,7 +26,7 @@ function thincc_admin_page()
   add_action('load-' . $plugin_page, 'thincc_add_js');
 }
 
-if (isset($_POST['download'])) {
+if (isset($_POST['cc_download'])) {
 
   add_action('wp_loaded', 'thin_cc_download', 1);
   function thin_cc_download()
@@ -44,7 +44,7 @@ function thincc_ajax()
   $filename = $sitename . 'wordpress.' . date('Y-m-d');
   $options = process_thincc_options($_POST);
 
-  if(isset($_POST['download']) && $_POST['download'] == '0') {
+  if(isset($_POST['cc_download']) && $_POST['cc_download'] == '0') {
     $options['version'] = 'thin';
     $options['inline'] = true;
     $manifest = new \CC\Manifest(\PressBooks\Book::getBookStructure('', true), $options);

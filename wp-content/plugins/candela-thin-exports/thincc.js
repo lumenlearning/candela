@@ -13,7 +13,7 @@ jQuery(document).ready(function($) {
                 include_bm: $form.find( 'input[name="include_bm"]:checked' ).val(),
                 include_parts: $form.find( 'input[name="include_parts"]:checked' ).val(),
 								include_guids: $form.find( 'input[name="include_guids"]:checked' ).val(),
-								download: 0
+								cc_download: 0
 							};
 
 			return data;
