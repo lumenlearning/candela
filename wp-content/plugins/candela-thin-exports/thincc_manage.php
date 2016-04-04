@@ -47,7 +47,7 @@ global $wpdb;
           </div>
 
           <div class="submit">
-            <input type="hidden" name="download" value="<?php echo get_home_path(); ?>"/>
+            <input type="hidden" name="cc_download" value="<?php echo get_home_path(); ?>"/>
 
             <a href="#" class="button-secondary">Preview Thin-CC</a>
             <input class="button button-primary" type="submit" value="Download CC 1.1 .imscc" name="submit">
