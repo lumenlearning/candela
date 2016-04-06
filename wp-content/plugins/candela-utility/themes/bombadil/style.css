@@ -92,7 +92,7 @@ ol.alphalist li::before {
 	content: normal;
 }
 ul li {
-	list-style-type: none;
+	/*list-style-type: none;*/
 }
 img {
 	border: none;
@@ -231,7 +231,14 @@ img {
 .third-block-wrap ul {
   line-height: 1.3 !important;
 }
-
+.copyright-text,
+.about-text {
+  color: #b4b4b4;
+  font-size: 0.85em;
+}
+.copyright-text a {
+  color: #b4b4b4;
+}
 
 /* ------------------------------------------------------------------------ *
  * STUDY PLAN PAGE
@@ -604,6 +611,9 @@ p.cc-block {
   padding: 0;
 	border: none;
 }
+.table-of-content {
+  list-style-type: none;
+}
 
 
 /* ------------------------------------------------------------------------ *
@@ -908,7 +918,7 @@ div#wrap {
 	margin-top: 0.5em auto;
 }
 #content ul li {
-	list-style-type: disc;
+	/*list-style-type: disc;*/
 	margin-left: 1em;
 }
 #content blockquote {
@@ -967,9 +977,9 @@ div#wrap {
 }
 #content table {
   display: table;
-  width: 90%;
+  /*width: 90%;*/
 	margin: 1em auto;
-  border: none;
+  /*border: none;*/
   background-color: #fff;
 }
 .wp-caption {

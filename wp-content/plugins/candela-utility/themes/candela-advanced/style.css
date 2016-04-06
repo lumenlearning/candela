@@ -288,6 +288,10 @@ span.small.xhtml {
 
 }
 
+#content ul li {
+	margin-left: 1em;
+}
+
 /*************************
 	Media queries
 **************************/

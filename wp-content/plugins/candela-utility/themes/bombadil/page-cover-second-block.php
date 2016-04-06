@@ -19,7 +19,7 @@
 							<?php $metadata = pb_get_book_information();?>
 							<h2><?php _e('Book Description', 'pressbooks'); ?></h2>
 								<?php if ( ! empty( $metadata['pb_about_unlimited'] ) ): ?>
-									<p><?php
+									<p class="about-text"><?php
 										$about_unlimited = pb_decode( $metadata['pb_about_unlimited'] );
 										$about_unlimited = preg_replace( '/<p[^>]*>(.*)<\/p[^>]*>/i', '$1', $about_unlimited ); // Make valid HTML by removing first <p> and last </p>
 										echo $about_unlimited; ?></p>
@@ -27,7 +27,7 @@
 							<!-- if there is a custom copyright description -->
 							<?php if ( ! empty ($metadata['pb_custom_copyright'])) : ?>
 									<h2><?php _e('Copyright', 'pressbooks') ;?></h2>
-									<p><?php
+									<p class="copyright-text"><?php
 										$custom_copyright = pb_decode( $metadata['pb_custom_copyright']);
 										$custom_copyright = preg_replace( '/<p[^>]*>(.*)<\/p[^>]*>/i', '$1', $custom_copyright );
 										echo $custom_copyright;?>
