@@ -62,7 +62,7 @@ class PBLatex {
    MathJax.Hub.Config({
     skipStartupTypeset: true,
     TeX: { extensions: ["cancel.js"] }
-  });  
+  });
 </script>
 <script type="text/javascript">
    MathJax.Hub.Configured();
@@ -104,7 +104,7 @@ class PBLatex {
 
 		return "<img src='$url' alt='$alt' title='$alt' class='latex' />";
 	}
-	
+
 	//shortcode handling for katex output. Just clean up messy entities
 	function katexshortCode( $_atts, $latex ) {
 		$latex = preg_replace( array( '#<br\s*/?>#i', '#</?p>#i' ), ' ', $latex );
@@ -115,7 +115,7 @@ class PBLatex {
 
 		return "[latex]".$latex."[/latex]";
 	}
-	
+
 	function sanitizeColor( $color ) {
 		$color = substr( preg_replace( '/[^0-9a-f]/i', '', $color ), 0, 6 );
 		if ( 6 > $l = strlen( $color ) ) $color .= str_repeat( '0', 6 - $l );

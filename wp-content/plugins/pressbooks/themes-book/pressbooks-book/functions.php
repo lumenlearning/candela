@@ -61,14 +61,14 @@ function pb_enqueue_scripts() {
 		}
 		wp_register_style( 'pressbooks-custom-css', pb_get_custom_stylesheet_url(), $deps, get_option( 'pressbooks_last_custom_css' ), 'screen' );
 		wp_enqueue_style( 'pressbooks-custom-css' );
-	} else { // Standard theme
+	} else  {
 		wp_register_style( 'pressbooks', PB_PLUGIN_URL . 'themes-book/pressbooks-book/style.css', array(), null, 'screen, print' );
 		wp_enqueue_style( 'pressbooks' );
 		// Use default stylesheet as base (to avoid horribly broken webbook)
 		$deps = array( 'pressbooks' );
 		if ( get_stylesheet() !== 'pressbooks-book' ) { // If not pressbooks-book, we need to register and enqueue the theme stylesheet too
 			$fullpath = \PressBooks\Container::get('Sass')->pathToUserGeneratedCss() . '/style.css';
-			if ( is_file( $fullpath ) ) { // Custom webbook style has been generated
+			if ( is_file( $fullpath ) && \PressBooks\Container::get('Sass')->isCurrentThemeCompatible() ) { // SASS theme & custom webbook style has been generated
 				wp_register_style( 'pressbooks-theme', \PressBooks\Container::get('Sass')->urlToUserGeneratedCss() . '/style.css', $deps, null, 'screen, print' );
 				wp_enqueue_style( 'pressbooks-theme' );
 			} else { // Use the bundled stylesheet
@@ -76,11 +76,7 @@ function pb_enqueue_scripts() {
 				wp_enqueue_style( 'pressbooks-theme' );
 			}
 		}
-
 	}
-
-
-
 
 	if (! is_front_page() ) {
 		wp_enqueue_script( 'pressbooks-script', get_template_directory_uri() . "/js/script.js", array( 'jquery' ), '1.0', false );
@@ -212,7 +208,7 @@ endif;
  * Copyright License
  * ------------------------------------------------------------------------ */
 
-function pressbooks_copyright_license($do_api_call=false) {
+function pressbooks_copyright_license() {
 
 	$option = get_option( 'pressbooks_theme_options_global' );
 	$book_meta = \PressBooks\Book::getBookInformation();
@@ -269,7 +265,7 @@ function pressbooks_copyright_license($do_api_call=false) {
 		}
 	}
 	// if the cache has expired, or the user changed the license
-	if ( $do_api_call && (false === $transient || true == $changed) ) {
+	if ( false === $transient || true == $changed ) {
 
 		// get xml response from API
 		$response = \PressBooks\Metadata::getLicenseXml( $license, $copyright_holder, $link, $title, $lang );
@@ -328,10 +324,7 @@ function pressbooks_theme_options_display() { ?>
 		<a href="?page=pressbooks_theme_options&tab=mpdf_options" class="nav-tab <?php echo $active_tab == 'mpdf_options' ? 'nav-tab-active' : ''; ?>">mPDF Options</a>
 		<?php } ?>
 		<a href="?page=pressbooks_theme_options&tab=ebook_options" class="nav-tab <?php echo $active_tab == 'ebook_options' ? 'nav-tab-active' : ''; ?>">Ebook Options</a>
-		<a href="?page=pressbooks_theme_options&tab=navigation_options" class="nav-tab <?php echo $active_tab == 'navigation_options' ? 'nav-tab-active' : ''; ?>">Navigation Options</a>
 		</h2>
-
-
 		<!-- Create the form that will be used to render our options -->
 		<form method="post" action="options.php">
 			<?php if( $active_tab == 'global_options' ) {
@@ -475,7 +468,6 @@ function pressbooks_theme_chapter_numbers_callback( $args ) {
 
 	$options = get_option( 'pressbooks_theme_options_global' );
 
-
 	if ( ! isset( $options['chapter_numbers'] ) ) {
 		$options['chapter_numbers'] = 1;
 	}
@@ -533,7 +525,7 @@ function pressbooks_theme_copyright_license_callback( $args ) {
 	$options = get_option( 'pressbooks_theme_options_global' );
 
 	if ( ! isset( $options['copyright_license'] ) ) {
-		$options['copyright_license'] = 1;
+		$options['copyright_license'] = 0;
 	}
 
 	$html = '<input type="checkbox" id="copyright_license" name="pressbooks_theme_options_global[copyright_license]" value="1" ' . checked( 1, $options['copyright_license'], false ) . '/>';
@@ -691,7 +683,7 @@ function pressbooks_theme_accessibility_fontsize_callback( $args ){
 	$options = get_option( 'pressbooks_theme_options_web' );
 
 	if ( ! isset( $options['accessibility_fontsize'] ) ) {
-		$options['accessibility_fontsize'] = 1;
+		$options['accessibility_fontsize'] = 0;
 	}
 	$html = '<input type="checkbox" id="accessibility_fontsize" name="pressbooks_theme_options_web[accessibility_fontsize]" value="1" ' . checked( 1, $options['accessibility_fontsize'], false ) . '/>';
 	$html .= '<label for="accessibility_fontsize"> ' . $args[0] . '</label>';

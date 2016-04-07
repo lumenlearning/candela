@@ -110,11 +110,11 @@ $current_import = get_option( 'pressbooks_current_import' );
 		<script type="text/javascript">
 			jQuery(function ($) {
 				$('#pb-www').hide();
-				
+
 				$( ".pb-html-target").change(
 					function(){
 						var val = $('.pb-html-target').val();
-						
+
 							if (val == 'html') {
 							$('#pb-file').hide();
 							$('#pb-www').show();
@@ -123,11 +123,11 @@ $current_import = get_option( 'pressbooks_current_import' );
 							$('#pb-www').hide();
 							// clear http value at input elem
 							$('.widefat').val('');
-							
-						}	
-					
+
+						}
+
 					});
-				
+
 			});
 			</script>
 		<p>

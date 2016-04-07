@@ -18,7 +18,7 @@ class IMSCC extends Import {
     }
 
     list($chapters, $posttypes) = $imscc->getImportableContent();
-    
+
     $option = array(
       'file' => $upload['file'],
       'file_type' => $upload['type'],
@@ -72,7 +72,7 @@ class IMSCC extends Import {
         }
 
         $pid = wp_insert_post( add_magic_quotes( $new_post ) );
-        
+
         //store part post ID to use as parent for subsequent chapters
         if ( 'part' == $post_type ) {
           $current_post_parent = $pid;
@@ -82,7 +82,7 @@ class IMSCC extends Import {
 
         update_post_meta( $pid, 'pb_show_title', 'on' );
         update_post_meta( $pid, 'pb_export', 'on' );
-        
+
         if ( 'part' == $post_type && $imscc->getContent( $id ) ) {
           update_post_meta( $pid, 'pb_part_content', $imscc->getContent( $id ) );
         }
@@ -120,10 +120,10 @@ class IMSCCParser {
 
   // Cache discovered importable content.
   private $content;
-  
+
   // Cache whether content appears to be a part or chapter
   private $content_posttype;
-  
+
   function __construct($file) {
     try {
       $this->unzip($file);

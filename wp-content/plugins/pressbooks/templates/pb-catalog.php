@@ -178,9 +178,12 @@ $_current_user_id = $catalog->getUserId();
 		</div> <!-- end .log-wrap -->
 	<div id="catalog-sidebar" class="catalog-sidebar">
 		<h2 class="pressbooks-logo">
-			<a href="<?php echo network_site_url(); ?>">Pressbooks</a>
+			<a href="<?php echo network_site_url(); ?>">
+				<img width="100px" src="<?php echo get_stylesheet_directory_uri() . '/images/LumenOnDark-200x92.png'; ?>"/>
+			</a>
 		</h2>
-		<p class="tag-menu assistive-text">Menu</p>
+		<!-- <p class="tag-menu assistive-text">Menu</p> -->
+		<p class="tag-menu assistive-text"></p>
 		<div class="sidebar-inner-wrap">
 			<a href="<?php echo _base_url(); ?>">
 			<img class="catalog-logo" src="<?php echo _logo_url( $profile ); ?>" alt="catalog-logo" width="100" height="99" />
@@ -223,7 +226,7 @@ $_current_user_id = $catalog->getUserId();
 						<p class="book-description"><?php echo wp_trim_words( strip_tags( pb_decode( $b['about'] ) ), 50, '...' ); ?><span class="book-link">&rarr;</span></p>
 						<img src="<?php echo $b['cover_url']['pb_cover_medium']; ?>" alt="book-cover" width="225" height="<?php echo $b['cover_height']; ?>" /></a>
 					</div><!-- end .book -->
-	
+
 					<div class="book-info">
 						<h2><?php echo $b['title']; ?></h2>
 
@@ -238,9 +241,7 @@ $_current_user_id = $catalog->getUserId();
 			<div class="fail-message"><?php _e('Sorry, but no books matched your filtering criteria. Please <a class="clear-filters" href="#">clear your current filters</a> and try again.', 'pressbooks' ); ?></div>
 
 			</div>	<!-- end .catalog-content-->
-			<div class="footer">
-				<p><a href="<?php echo network_site_url(); ?>"><?php _e( 'Pressbooks: the CMS for Books.', 'pressbooks' ); ?></a></p>
-			</div>
+			<div class="footer"></div>
 
 		</div>	<!-- end .catalog-content-wrap -->
 
