@@ -25,6 +25,8 @@ if ( 'grid' === $mode ) {
 	wp_enqueue_script( 'media-grid' );
 	wp_enqueue_script( 'media' );
 
+	remove_action( 'admin_head', 'wp_admin_canonical_url' );
+
 	$q = $_GET;
 	// let JS handle this
 	unset( $q['s'] );
@@ -71,14 +73,14 @@ if ( 'grid' === $mode ) {
 	require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	?>
 	<div class="wrap" id="wp-media-grid" data-search="<?php _admin_search_query() ?>">
-		<h2>
+		<h1>
 		<?php
 		echo esc_html( $title );
 		if ( current_user_can( 'upload_files' ) ) { ?>
-			<a href="media-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'file' ); ?></a><?php
+			<a href="media-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'file' ); ?></a><?php
 		}
 		?>
-		</h2>
+		</h1>
 		<div class="error hide-if-js">
 			<p><?php _e( 'The grid view for the Media Library requires JavaScript. <a href="upload.php?mode=list">Switch to the list view</a>.' ); ?></p>
 		</div>
@@ -126,10 +128,10 @@ if ( $doaction ) {
 				break;
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id ) )
-					wp_die( __( 'You are not allowed to move this post to the trash.' ) );
+					wp_die( __( 'You are not allowed to move this item to the Trash.' ) );
 
 				if ( !wp_trash_post( $post_id ) )
-					wp_die( __( 'Error in moving to trash.' ) );
+					wp_die( __( 'Error in moving to Trash.' ) );
 			}
 			$location = add_query_arg( array( 'trashed' => count( $post_ids ), 'ids' => join( ',', $post_ids ) ), $location );
 			break;
@@ -138,10 +140,10 @@ if ( $doaction ) {
 				break;
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id ) )
-					wp_die( __( 'You are not allowed to move this post out of the trash.' ) );
+					wp_die( __( 'You are not allowed to move this item out of the Trash.' ) );
 
 				if ( !wp_untrash_post( $post_id ) )
-					wp_die( __( 'Error in restoring from trash.' ) );
+					wp_die( __( 'Error in restoring from Trash.' ) );
 			}
 			$location = add_query_arg( 'untrashed', count( $post_ids ), $location );
 			break;
@@ -150,7 +152,7 @@ if ( $doaction ) {
 				break;
 			foreach ( (array) $post_ids as $post_id_del ) {
 				if ( !current_user_can( 'delete_post', $post_id_del ) )
-					wp_die( __( 'You are not allowed to delete this post.' ) );
+					wp_die( __( 'You are not allowed to delete this item.' ) );
 
 				if ( !wp_delete_attachment( $post_id_del ) )
 					wp_die( __( 'Error in deleting.' ) );
@@ -202,19 +204,25 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __( '<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
 );
 
+get_current_screen()->set_screen_reader_content( array(
+	'heading_views'      => __( 'Filter media items list' ),
+	'heading_pagination' => __( 'Media items list navigation' ),
+	'heading_list'       => __( 'Media items list' ),
+) );
+
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<h2>
+<h1>
 <?php
 echo esc_html( $title );
 if ( current_user_can( 'upload_files' ) ) { ?>
-	<a href="media-new.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'file'); ?></a><?php
+	<a href="media-new.php" class="page-title-action"><?php echo esc_html_x('Add New', 'file'); ?></a><?php
 }
 if ( ! empty( $_REQUEST['s'] ) )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() ); ?>
-</h2>
+</h1>
 
 <?php
 $message = '';
@@ -264,11 +272,11 @@ if ( ! empty( $_GET['untrashed'] ) && $untrashed = absint( $_GET['untrashed'] ) 
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('untrashed'), $_SERVER['REQUEST_URI']);
 }
 
-$messages[1] = __('Media attachment updated.');
-$messages[2] = __('Media permanently deleted.');
-$messages[3] = __('Error saving media attachment.');
-$messages[4] = __('Media moved to the trash.') . ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) ) . '">' . __('Undo') . '</a>';
-$messages[5] = __('Media restored from the trash.');
+$messages[1] = __( 'Media attachment updated.' );
+$messages[2] = __( 'Media attachment permanently deleted.' );
+$messages[3] = __( 'Error saving media attachment.' );
+$messages[4] = __( 'Media attachment moved to the trash.' ) . ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) ) . '">' . __( 'Undo' ) . '</a>';
+$messages[5] = __( 'Media attachment restored from the trash.' );
 
 if ( ! empty( $_GET['message'] ) && isset( $messages[ $_GET['message'] ] ) ) {
 	$message = $messages[ $_GET['message'] ];

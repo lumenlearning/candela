@@ -15,7 +15,7 @@ class SearchRegex extends SearchRegex_Plugin {
 		if (  is_admin()) {
 			$this->register_plugin( 'search-regex', __FILE__ );
 			$this->add_filter( 'admin_menu' );
-			$this->add_action( 'load-settings_page_search-and-replace', 'search_head' );
+			$this->add_action( 'load-tools_page_search-and-replace', 'search_head' );
 		}
 	}
 
@@ -51,8 +51,9 @@ class SearchRegex extends SearchRegex_Plugin {
 			$klass    = stripslashes( $source );
 			$searcher = new $klass;
 
-			if ( isset( $_POST['regex'] ) )
-				$searcher->set_regex_options( $_POST['dotall'], $_POST['case'], $_POST['multi'] );
+			if ( isset( $_POST['regex'] ) ) {
+				$searcher->set_regex_options( empty( $_POST['regex_dot'] ) ? 0 : 1, empty( $_POST['regex_case'] ) ? 0 : 1, empty( $_POST['regex_multi'] ) ? 0 : 1 );
+			}
 
 			// Make sure no one sneaks in with a replace
 			if ( !current_user_can( 'administrator' ) && !current_user_can( 'search_regex_write' ) ) {
@@ -85,11 +86,10 @@ class SearchRegex extends SearchRegex_Plugin {
 	}
 
 	function admin_menu()	{
-		if ( current_user_can( 'administrator' ) )
-    	$menu = add_options_page( __( 'Search and Replace', 'pressbooks' ), __( 'Search and Replace', 'pressbooks' ), 'administrator', 'search-and-replace', array( &$this, 'admin_screen' ) );
-		elseif ( current_user_can('search_regex_read'))
-    	$menu = add_options_page( __( 'Search and Replace', 'pressbooks' ), __( 'Search and Replace', 'pressbooks' ), 'search_regex_read', 'search-and-replace', array( &$this, 'admin_screen' ) );
-    	add_action( 'admin_print_scripts-' . $menu, array( &$this, 'js' ) );
+		if ( current_user_can( 'administrator' ) ) {
+    		$menu = add_management_page( __( 'Search and Replace', 'pressbooks' ), __( 'Search and Replace', 'pressbooks' ), 'administrator', 'search-and-replace', array( &$this, 'admin_screen' ) );
+    		add_action( 'admin_print_scripts-' . $menu, array( &$this, 'js' ) );
+    	}
 	}
 	
 	function js() {

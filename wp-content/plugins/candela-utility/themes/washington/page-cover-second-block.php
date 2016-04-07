@@ -2,7 +2,7 @@
 
 				<!-- Login/Logout -->
 				<div class="log-wrap">
-					<?php if (! is_single()): ?>
+					<?php if (! is_single() && !isset($_GET['content_only'])): ?>
 							<?php if (!is_user_logged_in()): ?>
 							<a href="<?php echo wp_login_url(); ?>" class=""><?php _e('login', 'pressbooks'); ?></a>
 								<?php else: ?>

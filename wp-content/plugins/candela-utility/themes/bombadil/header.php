@@ -67,36 +67,52 @@
 
   <!-- home page wrap -->
 
+
 		<span itemscope itemtype="http://schema.org/Book" itemref="about alternativeHeadline author copyrightHolder copyrightYear datePublished description editor
 		      image inLanguage keywords publisher audience educationalAlignment educationalUse interactivityType learningResourceType typicalAgeRange">
 			<div class="book-info-container hfeed">
 
 		<?php else: ?>
-
 		<span itemscope itemtype="http://schema.org/WebPage" itemref="about copyrightHolder copyrightYear inLanguage publisher">
-			<div class="nav-container">
+      <?php if (show_nav_container()) { ?>
+			  <div class="nav-container">
+      <?php } ?>
+        <?php if (show_header()) { ?>
+          <div class="skip-to-content">
+            <a href="#main-content">Skip to main content</a>
+          </div>
 
-        <div class="skip-to-content">
-          <a href="#main-content">Skip to main content</a>
-        </div>
-
-        <?php if (!isset($_GET['content_only'])) { ?>
-          <nav role="navigation">
-            <div class="header-nav">
-              <div class="pressbooks-logo">Lumen Mastery</div>
-              <a class="book-title" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a>
-            </div>
-        <?php } ?>
-
-            <div class="sub-nav">
-              <div class="center-subtext-search">
-                <div class="sub-nav-subtext"><?php echo get_the_title($post->post_parent); ?></div>
-    				    <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
+            <nav role="navigation">
+              <div class="header-nav">
+                <div class="pressbooks-logo">Lumen</div>
+                <?php if (show_header_link()) { ?>
+                  <a class="book-title" href="<?php echo home_url('/'); ?>" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></a>
+                <?php } else { ?>
+                  <span class="book-title" title="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>" rel="home"><?php bloginfo('name'); ?></span>
+                <?php } ?>
               </div>
-            </div>
-          </nav>
-
-		  </div> <!-- end .nav-container -->
+        <?php } ?>
+        <?php if (show_search() || (show_small_title())) { ?>
+              <div class="sub-nav">
+                <div class="center-subtext-search">
+                  <?php if (show_search()) { ?>
+                    <div class="sub-nav-searchform"><?php get_search_form(); ?></div>
+                  <?php } ?>
+                  <?php if (show_small_title()) { ?>
+                    <div class="sub-nav-subtext"><?php echo get_the_title($post->post_parent); ?></div>
+                  <?php } ?>
+                </div>
+              </div>
+        <?php } ?>
+        <?php if (!(show_search()) && !(show_small_title())) { ?>
+              <div class="no-sub-nav"></div>
+        <?php } ?>
+        <?php if (show_header()) { ?>
+            </nav>
+        <?php } ?>
+      <?php if (show_nav_container()) { ?>
+        </div> <!-- end .nav-container -->
+      <?php } ?>
 
 	<!-- <div class="wrapper"> for sitting footer at the bottom of the page -->
 		<div id="wrap">

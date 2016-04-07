@@ -84,7 +84,7 @@ require_once(ABSPATH . 'wp-admin/includes/admin.php');
 auth_redirect();
 
 // Schedule trash collection
-if ( !wp_next_scheduled('wp_scheduled_delete') && !defined('WP_INSTALLING') )
+if ( ! wp_next_scheduled( 'wp_scheduled_delete' ) && ! wp_installing() )
 	wp_schedule_event(time(), 'daily', 'wp_scheduled_delete');
 
 set_screen_options();
@@ -94,11 +94,21 @@ $time_format = get_option('time_format');
 
 wp_enqueue_script( 'common' );
 
-// $pagenow is set in vars.php
-// $wp_importers is sometimes set in wp-admin/includes/import.php
-//
-// The remaining variables are imported as globals elsewhere,
-//     declared as globals here
+
+
+
+/**
+ * $pagenow is set in vars.php
+ * $wp_importers is sometimes set in wp-admin/includes/import.php
+ * The remaining variables are imported as globals elsewhere, declared as globals here
+ *
+ * @global string $pagenow
+ * @global array  $wp_importers
+ * @global string $hook_suffix
+ * @global string $plugin_page
+ * @global string $typenow
+ * @global string $taxnow
+ */
 global $pagenow, $wp_importers, $hook_suffix, $plugin_page, $typenow, $taxnow;
 
 $page_hook = null;

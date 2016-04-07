@@ -2,7 +2,7 @@
 /**
  * Change core WordPress strings using $overrides array.
  *
- * @author  PressBooks <code@pressbooks.com>
+ * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  * @see     pressbooks/includes/pb-l10n.php
  */
@@ -18,7 +18,6 @@ $overrides = array(
 );
 
 if ( \PressBooks\Book::isBook() ) {
-	$overrides['Settings'] = 'Utilities';
 	$overrides['Visit Site'] = 'Visit Book';
 	$overrides['Edit Site'] = 'Edit Book';
 	$overrides['You have used your space quota. Please delete files before uploading.'] = 'Sorry, you have used all of your storage quota. Want more space? Please upgrade your book.';

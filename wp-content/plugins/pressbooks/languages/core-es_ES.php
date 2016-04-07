@@ -2,7 +2,7 @@
 /**
  * Change core WordPress strings using $overrides array.
  *
- * @author  PressBooks <code@pressbooks.com>
+ * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  * @see     pressbooks/includes/pb-l10n.php
  */
@@ -18,7 +18,6 @@ $overrides = array(
 );
 
 if ( \PressBooks\Book::isBook() ) {
-	$overrides['Settings'] = 'Utilidades';
 	$overrides['Visit Site'] = 'Visita libro';
 	$overrides['Edit Site'] = 'Editar libro';
 }

@@ -23,7 +23,7 @@ body {
 a {
 	border: .5px solid #09edfd;
 	color: black;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 /*
@@ -125,14 +125,14 @@ p.bl_indent {
 	font-weight: normal;
 	margin-top: 2em;
 	margin-bottom: 0;
-	padding-bottom: 5px;	
+	padding-bottom: 5px;
 /* 	position: relative; */
 }
 #title-page .subtitle {
 	font-size: .875em;
 	font-style: italic;
 	margin-top: 0;
-	padding-top: 5px;	
+	padding-top: 5px;
 }
 #title-page .author,
 #title-page .publisher,
@@ -150,7 +150,7 @@ p.bl_indent {
 	font-size: .875em;
     font-style: italic;
     margin-bottom: 0;
-    margin-top: 2em;    
+    margin-top: 2em;
     padding-bottom: 80px;
 }
 #title-page .publisher-city {
@@ -205,7 +205,7 @@ div.license-attribution{
 }
 #toc a {
 	border: none;
-	color: inherit;		
+	color: inherit;
 }
 #toc a:after {
 	font-style: normal;
@@ -228,7 +228,7 @@ div.license-attribution{
 #toc span.chapter-subtitle {
 	margin-bottom: 5px;
 }
-#toc span.chapter-subtitle + 
+#toc span.chapter-subtitle +
 span.chapter-author {
 	margin-top: -5px;
 	margin-bottom: 5px;
@@ -262,7 +262,7 @@ span.chapter-license {
 	border-bottom: 1px solid #000;
 	display: inline-block;
 	font-weight: normal;
-	font-family: "Times New Roman", Times, Georgia, serif;	
+	font-family: "Times New Roman", Times, Georgia, serif;
 	padding: 0 2em 0 1em;
 }
 .part-title-wrap h1.part-title {
@@ -334,7 +334,7 @@ img {
 .aligncenter {
 	display: block;
 	margin: 1em auto;
-	text-align: center;     
+	text-align: center;
 }
 div.aligncenter {
 	display: block;
@@ -344,18 +344,18 @@ div.aligncenter {
 img.aligncenter {
 	display: block;
 	margin: 1em auto;
-	text-align: center;      
+	text-align: center;
 }
 .wp-caption {
-	height: auto;        
+	height: auto;
 	max-width: 100%;
-	margin: 1em 0;     
+	margin: 1em 0;
 }
 .wp-caption-text {
 	font-size: 0.875em;
 	font-style: italic;
 	margin-top: 5px;
-	text-align: left;           
+	text-align: left;
 }
 
 /* SUBTITLES, CHAPTER AUTHOR & APHORIMS
@@ -371,11 +371,11 @@ h2.chapter-author {
 div.ugc h2.chapter-subtitle,
 div.ugc h2.chapter-author {
     margin: -1.3em 0 3em;
-    padding-top: 0.2em;	    
+    padding-top: 0.2em;
 }
 div.ugc h2.chapter-subtitle {
 	font-weight: lighter;
-}	
+}
 h2.chapter-subtitle + h2.chapter-author {
 	margin-top: -0.65em;
 }
@@ -388,7 +388,7 @@ div.blockquote.aphorism {
 }
 .aphorism cite {
     display: block;
-   	font-size: 0.875em; 
+   	font-size: 0.875em;
     font-style: normal;
     font-variant: small-caps;
     text-align: right;
@@ -533,13 +533,13 @@ sup.footnote, sup.endnote {
 /*__INSERT_MOBI_HOUSE_STYLE__*/
 
 /*************************
-	Textbook styles 
+	Textbook styles
 **************************/
 
 .bcc-box{
 /*	max-width: 100%;*/
 	padding: 1% 3%;
-	margin-bottom: 15px; 
+	margin-bottom: 15px;
 }
 
 .bcc-box h3:first-child{
@@ -547,7 +547,7 @@ sup.footnote, sup.endnote {
 	margin: -1% -3% 15px;
 	color: #ffffff;
 	padding: 15px 0 15px;
-	
+
 }
 
 .bcc-highlight{

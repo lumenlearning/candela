@@ -51,6 +51,8 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'error'  => __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ),
 		'themesFound'   => __( 'Number of Themes found: %d' ),
 		'noThemesFound' => __( 'No themes found. Try a different search.' ),
+		'collapseSidebar'    => __( 'Collapse Sidebar' ),
+		'expandSidebar'      => __( 'Expand Sidebar' ),
 	),
 	'installedThemes' => array_keys( $installed_themes ),
 ) );
@@ -102,7 +104,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 
 ?>
 <div class="wrap">
-	<h2><?php
+	<h1><?php
 	echo esc_html( $title );
 
 	/**
@@ -117,14 +119,16 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	 */
 	$tabs = apply_filters( 'install_themes_tabs', array( 'upload' => __( 'Upload Theme' ) ) );
 	if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_themes' ) ) {
-		echo ' <a href="#" class="upload add-new-h2">' . __( 'Upload Theme' ) . '</a>';
-		echo ' <a href="#" class="browse-themes add-new-h2">' . _x( 'Browse', 'themes' ) . '</a>';
+		echo ' <a href="#" class="upload page-title-action">' . __( 'Upload Theme' ) . '</a>';
+		echo ' <a href="#" class="browse-themes page-title-action">' . _x( 'Browse', 'themes' ) . '</a>';
 	}
-	?></h2>
+	?></h1>
 
 	<div class="upload-theme">
 	<?php install_themes_upload(); ?>
 	</div>
+
+	<h2 class="screen-reader-text"><?php _e( 'Filter themes list' ); ?></h2>
 
 	<div class="wp-filter">
 		<div class="filter-count">
@@ -135,11 +139,26 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 			<li><a href="#" data-sort="featured"><?php _ex( 'Featured', 'themes' ); ?></a></li>
 			<li><a href="#" data-sort="popular"><?php _ex( 'Popular', 'themes' ); ?></a></li>
 			<li><a href="#" data-sort="new"><?php _ex( 'Latest', 'themes' ); ?></a></li>
+			<li><a href="#" data-sort="favorites"><?php _ex( 'Favorites', 'themes' ); ?></a></li>
 		</ul>
 
 		<a class="drawer-toggle" href="#"><?php _e( 'Feature Filter' ); ?></a>
 
 		<div class="search-form"></div>
+
+		<div class="favorites-form">
+			<?php
+			$user = isset( $_GET['user'] ) ? wp_unslash( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
+			update_user_meta( get_current_user_id(), 'wporg_favorites', $user );
+			?>
+			<p class="install-help"><?php _e( 'If you have marked themes as favorites on WordPress.org, you can browse them here.' ); ?></p>
+
+			<p>
+				<label for="user"><?php _e( 'Your WordPress.org username:' ); ?></label>
+				<input type="search" id="wporg-username-input" value="<?php echo esc_attr( $user ); ?>" />
+				<input type="button" class="button button-secondary favorites-form-submit" value="<?php esc_attr_e( 'Get Favorites' ); ?>" />
+			</p>
+		</div>
 
 		<div class="filter-drawer">
 			<div class="buttons">
@@ -149,17 +168,17 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 		<?php
 		$feature_list = get_theme_feature_list();
 		foreach ( $feature_list as $feature_name => $features ) {
-			echo '<div class="filter-group">';
+			echo '<fieldset class="filter-group">';
 			$feature_name = esc_html( $feature_name );
-			echo '<h4>' . $feature_name . '</h4>';
-			echo '<ol class="feature-group">';
+			echo '<legend>' . $feature_name . '</legend>';
+			echo '<div class="filter-group-feature">';
 			foreach ( $features as $feature => $feature_name ) {
 				$feature = esc_attr( $feature );
-				echo '<li><input type="checkbox" id="filter-id-' . $feature . '" value="' . $feature . '" /> ';
-				echo '<label for="filter-id-' . $feature . '">' . $feature_name . '</label></li>';
+				echo '<input type="checkbox" id="filter-id-' . $feature . '" value="' . $feature . '" /> ';
+				echo '<label for="filter-id-' . $feature . '">' . $feature_name . '</label><br>';
 			}
-			echo '</ol>';
 			echo '</div>';
+			echo '</fieldset>';
 		}
 		?>
 			<div class="filtered-by">
@@ -169,6 +188,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 			</div>
 		</div>
 	</div>
+	<h2 class="screen-reader-text"><?php _e( 'Themes list' ); ?></h2>
 	<div class="theme-browser content-filterable"></div>
 	<div class="theme-install-overlay wp-full-overlay expanded"></div>
 
@@ -237,18 +257,12 @@ if ( $tab ) {
 
 				<div class="theme-details">
 					<# if ( data.rating ) { #>
-						<div class="rating rating-{{ Math.round( data.rating / 10 ) * 10 }}">
-							<span class="one"></span>
-							<span class="two"></span>
-							<span class="three"></span>
-							<span class="four"></span>
-							<span class="five"></span>
-							<small class="ratings">{{ data.num_ratings }}</small>
+						<div class="theme-rating">
+							{{{ data.stars }}}
+							<span class="num-ratings">({{ data.num_ratings }})</span>
 						</div>
 					<# } else { #>
-						<div class="rating">
-							<small class="ratings"><?php _e( 'This theme has not been rated yet.' ); ?></small>
-						</div>
+						<span class="no-rating"><?php _e( 'This theme has not been rated yet.' ); ?></span>
 					<# } #>
 					<div class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></div>
 					<div class="theme-description">{{{ data.description }}}</div>
@@ -256,10 +270,10 @@ if ( $tab ) {
 			</div>
 		</div>
 		<div class="wp-full-overlay-footer">
-			<a href="#" class="collapse-sidebar" title="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
-				<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
+			<button type="button" class="collapse-sidebar button-secondary" aria-expanded="true" aria-label="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
 				<span class="collapse-sidebar-arrow"></span>
-			</a>
+				<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
+			</button>
 		</div>
 	</div>
 	<div class="wp-full-overlay-main">

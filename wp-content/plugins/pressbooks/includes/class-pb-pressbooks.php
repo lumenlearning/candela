@@ -1,12 +1,10 @@
 <?php
 /**
- * @author  PressBooks <code@pressbooks.com>
+ * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  */
 namespace PressBooks;
 
-
-use PressBooks\Book;
 
 
 class PressBooks {

@@ -38,6 +38,50 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: "proxima-nova", sans-serif;
 	font-weight: 600;
 	text-align: left;
+  margin-top: 0;
+  text-transform: none;
+}
+h1 {
+  font-size: 1.5em;
+  text-transform: capitalize;
+  margin-bottom: 1em;
+	padding-top: 1em !important;
+	padding-bottom: 0;
+	color: #1d1d1d;
+  line-height: 1.2;
+	font-weight: 600;
+}
+h2 {
+	font-size: 1.15em;
+  margin-top: 1.5em;
+	margin-bottom: 1em;
+  /*text-transform: uppercase;*/
+}
+h3 {
+	font-size: 1em;
+	/*text-transform: uppercase;*/
+  margin-top: 1.75em;
+	margin-bottom: 1.25em;
+	text-align: left;
+  color: #6c64ad;
+}
+h4 {
+	font-size: 0.9em;
+	font-weight: 600;
+	/*text-transform: capitalize;*/
+	color: #6c64ad;
+}
+h5 {
+	font-size: 0.7em;
+	font-weight: 400;
+	/*text-transform: capitalize;*/
+	color: #6c64ad;
+}
+h6 {
+	font-size: 0.6em;
+	font-weight: 400;
+	/*text-transform: capitalize;*/
+	color: #6c64ad;
 }
 ol.alphalist {
 	list-style-type: lower-alpha;
@@ -398,10 +442,17 @@ nav {
 }
 .sub-nav {
   margin: 0;
-  max-height: 35px;
+  height: 35px;
   background-color: #fafafa;
 	padding: 4px;
-	border-bottom: 1px #000 solid;
+	border-bottom: 1px #afafaf solid;
+}
+.no-sub-nav {
+  margin: 0;
+  height: 35px;
+  background-color: #fff;
+	padding: 4px;
+  border-bottom: 0px;
 }
 .center-subtext-search {
 	max-width: 940px;
@@ -420,17 +471,22 @@ nav {
 .searchform {
   width: 220px;
   float: right;
+  position: relative;
 }
 .searchform #s {
   width: 150px;
   height: 24px;
   display: inline-block;
+  vertical-align: bottom;
+  padding: 0 0.5rem 0 0.5rem;
 }
 .searchform #searchsubmit {
+  position: absolute;
   height: 24px;
   width: 50px;
   font-size: 0.7em;
-  vertical-align: middle;
+  display: inline-block;
+  vertical-align: bottom;
   background-color: #077fab;
   color: #fff;
   border: none;
@@ -440,7 +496,6 @@ nav {
 .searchform #searchsubmit:hover {
   background-color: #0897cb;
 }
-
 
 /* ------------------------------------------------------------------------ *
  * TITLE, SUBTITLE, AUTHORS & APHORISM
@@ -566,48 +621,156 @@ p.cc-block {
   right: 2.75em;
   top: 2.1em;
 }
+
+/*
+These are identical to the native pressbooks .textbook set of classes. They
+are being applied here as .bcc-box to retroactively keep styles consistent
+with how content is being written currently (3.1.16). Success team will
+abandon .bcc-box in favor of pressbooks' native styling.
+ */
+
 .bcc-box {
+  border: 1px solid #000;
+  margin: 10px 0;
+  padding: 10px;
+}
+.bcc-box p {
+  margin-top: 0;
+}
+.bcc-box.shaded {
+  background-color: #eee;
+}
+.bcc-box {
+  border-radius: 4px;
+  margin-bottom: 15px;
+  padding: 2% 3%;
+  margin-inside: auto;
+  margin-outside: auto;
+  float: none;
+  background-color: #F7F7F9;
+}
+.bcc-box h3 {
+  color: #fff;
+  margin: -2% -3% 15px;
+  padding: 15px 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+.textbox h3 {
+  text-transform: uppercase;
+}
+.bcc-box.bcc-highlight h3 {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: #111111;
+}
+.bcc-box.bcc-success {
+  border-radius: 4px;
+  margin-bottom: 15px;
+  padding: 2% 3%;
+  margin-inside: auto;
+  margin-outside: auto;
+  float: none;
+  background-color: #EAF5EA;
+}
+.bcc-box.bcc-success h3 {
+  color: #fff;
+  margin: -2% -3% 15px;
+  padding: 15px 0;
+  text-align: center;
+}
+.bcc-box.bcc-success h3 {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: #3A7A33;
+}
+.bcc-box.bcc-info {
+  border-radius: 4px;
+  margin-bottom: 15px;
+  padding: 2% 3%;
+  margin-inside: auto;
+  margin-outside: auto;
+  float: none;
+  background-color: #E3EFF6;
+}
+.bcc-box.bcc-info h3 {
+  color: #fff;
+  margin: -2% -3% 15px;
+  padding: 15px 0;
+  text-align: center;
+}
+.bcc-box.bcc-info h3 {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: #0B6396;
+}
+.bcc-box.bcc-warning {
+  border-radius: 4px;
+  margin-bottom: 15px;
+  padding: 2% 3%;
+  margin-inside: auto;
+  margin-outside: auto;
+  float: none;
+  background-color: #F3E1E3;
+}
+.bcc-box.bcc-warning h3 {
+  color: #fff;
+  margin: -2% -3% 15px;
+  padding: 15px 0;
+  text-align: center;
+}
+.bcc-box.bcc-warning h3 {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: #7A333A;
+}
+.bcc-box-caption {
+  display: block;
+  font: bold 0.875em Helvetica, Arial;
+  margin: 0;
+}
+/*.bcc-box {
 	padding: 2% 3%;
 	margin-bottom: 15px;
 	border-radius: 4px;
-}
-.bcc-box h3:first-child {
+}*/
+/*.bcc-box h3:first-child {
 	text-align: center;
 	margin: -2% -3% 15px;
 	color: #ffffff;
 	padding: 15px 0 15px;
-}
-.bcc-highlight {
+}*/
+/*.bcc-highlight {
 	background-color: #f7f7f9;
-}
-.bcc-box .bcc-highlight h3 {
+}*/
+/*.bcc-box .bcc-highlight h3 {
 	background-color: #111111;
-}
-.bcc-success {
+}*/
+/*.bcc-success {
 	background-color: #eaf5ea;
-}
-.bcc-box .bcc-success h3 {
+}*/
+/*.bcc-box .bcc-success h3 {
 	background-color: #3a7a33;
-}
-.bcc-info {
+}*/
+/*.bcc-info {
 	background-color: #e3eff6;
-}
-.bcc-box .bcc-info h3 {
+}*/
+/*.bcc-box .bcc-info h3 {
 	background-color: #0b6396;
-}
-.bcc-warning {
+}*/
+/*.bcc-warning {
 	background-color: #fcf8e3;
-}
-.bcc-box .bcc-warning h3 {
+}*/
+/*.bcc-box .bcc-warning h3 {
 	background-color: #c09853;
-}
-.bcc-box.bcc-success h3,
+}*/
+/*.bcc-box.bcc-success h3,
 .linkitup h3,
 .keytakeaways h3,
 .tryit h3 {
 	background-color: #077fab;
-}
-.bcc-box h3:first-child,
+}*/
+/*.bcc-box h3:first-child,
 .linkitup h3:first-child,
 .keytakeaways h3:first-child,
 .tryit h3:first-child {
@@ -615,7 +778,7 @@ p.cc-block {
 	margin: -2% -3% 15px;
 	color: #ffffff;
 	padding: 15px 0 15px;
-}
+}*/
 span.export-file-icon {
 	width: 36px;
 	height: 36px;
@@ -690,7 +853,7 @@ span.small.xhtml {
 }
 .entry-title {
 	text-align: left;
-  text-transform: uppercase;
+  text-transform: none;
 	font-size: 1.5em;
 	margin-top: 0;
   margin-bottom: 0;
@@ -720,17 +883,17 @@ span.small.xhtml {
   text-decoration: none;
 }
 #content {
-	max-width: 895px;
+	max-width: 1004px;
 	background-color: #fff;
 	border: none;
 	-moz-box-shadow: none;
 	-o-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-	margin: 3em auto 0 auto;
-	padding: 0.25em 3em 3em 3em;
-	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-	border-radius: 6px;
+	margin: .25em auto;
+  padding: .25em 1.75em 1.75em 1.75em;
+	/*box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);*/
+	/*border-radius: 6px;*/
 }
 #content ol li, #content ul li {
 	margin-bottom: 0.5em;
@@ -740,46 +903,6 @@ div#wrap {
   margin-top: 0;
   margin-bottom: 5px;
   width: 100%;
-}
-#content h1 {
-  font-size: 1.5em;
-  margin-top: 0;
-  margin-bottom: 1em;
-	padding-top: 1em !important;
-	padding-bottom: 1em;
-	color: #1d1d1d;
-  line-height: 1.2;
-	font-weight: 600;
-}
-#content h2 {
-	font-size: 1.25em;
-	margin-bottom: 1em;
-  text-transform: uppercase;
-}
-#content h3 {
-	font-size: 1em;
-	text-transform: uppercase;
-	margin-top: 1em;
-	text-align: left;
-  color: #6c64ad;
-}
-#content h4 {
-	font-size: 0.9em;
-	font-weight: 600;
-	text-transform: capitalize;
-	color: #6c64ad;
-}
-#content h5 {
-	font-size: 0.7em;
-	font-weight: 400;
-	text-transform: capitalize;
-	color: #6c64ad;
-}
-#content h6 {
-	font-size: 0.6em;
-	font-weight: 400;
-	text-transform: capitalize;
-	color: #6c64ad;
 }
 #content img {
 	margin-top: 0.5em auto;
@@ -791,9 +914,8 @@ div#wrap {
 #content blockquote {
   margin: 1.5em 0;
 	padding: 2em 2em 2em 4em;
-
 }
-#content .bcc-box,
+/*#content .bcc-box,
 #content .linkitup,
 #content .keytakeaways,
 #content .tryit {
@@ -837,9 +959,9 @@ div#wrap {
   padding: 0 20px 0 10px;
   margin: 10px 15px 5px 15px;
   line-height: 1.3;
-}
+}*/
 #content iframe {
-  min-width: 100%;
+  /*min-width: 100%;*/
   max-width: 100%;
   margin: 1em auto;
 }
@@ -970,6 +1092,13 @@ ul.lti-mapping {
   padding: 30px 0 0 0;
   border-top: 1px solid #6d6d6d;
 }
+.lti-bottom-nav-buttons {
+  height: 38px;
+  margin-bottom: 30px;
+  padding: 30px 0 0 0;
+  border-top: 1px solid #6d6d6d;
+  text-align: center;
+}
 .page-nav-btn {
   font-size: 10pt;
   font-weight: 600;
@@ -980,6 +1109,35 @@ ul.lti-mapping {
   padding: 5px 25px;
   width: 135px;
   text-align: center;
+}
+.lti-nav-btn {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #077fab;
+  text-decoration: none;
+  border: 2px solid #077fab;
+  border-radius: 7px;
+  padding: 5px 25px;
+  width: 135px;
+  text-align: center;
+}
+.lti-btn-text {
+  display: block;
+}
+.lti-btn-arrow {
+  display: none;
+}
+#lti-prev {
+  float: left;
+  width: 130px;
+}
+#lti-next {
+  float: right;
+  width: 130px;
+}
+#study-plan {
+  display: inline-block;
+  margin: 0 auto;
 }
 #prev {
   float: left;
@@ -993,9 +1151,9 @@ ul.lti-mapping {
  * MEDIA QUERIES
  * ------------------------------------------------------------------------ */
 
-@media screen and (min-width: 940px) {
+@media screen {
 	#content {
-		width: 720px;
+		width: 90%;
 	}
 	.nav {
 		width: 900px;
@@ -1008,6 +1166,9 @@ ul.lti-mapping {
 @media screen and (max-width: 1024px) {
   .chapter-content .content-description {
     padding-right: 260px;
+  }
+  #content {
+    font-size: 100%;
   }
 }
 @media screen and (max-width: 990px) {
@@ -1074,4 +1235,13 @@ ul.lti-mapping {
 		float: none;
 		margin: 0 auto;
 	}
+  .lti-btn-text {
+    display: none;
+  }
+  .lti-btn-arrow {
+    display: block;
+  }
+  #lti-prev, #lti-next {
+    width: auto;
+  }
 }

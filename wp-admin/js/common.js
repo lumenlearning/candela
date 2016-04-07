@@ -1,6 +1,10 @@
 /* global setUserSetting, ajaxurl, commonL10n, alert, confirm, pagenow */
 var showNotice, adminMenu, columns, validateForm, screenMeta;
 ( function( $, window, undefined ) {
+	var $document = $( document ),
+		$window = $( window ),
+		$body = $( document.body );
+
 // Removed in 3.3.
 // (perhaps) needed for back-compat
 adminMenu = {
@@ -37,17 +41,19 @@ columns = {
 	},
 
 	checked : function(column) {
-		$('.column-' + column).show();
+		$('.column-' + column).removeClass( 'hidden' );
 		this.colSpanChange(+1);
 	},
 
 	unchecked : function(column) {
-		$('.column-' + column).hide();
+		$('.column-' + column).addClass( 'hidden' );
 		this.colSpanChange(-1);
 	},
 
 	hidden : function() {
-		return $('.manage-column').filter(':hidden').map(function() { return this.id; }).get().join(',');
+		return $( '.manage-column[id]' ).filter( ':hidden' ).map(function() {
+			return this.id;
+		}).get().join( ',' );
 	},
 
 	useCheckboxesForHidden : function() {
@@ -68,7 +74,7 @@ columns = {
 	}
 };
 
-$(document).ready(function(){columns.init();});
+$document.ready(function(){columns.init();});
 
 validateForm = function( form ) {
 	return !$( form )
@@ -103,15 +109,14 @@ screenMeta = {
 
 	init: function() {
 		this.element = $('#screen-meta');
-		this.toggles = $('.screen-meta-toggle a');
+		this.toggles = $( '#screen-meta-links' ).find( '.show-settings' );
 		this.page    = $('#wpcontent');
 
 		this.toggles.click( this.toggleEvent );
 	},
 
-	toggleEvent: function( e ) {
-		var panel = $( this.href.replace(/.+#/, '#') );
-		e.preventDefault();
+	toggleEvent: function() {
+		var panel = $( '#' + $( this ).attr( 'aria-controls' ) );
 
 		if ( !panel.length )
 			return;
@@ -122,27 +127,27 @@ screenMeta = {
 			screenMeta.open( panel, $(this) );
 	},
 
-	open: function( panel, link ) {
+	open: function( panel, button ) {
 
-		$('.screen-meta-toggle').not( link.parent() ).css('visibility', 'hidden');
+		$( '#screen-meta-links' ).find( '.screen-meta-toggle' ).not( button.parent() ).css( 'visibility', 'hidden' );
 
 		panel.parent().show();
 		panel.slideDown( 'fast', function() {
 			panel.focus();
-			link.addClass('screen-meta-active').attr('aria-expanded', true);
+			button.addClass( 'screen-meta-active' ).attr( 'aria-expanded', true );
 		});
 
-		$( document ).trigger( 'screen:options:open' );
+		$document.trigger( 'screen:options:open' );
 	},
 
-	close: function( panel, link ) {
+	close: function( panel, button ) {
 		panel.slideUp( 'fast', function() {
-			link.removeClass('screen-meta-active').attr('aria-expanded', false);
+			button.removeClass( 'screen-meta-active' ).attr( 'aria-expanded', false );
 			$('.screen-meta-toggle').css('visibility', '');
 			panel.parent().hide();
 		});
 
-		$( document ).trigger( 'screen:options:close' );
+		$document.trigger( 'screen:options:close' );
 	}
 };
 
@@ -170,17 +175,14 @@ $('.contextual-help-tabs').delegate('a', 'click', function(e) {
 	panel.addClass('active').show();
 });
 
-$(document).ready( function() {
-	var checks, first, last, checked, sliced, mobileEvent, transitionTimeout, focusedRowActions, $firstHeading,
+$document.ready( function() {
+	var checks, first, last, checked, sliced, mobileEvent, transitionTimeout, focusedRowActions,
 		lastClicked = false,
 		pageInput = $('input.current-page'),
 		currentPage = pageInput.val(),
 		isIOS = /iPhone|iPad|iPod/.test( navigator.userAgent ),
 		isAndroid = navigator.userAgent.indexOf( 'Android' ) !== -1,
 		isIE8 = $( document.documentElement ).hasClass( 'ie8' ),
-		$document = $( document ),
-		$window = $( window ),
-		$body = $( document.body ),
 		$adminMenuWrap = $( '#adminmenuwrap' ),
 		$wpwrap = $( '#wpwrap' ),
 		$adminmenu = $( '#adminmenu' ),
@@ -209,7 +211,7 @@ $(document).ready( function() {
 	});
 
 	$('#collapse-menu').on('click.collapse-menu', function() {
-		var body = $( document.body ), respWidth, state;
+		var respWidth, state;
 
 		// reset any compensation for submenus near the bottom of the screen
 		$('#adminmenu div.wp-submenu').css('margin-top', '');
@@ -223,30 +225,53 @@ $(document).ready( function() {
 		}
 
 		if ( respWidth && respWidth < 960 ) {
-			if ( body.hasClass('auto-fold') ) {
-				body.removeClass('auto-fold').removeClass('folded');
+			if ( $body.hasClass('auto-fold') ) {
+				$body.removeClass('auto-fold').removeClass('folded');
 				setUserSetting('unfold', 1);
 				setUserSetting('mfold', 'o');
 				state = 'open';
 			} else {
-				body.addClass('auto-fold');
+				$body.addClass('auto-fold');
 				setUserSetting('unfold', 0);
 				state = 'folded';
 			}
 		} else {
-			if ( body.hasClass('folded') ) {
-				body.removeClass('folded');
+			if ( $body.hasClass('folded') ) {
+				$body.removeClass('folded');
 				setUserSetting('mfold', 'o');
 				state = 'open';
 			} else {
-				body.addClass('folded');
+				$body.addClass('folded');
 				setUserSetting('mfold', 'f');
 				state = 'folded';
 			}
 		}
 
-		$( document ).trigger( 'wp-collapse-menu', { state: state } );
+		currentMenuItemHasPopup();
+		$document.trigger( 'wp-collapse-menu', { state: state } );
 	});
+
+	// Handle the `aria-haspopup` attribute on the current menu item when it has a sub-menu.
+	function currentMenuItemHasPopup() {
+		var respWidth,
+			$current = $( 'a.wp-has-current-submenu' );
+
+		if ( window.innerWidth ) {
+			respWidth = Math.max( window.innerWidth, document.documentElement.clientWidth );
+		} else {
+			respWidth = 961;
+		}
+
+		if ( $body.hasClass( 'folded' ) || ( $body.hasClass( 'auto-fold' ) && respWidth && respWidth <= 960 && respWidth > 782 ) ) {
+			// When folded or auto-folded and not responsive view, the current menu item does have a fly-out sub-menu.
+			$current.attr( 'aria-haspopup', 'true' );
+		} else {
+			// When expanded or in responsive view, reset aria-haspopup.
+			$current.attr( 'aria-haspopup', 'false' );
+		}
+	}
+
+	$document.on( 'wp-window-resized wp-responsive-activate wp-responsive-deactivate', currentMenuItemHasPopup );
 
 	/**
 	 * Ensure an admin submenu is within the visual viewport.
@@ -288,7 +313,7 @@ $(document).ready( function() {
 		mobileEvent = isIOS ? 'touchstart' : 'click';
 
 		// close any open submenus when touch/click is not on the menu
-		$(document.body).on( mobileEvent+'.wp-mobile-hover', function(e) {
+		$body.on( mobileEvent+'.wp-mobile-hover', function(e) {
 			if ( $adminmenu.data('wp-responsive') ) {
 				return;
 			}
@@ -368,30 +393,36 @@ $(document).ready( function() {
 		});
 	}
 
-	// Move .notice, .updated and .error alert boxes. Don't move boxes designed to be inline.
-	$firstHeading = $( 'div.wrap h2:first' );
-	$firstHeading.nextAll( 'div.updated, div.error, div.notice' ).addClass( 'below-h2' );
-	$( 'div.updated, div.error, div.notice' ).not( '.below-h2, .inline' ).insertAfter( $firstHeading );
+	/*
+	 * The `.below-h2` class is here just for backwards compatibility with plugins
+	 * that are (incorrectly) using it. Do not use. Use `.inline` instead. See #34570.
+	 */
+	$( 'div.updated, div.error, div.notice' ).not( '.inline, .below-h2' ).insertAfter( $( '.wrap h1, .wrap h2' ).first() );
 
 	// Make notices dismissible
-	$( '.notice.is-dismissible' ).each( function() {
-		var $this = $( this ),
-			$button = $( '<button type="button" class="notice-dismiss"><span class="screen-reader-text"></span></button>' ),
-			btnText = commonL10n.dismiss || '';
+	function makeNoticesDismissible() {
+		$( '.notice.is-dismissible' ).each( function() {
+			var $el = $( this ),
+				$button = $( '<button type="button" class="notice-dismiss"><span class="screen-reader-text"></span></button>' ),
+				btnText = commonL10n.dismiss || '';
 
-		// Ensure plain text
-		$button.find( '.screen-reader-text' ).text( btnText );
-
-		$this.append( $button );
-
-		$button.on( 'click.wp-dismiss-notice', function( event ) {
-			event.preventDefault();
-			$this.fadeTo( 100 , 0, function() {
-				$(this).slideUp( 100, function() {
-					$(this).remove();
+			// Ensure plain text
+			$button.find( '.screen-reader-text' ).text( btnText );
+			$button.on( 'click.wp-dismiss-notice', function( event ) {
+				event.preventDefault();
+				$el.fadeTo( 100, 0, function() {
+					$el.slideUp( 100, function() {
+						$el.remove();
+					});
 				});
 			});
+
+			$el.append( $button );
 		});
+	}
+
+	$document.on( 'wp-plugin-update-error', function() {
+		makeNoticesDismissible();
 	});
 
 	// Init screen meta
@@ -402,7 +433,7 @@ $(document).ready( function() {
 		if ( 'undefined' == e.shiftKey ) { return true; }
 		if ( e.shiftKey ) {
 			if ( !lastClicked ) { return true; }
-			checks = $( lastClicked ).closest( 'form' ).find( ':checkbox' );
+			checks = $( lastClicked ).closest( 'form' ).find( ':checkbox' ).filter( ':visible:enabled' );
 			first = checks.index( lastClicked );
 			last = checks.index( this );
 			checked = $(this).prop('checked');
@@ -419,7 +450,7 @@ $(document).ready( function() {
 		lastClicked = this;
 
 		// toggle "check all" checkboxes
-		var unchecked = $(this).closest('tbody').find(':checkbox').filter(':visible').not(':checked');
+		var unchecked = $(this).closest('tbody').find(':checkbox').filter(':visible:enabled').not(':checked');
 		$(this).closest('table').children('thead, tfoot').find(':checkbox').prop('checked', function() {
 			return ( 0 === unchecked.length );
 		});
@@ -436,7 +467,7 @@ $(document).ready( function() {
 		$table.children( 'tbody' ).filter(':visible')
 			.children().children('.check-column').find(':checkbox')
 			.prop('checked', function() {
-				if ( $(this).is(':hidden') ) {
+				if ( $(this).is(':hidden,:disabled') ) {
 					return false;
 				}
 
@@ -478,7 +509,12 @@ $(document).ready( function() {
 				focusedRowActions.removeClass( 'visible' );
 			}, 30 );
 		}
-	}, 'td.post-title, td.title, td.comment, .tags td.column-name, .bookmarks td.column-name, td.blogname, .users-network td.column-blogs, td.username, .dashboard-comment-wrap' );
+	}, '.has-row-actions' );
+
+	// Toggle list table rows on small screens
+	$( 'tbody' ).on( 'click', '.toggle-row', function() {
+		$( this ).closest( 'tr' ).toggleClass( 'is-expanded' );
+	});
 
 	$('#default-password-nag-no').click( function() {
 		setUserSetting('default_password_nag', 'hide');
@@ -740,6 +776,10 @@ $(document).ready( function() {
 			// Toggle sidebar when toggle is clicked
 			$( '#wp-admin-bar-menu-toggle' ).on( 'click.wp-responsive', function( event ) {
 				event.preventDefault();
+
+				// close any open toolbar submenus
+				$adminbar.find( '.hover' ).removeClass( 'hover' );
+
 				$wpwrap.toggleClass( 'wp-responsive-open' );
 				if ( $wpwrap.hasClass( 'wp-responsive-open' ) ) {
 					$(this).find('a').attr( 'aria-expanded', 'true' );
@@ -859,6 +899,8 @@ $(document).ready( function() {
 
 	window.wpResponsive.init();
 	setPinMenu();
+	currentMenuItemHasPopup();
+	makeNoticesDismissible();
 
 	$document.on( 'wp-pin-menu wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu wp-collapse-menu.pin-menu wp-scroll-start.pin-menu', setPinMenu );
 });
@@ -868,7 +910,7 @@ $(document).ready( function() {
 	var timeout;
 
 	function triggerEvent() {
-		$(document).trigger( 'wp-window-resized' );
+		$document.trigger( 'wp-window-resized' );
 	}
 
 	function fireOnce() {
@@ -876,7 +918,7 @@ $(document).ready( function() {
 		timeout = window.setTimeout( triggerEvent, 200 );
 	}
 
-	$(window).on( 'resize.wp-fire-once', fireOnce );
+	$window.on( 'resize.wp-fire-once', fireOnce );
 }());
 
 // Make Windows 8 devices play along nicely.

@@ -77,7 +77,6 @@ class FocusRating{
     public static function save_focus_meta($post_id) {
         if( isset($_POST['focus_select']) ){
             $focus_select = $_POST['focus_select'];
-        error_log('FLAMMO! $focus_select == '. $focus_select);
         }
         if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
         return $post_id;

@@ -5,10 +5,14 @@
  * ------------------------------------------------------------------------ */
 
 function fitzgerald_enqueue_styles() {
-	wp_enqueue_style( 'fitzgerald-fonts', 'http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700|Roboto+Condensed:400,300,300italic,400italic' );
+	wp_enqueue_style( 'fitzgerald-fonts', 'https://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700|Roboto+Condensed:400,300,300italic,400italic' );
 }
-
 add_action( 'wp_print_styles', 'fitzgerald_enqueue_styles' );
+
+function fitzgerald_theme_scripts() {
+  wp_enqueue_script('embedded_audio', get_stylesheet_directory_uri() . '/js/audio_behavior.js', array('jquery'), '', true);
+}
+add_action( 'wp_enqueue_scripts', 'fitzgerald_theme_scripts' );
 
 /**
  * Returns an html blog of meta elements
@@ -93,3 +97,30 @@ function add_iframe_resize_message() {
   );
 
 }
+
+// allow iframe tag within posts
+function allow_post_tags( $allowedposttags ){
+    $allowedposttags['iframe'] = array(
+        'align' => true,
+        'allowFullScreen' => true,
+        'class' => true,
+        'frameborder' => true,
+        'height' => true,
+        'id' => true,
+        'longdesc' => true,
+        'marginheight' => true,
+        'marginwidth' => true,
+        'mozallowfullscreen' => true,
+        'name' => true,
+        'sandbox' => true,
+        'seamless' => true,
+        'scrolling' => true,
+        'src' => true,
+        'srcdoc' => true,
+        'style' => true,
+        'width' => true,
+        'webkitAllowFullScreen' => true
+    );
+    return $allowedposttags;
+}
+add_filter('wp_kses_allowed_html','allow_post_tags', 1);

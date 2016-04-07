@@ -20,14 +20,14 @@ add_action('admin_init', '\Candela\Outcomes\candela_on_admin_init');
 
 //Initialize
 function candela_on_admin_init() {
-$types = array( 'back-matter', 'chapter', 'front-matter',);
+$types = array( 'back-matter', 'chapter', 'part', 'front-matter',);
     foreach($types as $type){
         add_meta_box('outcomes',
         __('Course Outcomes', 'textdomain'),
         '\Candela\Outcomes\outcomes_metabox_render',
         $type,
         'normal',
-        'high'
+        'low'
         );
     }
 }

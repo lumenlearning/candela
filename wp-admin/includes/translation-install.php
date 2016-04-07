@@ -94,7 +94,7 @@ function translations_api( $type, $args = null ) {
  *               in an error, an empty array will be returned.
  */
 function wp_get_available_translations() {
-	if ( ! defined( 'WP_INSTALLING' ) && false !== ( $translations = get_site_transient( 'available_translations' ) ) ) {
+	if ( ! wp_installing() && false !== ( $translations = get_site_transient( 'available_translations' ) ) ) {
 		return $translations;
 	}
 
@@ -123,6 +123,8 @@ function wp_get_available_translations() {
  * Output the select form for the language selection on the installation screen.
  *
  * @since 4.0.0
+ *
+ * @global string $wp_local_package
  *
  * @param array $languages Array of available languages (populated via the Translation API).
  */

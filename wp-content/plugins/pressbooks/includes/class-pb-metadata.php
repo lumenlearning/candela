@@ -2,15 +2,14 @@
 /**
  * This class has two purposes:
  *  + Handle the custom metadata post, i.e. "Book Information". There should only be one metadata post per book.
- *  + Perform upgrades on individual books as PressBooks evolves
+ *  + Perform upgrades on individual books as Pressbooks evolves
  *
- * @author  PressBooks <code@pressbooks.com>
+ * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  */
 namespace PressBooks;
 
 
-use PressBooks\Book;
 use PressBooks\Sanitize;
 
 
@@ -86,8 +85,8 @@ class Metadata {
 
 		return get_post_meta( $meta_post->ID );
 	}
-	
-		
+
+
 	/**
 	 * Return a database ID for a given meta key.
 	 *
@@ -98,7 +97,7 @@ class Metadata {
 	 */
 	function getMidByKey( $post_id, $meta_key ) {
 
-		/** @var $wpdb wpdb */
+		/** @var \wpdb $wpdb */
 		global $wpdb;
 		$mid = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s LIMIT 1 ", $post_id, $meta_key ) );
 		if ( $mid != '' ) {
@@ -107,7 +106,8 @@ class Metadata {
 
 		return false;
 	}
-	
+
+
 	/**
 	 * Returns an html blob of meta elements based on what is set in 'Book Information'
 	 * 
@@ -121,7 +121,7 @@ class Metadata {
 		    'keywords' => 'pb_keywords_tags',
 		    'publisher' => 'pb_publisher'
 		);
-		$html = "<meta name='application-name' content='PressBooks'>\n";
+		$html = "<meta name='application-name' content='Pressbooks'>\n";
 		$metadata = Book::getBookInformation();
 
 		// create meta elements
@@ -163,7 +163,7 @@ class Metadata {
 		foreach ( $micro_mapping as $itemprop => $content ) {
 			if ( array_key_exists( $content, $metadata ) ) {
 				if ( 'pb_publication_date' == $content ) {
-					$content = date( 'Y-m-d', $metadata[$content] );
+					$content = date( 'Y-m-d', (int) $metadata[$content] );
 				} else {
 					$content = $metadata[$content];
 				}
@@ -175,7 +175,7 @@ class Metadata {
 
 	/**
 	 * Takes a known string from metadata, builds a url to hit an api which returns an xml response
-	 * @see http://api.creativecommons.org/docs/readme_15.html
+	 * @see https://api.creativecommons.org/docs/readme_15.html
 	 * 
 	 * @param string $type license type
 	 * @param string $copyright_holder of the page
@@ -184,8 +184,8 @@ class Metadata {
 	 * @return string $xml response
 	 */
 	static function getLicenseXml( $type, $copyright_holder, $src_url, $title, $lang = '' ) {
-		$endpoint = 'http://api.creativecommons.org/rest/1.5/';
-		$xml = '';
+		$endpoint = 'https://api.creativecommons.org/rest/1.5/';
+    $xml = '';
 		$lang = ( ! empty( $lang ) ) ? substr( $lang, 0, 2 ) : '';
 		$expected = array(
 		    'public-domain' => array(
@@ -406,7 +406,7 @@ class Metadata {
 	 */
 	function upgradeBook() {
 
-		$book_structure = Book::getBookStructure();
+		$book_structure = Book::getBookStructure('', true);
 		foreach ( $book_structure['__order'] as $post_id => $_ ) {
 
 			$meta = get_post_meta( $post_id );

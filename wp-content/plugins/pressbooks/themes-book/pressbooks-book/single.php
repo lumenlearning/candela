@@ -19,12 +19,13 @@
 			      <?php endif; ?>
 									
 					<?php if ( get_post_type( $post->ID ) !== 'part' ) {
-						$content = apply_filters ( 'the_content', get_the_content() );
-						$s = 1;
-						while ( strpos( $content, '<h1>' ) !== false ) {
-						    $content = preg_replace('/<h1>/', '<h1 id="section-' . $s++ . '">', $content, 1);
+						if ( pb_should_parse_sections() ) {
+							$content = pb_tag_sections( apply_filters( 'the_content', get_the_content() ), $post->ID );
+							echo $content;
+						} else {
+							$content = apply_filters( 'the_content', get_the_content() );
+							echo $content;
 						}
-						echo $content;
 					} else {
 						echo apply_filters( 'the_content', get_post_meta( $post->ID, 'pb_part_content', true ) );
 			} ?>
@@ -35,7 +36,12 @@
 			
 				</div><!-- #content -->
 			
-				<?php get_template_part( 'content', 'social-footer' ); ?> 
+				<?php 
+				$social_media = get_option( 'pressbooks_theme_options_web' );
+				if ( 1 === @$social_media['social_media'] || !isset( $social_media['social_media'] ) ) {
+					get_template_part( 'content', 'social-footer' ); 
+				}
+				?> 
 			
 				<?php comments_template( '', true ); ?>
 <?php else: ?>

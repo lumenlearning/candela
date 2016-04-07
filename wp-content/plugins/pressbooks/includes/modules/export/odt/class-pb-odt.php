@@ -1,12 +1,12 @@
 <?php
 /**
- * @author  PressBooks <code@pressbooks.com>
+ * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version))
  */
-namespace PressBooks\Export\Odt;
+namespace PressBooks\Modules\Export\Odt;
 
 
-use \PressBooks\Export\Export;
+use \PressBooks\Modules\Export\Export;
 
 require_once( ABSPATH . 'wp-admin/includes/class-pclzip.php' );
 
@@ -35,6 +35,14 @@ class Odt extends Export {
 	 * @var string
 	 */
 	public $logfile;
+
+
+	/**
+	 * Compress images?
+	 *
+	 * @var bool
+	 */
+	public $compressImages = false;
 
 
 	/**
@@ -78,6 +86,7 @@ class Odt extends Export {
 	
 		$contentPath	= pathinfo($filename);
 		$source			= $contentPath['dirname'] . '/source.xhtml';
+		
 		file_put_contents( $source, $this->queryXhtml() );
 
 		$xslt			= PB_PLUGIN_DIR . 'includes/modules/export/odt/xhtml2odt.xsl';
@@ -88,6 +97,10 @@ class Odt extends Export {
 		$settings 		= $contentPath['dirname'] . "/settings.xml";
 		$styles 		= $contentPath['dirname'] . "/styles.xml";
 		$mediafolder	= $contentPath['dirname'] . '/media/';
+		
+		if ( is_dir( $mediafolder ) ) {
+			$this->deleteDirectory( $mediafolder );
+		}
 		
 		$urlcontent = file_get_contents( $source );
 		$urlcontent = preg_replace( "/xmlns\=\"http\:\/\/www\.w3\.org\/1999\/xhtml\"/i", '', $urlcontent );
@@ -112,9 +125,7 @@ class Odt extends Export {
 			}
 			$table->setAttribute( 'colcount', $columncount );
 		}
-		
-		file_put_contents( $source, $doc->saveXML() );
-		
+				
 		$images = $xpath->query( '//img' );
 		$coverimages = $xpath->query( '//meta[@name="pb-cover-image"]' );
 		if ( ( $images->length > 0 ) || ( $coverimages->length > 0 ) ) {
@@ -123,23 +134,37 @@ class Odt extends Export {
 		
 		foreach ( $images as $image ) {
 			$src = $image->getAttribute('src');
-			$this->fetchAndSaveUniqueImage( $src, $mediafolder );
+ 			$image_filename = $this->fetchAndSaveUniqueImage( $src, $mediafolder );
+			if ( $image_filename ) {
+				// Replace with new image
+				$image->setAttribute( 'src', $image_filename );
+			}
 		}
 		
 		foreach ( $coverimages as $coverimage ) {
-			$src = $coverimage->getAttribute('src');
-			$this->fetchAndSaveUniqueImage( $src, $mediafolder );
+			$src = $coverimage->getAttribute('content');
+ 			$cover_filename = $this->fetchAndSaveUniqueImage( $src, $mediafolder );
+			if ( $cover_filename ) {
+				// Replace with new image
+				$coverimage->setAttribute( 'src', $cover_filename );
+			}
 		}
+
+		file_put_contents( $source, $doc->saveXML() );
 		
 		try {
 			$result = exec( PB_SAXON_COMMAND . ' -xsl:' . $xslt .' -s:' . $source .' -o:' . $content );
 		} catch ( \Exception $e ) {
 			$this->logError( $e->getMessage() );
+			unlink( $source );
+			$this->deleteDirectory( $mediafolder );
 			return false;
 		}
-
+		
 		if ( ( !file_exists( $content ) ) || ( !file_exists( $mimetype ) ) || ( !file_exists( $meta ) ) || ( !file_exists( $settings ) ) || ( !file_exists( $styles ) ) || ( !file_exists( $metafolder ) ) ) {
 			$this->logError( 'Transformation failed' );
+			unlink( $source );
+			$this->deleteDirectory( $mediafolder );
 			return false;
 		}
 		
@@ -153,8 +178,11 @@ class Odt extends Export {
 		
 		if ( $list == 0 ) {
 			$this->logError( $zip->errorInfo( true ) );
+			unlink( $source );
+			$this->deleteDirectory( $mediafolder );
 			return false;
 		}
+				
 		unlink( $source );
 		unlink( $mimetype );
 		unlink( $content );
@@ -164,17 +192,16 @@ class Odt extends Export {
 		unlink( $metafolder . '/manifest.xml' );
 		rmdir( $metafolder);
 		
-		if ( $images->length > 0 ) {
-			$this->deleteDirectory( $mediafolder );
-		}
+		$this->deleteDirectory( $mediafolder );
 		
 		return true;
 	}
 
-	/*Recursive Directory Deletion for media folder */
+	/* Recursive Directory Deletion for media folder */
+	
 	public static function deleteDirectory( $dirpath ) {
 		if ( !is_dir( $dirpath ) ) {
-			throw new InvalidArgumentException( "$dirpath must be a directory." );
+			throw new \InvalidArgumentException( "$dirpath must be a directory." );
 		}
 		if ( substr( $dirpath, strlen( $dirpath ) - 1, 1 ) != '/' ) {
 			$dirpath .= '/';

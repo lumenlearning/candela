@@ -23,7 +23,8 @@
 }
 
 .about-wrap div.updated,
-.about-wrap div.error {
+.about-wrap div.error,
+.about-wrap .notice {
 	display: none !important;
 }
 
@@ -39,6 +40,10 @@
 	max-width: 100%;
 	height: auto;
 	vertical-align: middle;
+}
+
+.about-wrap .jetpack-video-wrapper {
+	margin-bottom: 0;
 }
 
 /* WordPress Version Badge */
@@ -74,17 +79,10 @@
 
 /* Tabs */
 
-.about-wrap h2.nav-tab-wrapper {
-	padding-left: 6px;
-}
-
-.about-wrap h2 .nav-tab {
-	padding: 4px 15px 6px;
-	margin: 0 3px -1px 0;
+.about-wrap .nav-tab {
+	padding-right: 15px;
+	padding-left: 15px;
 	font-size: 18px;
-	vertical-align: top;
-	border-width: 1px;
-	white-space: nowrap;
 }
 
 /* 1.1 - Typography */
@@ -96,6 +94,7 @@
 
 .about-wrap h1 {
 	margin: 0.2em 200px 0 0;
+	padding: 0;
 	color: #32373c;
 	line-height: 1.2em;
 	font-size: 2.8em;
@@ -115,6 +114,7 @@
 .about-wrap code,
 .about-wrap ol li p {
 	font-size: 14px;
+	font-weight: normal;
 }
 
 .about-wrap .about-description,
@@ -133,21 +133,29 @@
 
 /* 1.2 - Structure */
 
-.about-wrap .two-col > div {
+.about-wrap [class$=col] .col {
+	float: left;
 	position: relative;
-	width: 47.6%;
+}
+.about-wrap .two-col .col {
 	margin-right: 4.799999999%;
-	float: left;
+	width: 47.6%;
+}
+.about-wrap .feature-section.two-col .col {
+	display: inline-block;
+	float: none;
+	margin-right: 4.799999999%;
+	width: calc( 47.6% - 4px );
+	vertical-align: middle;
 }
 
-.about-wrap .three-col > div {
-	position: relative;
-	width: 29.95%;
+.about-wrap .three-col .col {
 	margin-right: 4.999999999%;
-	float: left;
+	width: 29.95%;
 }
 
-.about-wrap [class$=col] .last-feature {
+.about-wrap .two-col .col:nth-of-type(2n),
+.about-wrap .three-col .col:nth-of-type(3n) {
 	margin-right: 0;
 }
 
@@ -173,16 +181,20 @@
 /* 2.1 - Typography */
 
 .about-wrap .headline-feature h2 {
-	margin: 50px 0 30px;
+	margin: 30px 0 30px;
 	font-size: 2.2em;
 	font-weight: 300;
 	line-height: 1.3;
-	text-align: left;
+	text-align: center;
 }
 
 .about-wrap .headline-feature h3 {
-	margin-top: 30px;
-	text-align: center;
+	margin-top: 0;
+	text-align: left;
+}
+
+.about-wrap .feature-section.two-col h3 {
+	margin-top: 0;
 }
 
 .about-wrap .feature-list h2 {
@@ -199,13 +211,27 @@
 	margin-top: 0.6em;
 }
 
+.about-wrap .two-col-text {
+	-webkit-column-count: 2;
+	-moz-column-count: 2;
+	column-count: 2;
+	-webkit-column-gap: 40px;
+	-moz-column-gap: 40px;
+	column-gap: 40px;
+}
+
+.about-wrap .two-col-text p:first-of-type {
+	margin-top: 0;
+}
+
 /* 2.2 - Structure */
 
-.about-wrap .feature-video {
+.about-wrap .headline-feature.feature-video {
 	position: relative;
 	margin: 40px 0;
-	padding-bottom: 56.25%; /* video is 1280 x 720 */
+	padding-bottom: 56.25%;
 	width: 100%;
+	max-width: 100%;
 	height: 0;
 	text-align: center;
 }
@@ -225,31 +251,57 @@
 .about-wrap .feature-section {
 	overflow: hidden;
 	padding: 0 0 40px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.about-wrap .headline-feature .feature-section {
+.about-wrap .headline-feature {
 	margin: 0 auto;
-	max-width: 95%;
+	max-width: 80%;
 }
 
-.about-wrap .feature-section .col:nth-of-type(odd) {
-	float: left;
-	margin: 40px 5% 0 0;
-	width: 48%;
+.about-wrap .feature-section .media-container {
+	overflow: hidden;
 }
 
-.about-wrap .feature-section .col:nth-of-type(even) {
+.about-wrap .headline-feature .col {
+	width: 65.2%;
+}
+
+.about-wrap .headline-feature .col.feature-image {
+	width: 30%;
+}
+
+.about-wrap .headline-feature .vertical-screen {
 	float: right;
-	margin: 40px 0 0;
-	width: 46%;
+	margin-left: 40px;
+	max-width: 100%;
+}
+
+.about-wrap .headline-feature .horizontal-screen {
+	margin-top: 20px;
+	max-width: 100%;
+}
+
+.about-wrap .embed-container {
+	text-align: center;
+}
+
+.about-wrap .embed-container iframe {
+	max-width: 100%;
+}
+
+.about-wrap .wp-embedded-content {
+	max-width: 100%;
+}
+
+.about-wrap .feature-section:not(.under-the-hood) .col {
+	margin-top: 40px;
 }
 
 .about-wrap .changelog {
 	margin-bottom: 40px;
 }
 
-.about-wrap .changelog.feature-section > div {
+.about-wrap .changelog.feature-section .col {
 	margin-top: 40px;
 }
 
@@ -277,9 +329,10 @@
 
 /* Credits */
 
-.about-wrap h4.wp-people-group {
-	margin-top: 2.6em;
+.about-wrap h3.wp-people-group {
+	margin: 2.6em 0 1.33em;
 	font-size: 16px;
+	line-height: inherit;
 }
 
 .about-wrap ul.wp-people-group {
@@ -364,18 +417,52 @@
 		border-bottom: none;
 	}
 
-	.about-wrap .one-col > div,
-	.about-wrap .two-col > div,
-	.about-wrap .three-col > div,
-	.about-wrap .two-col .col:nth-of-type(n) {
+	.about-wrap [class$=col] .col {
+		float: none;
 		width: 100%;
 		margin: 40px 0 0;
 		padding: 0 0 40px;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	}
 
-	.about-wrap .two-col .col h3 {
-		margin-top: 0;
+	.about-wrap .headline-feature {
+		position: relative;
+	}
+
+	.about-wrap .headline-feature .col.feature-image {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		width: 40%;
+	}
+
+	.about-wrap .headline-feature .horizontal-image {
+		position: relative;
+	}
+
+	.about-wrap .headline-feature .horizontal-image:before {
+		display: block;
+		content: "";
+		width: 100%;
+		padding-top: 80%;
+	}
+
+	.about-wrap .headline-feature .horizontal-image > .content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+	.about-wrap .headline-feature .horizontal-image img {
+		position: absolute;
+		bottom: 0;
+	}
+
+	.about-wrap .two-col-text {
+		-webkit-column-count: 1;
+		-moz-column-count: 1;
+		column-count: 1;
 	}
 
 	.about-wrap .three-col img {
@@ -383,7 +470,7 @@
 		margin: 0 auto;
 	}
 
-	.about-wrap .feature-list div {
+	.about-wrap .feature-list .col {
 		margin: 0;
 		padding: 0;
 		border-bottom: none;
@@ -419,25 +506,20 @@
 		width: 100%;
 	}
 
-	.about-wrap h2.nav-tab-wrapper {
-		padding-left: 0;
-		border-bottom: 0;
-	}
-
-	.about-wrap h2 .nav-tab {
-		margin-top: 10px;
-		margin-right: 10px;
-		border-bottom: 1px solid #ccc;
-	}
-
-	.about-wrap .three-col div,
-	.about-wrap .headline-feature .feature-section div {
+	.about-wrap .feature-section.two-col .col,
+	.about-wrap .three-col .col,
+	.about-wrap .headline-feature .feature-section .col {
 		width: 100% !important;
 		float: none !important;
 	}
 
-	.about-wrap .dfw p {
-		max-width: 90%;
+	.about-wrap .feature-section.two-col .col:last-of-type {
+		margin-top: 0;
+	}
+
+	.feature-section.under-the-hood.three-col .col,
+	.feature-section.under-the-hood.one-col .col {
+		padding-bottom: 0;
 	}
 }
 

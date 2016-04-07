@@ -50,7 +50,7 @@ function wp_underscore_audio_template() {
 function wp_underscore_video_template() {
 	$video_types = wp_get_video_extensions();
 ?>
-<#  var w_rule = h_rule = '', classes = [],
+<#  var w_rule = '', classes = [],
 		w, h, settings = wp.media.view.settings,
 		isYouTube = isVimeo = false;
 
@@ -69,13 +69,10 @@ function wp_underscore_video_template() {
 		h = Math.ceil( ( data.model.height * w ) / data.model.width );
 	} else {
 		h = data.model.height;
-	}
+ 	}
 
 	if ( w ) {
 		w_rule = 'width: ' + w + 'px; ';
-	}
-	if ( h ) {
-		h_rule = 'height: ' + h + 'px;';
 	}
 
 	if ( isYouTube ) {
@@ -87,7 +84,7 @@ function wp_underscore_video_template() {
 	}
 
 #>
-<div style="{{ w_rule }}{{ h_rule }}" class="wp-video">
+<div style="{{ w_rule }}" class="wp-video">
 <video controls
 	class="wp-video-shortcode {{ classes.join( ' ' ) }}"
 	<# if ( w ) { #>width="{{ w }}"<# } #>
@@ -136,6 +133,8 @@ function wp_underscore_video_template() {
  * Prints the templates used in the media manager.
  *
  * @since 3.5.0
+ *
+ * @global bool $is_IE
  */
 function wp_print_media_templates() {
 	global $is_IE;
@@ -164,7 +163,7 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-media-modal">
 		<div class="<?php echo $class; ?>">
-			<a class="media-modal-close" href="#"><span class="media-modal-icon"><span class="screen-reader-text"><?php _e( 'Close media panel' ); ?></span></span></a>
+			<button type="button" class="button-link media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php _e( 'Close media panel' ); ?></span></span></button>
 			<div class="media-modal-content"></div>
 		</div>
 		<div class="media-modal-backdrop"></div>
@@ -172,7 +171,7 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-uploader-window">
 		<div class="uploader-window-content">
-			<h3><?php _e( 'Drop files to upload' ); ?></h3>
+			<h1><?php _e( 'Drop files to upload' ); ?></h1>
 		</div>
 	</script>
 
@@ -189,21 +188,21 @@ function wp_print_media_templates() {
 		<# } #>
 		<div class="uploader-inline-content {{ messageClass }}">
 		<# if ( data.message ) { #>
-			<h3 class="upload-message">{{ data.message }}</h3>
+			<h2 class="upload-message">{{ data.message }}</h2>
 		<# } #>
 		<?php if ( ! _device_can_upload() ) : ?>
-			<h3 class="upload-instructions"><?php printf( __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'), 'https://apps.wordpress.org/' ); ?></h3>
+			<h2 class="upload-instructions"><?php printf( __( 'The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.' ), 'https://apps.wordpress.org/' ); ?></h2>
 		<?php elseif ( is_multisite() && ! is_upload_space_available() ) : ?>
-			<h3 class="upload-instructions"><?php _e( 'Upload Limit Exceeded' ); ?></h3>
+			<h2 class="upload-instructions"><?php _e( 'Upload Limit Exceeded' ); ?></h2>
 			<?php
 			/** This action is documented in wp-admin/includes/media.php */
 			do_action( 'upload_ui_over_quota' ); ?>
 
 		<?php else : ?>
 			<div class="upload-ui">
-				<h3 class="upload-instructions drop-instructions"><?php _e( 'Drop files anywhere to upload' ); ?></h3>
+				<h2 class="upload-instructions drop-instructions"><?php _e( 'Drop files anywhere to upload' ); ?></h2>
 				<p class="upload-instructions drop-instructions"><?php _ex( 'or', 'Uploader: Drop files here - or - Select Files' ); ?></p>
-				<a href="#" class="browser button button-hero"><?php _e( 'Select Files' ); ?></a>
+				<button type="button" class="browser button button-hero"><?php _e( 'Select Files' ); ?></button>
 			</div>
 
 			<div class="upload-inline-status"></div>
@@ -258,8 +257,8 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-uploader-status">
-		<h3><?php _e( 'Uploading' ); ?></h3>
-		<a class="upload-dismiss-errors" href="#"><?php _e('Dismiss Errors'); ?></a>
+		<h2><?php _e( 'Uploading' ); ?></h2>
+		<button type="button" class="button-link upload-dismiss-errors"><span class="screen-reader-text"><?php _e( 'Dismiss Errors' ); ?></span></button>
 
 		<div class="media-progress-bar"><div></div></div>
 		<div class="upload-details">
@@ -273,7 +272,6 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-uploader-status-error">
-		<span class="upload-error-label"><?php _e('Error'); ?></span>
 		<span class="upload-error-filename">{{{ data.filename }}}</span>
 		<span class="upload-error-message">{{ data.message }}</span>
 	</script>
@@ -293,11 +291,11 @@ function wp_print_media_templates() {
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
 				<# } else if ( 'image' === data.type && data.sizes && data.sizes.large ) { #>
-					<img class="details-image" src="{{ data.sizes.large.url }}" draggable="false" />
+					<img class="details-image" src="{{ data.sizes.large.url }}" draggable="false" alt="" />
 				<# } else if ( 'image' === data.type && data.sizes && data.sizes.full ) { #>
-					<img class="details-image" src="{{ data.sizes.full.url }}" draggable="false" />
+					<img class="details-image" src="{{ data.sizes.full.url }}" draggable="false" alt="" />
 				<# } else if ( -1 === jQuery.inArray( data.type, [ 'audio', 'video' ] ) ) { #>
-					<img class="details-image" src="{{ data.icon }}" class="icon" draggable="false" />
+					<img class="details-image icon" src="{{ data.icon }}" draggable="false" alt="" />
 				<# } #>
 
 				<# if ( 'audio' === data.type ) { #>
@@ -307,17 +305,14 @@ function wp_print_media_templates() {
 					</audio>
 				</div>
 				<# } else if ( 'video' === data.type ) {
-					var w_rule = h_rule = '';
+					var w_rule = '';
 					if ( data.width ) {
 						w_rule = 'width: ' + data.width + 'px;';
 					} else if ( wp.media.view.settings.contentWidth ) {
 						w_rule = 'width: ' + wp.media.view.settings.contentWidth + 'px;';
 					}
-					if ( data.height ) {
-						h_rule = 'height: ' + data.height + 'px;';
-					}
 				#>
-				<div style="{{ w_rule }}{{ h_rule }}" class="wp-media-wrapper wp-video">
+				<div style="{{ w_rule }}" class="wp-media-wrapper wp-video">
 					<video controls="controls" class="wp-video-shortcode" preload="metadata"
 						<# if ( data.width ) { #>width="{{ data.width }}"<# } #>
 						<# if ( data.height ) { #>height="{{ data.height }}"<# } #>
@@ -329,7 +324,7 @@ function wp_print_media_templates() {
 
 				<div class="attachment-actions">
 					<# if ( 'image' === data.type && ! data.uploading && data.sizes && data.can.save ) { #>
-						<a class="button edit-attachment" href="#"><?php _e( 'Edit Image' ); ?></a>
+					<button type="button" class="button edit-attachment"><?php _e( 'Edit Image' ); ?></button>
 					<# } #>
 				</div>
 			</div>
@@ -377,10 +372,12 @@ function wp_print_media_templates() {
 					<input type="text" value="{{ data.url }}" readonly />
 				</label>
 				<# var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly'; #>
+				<?php if ( post_type_supports( 'attachment', 'title' ) ) : ?>
 				<label class="setting" data-setting="title">
 					<span class="name"><?php _e('Title'); ?></span>
 					<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
 				</label>
+				<?php endif; ?>
 				<# if ( 'audio' === data.type ) { #>
 				<?php foreach ( array(
 					'artist' => __( 'Artist' ),
@@ -431,12 +428,12 @@ function wp_print_media_templates() {
 				<# if ( ! data.uploading && data.can.remove ) { #> |
 					<?php if ( MEDIA_TRASH ): ?>
 						<# if ( 'trash' === data.status ) { #>
-							<a class="untrash-attachment" href="#"><?php _e( 'Untrash' ); ?></a>
+							<button type="button" class="button-link untrash-attachment"><?php _e( 'Untrash' ); ?></button>
 						<# } else { #>
-							<a class="trash-attachment" href="#"><?php _ex( 'Trash', 'verb' ); ?></a>
+							<button type="button" class="button-link trash-attachment"><?php _ex( 'Trash', 'verb' ); ?></button>
 						<# } #>
 					<?php else: ?>
-						<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
+						<button type="button" class="button-link delete-attachment"><?php _e( 'Delete Permanently' ); ?></button>
 					<?php endif; ?>
 				<# } #>
 			</div>
@@ -456,9 +453,9 @@ function wp_print_media_templates() {
 				<# } else { #>
 					<div class="centered">
 						<# if ( data.image && data.image.src && data.image.src !== data.icon ) { #>
-							<img src="{{ data.image.src }}" class="thumbnail" draggable="false" />
+							<img src="{{ data.image.src }}" class="thumbnail" draggable="false" alt="" />
 						<# } else { #>
-							<img src="{{ data.icon }}" class="icon" draggable="false" />
+							<img src="{{ data.icon }}" class="icon" draggable="false" alt="" />
 						<# } #>
 					</div>
 					<div class="filename">
@@ -467,11 +464,11 @@ function wp_print_media_templates() {
 				<# } #>
 			</div>
 			<# if ( data.buttons.close ) { #>
-				<a class="close media-modal-icon" href="#" title="<?php esc_attr_e('Remove'); ?>"></a>
+				<button type="button" class="button-link attachment-close media-modal-icon"><span class="screen-reader-text"><?php _e( 'Remove' ); ?></span></button>
 			<# } #>
 		</div>
 		<# if ( data.buttons.check ) { #>
-			<a class="check" href="#" title="<?php esc_attr_e('Deselect'); ?>" tabindex="-1"><div class="media-modal-icon"></div></a>
+			<button type="button" class="button-link check" tabindex="-1"><span class="media-modal-icon"></span><span class="screen-reader-text"><?php _e( 'Deselect' ); ?></span></button>
 		<# } #>
 		<#
 		var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly';
@@ -493,22 +490,21 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details">
-		<h3>
-			<?php _e('Attachment Details'); ?>
-
+		<h2>
+			<?php _e( 'Attachment Details' ); ?>
 			<span class="settings-save-status">
 				<span class="spinner"></span>
 				<span class="saved"><?php esc_html_e('Saved.'); ?></span>
 			</span>
-		</h3>
+		</h2>
 		<div class="attachment-info">
 			<div class="thumbnail thumbnail-{{ data.type }}">
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
 				<# } else if ( 'image' === data.type && data.sizes ) { #>
-					<img src="{{ data.size.url }}" draggable="false" />
+					<img src="{{ data.size.url }}" draggable="false" alt="" />
 				<# } else { #>
-					<img src="{{ data.icon }}" class="icon" draggable="false" />
+					<img src="{{ data.icon }}" class="icon" draggable="false" alt="" />
 				<# } #>
 			</div>
 			<div class="details">
@@ -523,7 +519,6 @@ function wp_print_media_templates() {
 
 					<# if ( data.can.save && data.sizes ) { #>
 						<a class="edit-attachment" href="{{ data.editLink }}&amp;image-editor" target="_blank"><?php _e( 'Edit Image' ); ?></a>
-						<a class="refresh-attachment" href="#"><?php _e( 'Refresh' ); ?></a>
 					<# } #>
 				<# } #>
 
@@ -534,12 +529,12 @@ function wp_print_media_templates() {
 				<# if ( ! data.uploading && data.can.remove ) { #>
 					<?php if ( MEDIA_TRASH ): ?>
 					<# if ( 'trash' === data.status ) { #>
-						<a class="untrash-attachment" href="#"><?php _e( 'Untrash' ); ?></a>
+						<button type="button" class="button-link untrash-attachment"><?php _e( 'Untrash' ); ?></button>
 					<# } else { #>
-						<a class="trash-attachment" href="#"><?php _ex( 'Trash', 'verb' ); ?></a>
+						<button type="button" class="button-link trash-attachment"><?php _ex( 'Trash', 'verb' ); ?></button>
 					<# } #>
 					<?php else: ?>
-						<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
+						<button type="button" class="button-link delete-attachment"><?php _e( 'Delete Permanently' ); ?></button>
 					<?php endif; ?>
 				<# } #>
 
@@ -556,10 +551,12 @@ function wp_print_media_templates() {
 			<input type="text" value="{{ data.url }}" readonly />
 		</label>
 		<# var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly'; #>
+		<?php if ( post_type_supports( 'attachment', 'title' ) ) : ?>
 		<label class="setting" data-setting="title">
 			<span class="name"><?php _e('Title'); ?></span>
 			<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
 		</label>
+		<?php endif; ?>
 		<# if ( 'audio' === data.type ) { #>
 		<?php foreach ( array(
 			'artist' => __( 'Artist' ),
@@ -591,17 +588,17 @@ function wp_print_media_templates() {
 		<div class="selection-info">
 			<span class="count"></span>
 			<# if ( data.editable ) { #>
-				<a class="edit-selection" href="#"><?php _e( 'Edit Selection' ); ?></a>
+				<button type="button" class="button-link edit-selection"><?php _e( 'Edit Selection' ); ?></button>
 			<# } #>
 			<# if ( data.clearable ) { #>
-				<a class="clear-selection" href="#"><?php _e('Clear'); ?></a>
+				<button type="button" class="button-link clear-selection"><?php _e( 'Clear' ); ?></button>
 			<# } #>
 		</div>
 		<div class="selection-view"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-display-settings">
-		<h3><?php _e('Attachment Display Settings'); ?></h3>
+		<h2><?php _e( 'Attachment Display Settings' ); ?></h2>
 
 		<# if ( 'image' === data.type ) { #>
 			<label class="setting">
@@ -648,7 +645,10 @@ function wp_print_media_templates() {
 					</option>
 					<option value="file">
 				<# } else { #>
-					<option value="file" selected>
+					<option value="none" selected>
+						<?php esc_attr_e('None'); ?>
+					</option>
+					<option value="file">
 				<# } #>
 					<# if ( data.model.canEmbed ) { #>
 						<?php esc_attr_e('Link to Media File'); ?>
@@ -666,9 +666,6 @@ function wp_print_media_templates() {
 				<# if ( 'image' === data.type ) { #>
 					<option value="custom">
 						<?php esc_attr_e('Custom URL'); ?>
-					</option>
-					<option value="none">
-						<?php esc_attr_e('None'); ?>
 					</option>
 				<# } #>
 				</select>
@@ -708,7 +705,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-gallery-settings">
-		<h3><?php _e('Gallery Settings'); ?></h3>
+		<h2><?php _e( 'Gallery Settings' ); ?></h2>
 
 		<label class="setting">
 			<span><?php _e('Link To'); ?></span>
@@ -778,7 +775,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-playlist-settings">
-		<h3><?php _e( 'Playlist Settings' ); ?></h3>
+		<h2><?php _e( 'Playlist Settings' ); ?></h2>
 
 		<# var emptyModel = _.isEmpty( data.model ),
 			isVideo = 'video' === data.controller.get('library').props.get('type'); #>
@@ -823,7 +820,7 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-embed-image-settings">
 		<div class="thumbnail">
-			<img src="{{ data.model.url }}" draggable="false" />
+			<img src="{{ data.model.url }}" draggable="false" alt="" />
 		</div>
 
 		<?php
@@ -880,7 +877,7 @@ function wp_print_media_templates() {
 			<div class="embed-media-settings">
 				<div class="column-image">
 					<div class="image">
-						<img src="{{ data.model.url }}" draggable="false" />
+						<img src="{{ data.model.url }}" draggable="false" alt="" />
 
 						<# if ( data.attachment && window.imageEdit ) { #>
 							<div class="actions">
@@ -905,7 +902,7 @@ function wp_print_media_templates() {
 						<input type="text" data-setting="alt" value="{{ data.model.alt }}" />
 					</label>
 
-					<h3><?php _e( 'Display Settings' ); ?></h3>
+					<h2><?php _e( 'Display Settings' ); ?></h2>
 					<div class="setting align">
 						<span><?php _e('Align'); ?></span>
 						<div class="button-group button-large" data-setting="align">
@@ -987,7 +984,7 @@ function wp_print_media_templates() {
 						<input type="text" class="link-to-custom" data-setting="linkUrl" />
 					</div>
 					<div class="advanced-section">
-						<h3><a class="advanced-toggle" href="#"><?php _e('Advanced Options'); ?></a></h3>
+						<h2><button type="button" class="button-link advanced-toggle"><?php _e( 'Advanced Options' ); ?></button></h2>
 						<div class="advanced-settings hidden">
 							<div class="advanced-image">
 								<label class="setting title-text">
@@ -1001,7 +998,7 @@ function wp_print_media_templates() {
 							</div>
 							<div class="advanced-link">
 								<div class="setting link-target">
-									<label><input type="checkbox" data-setting="linkTargetBlank" value="_blank" <# if ( data.model.linkTargetBlank ) { #>checked="checked"<# } #>><?php _e( 'Open link in a new window/tab' ); ?></label>
+									<label><input type="checkbox" data-setting="linkTargetBlank" value="_blank" <# if ( data.model.linkTargetBlank ) { #>checked="checked"<# } #>><?php _e( 'Open link in a new tab' ); ?></label>
 								</div>
 								<label class="setting link-rel">
 									<span><?php _e('Link Rel'); ?></span>
@@ -1044,7 +1041,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
-					<a class="remove-setting"><?php _e( 'Remove' ); ?></a>
+					<button type="button" class="button-link remove-setting"><?php _e( 'Remove audio source' ); ?></button>
 				</label>
 				<# } #>
 				<?php
@@ -1058,7 +1055,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
 					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
-					<a class="remove-setting"><?php _e( 'Remove' ); ?></a>
+					<button type="button" class="button-link remove-setting"><?php _e( 'Remove audio source' ); ?></button>
 				</label>
 				<# } #>
 				<?php endforeach ?>
@@ -1127,7 +1124,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
-					<a class="remove-setting"><?php _e( 'Remove' ); ?></a>
+					<button type="button" class="button-link remove-setting"><?php _e( 'Remove video source' ); ?></button>
 				</label>
 				<# } #>
 				<?php foreach ( $video_types as $type ):
@@ -1139,7 +1136,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
 					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
-					<a class="remove-setting"><?php _e( 'Remove' ); ?></a>
+					<button type="button" class="button-link remove-setting"><?php _e( 'Remove video source' ); ?></button>
 				</label>
 				<# } #>
 				<?php endforeach ?>
@@ -1160,7 +1157,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php _e( 'Poster Image' ); ?></span>
 					<input type="text" disabled="disabled" data-setting="poster" value="{{ data.model.poster }}" />
-					<a class="remove-setting"><?php _e( 'Remove' ); ?></a>
+					<button type="button" class="button-link remove-setting"><?php _e( 'Remove poster image' ); ?></button>
 				</label>
 				<# } #>
 				<div class="setting preload">
@@ -1192,7 +1189,7 @@ function wp_print_media_templates() {
 							content += track.outerHTML; #>
 						<p>
 							<input class="content-track" type="text" value="{{ track.outerHTML }}" />
-							<a class="remove-setting remove-track"><?php _e( 'Remove' ); ?></a>
+							<button type="button" class="button-link remove-setting remove-track"><?php _ex( 'Remove video track', 'media' ); ?></button>
 						</p>
 						<# } ); #>
 					<# } else { #>
@@ -1211,14 +1208,14 @@ function wp_print_media_templates() {
 					<dl class="gallery-item">
 						<dt class="gallery-icon">
 							<# if ( attachment.thumbnail ) { #>
-								<img src="{{ attachment.thumbnail.url }}" width="{{ attachment.thumbnail.width }}" height="{{ attachment.thumbnail.height }}" />
+								<img src="{{ attachment.thumbnail.url }}" width="{{ attachment.thumbnail.width }}" height="{{ attachment.thumbnail.height }}" alt="" />
 							<# } else { #>
-								<img src="{{ attachment.url }}" />
+								<img src="{{ attachment.url }}" alt="" />
 							<# } #>
 						</dt>
 						<# if ( attachment.caption ) { #>
 							<dd class="wp-caption-text gallery-caption">
-								{{ attachment.caption }}
+								{{{ data.verifyHTML( attachment.caption ) }}}
 							</dd>
 						<# } #>
 					</dl>
@@ -1235,8 +1232,26 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-crop-content">
-		<img class="crop-image" src="{{ data.url }}">
+		<img class="crop-image" src="{{ data.url }}" alt="">
 		<div class="upload-errors"></div>
+	</script>
+
+	<script type="text/html" id="tmpl-site-icon-preview">
+		<h2><?php _e( 'Preview' ); ?></h2>
+		<strong><?php _e( 'As a browser icon' ); ?></strong>
+		<div class="favicon-preview">
+			<img src="images/browser.png" class="browser-preview" width="182" height="" alt="" />
+
+			<div class="favicon">
+				<img id="preview-favicon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>"/>
+			</div>
+			<span class="browser-title"><?php bloginfo( 'name' ); ?></span>
+		</div>
+
+		<strong><?php _e( 'As an app icon' ); ?></strong>
+		<div class="app-icon-preview">
+			<img id="preview-app-icon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>"/>
+		</div>
 	</script>
 
 	<?php
