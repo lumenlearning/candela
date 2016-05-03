@@ -1,14 +1,16 @@
 /*
-Theme Name: Bombadil
-Description: One Theme To Rule Them All
-Author: Lumen Learning
-Version: 0.1
-Template: pressbooks-book
-Tags: Pressbooks Textbook
+ * Theme Name: Bombadil
+ * Description: One Theme To Rule Them All
+ * Author: Lumen Learning
+ * Version: 0.1
+ * Template: pressbooks-book
+ * Tags: Pressbooks Textbook
+ */
 
-The screenshot.png for this theme was downloaded from https://www.flickr.com/photos/queerdood/5541802963/
-and is used under a CC BY License.
-*/
+ /*
+ The screenshot.png for this theme was downloaded from https://www.flickr.com/photos/queerdood/5541802963/
+ and is used under a CC BY License.
+ */
 
 @import url("../../../pressbooks/themes-book/pressbooks-book/style.css");
 
@@ -55,11 +57,9 @@ h2 {
 	font-size: 1.15em;
   margin-top: 1.5em;
 	margin-bottom: 1em;
-  /*text-transform: uppercase;*/
 }
 h3 {
 	font-size: 1em;
-	/*text-transform: uppercase;*/
   margin-top: 1.75em;
 	margin-bottom: 1.25em;
 	text-align: left;
@@ -68,19 +68,16 @@ h3 {
 h4 {
 	font-size: 0.9em;
 	font-weight: 600;
-	/*text-transform: capitalize;*/
 	color: #6c64ad;
 }
 h5 {
 	font-size: 0.7em;
 	font-weight: 400;
-	/*text-transform: capitalize;*/
 	color: #6c64ad;
 }
 h6 {
 	font-size: 0.6em;
 	font-weight: 400;
-	/*text-transform: capitalize;*/
 	color: #6c64ad;
 }
 ol.alphalist {
@@ -90,9 +87,6 @@ ol.alphalist {
 }
 ol.alphalist li::before {
 	content: normal;
-}
-ul li {
-	/*list-style-type: none;*/
 }
 img {
 	border: none;
@@ -155,31 +149,30 @@ img {
 .book-info h1 {
 	font-size: 1.75em;
 }
-.book-info h1 a {
+.book-info h1 a,
+.book-info p {
 	color: #fff;
 }
 .second-block-wrap {
   background: #fff;
   border: 1px solid #e1e1e1;
-  padding: 2em 0 3em 0;
+  padding: 2em;
   text-align: center;
   margin-top: 3em;
-  margin-bottom: 3em;
 }
 .second-block-wrap h2 {
   font-size: 0.8em;
   text-transform: uppercase;
   letter-spacing: 0.4em;
-  text-align: center;
-  margin: 1em auto 2em auto;
+  margin: 2.5em auto;
   color: #959595;
 }
 .description-book-info {
 	float: left;
-	margin-right: 0;
+	margin: 0;
 	max-width: 100%;
 	width: 100%;
-	text-align: center;
+	text-align: left;
 }
 .third-block-wrap {
   background: #fff;
@@ -236,7 +229,8 @@ img {
   color: #b4b4b4;
   font-size: 0.85em;
 }
-.copyright-text a {
+.copyright-text a,
+.about-text a {
   color: #b4b4b4;
 }
 
@@ -395,7 +389,60 @@ td a {
 #sidebar {
 	display: none;
 }
+#content tr th,
+#content thead th {
+  color: #000;
+  font-size: 14px;
+}
+#content tfoot td {
+  color: #888;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 18px;
+  padding: 9px 24px;
+}
+.entry-content ul {
+  list-style-type: initial;
+  list-style-position: inside;
+  margin-left: 2.5em;
+}
+.entry-content ol {
+  list-style-type: decimal;
+  list-style-position: inside;
+  margin-left: 2.5em;
+}
+.entry-content ul li li {
+  list-style-image: none;
+}
+.entry-content ul li li li {
+  list-style-image: none;
+}
+.entry-content ul ol li {
+  list-style-type: decimal;
+}
+.entry-content ul li {
+  margin-left: 0 !important;
+}
+.entry-content ol ul li::before {
+  display: none;
+}
+.entry-content ol ul li {
+  margin-left: 1em;
+}
+.entry-content ol ul,
+.entry-content ul ol,
+.entry-content ol ol,
+.entry-content ul ul {
+  margin-top: 0.5em;
+}
+ol li::before {
+  display: none;
+}
 
+#credit-statement {
+  font-size: 0.85em;
+  font-style: italic;
+}
 
 /* ------------------------------------------------------------------------ *
  * NAVIGATION & HEADER
@@ -508,18 +555,6 @@ nav {
  * TITLE, SUBTITLE, AUTHORS & APHORISM
  * ------------------------------------------------------------------------ */
 
-/*.entry-title {
-	font-weight: normal;
-	text-align: left;
-	margin: 100px 0 80px;
-	text-transform: none;
-}*/
-/*.entry-title span {
-	border-bottom: 1px solid #333;
-	padding: 0 0.2em 0.3em;
-	text-align: center;
-	width: 20%;
-}*/
 .chapter_subtitle {
 	font-size: 1em;
 	font-style: italic;
@@ -739,56 +774,6 @@ abandon .bcc-box in favor of pressbooks' native styling.
   font: bold 0.875em Helvetica, Arial;
   margin: 0;
 }
-/*.bcc-box {
-	padding: 2% 3%;
-	margin-bottom: 15px;
-	border-radius: 4px;
-}*/
-/*.bcc-box h3:first-child {
-	text-align: center;
-	margin: -2% -3% 15px;
-	color: #ffffff;
-	padding: 15px 0 15px;
-}*/
-/*.bcc-highlight {
-	background-color: #f7f7f9;
-}*/
-/*.bcc-box .bcc-highlight h3 {
-	background-color: #111111;
-}*/
-/*.bcc-success {
-	background-color: #eaf5ea;
-}*/
-/*.bcc-box .bcc-success h3 {
-	background-color: #3a7a33;
-}*/
-/*.bcc-info {
-	background-color: #e3eff6;
-}*/
-/*.bcc-box .bcc-info h3 {
-	background-color: #0b6396;
-}*/
-/*.bcc-warning {
-	background-color: #fcf8e3;
-}*/
-/*.bcc-box .bcc-warning h3 {
-	background-color: #c09853;
-}*/
-/*.bcc-box.bcc-success h3,
-.linkitup h3,
-.keytakeaways h3,
-.tryit h3 {
-	background-color: #077fab;
-}*/
-/*.bcc-box h3:first-child,
-.linkitup h3:first-child,
-.keytakeaways h3:first-child,
-.tryit h3:first-child {
-	text-align: center;
-	margin: -2% -3% 15px;
-	color: #ffffff;
-	padding: 15px 0 15px;
-}*/
 span.export-file-icon {
 	width: 36px;
 	height: 36px;
@@ -902,8 +887,6 @@ span.small.xhtml {
 	box-shadow: none;
 	margin: .25em auto;
   padding: .25em 1.75em 1.75em 1.75em;
-	/*box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);*/
-	/*border-radius: 6px;*/
 }
 #content ol li, #content ul li {
 	margin-bottom: 0.5em;
@@ -918,68 +901,19 @@ div#wrap {
 	margin-top: 0.5em auto;
 }
 #content ul li {
-	/*list-style-type: disc;*/
 	margin-left: 1em;
 }
 #content blockquote {
   margin: 1.5em 0;
 	padding: 2em 2em 2em 4em;
 }
-/*#content .bcc-box,
-#content .linkitup,
-#content .keytakeaways,
-#content .tryit {
-	padding: 0 2.6% 2% 2.6%;
-	margin: 1.5em;
-	border-radius: 4px;
-  background-color: #e1f4ff;
-}
-#content .linkitup {
-  background-color: #fffbe1;
-}
-
-#content .keytakeaways {
-  background-color: #e1e5ff;
-}
-#content .bcc-box h3,
-#content .linkitup h3,
-#content .keytakeaways h3,
-#content .tryit h3 {
-	margin-top: 0;
-  padding: 7px 0;
-	text-align: center;
-  color: #fff;
-}
-#content .bcc-box .wp-caption p,
-#content .linkitup .wp-caption p,
-#content .keytakeaways .wp-caption p,
-#content .tryit .wp-caption p {
-  line-height: 1.3;
-  margin: 0;
-  padding: 5px 0 0 0;
-  color: #000;
-  font-size: 0.75em;
-}
-#content .bcc-box p,
-#content .linkitup p,
-#content .keytakeaways p,
-#content .tryit p {
-  font-size: 0.95em;
-  color: #6f6f6f;
-  padding: 0 20px 0 10px;
-  margin: 10px 15px 5px 15px;
-  line-height: 1.3;
-}*/
 #content iframe {
-  /*min-width: 100%;*/
   max-width: 100%;
   margin: 1em auto;
 }
 #content table {
   display: table;
-  /*width: 90%;*/
 	margin: 1em auto;
-  /*border: none;*/
   background-color: #fff;
 }
 .wp-caption {
@@ -995,7 +929,23 @@ div#wrap {
   line-height: 1.3;
   margin-bottom: 0;
 }
-
+.hidden {
+  color: transparent;
+  background: #6d6d6d;
+}
+.hidden:hover {
+  cursor: default;
+  color: #6d6d6d;
+  background: transparent;
+}
+.show-answer {
+  color: #077FAB;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.show-answer:hover {
+  color: #000;
+}
 
 /* ------------------------------------------------------------------------ *
  * BUTTONS
@@ -1013,16 +963,6 @@ div#wrap {
   text-transform: uppercase;
   width: 120px;
 }
-/*.btn .red {
-	background-color: #a51b1b;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(179, 56, 56)), to(rgb(165, 27, 27)));
-	background-image: -webkit-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
-	background-image: -moz-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
-	background-image: -o-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
-	background-image: -ms-linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
-	background-image: linear-gradient(top, rgb(179, 56, 56), rgb(165, 27, 27));
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#b33838', EndColorStr='#a51b1b');
-}*/
 .skip-to-content {
   display: block;
 }
