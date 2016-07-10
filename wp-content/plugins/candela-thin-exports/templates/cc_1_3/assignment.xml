@@ -1,0 +1,15 @@
+<assignment xmlns="http://www.imsglobal.org/xsd/imscc_extensions/assignment"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.imsglobal.org/xsd/imscc_extensions/assignment http://www.imsglobal.org/profile/cc/cc_extensions/cc_extresource_assignmentv1p0_v1p0.xsd http://www.imsglobal.org/xsd/imscc_extensions/assignment "
+            identifier="%s">
+    <title>%s</title>
+    <text texttype="text/html">%s</text>
+    <gradable points_possible="10">true</gradable>
+    <submission_formats>
+        <format type="file"/>
+        <format type="html"/>
+        <format type="text"/>
+        <format type="url"/>
+    </submission_formats>
+    <instructor_text texttype="text/html"></instructor_text>
+</assignment>

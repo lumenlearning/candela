@@ -45,7 +45,7 @@ function thincc_ajax()
   $options = process_thincc_options($_POST);
 
   if(isset($_POST['cc_download']) && $_POST['cc_download'] == '0') {
-    $options['version'] = 'thin';
+//    $options['version'] = 'thin';
     $options['inline'] = true;
     $manifest = new \CC\Manifest(\PressBooks\Book::getBookStructure('', true), $options);
     $manifest->build_manifest();

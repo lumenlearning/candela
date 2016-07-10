@@ -1,0 +1,6 @@
+<topic xmlns="/xsd/imsccv1p3/imsdt_v1p3"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="/xsd/imsccv1p3/imsdt_v1p3 /profile/cc/ccv1p3/ccv1p3_imsdt_v1p3.xsd" >
+    <title>%s</title>
+    <text texttype="text/html">%s</text>
+</topic>
