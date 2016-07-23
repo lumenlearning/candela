@@ -409,7 +409,8 @@ XML;
       $template = '<?xml version="1.0" encoding="UTF-8"?>' . $template;
     }
 
-    return sprintf($template, $page['post_title'], htmlspecialchars(get_post_field('post_content', $page['ID']), ENT_XML1));
+    $content = $content = apply_filters( 'the_content', get_post_field('post_content', $page['ID'] ));
+    return sprintf($template, $page['post_title'], htmlspecialchars($content), ENT_XML1);
   }
 
   private function assignment_xml($page, $add_xml_header=false) {
@@ -418,7 +419,8 @@ XML;
       $template = '<?xml version="1.0" encoding="UTF-8"?>' . $template;
     }
 
-    return sprintf($template, $this->identifier($page), $page['post_title'], htmlspecialchars(get_post_field('post_content', $page['ID']), ENT_XML1));
+    $content = $content = apply_filters( 'the_content', get_post_field('post_content', $page['ID'] ));
+    return sprintf($template, $this->identifier($page), $page['post_title'], htmlspecialchars($content), ENT_XML1);
   }
 
   private function export_page($page) {
