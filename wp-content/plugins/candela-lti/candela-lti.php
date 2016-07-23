@@ -28,6 +28,7 @@ class CandelaLTI {
     define('CANDELA_LTI_CAP_LINK_LTI', 'candela link lti launch');
     define('CANDELA_LTI_USERMETA_LASTLINK', 'candelalti_lastkey');
     define('CANDELA_LTI_USERMETA_EXTERNAL_KEY', 'candelalti_external_userid');
+    define('CANDELA_LTI_USERMETA_ENROLLMENT', 'candelalti_enrollment_record');
     define('CANDELA_LTI_PASSWORD_LENGTH', 32);
 
     register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
@@ -240,6 +241,7 @@ class CandelaLTI {
     if ( ! empty( $blog ) && ! is_user_member_of_blog( $user->ID, $blog ) ) {
       if( CandelaLTI::is_lti_user_allowed_to_subscribe($blog)){
         add_user_to_blog( $blog, $user->ID, 'subscriber');
+        CandelaLTI::record_new_register($user, $blog);
       }
     }
   }
@@ -307,6 +309,30 @@ class CandelaLTI {
 
       return $user;
     }
+  }
+
+  public static function record_new_register($user, $blog){
+    $roles = '';
+    if (isset($_POST['ext_roles'])) {
+      // Canvas' more correct roles values are here
+      $roles = $_POST['ext_roles'];
+    } else if (isset($_POST['roles'])) {
+      $roles = $_POST['roles'];
+    }
+
+    $data = array(
+        "lti_user_id"=>$_POST['user_id'],
+        "lti_context_id"=>$_POST['context_id'],
+        "lti_school_id"=>$_POST['tool_consumer_instance_guid'],
+        "lti_school_name"=>$_POST['tool_consumer_instance_name'],
+        "lti_role"=>$roles,
+        "timestamp"=>time(),
+    );
+
+    $curr = get_current_blog_id();
+    switch_to_blog($blog);
+    update_user_option( $user->ID, CANDELA_LTI_USERMETA_ENROLLMENT, $data );
+    switch_to_blog($curr);
   }
 
   public static function default_lti_email( $username ) {
