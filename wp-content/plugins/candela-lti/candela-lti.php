@@ -323,6 +323,7 @@ class CandelaLTI {
     $data = array(
         "lti_user_id"=>$_POST['user_id'],
         "lti_context_id"=>$_POST['context_id'],
+        "lti_context_name"=>$_POST['context_title'],
         "lti_school_id"=>$_POST['tool_consumer_instance_guid'],
         "lti_school_name"=>$_POST['tool_consumer_instance_name'],
         "lti_role"=>$roles,
