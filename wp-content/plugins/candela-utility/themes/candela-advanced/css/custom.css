@@ -17,6 +17,9 @@ h1, h2, h3, h4, h5, h6 {
 ul li {
 	/*list-style-type: none;*/
 }
+#table-of-content {
+  list-style-type: none;
+}
 .btn .red {
 	background-color: #a51b1b;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(179, 56, 56)), to(rgb(165, 27, 27)));
