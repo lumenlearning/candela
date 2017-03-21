@@ -340,7 +340,7 @@ class CandelaLTI {
         $data['lti_last_name'] = $_POST['lis_person_name_family'];
       }
       if ( !empty( $_POST['lis_person_contact_email_primary'] ) ) {
-        $data['lti_email'] = $_POST['lis_person_name_given'];
+        $data['lti_email'] = $_POST['lis_person_contact_email_primary'];
       }
     }
 
