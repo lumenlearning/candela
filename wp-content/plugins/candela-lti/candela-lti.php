@@ -330,6 +330,20 @@ class CandelaLTI {
         "timestamp"=>time(),
     );
 
+    $role = CandelaLTI::highest_lti_context_role();
+
+    if ( $role == 'admin' || $role == 'teacher' ) {
+      if ( !empty( $_POST['lis_person_name_given'] ) ) {
+        $data['lti_first_name'] = $_POST['lis_person_name_given'];
+      }
+      if ( !empty( $_POST['lis_person_name_family'] ) ) {
+        $data['lti_last_name'] = $_POST['lis_person_name_family'];
+      }
+      if ( !empty( $_POST['lis_person_contact_email_primary'] ) ) {
+        $data['lti_email'] = $_POST['lis_person_name_given'];
+      }
+    }
+
     $curr = get_current_blog_id();
     switch_to_blog($blog);
     update_user_option( $user->ID, CANDELA_LTI_USERMETA_ENROLLMENT, $data );
