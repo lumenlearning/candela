@@ -3,11 +3,11 @@
  * @author    Brad Payne <brad@bradpayne.ca>
  * @license   GPL-2.0+
  * @copyright 2014 Brad Payne
- * 
+ *
  * Plugin Name: WP LaTeX for Pressbooks
  * Description:  Converts inline latex code into PNG images that are displayed in your PressBooks blog posts.  Use either [latex]e^{\i \pi} + 1 = 0[/latex] or $latex e^{\i \pi} + 1 = 0$ or $$ e^{\i \pi} + 1 = 0 $$ syntax.
  * Version: 1.0.0
- * Author: Brad Payne 
+ * Author: Brad Payne
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -40,7 +40,7 @@ class PBLatex {
 		add_filter( 'the_content', array( &$this, 'inlineToShortcode' ), 8 );
 		if ( $this->options['method'] == 'katex' ) {
 			wp_enqueue_script( 'jquery' );
-			wp_enqueue_script( 'pb_mathjax', 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML.js&delayStartupUntil=configured' );
+			wp_enqueue_script( 'pb_mathjax', 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML.js&delayStartupUntil=configured' );
 			wp_enqueue_script( 'pb_asciimathteximg', plugins_url( 'ASCIIMathTeXImg.js', __FILE__ ) );
 			wp_enqueue_script( 'pb_katex', plugins_url( 'katex.min.js', __FILE__ ) );
 			wp_enqueue_style( 'pb_katex_css', plugins_url( 'katex.min.css', __FILE__ ) );
@@ -62,7 +62,7 @@ class PBLatex {
    MathJax.Hub.Config({
     skipStartupTypeset: true,
     TeX: { extensions: ["cancel.js"] }
-  });  
+  });
 </script>
 <script type="text/javascript">
    MathJax.Hub.Configured();
@@ -104,7 +104,7 @@ class PBLatex {
 
 		return "<img src='$url' alt='$alt' title='$alt' class='latex' />";
 	}
-	
+
 	//shortcode handling for katex output. Just clean up messy entities
 	function katexshortCode( $_atts, $latex ) {
 		$latex = preg_replace( array( '#<br\s*/?>#i', '#</?p>#i' ), ' ', $latex );
@@ -115,7 +115,7 @@ class PBLatex {
 
 		return "[latex]".$latex."[/latex]";
 	}
-	
+
 	function sanitizeColor( $color ) {
 		$color = substr( preg_replace( '/[^0-9a-f]/i', '', $color ), 0, 6 );
 		if ( 6 > $l = strlen( $color ) ) $color .= str_repeat( '0', 6 - $l );
