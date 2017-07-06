@@ -41,7 +41,52 @@ function init() {
 	add_action( 'admin_bar_menu', '\Candela\Utility\replace_menu_bar_branding', 11 );
 
 	add_filter( 'embed_oembed_html', '\Candela\Utility\embed_oembed_html', 10, 3 );
+
+//  https://codex.wordpress.org/Function_Reference/add_role
+//  $result = remove_role('test_role_1');
+//  todo: Move to one-time activation
+    $result = add_role(
+      'test_role_1',
+      __( 'Test Role 1' ),
+      array(
+          'read'               => false,  // true allows this capability
+          'read_private_posts' => true,  // true allows this capability
+          'edit_posts'         => false,
+          'edit_others_posts'  => false,
+          'delete_posts'       => false, // Use false to explicitly deny
+      )
+  );
+  if ( null !== $result ) {
+    echo 'Yay! New role created!';
+  }
+  else {
+    echo 'Oh... the test_role_1 role already exists.';
+  }
+
+  add_filter( 'login_redirect', '\Candela\Utility\reviewer_login_redirect', 10, 3 );
+
+
 }
+
+
+/**
+ * Redirect user after successful login.
+ *
+ * @param string $redirect_to URL to redirect to.
+ * @param string $request URL the user is coming from.
+ * @param object $user Logged user's data.
+ * @return string
+ */
+function reviewer_login_redirect($redirect_to, $request, $user)
+{
+  if (isset($user->roles) && is_array($user->roles)) {
+    if (in_array('test_role_1', $user->roles)) {
+      return get_site_url();
+    }
+  }
+  return $redirect_to;
+}
+
 
 function gettext( $translated_text, $text, $domain ) {
 	if ( $domain == 'pressbooks' ) {

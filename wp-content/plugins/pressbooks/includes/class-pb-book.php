@@ -655,6 +655,12 @@ class Book {
 		while ( $post_id = current( $pos ) ) {
 			if ( $order[$post_id]['post_status'] == 'publish' ) {
 				break;
+			} elseif ( $order[$post_id]['post_status'] == 'draft' ) {
+        if ( current_user_can_for_blog( $blog_id, 'edit_posts' ) ) {
+          break;
+        } else {
+          $what( $pos );
+        }
 			} elseif ( current_user_can_for_blog( $blog_id, 'read_private_posts' ) ) {
 				break;
 			} elseif ( get_option( 'permissive_private_content' ) && current_user_can_for_blog( $blog_id, 'read' ) ) {
@@ -685,6 +691,12 @@ class Book {
 		while ( $first_id = current( $pos ) ) {
 			if ( $order[$first_id]['post_status'] == 'publish' ) {
 				break;
+      } elseif ( $order[$post_id]['post_status'] == 'draft' ) {
+        if ( current_user_can_for_blog( $blog_id, 'edit_posts' ) ) {
+          break;
+        } else {
+          $what( $pos );
+        }
 			} elseif ( current_user_can_for_blog( $blog_id, 'read_private_posts' ) ) {
 				break;
 			} elseif ( get_option( 'permissive_private_content' ) && current_user_can_for_blog( $blog_id, 'read' ) ) {
