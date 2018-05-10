@@ -1,3 +1,16 @@
+# Candela (DEPRECATED)
+
+Candela is a book authoring platform built on top of [Wordpress Multisite](https://codex.wordpress.org/Create_A_Network) and
+[Pressbooks](https://github.com/pressbooks/pressbooks).  This project is no longer maintained and may not function as
+expected; however, the plugins this project uses are still used and maintained, and can be found below:
+
+[Candela Utility](https://github.com/lumenlearning/candela-utility): Candela helper plugin to manage additional config and bootstrapping
+[Candela Citation](https://github.com/lumenlearning/candela-citation): A plugin that extends creative commons attribution functionality to Candela/Pressbooks
+[Candela Thin Exports](https://github.com/lumenlearning/candela-thin-exports): A simple plugin to export Pressbooks books as thin cartridges with deep links to each page
+[Candela LTI](https://github.com/lumenlearning/candela-lti): A plugin that implements the LTI/Wordpress integration
+[Candela Outcomes](https://github.com/lumenlearning/candela-outcomes): A plugin that adds an Outcomes meta field for coursework
+[Bombadil Theme](https://github.com/lumenlearning/bombadil): A Wordpress Theme based on the Pressbooks Luther Theme
+
 ## Install Wordpress
 
 The following instructions assume basic familiarity with installing Wordpress, and that this codebase is located in a web accessible location.
@@ -67,7 +80,7 @@ The hypothes.is functionality is included as part of Pressbooks Textbooks and ne
 1. Click the "Save Changes" button.
 
 
-##Enable and configure LTI and candela LTI
+## Enable and configure LTI and candela LTI
 
 1. Navigate to "My Catalog" -> "PRIMARY SITE NAME" -> "Dashboard"
 1. Click "Plugins"
@@ -75,4 +88,3 @@ The hypothes.is functionality is included as part of Pressbooks Textbooks and ne
 1. Navigate to "My Sites" -> "Network Admin" -> "Plugins"
 1. "Network Activate" Candela LTI
 1. In the left admin menu (primary site only), navigate to "LTI Consumers" -> "Add New."
-
